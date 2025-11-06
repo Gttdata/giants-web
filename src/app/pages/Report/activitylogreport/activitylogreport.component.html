@@ -1,0 +1,394 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row style="padding: 3px;">
+        <div nz-col nzXs="9" nzSm="9" nzMd="9" nzLg="9" nzXl="9">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">{{formTitle}}</span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="text-align: right;">
+            <nz-range-picker name=" fromToDate" nzFormat="dd-MMM-yyyy" [nzPlaceHolder]="datePlaceHolder"
+                [(ngModel)]="FROM_TO_DATE" (ngModelChange)="fromToDateChange($event)">
+            </nz-range-picker>
+        </div>
+
+        <div nz-col nzXs="7" nzSm="7" nzMd="7" nzLg="7" nzXl="7" style="text-align: right;">
+            <nz-radio-group name="radiogroup" nzButtonStyle="solid" [(ngModel)]="radioValue"
+                (ngModelChange)="onTypeSelectionChange($event)">
+                <label nz-radio-button nzValue="P">Post</label>
+                <label nz-radio-button nzValue="M">Meeting</label>
+                <label nz-radio-button nzValue="C">Circular</label>
+                <label nz-radio-button nzValue="E">Event</label>
+                <label nz-radio-button nzValue="R">Project</label>
+            </nz-radio-group>
+        </div>
+    </div>
+
+    <div nz-row style="padding: 3px;">
+        <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <nz-select name="federationName" nzShowSearch [nzLoading]="isFederationLoading" style="width: 95%"
+                nzPlaceHolder="Select federation" (ngModelChange)="onFederationChange($event)"
+                [(ngModel)]="FEDERATION_NAME">
+
+                <nz-option *ngFor="let federation of federations;" [nzValue]="federation.ID"
+                    [nzLabel]="federation.NAME">
+                </nz-option>
+            </nz-select>
+        </div>
+
+        <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <nz-select name="unitName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getUnits($event)"
+                [nzLoading]="isUnitLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 95%"
+                nzPlaceHolder="Type here to search unit(s)" [(ngModel)]="UNIT_NAME"
+                (ngModelChange)="getUnitInfo($event)">
+
+                <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID" [nzLabel]="unit.NAME">
+                </nz-option>
+            </nz-select>
+        </div>
+
+        <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <nz-select name="groupName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getGroups($event)"
+                [nzLoading]="isGroupLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 95%"
+                nzPlaceHolder="Type here to search group(s)" [(ngModel)]="GROUP_NAME"
+                (ngModelChange)="getGroupInfo($event)">
+
+                <nz-option *ngFor="let group of groups;" [nzValue]="group.ID" [nzLabel]="group.NAME">
+                </nz-option>
+            </nz-select>
+        </div>
+
+        <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input nz-input type="text" name="search" autocomplete="off" placeholder="Search records here..."
+                    (keydown.enter)="onSearching()" [(ngModel)]="searchText" />
+            </nz-input-group>
+
+            <ng-template #suffixIconButton>
+                <button nz-button id="button1" nzType="primary" (click)="search(true)" nzSearch>
+                    <i nz-icon nzType="search"></i>
+                </button>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #dataTable nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)" [nzLoading]="loadingRecords">
+
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr *ngIf="radioValue == 'P'">
+                        <th nzLeft="0px" nzWidth="350px" nzShowSort nzSortKey="FEDERATION_NAME">
+                            <b>Federation Name</b>
+                        </th>
+
+                        <th nzLeft="350px" nzWidth="150px" nzShowSort nzSortKey="UNIT_NAME">
+                            <b>Unit Name</b>
+                        </th>
+
+                        <th nzLeft="500px" nzShowSort nzSortKey="GROUP_NAME">
+                            <b>Group Name</b>
+                        </th>
+
+                        <th *ngFor="let column of columnsPost;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+
+                    <tr *ngIf="radioValue == 'E'">
+                        <th nzLeft="0px" nzWidth="350px" nzShowSort nzSortKey="FEDERATION_NAME">
+                            <b>Federation Name</b>
+                        </th>
+
+                        <th nzLeft="350px" nzWidth="150px" nzShowSort nzSortKey="UNIT_NAME">
+                            <b>Unit Name</b>
+                        </th>
+
+                        <th nzLeft="500px" nzShowSort nzSortKey="GROUP_NAME">
+                            <b>Group Name</b>
+                        </th>
+
+                        <th *ngFor="let column of columnsEvent;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+
+                    <tr *ngIf="radioValue == 'M'">
+                        <th nzLeft="0px" nzWidth="350px" nzShowSort nzSortKey="FEDERATION_NAME">
+                            <b>Federation Name</b>
+                        </th>
+
+                        <th nzLeft="350px" nzWidth="150px" nzShowSort nzSortKey="UNIT_NAME">
+                            <b>Unit Name</b>
+                        </th>
+
+                        <th nzLeft="500px" nzShowSort nzSortKey="GROUP_NAME">
+                            <b>Group Name</b>
+                        </th>
+
+                        <th *ngFor="let column of columnsMeeting;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+
+                    <tr *ngIf="radioValue == 'C'">
+                        <th nzLeft="0px" nzWidth="350px" nzShowSort nzSortKey="FEDERATION_NAME">
+                            <b>Federation Name</b>
+                        </th>
+
+                        <th nzLeft="350px" nzWidth="150px" nzShowSort nzSortKey="UNIT_NAME">
+                            <b>Unit Name</b>
+                        </th>
+
+                        <th nzLeft="500px" nzShowSort nzSortKey="GROUP_NAME">
+                            <b>Group Name</b>
+                        </th>
+
+                        <th *ngFor="let column of columnsCircular;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+
+                    <tr *ngIf="radioValue == 'R'">
+                        <th nzLeft="0px" nzWidth="350px" nzShowSort nzSortKey="FEDERATION_NAME">
+                            <b>Federation Name</b>
+                        </th>
+
+                        <th nzLeft="350px" nzWidth="150px" nzShowSort nzSortKey="UNIT_NAME">
+                            <b>Unit Name</b>
+                        </th>
+
+                        <th nzLeft="500px" nzShowSort nzSortKey="GROUP_NAME">
+                            <b>Group Name</b>
+                        </th>
+
+                        <th *ngFor="let column of columnsProject;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody *ngIf="radioValue == 'P'">
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td nzLeft="0px" nzWidth="350px">
+                            {{data["FEDERATION_NAME"]}}
+                        </td>
+
+                        <td nzLeft="350px" nzWidth="150px">
+                            {{data["UNIT_NAME"]}}
+                        </td>
+
+                        <td nzLeft="500px">
+                            {{data["GROUP_NAME"]}}
+                        </td>
+
+                        <td *ngFor="let column of columnsPost;">
+                            <span
+                                *ngIf="(column[0] != 'LOG_TEXT') && (column[0] != 'POST_DESCRIPTION') && (column[0] != 'CREATED_DATE_TIME')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="column[0] == 'CREATED_DATE_TIME'">
+                                {{data[column[0]] | date: 'dd MMM yy, hh:mm a'}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'LOG_TEXT') || (column[0] == 'POST_DESCRIPTION')">
+                                <div *ngIf="data[column[0]]" nz-popover
+                                    [nzPopoverTrigger]="(data[column[0]].length > 80) ? null : 'focus'"
+                                    [nzPopoverTitle]="(column[0] == 'LOG_TEXT') ? 'Log Text' : 'Post Description'"
+                                    [nzPopoverContent]="postDescriptionContentTemplate" nzPopoverPlacement="top">
+                                    <div style="display: inline;" [innerHTML]="data[column[0]].substring(0,80)"></div>
+                                    <div style="display: inline;" *ngIf="data[column[0]].length > 80">...</div>
+                                </div>
+
+                                <ng-template #postDescriptionContentTemplate>
+                                    <div [innerHTML]="data[column[0]]"
+                                        style="text-align: justify; word-break: break-all;">
+                                    </div>
+                                </ng-template>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody *ngIf="radioValue == 'E'">
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td nzLeft="0px" nzWidth="350px">
+                            {{data["FEDERATION_NAME"]}}
+                        </td>
+
+                        <td nzLeft="350px" nzWidth="150px">
+                            {{data["UNIT_NAME"]}}
+                        </td>
+
+                        <td nzLeft="500px">
+                            {{data["GROUP_NAME"]}}
+                        </td>
+
+                        <td *ngFor="let column of columnsEvent;">
+                            <span
+                                *ngIf="(column[0] != 'LOG_TEXT') && (column[0] != 'EVENT_DETAILS') && (column[0] != 'CREATED_DATE_TIME')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="column[0] == 'CREATED_DATE_TIME'">
+                                {{data[column[0]] | date: 'dd MMM yy, hh:mm a'}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'LOG_TEXT') || (column[0] == 'EVENT_DETAILS')">
+                                <div *ngIf="data[column[0]]" nz-popover
+                                    [nzPopoverTrigger]="(data[column[0]].length > 80) ? null : 'focus'"
+                                    [nzPopoverTitle]="(column[0] == 'LOG_TEXT') ? 'Log Text' : 'Event Description'"
+                                    [nzPopoverContent]="eventDescriptionContentTemplate" nzPopoverPlacement="top">
+                                    <div style="display: inline;" [innerHTML]="data[column[0]].substring(0,80)"></div>
+                                    <div style="display: inline;" *ngIf="data[column[0]].length > 80">...</div>
+                                </div>
+
+                                <ng-template #eventDescriptionContentTemplate>
+                                    <div [innerHTML]="data[column[0]]"
+                                        style="text-align: justify; word-break: break-all;">
+                                    </div>
+                                </ng-template>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody *ngIf="radioValue == 'M'">
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td nzLeft="0px" nzWidth="350px">
+                            {{data["FEDERATION_NAME"]}}
+                        </td>
+
+                        <td nzLeft="350px" nzWidth="150px">
+                            {{data["UNIT_NAME"]}}
+                        </td>
+
+                        <td nzLeft="500px">
+                            {{data["GROUP_NAME"]}}
+                        </td>
+
+                        <td *ngFor="let column of columnsMeeting;">
+                            <span
+                                *ngIf="(column[0] != 'LOG_TEXT') && (column[0] != 'MEETING_SUB') && (column[0] != 'CREATED_DATE_TIME')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="column[0] == 'CREATED_DATE_TIME'">
+                                {{data[column[0]] | date: 'dd MMM yy, hh:mm a'}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'LOG_TEXT') || (column[0] == 'MEETING_SUB')">
+                                <div *ngIf="data[column[0]]" nz-popover
+                                    [nzPopoverTrigger]="(data[column[0]].length > 80) ? null : 'focus'"
+                                    [nzPopoverTitle]="(column[0] == 'LOG_TEXT') ? 'Log Text' : 'Meeting Subject'"
+                                    [nzPopoverContent]="meetingDescriptionContentTemplate" nzPopoverPlacement="top">
+                                    <div style="display: inline;" [innerHTML]="data[column[0]].substring(0,80)"></div>
+                                    <div style="display: inline;" *ngIf="data[column[0]].length > 80">...</div>
+                                </div>
+
+                                <ng-template #meetingDescriptionContentTemplate>
+                                    <div [innerHTML]="data[column[0]]"
+                                        style="text-align: justify; word-break: break-all;">
+                                    </div>
+                                </ng-template>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody *ngIf="radioValue == 'C'">
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td nzLeft="0px" nzWidth="350px">
+                            {{data["FEDERATION_NAME"]}}
+                        </td>
+
+                        <td nzLeft="350px" nzWidth="150px">
+                            {{data["UNIT_NAME"]}}
+                        </td>
+
+                        <td nzLeft="500px">
+                            {{data["GROUP_NAME"]}}
+                        </td>
+
+                        <td align="center" *ngFor="let column of columnsCircular;">
+                            <span
+                                *ngIf="(column[0] != 'LOG_TEXT') && (column[0] != 'CIRCULAR_NAME') && (column[0] != 'CREATED_DATE_TIME')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="column[0] == 'CREATED_DATE_TIME'">
+                                {{data[column[0]] | date: 'dd MMM yy, hh:mm a'}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'LOG_TEXT') || (column[0] == 'CIRCULAR_NAME')">
+                                <div *ngIf="data[column[0]]" nz-popover
+                                    [nzPopoverTrigger]="(data[column[0]].length > 80) ? null : 'focus'"
+                                    [nzPopoverTitle]="(column[0] == 'LOG_TEXT') ? 'Log Text' : 'Circular Name'"
+                                    [nzPopoverContent]="meetingDescriptionContentTemplate" nzPopoverPlacement="top">
+                                    <div style="display: inline;" [innerHTML]="data[column[0]].substring(0,80)"></div>
+                                    <div style="display: inline;" *ngIf="data[column[0]].length > 80">...</div>
+                                </div>
+
+                                <ng-template #meetingDescriptionContentTemplate>
+                                    <div [innerHTML]="data[column[0]]"
+                                        style="text-align: justify; word-break: break-all;">
+                                    </div>
+                                </ng-template>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody *ngIf="radioValue == 'R'">
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td nzLeft="0px" nzWidth="350px">
+                            {{data["FEDERATION_NAME"]}}
+                        </td>
+
+                        <td nzLeft="350px" nzWidth="150px">
+                            {{data["UNIT_NAME"]}}
+                        </td>
+
+                        <td nzLeft="500px">
+                            {{data["GROUP_NAME"]}}
+                        </td>
+
+                        <td align="center" *ngFor="let column of columnsProject;">
+                            <span
+                                *ngIf="(column[0] != 'LOG_TEXT') && (column[0] != 'PROJECT_NAME') && (column[0] != 'CREATED_DATE_TIME')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="column[0] == 'CREATED_DATE_TIME'">
+                                {{data[column[0]] | date: 'dd MMM yy, hh:mm a'}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'LOG_TEXT') || (column[0] == 'PROJECT_NAME')">
+                                <div *ngIf="data[column[0]]" nz-popover
+                                    [nzPopoverTrigger]="(data[column[0]].length > 80) ? null : 'focus'"
+                                    [nzPopoverTitle]="(column[0] == 'LOG_TEXT') ? 'Log Text' : 'Project Name'"
+                                    [nzPopoverContent]="meetingDescriptionContentTemplate" nzPopoverPlacement="top">
+                                    <div style="display: inline;" [innerHTML]="data[column[0]].substring(0,80)"></div>
+                                    <div style="display: inline;" *ngIf="data[column[0]].length > 80">...</div>
+                                </div>
+
+                                <ng-template #meetingDescriptionContentTemplate>
+                                    <div [innerHTML]="data[column[0]]"
+                                        style="text-align: justify; word-break: break-all;">
+                                    </div>
+                                </ng-template>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

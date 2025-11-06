@@ -1,0 +1,875 @@
+<div>
+    <div nz-row class="header" *ngIf="CurrentYear==SelectedYear">
+        <button type="button" nz-button (click)="FetchOldData()">Fetch Data</button>
+    </div>
+
+    <div nz-row style="margin: 11px; left: 825px; position: absolute; top: 0px;">
+        <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+            (ngModelChange)="selectChangeYear($event)" style="width: 150px">
+
+            <nz-option *ngFor="let abc of range" [nzValue]="abc" [nzLabel]="abc">
+            </nz-option>
+        </nz-select>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-label style="font-weight: bold;">His participation in Group activities including Group Meeting
+                    Regular/Board
+                </nz-form-label>
+            </div>
+            <br>
+            <br>
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Regular Meetings Attended</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group nzAddOnAfter="Meeting">
+                            <input nz-input placeholder="Enter Regular Meeting" name="meetateend"
+                                (keypress)="omit($event)" [(ngModel)]="data.REGULAR_MEETNG_COUNT_TOTAL" maxlength="5"
+                                (change)="regularmeeting(data.REGULAR_MEETNG_COUNT_TOTAL,data.REGULAR_MEETNG_COUNT_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                        <nz-input-group nzAddOnAfter="Out of">
+                            <input nz-input placeholder="Out Of" name="out_regular_meeting" (keypress)="omit($event)"
+                                [(ngModel)]="data.REGULAR_MEETNG_COUNT_OUT_OF" maxlength="5"
+                                (change)="regularmeeting(data.REGULAR_MEETNG_COUNT_TOTAL,data.REGULAR_MEETNG_COUNT_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                    </nz-form-control>
+                    <span *ngIf="data.REGULAR_MEETNG_COUNT_TOTAL==0" style="color:red">Please fill
+                        the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Board Meeting</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group nzAddOnAfter="Meeting">
+                            <input nz-input placeholder="Enter Board Meeting" name="boardmeet" (keypress)="omit($event)"
+                                [(ngModel)]="data.BOARD_MEETNG_COUNT_TOTAL" maxlength="5"
+                                (change)="boardmeeting(data.BOARD_MEETNG_COUNT_TOTAL,data.BOARD_MEETNG_COUNT_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                        <nz-input-group nzAddOnAfter="Out of">
+                            <input nz-input placeholder="Out Of" name="out_Board_meeting" (keypress)="omit($event)"
+                                [(ngModel)]="data.BOARD_MEETNG_COUNT_OUT_OF" maxlength="5"
+                                (change)="boardmeeting(data.BOARD_MEETNG_COUNT_TOTAL,data.BOARD_MEETNG_COUNT_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                    </nz-form-control>
+                    <span *ngIf="data.BOARD_MEETNG_COUNT_TOTAL==0" style="color:red">Please fill
+                        the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>No.Of Projects</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group nzAddOnAfter="Meeting">
+                            <input nz-input placeholder="Enter No. Of Project" name="projectno"
+                                (keypress)="omit($event)" [(ngModel)]="data.PROJECTS_COUNT_TOTAL" maxlength="5"
+                                (change)="projectmeeting(data.PROJECTS_COUNT_TOTAL,data.PROJECTS_COUNT_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                        <nz-input-group nzAddOnAfter="Out of">
+                            <input nz-input placeholder="Out Of" name="out_Project_meeting" (keypress)="omit($event)"
+                                [(ngModel)]="data.PROJECTS_COUNT_OUT_OF" maxlength="5"
+                                (change)="projectmeeting(data.PROJECTS_COUNT_TOTAL,data.PROJECTS_COUNT_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                    </nz-form-control>
+                    <span *ngIf="data.PROJECTS_COUNT_TOTAL==0" style="color:red">Please fill
+                        the field</span>
+                </nz-form-item>
+            </div>
+        </div>
+        <div class="grouping">
+            <div nz-row>
+                <div nz-col nzSpan="12">
+                    <nz-form-label nzNoColon style="font-weight: bold;">Any Project Initiated
+                    </nz-form-label>
+                    <nz-form-item>
+                        <nz-input-group>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                            </nz-form-control>
+                        </nz-input-group>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="12" style="text-align: right;">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                class="ant-btn ant-btn-primary" nz-button (click)="AddTitle()">
+                                <span>Add New</span>
+                            </button>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div nz-row>
+                <nz-table #drawerPastdata nzBordered [nzData]="drawerPastdataArray" [nzFrontPagination]="false"
+                    [nzShowPagination]="false">
+                    <thead>
+                        <tr class="th">
+                            <th style="text-align: center;font-weight: bold;">Action</th>
+                            <th style="text-align: center;font-weight: bold;">Title</th>
+                            <th style="text-align: center;font-weight: bold;">Date</th>
+                            <th style="text-align: center;font-weight: bold;">Result</th>
+                            <th style="text-align: center;font-weight: bold;">Effect On Society</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tab of drawerPastdata.data;let i = index">
+                            <td class="datecenter">
+                                <a (click)="editdata(tab,i)">Edit </a>
+                            </td>
+                            <td>{{ tab.PROJECT_TITLE }}</td>
+                            <td class="datecenter">{{ tab.IMPLEMENTATION_DATE }}</td>
+                            <td>{{ tab.RESULT }}</td>
+                            <td>{{ tab.EFFECT_ON_SOCIETY }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Contribution In Membership Extension </nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <input nz-input type="text" name="extension"
+                            [(ngModel)]="data.MEMBERSHIP_EXTENSION_CONTRIBUTE_COUNT" maxlength="5"
+                            (keypress)="omit($event)" placeholder="Enter Membership Extension" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Retention</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <input nz-input type="text" name="retention"
+                            [(ngModel)]="data.MEMBERSHIP_RETENTION_CONTRIBUTE_COUNT" maxlength="5"
+                            placeholder="Enter Membership Retention" (keypress)="omit($event)" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>How he has been an Asset to the Group ?</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Asset To the group" name="annexure_c" maxlength="2000"
+                            [(ngModel)]="data.AS_A_ASSET_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                            required></textarea>
+                    </nz-form-control>
+                    <span *ngIf="data.AS_A_ASSET_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.AS_A_ASSET_DETAILS.length}}/ 2000
+                    </span>
+                </nz-form-item>
+
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>How he is a Motivating Force to the Group ?</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Motivating Force to the Group" name="annexure_d"
+                            [(ngModel)]="data.AS_A_MOTIVATION_DETAILS" maxlength="2000"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" required></textarea>
+                    </nz-form-control>
+                    <span *ngIf="data.AS_A_MOTIVATION_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.AS_A_MOTIVATION_DETAILS.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Whether Discharged Fiscal Obligation?
+                    </nz-form-label>
+                    <nz-switch [(ngModel)]="data.SWITCH" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                        name="data.SWITCH"></nz-switch>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field" *ngIf="data.SWITCH==true">
+                        <textarea nz-input placeholder="Description"
+                            [(ngModel)]="data.DISCHARGED_FISCAL_OBLIGATION_DETAILS" name="activity_president"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000" required></textarea>
+                        <span *ngIf="data.DISCHARGED_FISCAL_OBLIGATION_DETAILS && data.SWITCH==true"
+                            style="font-size: 10px; color: red;">
+                            {{data.DISCHARGED_FISCAL_OBLIGATION_DETAILS.length}}/ 2000
+                        </span>
+                        <span
+                            *ngIf="data.SWITCH==true && (data.DISCHARGED_FISCAL_OBLIGATION_DETAILS=='' || data.DISCHARGED_FISCAL_OBLIGATION_DETAILS==undefined)"
+                            style="color:red">Please fill the field
+                        </span>
+                    </nz-form-control>
+
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Fund Raising Programme</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <input nz-input type="text" name="raising" [(ngModel)]="data.FUND_RAISING_PROGRAM_DETAILS"
+                            placeholder="Enter Fund Raising Programme" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>His/ Her Participation </nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <input nz-input type="text" name="participation"
+                            [(ngModel)]="data.FUND_RAISING_PROGRAM_PARTICIPATE_DETAILS"
+                            placeholder="His/Her Participation" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="6">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Meetings attended Unit Councils</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter Meetings Attended Unit Councils" name="unitcounc"
+                                    (keypress)="omit($event)" [(ngModel)]="data.UNIT_COUNCILS_TOTAL" maxlength="5"
+                                    (change)="unitCouncilmeeting(data.UNIT_COUNCILS_TOTAL,data.UNIT_COUNCILS_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_unit_meeting" (keypress)="omit($event)"
+                                    [(ngModel)]="data.UNIT_COUNCILS_OUT_OF" maxlength="5"
+                                    (change)="unitCouncilmeeting(data.UNIT_COUNCILS_TOTAL,data.UNIT_COUNCILS_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+                        <span *ngIf="data.UNIT_COUNCILS_TOTAL==0" style="color:red">Please fill
+                            the field</span>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="6">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Unit Conferences</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter Unit Conferences" name="unitconf"
+                                    (keypress)="omit($event)" [(ngModel)]="data.UNIT_CONFERENCE_TOTAL" maxlength="5"
+                                    (change)="unitConferencemeeting(data.UNIT_CONFERENCE_TOTAL,data.UNIT_CONFERENCE_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_Unit_meeting" (keypress)="omit($event)"
+                                    [(ngModel)]="data.UNIT_CONFERENCE_OUT_OF" maxlength="5"
+                                    (change)="unitConferencemeeting(data.UNIT_CONFERENCE_TOTAL,data.UNIT_CONFERENCE_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+                        <span *ngIf="data.UNIT_CONFERENCE_TOTAL==0" style="color:red">Please fill
+                            the field</span>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="6">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Fed. Conventions</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter Fed. Convention" name="fedConve"
+                                    (keypress)="omit($event)" [(ngModel)]="data.FED_CONVENTION_TOTAL" maxlength="5"
+                                    (change)="FedConvensionmeeting(data.FED_CONVENTION_TOTAL,data.FED_CONVENTION_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_Fed_meeting" (keypress)="omit($event)"
+                                    [(ngModel)]="data.FED_CONVENTION_OUT_OF" maxlength="5"
+                                    (change)="FedConvensionmeeting(data.FED_CONVENTION_TOTAL,data.FED_CONVENTION_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+                        <span *ngIf="data.FED_CONVENTION_TOTAL==0" style="color:red">Please fill
+                            the field</span>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="6">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>G.I. Conventions</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter G.I Convention" name="giconve"
+                                    (keypress)="omit($event)" [(ngModel)]="data.GI_CONVENTION_TOTAL" maxlength="5"
+                                    (change)="GIConvensionmeeting(data.GI_CONVENTION_TOTAL,data.GI_CONVENTION_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_g_i" (keypress)="omit($event)"
+                                    [(ngModel)]="data.GI_CONVENTION_OUT_OF" maxlength="5"
+                                    (change)="GIConvensionmeeting(data.GI_CONVENTION_TOTAL,data.GI_CONVENTION_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+                        <span *ngIf="data.GI_CONVENTION_TOTAL==0" style="color:red">Please fill
+                            the field</span>
+                    </nz-form-item>
+                </div>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <h4 style="font-weight: bold;">Write ten lines on each project planning and execution including impact on
+                the Society: </h4>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>How he/she contributed to the Branch ?</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter Branch Contributed" name="branch_contributed"
+                            [(ngModel)]="data.BRANCH_CONTRIBUTION_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                            maxlength="2000" required></textarea>
+                    </nz-form-control>
+                    <span *ngIf="data.BRANCH_CONTRIBUTION_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.BRANCH_CONTRIBUTION_DETAILS.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Any other relevant information
+                    </nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter Other Information" name="description" maxlength="2000"
+                            [(ngModel)]="data.OTHER_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                            required></textarea>
+                    </nz-form-control>
+                    <span *ngIf="data.OTHER_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.OTHER_DETAILS.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+
+    <span *ngIf="CurrentYear==SelectedYear">
+        <span *ngIf="data.IS_SUBMITED!='S'">
+            <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" style="margin-right: 8px" nz-button
+                (click)="save(myForm)">
+                <span>Save As Draft & close</span>
+            </button>
+
+            <button type="button" *ngIf="data.ID" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+                [nzLoading]="isSpinning" (click)="save(myForm)">
+                <span>Save As Draft & close</span>
+            </button>
+            <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px" nz-button
+                (click)="ApplyForAward(myForm)">
+                <span>Apply For Award & close</span>
+            </button>
+        </span>
+    </span>
+
+
+    <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary"><span>Preview</span>
+    </button>
+</div>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="drawerTitleVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeDrawer0()" (nzKeyboard)="true">
+
+    <app-project-title [isRemarkVisible]="isRemarkVisible0" [closeDrawerPast]="closeDrawercallback0"
+        [AddTable]="closeCallback0" [drawerVisible]="drawerTitleVisible" [data1]="drawerTitleData">
+    </app-project-title>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle>Print Document</ng-template>
+
+    <ng-template #modalContent>
+        <div id="print">
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;padding-bottom: 5px;">
+                GIANTS WELFARE FOUNDATION<br></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 5px;">
+                AWARD BIDDING FORM NO. 11
+            </div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 18px;padding-bottom: 5px;">
+                NAME OF THE AWARD : OUTSTANDING PAST PRESIDENT
+            </div>
+            <div style="color:#0b1113;font-weight: bolder; margin-bottom: 1px;font-size: 15px;">
+                Details:</div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;">
+                                NAME OF THE GROUP : <b>{{data.GROUP_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 13px;">
+                                NAME OF THE PERSON : <b>{{data.MEMBER_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                1) His participation in Group activities including Group Meeting
+                                Regular/Board:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                a) No. of Regular Meetings attended
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.REGULAR_MEETNG_COUNT_TOTAL}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp;out
+                                of
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.REGULAR_MEETNG_COUNT_OUT_OF}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                b) Board Meeting &nbsp;&nbsp;&nbsp;&nbsp; <b>{{data.BOARD_MEETNG_COUNT_TOTAL}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; out of &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.BOARD_MEETNG_COUNT_OUT_OF}}</b>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                c) No. of projects &nbsp;&nbsp;&nbsp;&nbsp; <b>{{data.PROJECTS_COUNT_TOTAL}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; out of &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.PROJECTS_COUNT_OUT_OF}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row *ngIf="drawerPastdataArray.length > 0">
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                2) Any Project initiated &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="8">
+                        <div nz-col nzSpan="24">
+                            <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid black ;">Project Title</th>
+                                        <th style="border: 1px solid black ;">Implementation Date</th>
+                                        <th style="border: 1px solid black ;">Result</th>
+                                        <th style="border: 1px solid black ;">Effect On Society</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerPastdataArray;">
+                                        <td style="border: 1px solid black ;">{{ tab.PROJECT_TITLE }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.IMPLEMENTATION_DATE }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.RESULT }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.EFFECT_ON_SOCIETY }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                3) Contribution in Membership Extension &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.MEMBERSHIP_EXTENSION_CONTRIBUTE_COUNT}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;margin-left: 10px;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;Contribution in Membership Retention &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.MEMBERSHIP_RETENTION_CONTRIBUTE_COUNT}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                4) How he has been an Asset to the Group? &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.AS_A_ASSET_DETAILS}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+            </div>
+            <Br>
+
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                5) How he is a Motivating Force to the Group? &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.AS_A_MOTIVATION_DETAILS}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                6) Whether discharged fiscal obligation? &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.DISCHARGED_FISCAL_OBLIGATION_DETAILS}}</b>
+
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                7) Fund Raising Programme and
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.FUND_RAISING_PROGRAM_DETAILS}}</b>
+
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px; margin-left: 10px;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;His participation &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.FUND_RAISING_PROGRAM_PARTICIPATE_DETAILS}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                8) No. of meetings attended Unit Councils &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.UNIT_COUNCILS_TOTAL}}</b> &nbsp;&nbsp;&nbsp;&nbsp; No / Out of
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.UNIT_COUNCILS_OUT_OF}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%">{{data.FISCLE}}</div> -->
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                Unit Conferences &nbsp;&nbsp;&nbsp;&nbsp; <b>{{data.UNIT_CONFERENCE_TOTAL}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; No / Out of
+                                &nbsp;&nbsp;&nbsp;&nbsp; <b>{{data.UNIT_CONFERENCE_OUT_OF}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%">{{data.FISCLE}}</div> -->
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                Fed. Conventions &nbsp;&nbsp;&nbsp;&nbsp; <b>{{data.FED_CONVENTION_TOTAL}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; No / Out of
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.FED_CONVENTION_OUT_OF}}</b>
+
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%">{{data.FISCLE}}</div> -->
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                G.I. Conventions &nbsp;&nbsp;&nbsp;&nbsp; <b>{{data.GI_CONVENTION_TOTAL}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; No / Out of
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.GI_CONVENTION_OUT_OF}}</b>
+
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%">{{data.FISCLE}}</div> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                9) How he/she contributed to the Branch: &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.BRANCH_CONTRIBUTION_DETAILS}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+                <Br>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                10) Any other information Annexure “E” for Details &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.OTHER_DETAILS}}</b>
+                            </div>
+                        </div>
+                        <!-- <div style="width:25%"></div> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div
+                style="color:rgb(32, 32, 32);font-weight: bolder;font-size: 14px;padding-bottom: 5px;margin-left: 10px;">
+                I, undersigned being President / Director of Administration of Giants Group of
+                ___________ hereby certify that the information contained is true and correct to the best
+                of our knowledge.
+            </div>
+            <br>
+            <div nz-row style="width: 100%;">
+                <div nz-col nzSpan="8" style="padding: 70px;width: 40%;">
+                    <b>Date:</b>
+                    {{data.CREATED_DATE| date:'dd MMM yyyy'}}
+                </div>
+                <div nz-col nzSpan="8" class="dot">
+                    <!-- <p >(SEAL)</p> -->
+                </div>
+                <div nz-col nzSpan="8" style="float: right;padding-top: 70px; font-weight: bold;">
+                    <p>President / Director of Adm.</p>
+                </div>
+            </div>
+            <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+            <div style="page-break-after: always;"></div>
+            <div>
+                <div style="page-break-after: always;"></div>
+                <div style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                    Annexure A</div>
+                <div nz-row>
+                    <div style="width:100%">
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                    margin-left: 10px;">
+                                    His participation in Group activities including Group Meeting
+                                    Regular/Board: &nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <div style="width:100%">
+                                <div style="display: flex;">
+                                    <div style="width:100%">
+                                        <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                            margin-left: 20px;">
+                                            a) No. of Regular Meetings attended
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.REGULAR_MEETNG_COUNT_TOTAL}}</b>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;out
+                                            of
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.REGULAR_MEETNG_COUNT_OUT_OF}}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:100%">
+                                <div style="display: flex;">
+                                    <div style="width:100%">
+                                        <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                            margin-left: 20px;">
+                                            b) Board Meeting &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <b>{{data.BOARD_MEETNG_COUNT_TOTAL}}</b>
+                                            &nbsp;&nbsp;&nbsp;&nbsp; out of &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <b>{{data.BOARD_MEETNG_COUNT_OUT_OF}}</b>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:100%">
+                                <div style="display: flex;">
+                                    <div style="width:100%">
+                                        <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                            margin-left: 20px;">
+                                            c) No. of projects &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <b>{{data.PROJECTS_COUNT_TOTAL}}</b>
+                                            &nbsp;&nbsp;&nbsp;&nbsp; out of &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <b>{{data.PROJECTS_COUNT_OUT_OF}}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="drawerPastdataArray.length > 0">
+                <div style="page-break-after: always;"></div>
+                <div style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                    Annexure B</div>
+                <div nz-row>
+                    <div style="width:100%">
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                    margin-left: 10px;">
+                                    2) Any Project initiated &nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                        <div nz-row [nzGutter]="8">
+                            <div nz-col nzSpan="24">
+                                <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                    <thead>
+                                        <tr>
+                                            <th style="border: 1px solid black ;">Project Title</th>
+                                            <th style="border: 1px solid black ;">Implementation Date</th>
+                                            <th style="border: 1px solid black ;">Result</th>
+                                            <th style="border: 1px solid black ;">Effect On Society</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tab of drawerPastdataArray;">
+                                            <td style="border: 1px solid black ;">{{ tab.PROJECT_TITLE }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.IMPLEMENTATION_DATE }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.RESULT }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.EFFECT_ON_SOCIETY }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="page-break-after: always;"></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                Annexure C</div>
+            <br>
+            <div>
+                <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px; margin-left: 10px;">
+                    How he has been an Asset to the Group? &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    <b>{{data.AS_A_ASSET_DETAILS}}</b>
+                </div>
+            </div>
+            <div style="page-break-after: always;"></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                Annexure D</div>
+            <br>
+            <div>
+                <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px; margin-left: 10px;">
+                    How he is a Motivating Force to the Group? &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    <b>{{data.AS_A_MOTIVATION_DETAILS}}</b>
+                </div>
+            </div>
+
+
+            <div style="page-break-after: always;"></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                Annexure E</div>
+            <br>
+            <div>
+                <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px; margin-left: 10px;">
+                    Any other information &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    <b>{{data.OTHER_DETAILS}}</b>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint>Print</button>
+    </ng-template>
+</nz-modal>

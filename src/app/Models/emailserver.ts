@@ -1,0 +1,21 @@
+export class Emailserver {
+    ID:number;
+CLIENT_ID:number;
+APPLICATION_ID:number=1;
+SENDER_NAME:string;
+EMAIL_ID:string;
+TYPE:string='S';
+AWS_KEY:string;
+AWS_KEY_ID:string
+REGION:string;
+PASSWORD:string;
+SMTP_SERVER:string;
+PORT:string;
+IS_SSL:boolean;
+PRIORITY:number;
+DAILY_LIMIT:number;
+BALANCE:number;
+STATUS:string;
+KEY:string;
+HISTORY_CLEAR_TIME:number;
+}

@@ -1,0 +1,187 @@
+<div style="width: 100vw;">
+    <div nz-row style="position: sticky; top: 0px; z-index: 10;">
+        <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+            <div
+                style="background: rgb(191, 190, 190); color: white; padding: 8px; font-size: 25px; font-weight: bold; text-align: center;">
+                <img src="assets/logo1.png" height="50px" width="50px" style="border-radius: 10px;">
+                Giants Welfare Foundation
+            </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+            <div
+                style="background: rgb(191, 190, 190); color: white; padding: 8px; font-size: 15px; font-weight: bold; text-align: center;">
+                <img src="assets/logo1.png" height="50px" width="50px" style="border-radius: 10px;">
+                Giants Welfare Foundation
+            </div>
+        </div>
+    </div>
+
+    <div nz-row>
+        <nz-spin [nzSpinning]='loadingPage'>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                    <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"></div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                        <div *ngFor="let activity of postDetails; let i = index;">
+                            <div style="border: 1px solid gray; border-radius: 10px; margin: 10px;">
+                                <div nz-row style="padding: 5px;">
+                                    <div nz-col nzXs="5" nzSm="5" nzMd="2" nzLg="2" nzXl="2"
+                                        style="text-align: center;">
+                                        <img style="width: 55px; height: 55px; border-radius: 50%; object-fit: fill;"
+                                            [src]="getUserPhoto(activity.CREATER_MEMBER_PROFILE)" alt="user">
+                                    </div>
+
+                                    <div nz-col nzXs="17" nzSm="17" nzMd="22" nzLg="22" nzXl="22">
+                                        <div nz-row>
+                                            <div nz-col nzXs="0" nzSm="0" nzMd="16" nzLg="16" nzXl="16"
+                                                style="font-size: 17px; font-weight: bold; color:rgb(42, 42, 42);">
+                                                {{activity['CREATER_MEMBER_NAME']}}
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                                                style="font-size: 12px; font-weight: bold; color:rgb(42, 42, 42);">
+                                                {{activity['CREATER_MEMBER_NAME']}}
+                                            </div>
+
+                                            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8"
+                                                style="font-size: 12px; color:rgb(42, 42, 42); text-align: right;">
+                                                <span nz-icon nzType="calendar" nzTheme="outline"
+                                                    style="color: #FF7A7A;">
+                                                </span>
+
+                                                {{activity['POST_CREATED_DATETIME'] | date: 'dd MMM yyyy, hh:mm a'}}
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                                                style="font-size: 8px; color:rgb(42, 42, 42);">
+                                                <span nz-icon nzType="calendar" nzTheme="outline"
+                                                    style="color: #FF7A7A;">
+                                                </span>
+
+                                                {{activity['POST_CREATED_DATETIME'] | date: 'dd MMM yyyy, hh:mm a'}}
+                                            </div>
+
+                                            <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24"
+                                                style="font-size: 10px; color: #ff7a7a;">
+                                                {{activity['MEMBER_ROLE']}}
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                                                style="font-size: 8px; color: #ff7a7a;">
+                                                {{activity['MEMBER_ROLE']}}
+                                            </div>
+
+                                            <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24"
+                                                style="font-size: 10px; color: rgb(42, 42, 42);">
+                                                Home Group : {{activity['HOME_GROUP_NAME']}}
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                                                style="font-size: 8px; color: rgb(42, 42, 42);">
+                                                Home Group : {{activity['HOME_GROUP_NAME']}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="border-bottom: 1px solid gray; margin-left: 5px; margin-right: 5px;">
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        <div style="padding: 5px; text-align: justify;"
+                                            [innerHTML]="activity.DESCRIPTION">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        *ngIf="(activity.IMAGE_URL1) && (activity.IMAGE_URL1 != ' ')">
+                                        <div style="text-align: center; height: 50vh; padding: 5px;">
+                                            <img [src]="getPhotoURL(activity.IMAGE_URL1)"
+                                                style="width: 90%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        *ngIf="(activity.IMAGE_URL2) && (activity.IMAGE_URL2 != ' ')">
+                                        <div style="text-align: center; height: 50vh; padding: 5px;">
+                                            <img [src]="getPhotoURL(activity.IMAGE_URL2)"
+                                                style="width: 90%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        *ngIf="(activity.IMAGE_URL3) && (activity.IMAGE_URL3 != ' ')">
+                                        <div style="text-align: center; height: 50vh; padding: 5px;">
+                                            <img [src]="getPhotoURL(activity.IMAGE_URL3)"
+                                                style="width: 90%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row style="padding: 5px"
+                                    *ngIf="(activity.HASHTAGS) && (activity.HASHTAGS != '')">
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        <span *ngFor="let tag of activity.HASHTAGS.split(',');">
+                                            <span style="color: #1890ff; font-size: 10px;">
+                                                #{{tag}}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div style="border-bottom: 1px solid gray; margin-left: 5px; margin-right: 5px;">
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        <div style="text-align: right;">
+                                            <div style="display: inline-block; padding: 10px;">
+                                                <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 21 16">
+                                                        <path id="Icon_feather-heart" data-name="Icon feather-heart"
+                                                            d="M20.781,6.089a5.148,5.148,0,0,0-7.444,0L12.323,7.135,11.309,6.089a5.149,5.149,0,0,0-7.444,0,5.555,5.555,0,0,0,0,7.681l1.014,1.047L12.323,22.5l7.444-7.681,1.014-1.047a5.553,5.553,0,0,0,0-7.681Z"
+                                                            transform="translate(-1.823 -3.997)" fill="#f0304e"
+                                                            stroke="#f0304e" stroke-width="1" />
+                                                    </svg>
+                                                </span>
+
+                                                <span style="font-size: 20px; margin-left: 5px;">
+                                                    {{activity.LIKE_COUNT}}
+                                                </span>
+                                            </div>
+
+                                            <div style="display: inline-block; padding: 10px;">
+                                                <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 35 25">
+                                                        <path id="Icon_awesome-comment-alt"
+                                                            data-name="Icon awesome-comment-alt"
+                                                            d="M26.25,0H3.75A3.753,3.753,0,0,0,0,3.75V20.625a3.753,3.753,0,0,0,3.75,3.75H9.375V29.3a.7.7,0,0,0,1.119.568l7.318-5.49H26.25A3.753,3.753,0,0,0,30,20.625V3.75A3.753,3.753,0,0,0,26.25,0Z"
+                                                            transform="translate(0.5 0.5)" fill="#fff" stroke="#707070"
+                                                            stroke-width="1" />
+                                                    </svg>
+                                                </span>
+
+                                                <span style="font-size: 20px; margin-left: 5px;">
+                                                    {{activity.COMMENT_COUNT}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"></div>
+                </div>
+            </div>
+        </nz-spin>
+    </div>
+</div>

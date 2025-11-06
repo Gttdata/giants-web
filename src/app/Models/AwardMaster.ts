@@ -1,0 +1,55 @@
+export class Awardmaster {
+  ID: number;
+  CLIENT_ID: number;
+  MEMBER_ID: number;
+  MEMBER_NAME: string;
+  GROUP_NAME: string;
+  SPONSOR: string;
+  LIABILITIES_DETAILS: string;
+  FEDERATION_ID: number
+  UNIT_ID: number;
+  GROUP_ID: number;
+  PDFFILE: any;
+  IS_WORK_ON_BUDGET: boolean = true;
+  DUES_PAID_JAN_JUNE_DATE: string;
+  DUES_PAID_DATE: string;
+  BUDGET_URL: any;
+  IS_SUBMIT_PAST_YEAR_ACC_IN_MEETING: boolean = true;
+  IS_AUDITED_PAST_YEAR_BALANCE_SHEET: boolean = true;
+  IS_MAINTAINED_ASSET_REGISTER: boolean = true;
+  IS_ANY_OUTSTANDING_PAYMENT: boolean = true;
+  INCOME_EXP_ACC_QTR1_URL: string;
+  INCOME_EXP_ACC_QTR2_URL: string;
+  INCOME_EXP_ACC_QTR3_URL: string;
+  IS_FEDERATION_OFFICER: Boolean = false;
+  INCHARGE_OF: any;
+  CREATED_DATE: any;
+  DATEPERIOD2: string;
+  INCOME_EXP_ACC_QTR1_DATE: string;
+  INCOME_EXP_ACC_QTR2_DATE: string;
+  INCOME_EXP_ACC_QTR3_DATE: string;
+  PAST_YEAR_ACC_SUBMIT_IN_MEETING_DATE: string;
+  AUDITED_PAST_YEAR_BALANCE_SHEET_DATE: string;
+  DATE: string;
+  ALL_STATUS: string;
+  DUES_PAID_JUL_DEC_DATE: string;
+  DUES_PAID_JAN_JUNE_AMOUNT: number;
+  DUES_PAID_JUL_DEC_AMOUNT: number;
+  OUTSTANDING_PAYMENT_DETAILS: any;
+  RECOMENDATION_REASON: string;
+  BUDGET: string;
+  DIR_FINANCE_SPONSORSHIP_DETAILS = [];
+  INCOME_EXP_ACC_QTR1: string;
+  INCOME_EXP_ACC_QTR2: string;
+  INCOME_EXP_ACC_QTR3: string;
+  PAST_YEAR_ACC_SUBMIT_IN_MEETING_DETAILS: string;
+  ASSET_REGISTER_DETAILS: any
+  OUTSTANDING_PAYMENT_REASON: any;
+  AUDITED_PAST_YEAR_BALANCE_SHEET_DETAILS: any;
+  OTHER_INFORMATION: string;
+  PROFILE_IMAGE: string;
+  myForm: any;
+  inactive: boolean;
+  data2: any;
+  IS_SUBMITED = "D";
+}

@@ -1,0 +1,66 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close()" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <div nz-row nzType="flex">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="display: flex; justify-content: flex-end">
+            <form nz-form [nzLayout]="'inline'">
+                <!-- <nz-form-item>
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" name="search" nz-input placeholder="Search Records"
+                            (keydown.enter)="onSearching()" [(ngModel)]="searchText" />
+                    </nz-input-group>
+
+                    <ng-template #suffixIconButton>
+                        <button nz-button id="button1" nzType="primary" (click)="search()" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                </nz-form-item> -->
+
+                <nz-form-item>
+                    <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+                        <i nz-icon nzType="plus"></i>
+                        Make New Payment
+                    </button>
+                </nz-form-item>
+            </form>
+        </div>
+    </div>
+
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #leaveTable nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <!-- <th nzLeft="0px" nzWidth="50px"><b>Edit</b></th> -->
+                        <th *ngFor="let column of columns;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of leaveTable.data;">
+                        <!-- <td nzLeft="0px" nzWidth="50px" align="center"><a (click)="edit(data)">Edit</a></td> -->
+
+                        <td align="center" *ngFor="let column of columns;">
+                            <span *ngIf="(column[0] != 'DATE')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'DATE')">
+                                {{data[column[0]] | date:'dd MMM yyyy'}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

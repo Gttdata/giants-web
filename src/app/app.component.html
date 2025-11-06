@@ -1,0 +1,1066 @@
+<nz-layout style="width: 100% !important; background-color: #f2f2f2;" *ngIf="isLogedIn">
+  <nz-layout>
+    <nz-header>
+      <div nz-row class="app-header">
+        <div nz-col nzXl="0" nzLg="0" nzMd="0" nzSm="15" nzXs="15">
+          <img src="assets/logo1.png" height="25px" width="25px" style="margin-left: 5px;">
+
+          <span style="font-size: 12px; font-weight: bold; color: #000000;">
+            {{homefederationShortName}}
+          </span>
+        </div>
+
+        <div nz-col nzXl="0" nzLg="0" nzMd="0" nzSm="9" nzXs="9" style="text-align: right;"
+          *ngIf="(pageName != 'report')">
+          <span (click)="UserProfile()" nz-tooltip nzTooltipTitle="My Profile">
+            <i nz-icon nzType="user" style="font-size: 20px; color: #000000;" nzTheme="outline">
+            </i>&nbsp;
+          </span>
+
+          <span (click)="videoManualDrawerOpen()" nz-tooltip nzTooltipTitle="Video Manual">
+            <i nz-icon nzType="video-camera" style="font-size: 20px; color: #000000;" nzTheme="outline">
+            </i>&nbsp;
+          </span>
+
+          <span style="cursor: pointer;" (click)="changepass()" nz-tooltip nzTooltipTitle="Change Password">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512">
+              <path
+                d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z" />
+            </svg>&nbsp;
+          </span>
+
+          <span (click)="add()" nz-tooltip nzTooltipTitle="Notifications">
+            <i nz-icon nzType="bell" style="font-size: 20px; color: #000000;" nzTheme="outline">
+            </i>&nbsp;
+          </span>
+
+          <span>
+            <a style="color: black;" nz-dropdown [nzDropdownMenu]="menu">
+              <i nz-icon nzType="menu" nzTheme="outline" style="font-size: 20px;"></i>
+            </a>&nbsp;
+
+            <nz-dropdown-menu #menu="nzDropdownMenu" style="color: #000000;">
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item>
+                  <a [routerLink]="['/project']" style="color: black;"
+                    [ngClass]="pageName2 == 'project' ? 'active2' : ''">
+                    <!-- <i nz-icon nzType="appstore" nzTheme="outline" style="font-size: 20px;"></i> -->
+
+                    <span style="font-size: 12px;">
+                      Monumental Projects
+                    </span>
+                  </a>
+                </li>
+
+                <li nz-menu-item>
+                  <a [routerLink]="['/dashboard']" style="color: black;"
+                    [ngClass]="pageName2 == 'dashboard' ? 'active2' : ''">
+                    <!-- <i nz-icon nzType="bar-chart" nzTheme="outline" style="font-size: 20px;"></i> -->
+
+                    <span style="font-size: 12px;">
+                      Dashboard
+                    </span>
+                  </a>
+                </li>
+
+                <li nz-menu-item>
+                  <a style="color: black;" (click)="logout()">
+                    <!-- <i nz-icon nzType="logout" style="font-size: 20px;"></i> -->
+
+                    <span style="font-size: 12px; color: red;">
+                      Logout
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+
+        <div nz-col nzXl="20" nzLg="20" nzMd="20" nzSm="0" nzXs="0">
+          <img src="assets/logo1.png" height="35px" width="35px" style="margin-left: 10px;">
+          <span style="font-size: 18px; font-weight: bold; color: #000000;">
+            {{homefederationName}}
+          </span>
+        </div>
+
+        <div nz-col nzXl="4" nzLg="4" nzMd="4" nzSm="0" nzXs="0" style="text-align: right; padding-right: 10px;"
+          *ngIf="pageName != 'report'">
+          <span *ngIf="roleId != 1" (click)="UserProfile()" nz-tooltip nzTooltipTitle="My Profile"
+            nzTooltipPlacement="bottomRight">
+            <i nz-icon class="icon" nzType="user" style="font-size: 24px; color: #000000;" nzTheme="outline">
+            </i>&nbsp;&nbsp;
+          </span>
+
+          <span *ngIf="roleId != 1" (click)="videoManualDrawerOpen()" nz-tooltip nzTooltipTitle="Video Manual"
+            nzTooltipPlacement="bottomRight">
+            <i nz-icon class="icon" nzType="video-camera" style="font-size: 24px; color: #000000;" nzTheme="outline">
+            </i>&nbsp;&nbsp;
+          </span>
+
+          <span *ngIf="roleId != 1" style="cursor: pointer;" (click)="changepass()" nz-tooltip
+            nzTooltipTitle="Reset Password" nzTooltipPlacement="bottomRight">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 512 512">
+              <path
+                d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z" />
+            </svg>&nbsp;&nbsp;
+          </span>
+
+          <span *ngIf="roleId != 1" (click)="add()" nz-tooltip nzTooltipTitle="Notifications"
+            nzTooltipPlacement="bottomRight">
+            <i nz-icon class="icon" nzType="bell" style="font-size: 24px; color: #000000;" nzTheme="outline">
+            </i>&nbsp;&nbsp;
+          </span>
+
+          <span style="font-size: 24px; color: red;" (click)="logout()" nz-tooltip nzTooltipTitle="Logout"
+            nzTooltipPlacement="bottomRight">
+            <i nz-icon class="icon" nzType="logout"></i>
+          </span>
+        </div>
+      </div>
+    </nz-header>
+
+    <nz-content>
+      <div class="inner-content">
+        <div nz-row>
+          <div nz-col nzXl="5" nzLg="5" nzMd="5" nzSm="0" nzXs="0" *ngIf="pageName != 'report'">
+            <div style="background: linear-gradient(#e8f4ff, #fff1f1); padding: 16px; height: 90vh; overflow: auto;">
+              <div nz-row>
+                <div nz-col nzSpan="24" style="position: relative;">
+                  <div nz-row>
+                    <div nz-col nzSpan="8" style="text-align: center;">
+                      <img style="border-radius: 50%; width: 75px; height: 75px;" [src]="url">
+                    </div>
+
+                    <div nz-col nzSpan="16" style="height: 75px;">
+                      <div nz-row>
+                        <div nz-col nzSpan="24">
+                          <span style="font-weight: bold; margin-bottom: 0px; margin-top: 25px; color: #000000;">
+                            {{USERNAME}}
+                          </span>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="roleId != 1">
+                          <span style="font-size: 10px; font-weight: bold; color: #ff7a7a;">
+                            {{roleName}}
+                          </span>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="emailId != ''">
+                          <div style="padding: 1px 0px 1px 0px; color: #000000;">
+                            <span nz-icon style="font-size: 8px;" nzType="mail" nzTheme="outline">
+                            </span>
+
+                            <span style="font-size: 10px;">
+                              {{emailId}}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="mobileNo != ''">
+                          <div style="padding: 1px 0px 1px 0px; color: #000000;">
+                            <span nz-icon style="font-size: 8px;" nzType="mobile" nzTheme="outline">
+                            </span>
+
+                            <span style="font-size: 10px;">
+                              {{mobileNo}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="height: 100px;"></div>
+
+                <div *ngIf="(roleId != 1)">
+                  <a [routerLink]="['/dashboard']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'dashboard') ? 'active' : ''">
+                      <i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Dashboard</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/posts']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="(pageName2 == 'posts') ? 'active' : ''">
+                      <i nz-icon nzType="qrcode" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Posts</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/meetings']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'meetings') ? 'active' : ''">
+                      <i nz-icon nzType="calendar" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Meetings</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/events']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="(pageName2 == 'events') ? 'active' : ''">
+                      <i nz-icon nzType="carry-out" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Events</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/circular']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'circular') ? 'active' : ''">
+                      <i nz-icon nzType="audit" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Circulars</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/project']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="(pageName2 == 'project') ? 'active' : ''">
+                      <i nz-icon nzType="apartment"></i>
+                      <span style="margin-left: 5px">Monumental Projects</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/federations']" style="color: black;" (click)="openManageFederationBOD()"
+                    *ngIf="federationID > 0">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'federations') ? 'active' : ''">
+                      <i nz-icon nzType="global"></i>
+                      <span style="margin-left: 5px">Manage Federation Council</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/units']" style="color: black;" (click)="openManageUnitBOD()" *ngIf="unitID > 0">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="(pageName2 == 'units') ? 'active' : ''">
+                      <i nz-icon nzType="deployment-unit"></i>
+                      <span style="margin-left: 5px">Manage Unit BOD</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/groups']" style="color: black;" (click)="openManageGroupBOD()"
+                    *ngIf="groupID > 0">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="(pageName2 == 'groups') ? 'active' : ''">
+                      <i nz-icon nzType="team"></i>
+                      <span style="margin-left: 5px">Manage Group BOD</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/award-bidding']" style="color: black;"
+                    *ngIf="((roleId != 59) && (roleId != 60) && (roleId != 61)) && ((federationID > 0) || (groupID > 0) || (roleId == 37))">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'award-bidding') ? 'active' : ''">
+                      <i nz-icon nzType="gift" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Award Bidding</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/approve-group']" style="color: black;"
+                    *ngIf="(roleId == 59) || (roleId == 60) || (roleId == 61)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'approve-group') ? 'active' : ''">
+                      <i nz-icon nzType="team" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Group Approval</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/fee-structure']" style="color: black;"
+                    *ngIf="(roleId == 59) || (roleId == 60) || (roleId == 61)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'fee-structure') ? 'active' : ''">
+                      <i nz-icon nzType="build" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Fee structure</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/system-fee-structure']" style="color: black;"
+                    *ngIf="(roleId == 59) || (roleId == 60) || (roleId == 61)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'system-fee-structure') ? 'active' : ''">
+                      <i nz-icon nzType="build" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">System Fee structure</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/group-fee-structure']" style="color: black;"
+                    *ngIf="(groupID > 0) && ((roleId == 23) || (roleId == 26) || (roleId == 27))">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'group-fee-structure') ? 'active' : ''">
+                      <i nz-icon nzType="build" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Group Wise Fee Structure</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/monthly-report-submission']" style="color: black;" *ngIf="(groupID > 0)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'monthly-report-submission') ? 'active' : ''">
+                      <i nz-icon nzType="schedule" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Group Monthly Reporting</span>
+                    </div>
+                  </a>
+
+                  <a (click)="goToPayments()" style="color: black;"
+                    *ngIf="(groupID > 0) && ((roleId == 23) || (roleId == 26) || (roleId == 27))">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'allpaymentreceipts') ? 'active' : ''">
+                      <span style="font-weight: bold;">₹</span>
+                      <span style="margin-left: 5px">Payment</span>
+                    </div>
+                  </a>
+
+                  <a (click)="goToPaymentsApproval()" style="color: black;"
+                    *ngIf="(roleId == 59) || (roleId == 60) || (roleId == 61)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'payment-approval') ? 'active' : ''">
+                      <span style="font-weight: bold;">₹</span>
+                      <span style="margin-left: 5px">Payment Approval</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/giants-group-report']" style="color: black;"
+                    *ngIf="(federationID > 0) || (unitID > 0)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'giants-group-report') ? 'active' : ''">
+                      <i nz-icon nzType="schedule" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">View Group Monthly Reporting</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/award-master']" style="color: black;" *ngIf="(federationID > 0)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'award-master') ? 'active' : ''">
+                      <i nz-icon nzType="gift" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Award Master</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/certificate-master']" style="color: black;" *ngIf="(federationID > 0)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'certificate-master') ? 'active' : ''">
+                      <i nz-icon nzType="file-done" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Certificate Master</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/award-certificate-mapping']" style="color: black;" *ngIf="(groupID > 0)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'award-certificate-mapping') ? 'active' : ''">
+                      <i nz-icon nzType="interaction" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Award/ Certificate Mapping</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/convention-member-mapping']" style="color: black;" *ngIf="(groupID > 0)">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="(pageName2 == 'convention-member-mapping') ? 'active' : ''">
+                      <i nz-icon nzType="interaction" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Convention Member Mapping</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/reports']" style="color: black;"
+                    *ngIf="(federationID > 0) || (unitID > 0) || ((roleId == 59) && (federationID == 0) && (unitID == 0) && (groupID == 0))">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="(pageName2 == 'reports') ? 'active' : ''">
+                      <i nz-icon nzType="copy" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Reports</span>
+                    </div>
+                  </a>
+                </div>
+
+                <div *ngIf="roleId == 1">
+                  <a [routerLink]="['/members']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;" [ngClass]="pageName2 == 'members' ? 'active' : ''">
+                      <i nz-icon nzType="user" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Board Members</span>
+                    </div>
+                  </a>
+
+                  <a [routerLink]="['/assign-admin-role']" style="color: black;">
+                    <div nz-col nzSpan="24" style="padding: 10px;"
+                      [ngClass]="pageName2 == 'assign-admin-role' ? 'active' : ''">
+                      <i nz-icon nzType="calendar" nzTheme="outline"></i>
+                      <span style="margin-left: 5px">Roles</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div nz-col nzXl="0" nzLg="0" nzMd="0" nzSm="24" nzXs="24" *ngIf="pageName != 'report'"
+            style="width: 100%; font-weight: bold; background-color: white; box-shadow: 0 1px 4px rgba(0, 21, 41, .08);">
+            <div nz-row>
+              <a [routerLink]="['/posts']" style="color: black;">
+                <div nz-col nzSpan="4"
+                  style="padding: 8px 5px; line-height: 15px; text-align: center; display: grid; height: 70px;"
+                  [ngClass]="pageName2 == 'posts' ? 'active2' : ''">
+                  <i nz-icon nzType="qrcode" nzTheme="outline" style="font-size: 24px;"></i>
+                  <span style="font-size: 12px;">Posts</span>
+                </div>
+              </a>
+
+              <a [routerLink]="['/meetings']" style="color: black;">
+                <div nz-col nzSpan="5"
+                  style="padding: 8px 5px; line-height: 15px; text-align: center; display: grid; height: 70px;"
+                  [ngClass]="pageName2 == 'meetings' ? 'active2' : ''">
+                  <i nz-icon nzType="calendar" nzTheme="outline" style="font-size: 24px;"></i>
+                  <span style="font-size: 12px;">Meetings</span>
+                </div>
+              </a>
+
+              <a [routerLink]="['/events']" style="color: black;">
+                <div nz-col nzSpan="5"
+                  style="padding: 8px 5px; line-height: 15px; text-align: center; display: grid; height: 70px;"
+                  [ngClass]="pageName2 == 'events' ? 'active2' : ''">
+                  <i nz-icon nzType="carry-out" nzTheme="outline" style="font-size: 24px;"></i>
+                  <span style="font-size: 12px;">Events</span>
+                </div>
+              </a>
+
+              <a [routerLink]="['/circular']" style="color: black;">
+                <div nz-col nzSpan="5"
+                  style="padding: 8px 5px; line-height: 15px; text-align: center; display: grid; height: 70px;"
+                  [ngClass]="pageName2 == 'circular' ? 'active2' : ''">
+                  <i nz-icon nzType="audit" nzTheme="outline" style="font-size: 24px;"></i>
+                  <span style="font-size: 12px;">Circulars</span>
+                </div>
+              </a>
+
+              <a [routerLink]="['/community']" style="color: black;">
+                <div nz-col nzSpan="5"
+                  style="padding: 8px 5px; line-height: 15px; text-align: center; display: grid; height: 70px;"
+                  [ngClass]="pageName2 == 'community' ? 'active2' : ''">
+                  <i nz-icon nzType="apartment" style="font-size: 24px;"></i>
+                  <span style="font-size: 12px;">Community</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div nz-col nzXl="12" nzLg="12" nzMd="12" nzSm="24" nzXs="24" *ngIf="pageName != 'report'">
+            <router-outlet></router-outlet>
+          </div>
+
+          <div nz-col nzXl="24" nzLg="24" nzMd="24" nzSm="24" nzXs="24" *ngIf="pageName == 'report'">
+            <router-outlet></router-outlet>
+          </div>
+
+          <div nz-col nzXl="7" nzLg="7" nzMd="7" nzSm="0" nzXs="0" *ngIf="pageName != 'report'">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px;"
+              [ngStyle]="{ 'height': ((roleId == 59) || (roleId == 60) || (roleId == 61) || (roleId == 1)) ? '88vh' : '40vh' }">
+              <div nz-row nzGutter="10">
+                <div nz-col nzSm="24" nzXs="24" nzXl="24" nzLg="24" nzMd="24"
+                  style="padding: 10px; border-bottom: 1px solid #FF7A7A;">
+                  <div nz-row>
+                    <div nz-col nzSpan="8">
+                      <span style="font-weight: bolder; font-size: 14px;">
+                        Community
+                      </span>
+
+                      &nbsp;
+
+                      <span style="cursor: pointer;" (click)="onCommunitySelectionChange(COMMUNITY_SELECTION)"
+                        nzTooltipTitle="Refresh" nzTooltipPlacement="top" nz-tooltip>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 512 512">
+                          <path
+                            d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H463.5c0 0 0 0 0 0h.4c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32V396.9l17.6 17.5 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z" />
+                        </svg>
+                      </span>
+                    </div>
+
+                    <div nz-col nzSpan="16">
+                      <div *ngIf="(roleId != 59) && (roleId != 60) && (roleId != 61) && (roleId != 1)"
+                        style="text-align: right;">
+                        <nz-radio-group (ngModelChange)="onCommunitySelectionChange($event)"
+                          [(ngModel)]="COMMUNITY_SELECTION">
+                          <label nz-radio nzValue="GWF">GWF</label>
+                          <label nz-radio nzValue="MF">My Federation</label>
+                        </nz-radio-group>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="padding: 10px; overflow: auto;"
+                  [ngStyle]="{ 'height': ((roleId == 59) || (roleId == 60) || (roleId == 61) || (roleId == 1)) ? '' : '32vh' }">
+                  <nz-spin [nzSpinning]='loadingCommunity'>
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToFederationtMaster()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="global" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_FEDERATION ? TOTAL_FEDERATION : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Federation(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToUnitMaster()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="deployment-unit" nzTheme="outline"
+                              style="font-size: 40px; color: #ff8d73;">
+                            </i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_UNITS ? TOTAL_UNITS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Unit(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToGroupMaster()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="team" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_GROUPS ? TOTAL_GROUPS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Group(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToMemberMaster()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="user" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_MEMBERS ? TOTAL_MEMBERS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Member(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToPostPage()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="qrcode" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_POSTS ? TOTAL_POSTS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Post(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToMeetingPage()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="calendar" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_MEETINGS ? TOTAL_MEETINGS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Meeting(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToEventPage()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="carry-out" nzTheme="outline"
+                              style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_EVENTS ? TOTAL_EVENTS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Event(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToCircularPage()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="audit" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_CIRCULARS ? TOTAL_CIRCULARS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Circular(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToProjectPage()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <i nz-icon nzType="apartment" nzTheme="outline"
+                              style="font-size: 40px; color: #ff8d73;"></i>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_PROJECTS ? TOTAL_PROJECTS : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Project(s)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div nz-col nzSm="0" nzXs="0" nzXl="12" nzLg="12" nzMd="12" (click)="goToPaymentPage()">
+                      <div class="community-box"
+                        style="border-radius: 5px; background-color: #fbfbfb; padding: 10px; margin-bottom: 10px; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); cursor: pointer; border-left: #ff8d73 solid 3px;">
+                        <div nz-row>
+                          <div nz-col nzSpan="8">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 30.271 28.276">
+                              <g id="Collected_Fee" data-name="Collected Fee"
+                                transform="translate(-11721.681 -14304.316)">
+                                <g id="_1915272532000" transform="translate(11722.669 14305.327)">
+                                  <path id="Path_43" data-name="Path 43" fill="none"
+                                    d="M11930.859,14845.344c.2,1.272-.054,1.738-.895,2.256a5.942,5.942,0,0,1-2.4.73,26.665,26.665,0,0,1-4.644.128c-.714-.017-1.213.172-1.225-.517.518-.283,2.749-.04,3.526-.047,1.152-.01,5.739-.155,5.067-2.21-.447-1.366-3.889-.105-6.559-.852-3.2-.894-5.209-1.763-9.265-.521,0,.328-.132,6.1.145,6.381.518.382,8.985,1.8,10.248,1.883,1.747.107,3.107-1.214,4.124-1.96,3.083-2.266,6.348-4.977,9.4-7.191,1.193-.867,0-2.271-1.846-1.607C11934.2,14842.664,11931.922,14844.788,11930.859,14845.344Z"
+                                    transform="translate(-11910.577 -14826.315)" stroke="#ff8d73"
+                                    stroke-miterlimit="22.926" stroke-width="2" fill-rule="evenodd" />
+                                  <path id="Path_44" data-name="Path 44" fill="none"
+                                    d="M12214.675,14309.724a7.57,7.57,0,1,0,8.8,6.207A7.543,7.543,0,0,0,12214.675,14309.724Z"
+                                    transform="translate(-12200.01 -14309.593)" stroke="#ff8d73"
+                                    stroke-miterlimit="22.926" stroke-width="2" fill-rule="evenodd" />
+                                  <path id="Path_45" data-name="Path 45" fill="none"
+                                    d="M11723.009,14903.683c.643.281,2.438.271,2.864-.241a80.283,80.283,0,0,0,.039-8.395,3.889,3.889,0,0,0-2.687-.269c-.767.205-.517,1.307-.517,2.689l.008,5.669C11722.79,14903.653,11722.76,14903.479,11723.009,14903.683Z"
+                                    transform="translate(-11722.669 -14878.264)" stroke="#ff8d73"
+                                    stroke-miterlimit="22.926" stroke-width="2" fill-rule="evenodd" />
+                                  <text id="_" data-name="₹" transform="translate(13.365 10.323)" stroke="#ff8d73"
+                                    stroke-width="0.5" font-size="9" font-family="ArialMT, Arial">
+                                    <tspan x="0" y="0">₹</tspan>
+                                  </text>
+                                </g>
+                              </g>
+                            </svg>
+                          </div>
+
+                          <div nz-col nzSpan="16">
+                            <div nz-row>
+                              <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{COLLECTED_FEE ? (COLLECTED_FEE | number:'1.0-2') : 0}}</b>
+                              </div>
+
+                              <div nz-col nzSpan="24">
+                                Collected Fee
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nz-spin>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Meetings and Events -->
+            <div *ngIf="(roleId != 59) && (roleId != 60) && (roleId != 61) && (roleId != 1)"
+              style="border-radius: 8px; background-color: white; padding: 10px; height: 47vh; margin: 10px;">
+              <div nz-row>
+                <div nz-col nzSpan="24" style="padding: 10px; border-bottom: 1px solid #FF7A7A;">
+                  <span style="font-weight: bolder; font-size: 14px;">
+                    Upcoming Meeting(s) and Event(s)
+                  </span>
+
+                  &nbsp;
+
+                  <span style="cursor: pointer;" (click)="getUpcomingMeetings(homeGroupID)" nzTooltipTitle="Refresh"
+                    nzTooltipPlacement="top" nz-tooltip>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 512 512">
+                      <path
+                        d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H463.5c0 0 0 0 0 0h.4c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32V396.9l17.6 17.5 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z" />
+                    </svg>
+                  </span>
+                </div>
+
+                <div nz-col nzSpan="24" style="padding: 10px; height: 39vh; overflow: auto;">
+                  <nz-spin [nzSpinning]='loadingMeets'>
+                    <div *ngIf="meetList.length > 0">
+                      <div style="text-align: center; width: 100%;">
+                        <nz-tag [nzColor]="'magenta'" style="color: #FF7A7A;">
+                          Meeting(s)
+                        </nz-tag>
+                      </div>
+
+                      <div nz-row *ngFor="let data of meetList;" style="margin-bottom: 10px; cursor: pointer;"
+                        (click)="getMeetingDetails(data)">
+                        <div nz-col nzSpan="5" style="text-align: center; padding: 0px 5px;">
+                          <div
+                            style="padding-top: 5px; height: 65px; background: #FEFEFE 0% 0% no-repeat padding-box; box-shadow: 0px 1px 6px #00000029; border-radius: 4px 4px 8px 8px;">
+
+                            <p style="font-size: 24px; margin-bottom: 0px;">
+                              {{data['DATE'] | date: 'dd'}}
+                            </p>
+
+                            <div
+                              style="color: white; font-size: 12px; height: 25px; padding-top: 3px; background: #FF7A7A 0% 0% no-repeat padding-box; border-radius: 0px 0px 8px 8px;">
+                              {{data['DATE'] | date: 'MMM'}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div nz-col nzSpan="19" style="padding: 5px;">
+                          <div nz-row>
+                            <div nz-col nzSpan="24">
+                              <div
+                                style="font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                {{data['MEETING_SUB']}}
+                              </div>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                              <div
+                                style="font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <span nz-icon nzType="environment" nzTheme="outline" style="color: #FF7A7A;"></span>
+                                {{data['VENUE']}}
+                              </div>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                              <div style="font-size: 11px;">
+                                <span nz-icon nzType="clock-circle" nzTheme="outline" style="color: #FF7A7A;"></span>
+
+                                <span>
+                                  {{getTimeInAM_PM(data['FROM_TIME']) | date: 'hh:mm a'}}
+                                </span> To
+
+                                <span>
+                                  {{getTimeInAM_PM(data['TO_TIME']) | date: 'hh:mm a'}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="eventList.length > 0">
+                      <div style="text-align: center; width: 100%;">
+                        <nz-tag [nzColor]="'magenta'" style="color: #FF7A7A;">
+                          Event(s)
+                        </nz-tag>
+                      </div>
+
+                      <div nz-row *ngFor="let data of eventList;" style="margin-bottom: 10px; cursor: pointer;"
+                        (click)="getEventDetails(data)">
+                        <div nz-col nzSpan="5" style="text-align: center; padding: 0px 5px;">
+                          <div
+                            style="padding-top: 5px; height: 65px; background: #FEFEFE 0% 0% no-repeat padding-box; box-shadow: 0px 1px 6px #00000029; border-radius: 4px 4px 8px 8px;">
+
+                            <p style="font-size: 24px; margin-bottom: 0px;">
+                              {{data['DATE'] | date: 'dd'}}
+                            </p>
+
+                            <div
+                              style="color: white; font-size: 12px; height: 25px; padding-top: 3px; background: #FF7A7A 0% 0% no-repeat padding-box; border-radius: 0px 0px 8px 8px;">
+                              {{data['DATE'] | date: 'MMM'}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div nz-col nzSpan="19" style="padding: 5px;">
+                          <div nz-row>
+                            <div nz-col nzSpan="24">
+                              <div
+                                style="font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                {{data['EVENT_NAME']}}
+                              </div>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                              <div
+                                style="font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <span nz-icon nzType="environment" nzTheme="outline" style="color: #FF7A7A;"></span>
+                                {{data['VENUE']}}
+                              </div>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                              <div style="font-size: 11px;">
+                                <span nz-icon nzType="clock-circle" nzTheme="outline" style="color: #FF7A7A;"></span>
+
+                                <span>
+                                  {{getTimeInAM_PM(data['FROM_TIME']) | date: 'hh:mm a'}}
+                                </span> To
+
+                                <span>
+                                  {{getTimeInAM_PM(data['TO_TIME']) | date: 'hh:mm a'}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="(meetList.length == 0) && (eventList.length == 0)">
+                      <nz-empty
+                        [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                        [nzNotFoundContent]="contentTpl">
+                      </nz-empty>
+
+                      <ng-template #contentTpl>
+                        <span>No Upcoming Meeting(s) and Event(s)</span>
+                      </ng-template>
+                    </div>
+                  </nz-spin>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<app-trainer-accessor-login *ngIf="(!isLogedIn) && (pageName2 == 'login')">
+</app-trainer-accessor-login>
+
+<app-emplogin *ngIf="(!isLogedIn) && (pageName2 == 'adminlogin')">
+</app-emplogin>
+
+<app-post-details *ngIf="(!isLogedIn) && (pageName2 == 'post-details')">
+</app-post-details>
+
+<app-event-details *ngIf="(!isLogedIn) && (pageName2 == 'event-details')">
+</app-event-details>
+
+<app-circular-details *ngIf="(!isLogedIn) && (pageName2 == 'circular-details')">
+</app-circular-details>
+
+<!-- Notification drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getNotificationDrawerWidth()"
+  [nzVisible]="drawerVisible" [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+  <app-view-notification-drawer [closeCallback]="closeCallback"></app-view-notification-drawer>
+</nz-drawer>
+
+<!-- Update member info -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="profileDrawerVisible" [nzTitle]="ProfileDrawerTitle" (nzOnClose)="ProfileDrawerClose()"
+  (nzKeyboard)="true">
+  <app-update-member-info [drawerClose]="ProfileDrawerCloseCallback" [data]="memberData">
+  </app-update-member-info>
+</nz-drawer>
+
+<!-- Video manual -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getVideoManualDrawerWidth()"
+  [nzVisible]="videoManualDrawerVisible" [nzTitle]="videoManualDrawerTitle" (nzOnClose)="videoManualDrawerClose()"
+  (nzKeyboard)="true">
+  <app-video-manual-drawer [closeCallback]="videoManualCloseCallback"></app-video-manual-drawer>
+</nz-drawer>
+
+<!-- Assign group BOD -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getManageBODDrawerWidth()"
+  [nzVisible]="manageGroupBODDrawerVisible" [nzTitle]="manageGroupBODDrawerTitle"
+  (nzOnClose)="manageGroupBODDrawerClose()" (nzKeyboard)="true">
+  <app-assign-group-member [drawerClose]="manageGroupBODDrawerCloseCallback"
+    [drawerVisible]="manageGroupBODDrawerVisible" [data]="manageGroupBODDrawerData">
+  </app-assign-group-member>
+</nz-drawer>
+
+<!-- Assign unit BOD -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getManageBODDrawerWidth()"
+  [nzVisible]="manageUnitBODDrawerVisible" [nzTitle]="manageUnitBODDrawerTitle" (nzOnClose)="manageUnitBODDrawerClose()"
+  (nzKeyboard)="true">
+  <app-assign-unit-member [drawerClose]="manageUnitBODDrawerCloseCallback" [drawerVisible]="manageUnitBODDrawerVisible"
+    [data]="manageUnitBODDrawerData">
+  </app-assign-unit-member>
+</nz-drawer>
+
+<!-- Assign federation BOD -->
+<div *ngIf="manageFederationBODDrawerVisible">
+  <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getManageBODDrawerWidth()"
+    [nzVisible]="manageFederationBODDrawerVisible" [nzTitle]="manageFederationBODDrawerTitle"
+    (nzOnClose)="manageFederationBODDrawerClose()" (nzKeyboard)="true">
+    <app-assign-federation-members [drawerClose]="manageFederationBODDrawerCloseCallback"
+      [drawerVisible]="manageFederationBODDrawerVisible" [data]="manageFederationBODDrawerData">
+    </app-assign-federation-members>
+  </nz-drawer>
+</div>
+
+<!-- Change password modal -->
+<nz-modal [nzContent]="changePass" [nzFooter]="changePassFooter" [(nzVisible)]="isVisible" [nzWidth]="'350px'"
+  (nzOnCancel)="handleCancel()" nzTitle="Reset Password">
+  <ng-template #changePass>
+    <form nz-form #resetform *ngIf="showconfirm == false">
+      <div nz-row class="my-box">
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Current Password</nz-form-label>
+
+            <nz-form-control nzErrorTip="Please Enter Valid Current Password">
+              <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplatePassword">
+                <input [type]="passwordVisible ? 'text' : 'password'" name="currpass" [(ngModel)]="PASSWORD" nz-input
+                  placeholder="Enter Current Password" required />
+              </nz-input-group>
+
+              <ng-template #suffixTemplatePassword>
+                <i nz-icon [nzType]="passwordVisible ? 'eye' : 'eye-invisible'"
+                  (click)="passwordVisible = !passwordVisible">
+                </i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+
+    <form nz-form #resetform *ngIf="showconfirm == true">
+      <div nz-row class="my-box">
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>New Password</nz-form-label>
+
+            <nz-form-control nzErrorTip="Please Enter Valid New Password">
+              <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplateNewPassword">
+                <input [type]="newPasswordVisible ? 'text' : 'password'" name="newpass" [(ngModel)]="NEWPASSWORD"
+                  nz-input placeholder="Enter New Password" pattern="([A-Za-z0-9@#\s]){8,}" minlength="8" maxlength="15"
+                  required />
+              </nz-input-group>
+
+              <ng-template #suffixTemplateNewPassword>
+                <i nz-icon [nzType]="newPasswordVisible ? 'eye' : 'eye-invisible'"
+                  (click)="newPasswordVisible = !newPasswordVisible">
+                </i>
+              </ng-template>
+            </nz-form-control>
+
+            <span style="font-size: 10px; color: blue;">
+              *Password must contains at least one uppercase letter, one lowercase letter, one number and one special
+              character (@ or #)<br>
+              *Password must be greater than or equal to 8 characters
+            </span>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Confirm Password</nz-form-label>
+
+            <nz-form-control nzErrorTip="Please Re-Enter New Password">
+              <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplateReEnterNewPassword">
+                <input [type]="reEnterNewPasswordVisible ? 'text' : 'password'" name="confpass"
+                  [(ngModel)]="CONFPASSWORD" nz-input placeholder="Re-Enter New Password"
+                  pattern="([A-Za-z0-9@#\s]){8,}" minlength="8" maxlength="15" required />
+              </nz-input-group>
+
+              <ng-template #suffixTemplateReEnterNewPassword>
+                <i nz-icon [nzType]="reEnterNewPasswordVisible ? 'eye' : 'eye-invisible'"
+                  (click)="reEnterNewPasswordVisible = !reEnterNewPasswordVisible">
+                </i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #changePassFooter>
+    <button nz-button nzType="default" *ngIf="showconfirm == false" [nzLoading]="checkPasswordLoading"
+      (click)="checkpass()">
+      Check
+    </button>
+
+    <button nz-button nzType="default" *ngIf="showconfirm == true" [nzLoading]="resetPasswordLoading"
+      (click)="confpass()">
+      Reset
+    </button>
+  </ng-template>
+</nz-modal>

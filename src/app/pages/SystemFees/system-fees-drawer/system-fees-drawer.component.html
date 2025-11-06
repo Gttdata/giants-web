@@ -1,0 +1,213 @@
+<div>
+    <div class="header1">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <div class="header2">
+        <nz-select name="year" nzShowSearch nzAllowClear style="width: 200px;" nzPlaceHolder="Select Year"
+            [(ngModel)]="data.YEAR_ID">
+            <nz-option *ngFor="let year of YearData;" [nzValue]="year.ID" [nzLabel]="year.NAME">
+            </nz-option>
+        </nz-select>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row>
+                <nz-form-label align="left" nzRequired nzNoColon>
+                    System Fee
+                </nz-form-label>
+            </div>
+
+            <div class="my-box" nz-row type="flex">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>International</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="International is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter International" autocomplete="off"
+                                maxlength="10" name="International1" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.INT_FEE" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Federation</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Federation is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Federation" autocomplete="off"
+                                maxlength="10" name="Federation1" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.FED_FEE" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Group</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Group is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Group" autocomplete="off"
+                                maxlength="10" name="Group1" (keypress)="numberOnly($event)" [(ngModel)]="data.GR_FEE"
+                                required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <nz-form-label align="left" nzRequired nzNoColon>
+                    Email Count
+                </nz-form-label>
+            </div>
+
+            <div class="my-box" nz-row type="flex">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>International</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="International is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter International" autocomplete="off"
+                                maxlength="10" name="International2" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.INT_EMAIL" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Federation</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Federation is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Federation" autocomplete="off"
+                                maxlength="10" name="Federation2" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.FED_EMAIL" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Group </nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Group is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Group" autocomplete="off"
+                                maxlength="10" name="Group2" (keypress)="numberOnly($event)" [(ngModel)]="data.GR_EMAIL"
+                                required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <nz-form-label align="left" nzRequired nzNoColon>
+                    WhatsApp Count
+                </nz-form-label>
+            </div>
+
+            <div class="my-box" nz-row type="flex">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>International</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="International is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter International" autocomplete="off"
+                                maxlength="10" name="International3" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.INT_WA" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Federation</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Federation is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Federation" autocomplete="off"
+                                maxlength="10" name="Federation3" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.FED_WA" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Group</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Group is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Group" autocomplete="off"
+                                maxlength="10" name="Group3" (keypress)="numberOnly($event)" [(ngModel)]="data.GR_WA"
+                                required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <nz-form-label align="left" nzRequired nzNoColon>
+                    SMS Count
+                </nz-form-label>
+            </div>
+
+            <div class="my-box" nz-row type="flex">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>International</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="International is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter International" autocomplete="off"
+                                maxlength="10" maxlength="10" name="International4" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.INT_SMS" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Federation</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Federation is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Federation" autocomplete="off"
+                                maxlength="10" name="Federation4" (keypress)="numberOnly($event)"
+                                [(ngModel)]="data.FED_SMS" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Group</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Group is required">
+                            <input style="width: 90%;" nz-input placeholder="Enter Group" autocomplete="off"
+                                maxlength="10" name="Group4" (keypress)="numberOnly($event)" [(ngModel)]="data.GR_SMS"
+                                required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button *ngIf="data.ID" [nzLoading]="isSpinning"
+            (click)="save(false)">
+
+            <span>Update & close</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" [nzLoading]="isSpinning" nz-button
+            (click)="save(false,myForm)">
+
+            <span>Submit & Close</span>
+        </button>
+    </div>
+</div>

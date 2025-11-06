@@ -1,0 +1,286 @@
+<div class="header">
+    <button nz-button nzType="default" style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+        (click)="add()">
+        <i nz-icon nzType="plus"></i>
+        Create
+    </button>
+</div>
+
+<div style="margin-bottom: 10px;">
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="search" nz-input placeholder="Search Records" (keydown.enter)="search(true)"
+                    [(ngModel)]="searchText" />
+            </nz-input-group>
+
+            <ng-template #suffixIconButton>
+                <button nz-button id="button1" nzType="primary" (click)="search(true)" nzSearch>
+                    <i nz-icon nzType="search"></i>
+                </button>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<div id="activityItem" style="height: 75vh; overflow-y: auto;">
+    <div nz-row>
+        <div nz-col nzXs="22" nzSm="22" nzMd="0" nzLg="0" nzXl="0" *ngFor="let data of data_List; let i = index;"
+            style="border-radius: 8px; background-color: rgb(249, 247, 247); padding: 10px; margin: 5px; overflow: auto; height: 250px; width: 95%">
+            <div nz-row *ngIf="data.USER_ID == userID">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div class="edit">
+                        <i nz-icon nzType="edit" nzTheme="twotone" (click)="edit(data)"></i>
+                    </div>
+
+                    <div class="edit1">
+                        <i nz-icon nzType="delete" nzTheme="outline" style="color: red;" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure, delete this scheduler?" (nzOnConfirm)="confirm(data)"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft">
+                        </i>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="font-size: 13px; text-align: left; color: black;">
+                        <span style="font-weight: bold;">
+                            Email(s)
+                        </span>
+
+                        <ul *ngFor="let mail of data.EMAIL.split(',')" style="font-size: 12px;">
+                            <li style="font-size: 10px; margin-bottom: 0px;">
+                                {{mail}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="font-size: 13px; text-align: left; color: black;">
+                        <span style="font-weight: bold;">
+                            Timing
+                        </span>
+
+                        <span *ngFor="let time of data.TIMEING.split(',')"
+                            style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+
+                            <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px">
+                                <span> {{ date_time(time) }} </span>
+                            </nz-tag>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="font-size: 13px; text-align: left; color: black;">
+                        <span style="font-weight: bold;">
+                            Schedule
+                        </span>
+
+                        <span style="font-size: 12px; margin-bottom: 0px; margin-left: 10px; margin-right: 10px;">
+                            <span *ngIf="data.SCHEDULE == 'D'">Daliy</span>
+                            <span *ngIf="data.SCHEDULE == 'E'">Every Week</span>
+                            <span *ngIf="data.SCHEDULE == 'M'">Monthly Date's</span>
+                            <span *ngIf="data.SCHEDULE == 'Y'">Yearly</span>
+                            <span *ngIf="data.SCHEDULE == 'C'">Custom Date</span>
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'E'">
+                            <span *ngFor="let week of data.EVERY_WEEK.split(',')"
+                                style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==0">Monday</nz-tag>
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==1">Tuesday</nz-tag>
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==2">Wednesday</nz-tag>
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==3">Thursday</nz-tag>
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==4">Friday</nz-tag>
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==5">Saturday</nz-tag>
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px"
+                                    *ngIf="week==6">Sunday</nz-tag>
+                            </span>
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'M'">
+                            <span *ngFor="let month of data.MONTH.split(',')"
+                                style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px">{{month}}
+                                </nz-tag>
+                            </span>
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'Y'">
+                            <span *ngFor="let year of data.YEAR.split(',')"
+                                style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false"
+                                    style="margin-bottom: 3px">{{year}}</nz-tag>
+                            </span>
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'C'">
+                            <span style="font-size: 12px; margin-bottom: 0px; margin-left: 10px; margin-right: 10px;">
+                                {{data.CUSTOM_DATE | date:'dd-MM-yyyy' }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzXs="0" nzSm="0" nzMd="11" nzLg="11" nzXl="11" *ngFor="let data of data_List; let i = index;"
+            style="border-radius: 8px; background-color: rgb(241, 227, 227); padding: 10px; margin-top: 5px; margin-left: 10px; margin-bottom: 5px; overflow: auto; height: 250px; width: 47%">
+            <div nz-row *ngIf="data.USER_ID == userID">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div class="edit">
+                        <i nz-icon nzType="edit" nzTheme="twotone" (click)="edit(data)"></i>
+                    </div>
+
+                    <div class="edit1">
+                        <i nz-icon nzType="delete" nzTheme="outline" style="color: red;" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure, delete this scheduler?" (nzOnConfirm)="confirm(data)"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft">
+                        </i>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="font-size: 13px; text-align: left; color: black;">
+                        <span style=" font-weight: bold;">
+                            Email(s)
+                        </span>
+
+                        <ul *ngFor="let mail of data.EMAIL.split(',')" style="font-size: 12px; margin-bottom: 0px;">
+                            <li style="font-size: 10px;">
+                                {{mail}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="font-size: 13px; text-align: left; color: black;">
+                        <span style=" font-weight: bold;">
+                            Timing
+                        </span>
+
+                        <span *ngFor="let time of data.TIMEING.split(',')"
+                            style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+
+                            <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false" style="margin-bottom: 3px">{{
+                                date_time(time) }}
+                            </nz-tag>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="font-size: 13px; text-align: left; color: black;">
+                        <div nz-row style="font-size: 12px; margin-bottom: 0px; margin-right: 10px;">
+                            <div nz-col nzXs="22" nzSm="22" nzMd="22" nzLg="22" nzXl="22" *ngIf="data.SCHEDULE=='D'">
+                                <b>Schedule</b>&nbsp;Daliy
+                            </div>
+
+                            <div nz-col nzXs="22" nzSm="22" nzMd="22" nzLg="22" nzXl="22" *ngIf="data.SCHEDULE=='E'">
+                                <b>Schedule</b>&nbsp;Every Week
+                            </div>
+
+                            <div nz-col nzXs="22" nzSm="22" nzMd="22" nzLg="22" nzXl="22" *ngIf="data.SCHEDULE=='M'">
+                                <b>Schedule</b>&nbsp;Monthly Date's
+                            </div>
+
+                            <div nz-col nzXs="22" nzSm="22" nzMd="22" nzLg="22" nzXl="22" *ngIf="data.SCHEDULE=='Y'">
+                                <b>Schedule</b>&nbsp;Yearly
+                            </div>
+
+                            <div nz-col nzXs="22" nzSm="22" nzMd="22" nzLg="22" nzXl="22" *ngIf="data.SCHEDULE=='C'">
+                                <b>Schedule</b>&nbsp;Custom Date
+                            </div>
+                        </div>
+
+                        <span *ngIf="data.SCHEDULE == 'E'">
+                            <span *ngFor="let week of data.EVERY_WEEK.split(',')"
+                                style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false"
+                                    style="margin-bottom: 3px">{{week}}</nz-tag>
+                            </span>
+
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'M'">
+                            <span *ngFor="let month of data.MONTH.split(',')"
+                                style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false"
+                                    style="margin-bottom: 3px">{{month}}</nz-tag>
+                            </span>
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'Y'">
+                            <span *ngFor="let year of data.YEAR.split(',')"
+                                style="font-size: 12px; margin-bottom: 3px; margin-left: 10px;">
+
+                                <nz-tag [nzColor]="'#ff7a7a'" [nzChecked]="false"
+                                    style="margin-bottom: 3px">{{year}}</nz-tag>
+                            </span>
+                        </span>
+
+                        <span *ngIf="data.SCHEDULE == 'C'">
+                            <span style="font-size: 12px; margin-bottom: 0px; margin-left: 10px; margin-right: 10px;">
+                                {{data.CUSTOM_DATE | date:'dd-MM-yyyy' }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="data_List.length == 0" style="margin-top: 20px">
+        <nz-empty
+            [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+            [nzNotFoundContent]="contentTpl">
+        </nz-empty>
+
+        <ng-template #contentTpl>
+            <span>No data available.</span>
+        </ng-template>
+    </div>
+
+    <div>
+        <nz-spin [nzSpinning]="loadingRecords2" style="margin: 20px auto 0px;">
+        </nz-spin>
+    </div>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+        <span>Close</span>
+    </button>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+    <app-schedule-report-create [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"
+        [dataReport]="dataReport">
+    </app-schedule-report-create>
+</nz-drawer>

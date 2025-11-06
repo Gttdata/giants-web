@@ -1,0 +1,47 @@
+<div>
+    <form nz-form #rportform="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row>
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                        <nz-form-label>Report Name</nz-form-label>
+
+                        <nz-form-control nzHasFeedback nzErrorTip="Please Enter Report Name">
+                            <input maxlength="64" nz-input name="rname" (keypress)="alphaOnly($event)"
+                                [pattern]="namepatt" [(ngModel)]="data.REPORT_NAME" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-label nzNoColon>Is Active</nz-form-label><br>
+
+                    <nz-switch [(ngModel)]="data.STATUS" name="status">
+                    </nz-switch>
+                </div>
+
+                <div nz-col nzSpan="4">
+                    <nz-form-label>Sequence</nz-form-label>
+
+                    <input nz-input placeholder="Enter Unit Council Count" name="seq_id" type='number'
+                        [(ngModel)]="data.SEQ_NO" maxlength="5" required />
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button (click)="save()">
+            <span>Save & Close</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+            (click)="save()">
+            <span>Update & Close</span>
+        </button>
+    </div>
+</div>

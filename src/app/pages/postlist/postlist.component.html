@@ -1,0 +1,1185 @@
+<nz-spin [nzSpinning]='loadingRecords'>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8" style="text-align: center;">
+                <button nz-button nzType="default"
+                    style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" (click)="add()">
+                    <i nz-icon nzType="plus"></i>
+                    Create
+                </button>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8" style="text-align: right;">
+                <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
+                    <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+                        (keydown.enter)="addSearchTextForSearching(searchText)" [(ngModel)]="searchText" />
+                </nz-input-group>
+
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+
+                <ng-template #suffixIcon>
+                    <i nz-icon nzType="filter" nzTheme="outline" (click)="openAdvanceFilter()"
+                        nzTooltipTitle="Advance Filter" nzTooltipPlacement="top" nz-tooltip>
+                    </i>
+                </ng-template>
+            </div>
+
+            <div nz-col nzXs="8" nzSm="8" nzMd="0" nzLg="0" nzXl="0">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+
+            <div nz-col nzXs="16" nzSm="16" nzMd="0" nzLg="0" nzXl="0" style="text-align: right;">
+                <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
+                    <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+                        (keydown.enter)="addSearchTextForSearching(searchText)" [(ngModel)]="searchText" />
+                </nz-input-group>
+
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+
+                <ng-template #suffixIcon>
+                    <i nz-icon nzType="filter" nzTheme="outline" (click)="openAdvanceFilter()"
+                        nzTooltipTitle="Advance Filter" nzTooltipPlacement="top" nz-tooltip>
+                    </i>
+                </ng-template>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                <div style="text-align: center; padding-top: 10px;">
+                    <button nz-button nzType="default"
+                        style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" (click)="add()">
+                        <i nz-icon nzType="plus"></i>
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="advanceFilterModalVisible"
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div style="max-height: 310px; overflow: auto;">
+            <div nz-row>
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>From Date</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-date-picker name="fromDate" nzFormat="dd/MM/yyyy"
+                                (ngModelChange)="onFromDateChange($event)" [(ngModel)]="ADVANCE_FILTER_FROM_DATE">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>To Date</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-date-picker name="toDate" [nzDisabledDate]="disabledToDate" nzFormat="dd/MM/yyyy"
+                                [(ngModel)]="ADVANCE_FILTER_TO_DATE">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Federation(s)</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="federation" [nzMaxTagCount]="3" nzShowSearch nzMode="multiple" nzAllowClear
+                                style="width: 100%" nzPlaceHolder="Select Federation(s)" [(ngModel)]="FEDERATION_ID">
+
+                                <nz-option *ngFor="let federation of federations;" [nzValue]="federation.NAME"
+                                    [nzLabel]="federation.NAME">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Unit(s)</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="unit" [nzMaxTagCount]="3" [nzSuffixIcon]="suffixIcon" nzShowSearch
+                                nzServerSearch nzMode="multiple" nzAllowClear style="width: 100%"
+                                nzPlaceHolder="Type here to search" [(ngModel)]="UNIT_ID"
+                                (nzOnSearch)="getUnits($event)">
+
+                                <nz-option nzCustomContent *ngFor="let unit of units;" [nzValue]="unit.NAME"
+                                    [nzLabel]="unit.NAME">
+                                    <div nz-row>
+                                        <div nz-col nzSpan="24">
+                                            {{unit.NAME}}
+                                        </div>
+
+                                        <div nz-col nzSpan="24">
+                                            <div style="font-size: 10px; color: gray;">
+                                                <i nz-icon nzType="global" nzTheme="outline" style="color: #ff8d73;">
+                                                </i>
+
+                                                {{unit.FEDERATION_NAME}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-option>
+                            </nz-select>
+
+                            <ng-template #suffixIcon>
+                                <div style="cursor: pointer;">
+                                    <span nz-popover nzPopoverTitle="Info" [nzPopoverContent]="contentTemplate"
+                                        nzPopoverPlacement="top"
+                                        style="font-size: 17px; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">
+                                        i
+                                    </span>
+                                </div>
+
+                                <ng-template #contentTemplate>
+                                    <div>
+                                        <p>Enter at least three characters to search</p>
+                                    </div>
+                                </ng-template>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Group(s)</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="group" [nzMaxTagCount]="3" [nzSuffixIcon]="suffixIcon" nzShowSearch
+                                nzServerSearch nzMode="multiple" nzAllowClear style="width: 100%"
+                                nzPlaceHolder="Type here to search" [(ngModel)]="GROUP_ID"
+                                (nzOnSearch)="getGroups($event)">
+
+                                <nz-option nzCustomContent *ngFor="let group of groups;" [nzValue]="group.NAME"
+                                    [nzLabel]="group.NAME">
+                                    <div nz-row>
+                                        <div nz-col nzSpan="24">
+                                            {{group.NAME}}
+                                        </div>
+
+                                        <div nz-col nzSpan="24">
+                                            <div style="font-size: 10px; color: gray;">
+                                                <i nz-icon nzType="global" nzTheme="outline" style="color: #ff8d73;">
+                                                </i>
+
+                                                {{group.FEDERATION_NAME}}
+                                            </div>
+                                        </div>
+
+                                        <div nz-col nzSpan="24">
+                                            <div style="font-size: 10px; color: gray;">
+                                                <i nz-icon nzType="deployment-unit" nzTheme="outline"
+                                                    style="color: #ff8d73;">
+                                                </i>
+
+                                                {{group.UNIT_NAME}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-option>
+                            </nz-select>
+
+                            <ng-template #suffixIcon>
+                                <div style="cursor: pointer;">
+                                    <span nz-popover nzPopoverTitle="Info" [nzPopoverContent]="contentTemplate"
+                                        nzPopoverPlacement="top"
+                                        style="font-size: 17px; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">
+                                        i
+                                    </span>
+                                </div>
+
+                                <ng-template #contentTemplate>
+                                    <div>
+                                        <p>Enter at least three characters to search</p>
+                                    </div>
+                                </ng-template>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Post Created By</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="memberName" [nzMaxTagCount]="3" [nzSuffixIcon]="suffixIcon" nzShowSearch
+                                nzServerSearch nzMode="multiple" nzAllowClear style="width: 100%"
+                                nzPlaceHolder="Type here to search" [(ngModel)]="MEMBER_ID"
+                                (nzOnSearch)="onMemberSearch($event)">
+
+                                <nz-option *ngFor="let member of members;" [nzValue]="member.NAME"
+                                    [nzLabel]="member.NAME">
+                                </nz-option>
+                            </nz-select>
+
+                            <ng-template #suffixIcon>
+                                <div style="cursor: pointer;">
+                                    <span nz-popover nzPopoverTitle="Info" [nzPopoverContent]="contentTemplate"
+                                        nzPopoverPlacement="top"
+                                        style="font-size: 17px; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">
+                                        i
+                                    </span>
+                                </div>
+
+                                <ng-template #contentTemplate>
+                                    <div>
+                                        <p>Enter at least three characters to search</p>
+                                    </div>
+                                </ng-template>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Hashtag(s)</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="hashTag" [nzMaxTagCount]="3" [nzSuffixIcon]="suffixIcon" nzShowSearch
+                                nzAllowClear nzMode="tags" style="width: 100%" nzPlaceHolder="Type here to search"
+                                [(ngModel)]="HASHTAGS">
+
+                                <nz-option *ngFor="let hashtag of hashtags;" [nzValue]="hashtag.NAME"
+                                    [nzLabel]="hashtag.NAME">
+                                </nz-option>
+                            </nz-select>
+
+                            <ng-template #suffixIcon>
+                                <div style="cursor: pointer;">
+                                    <span nz-popover nzPopoverTitle="Info" [nzPopoverContent]="contentTemplate"
+                                        nzPopoverPlacement="top"
+                                        style="font-size: 17px; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">
+                                        i
+                                    </span>
+                                </div>
+
+                                <ng-template #contentTemplate>
+                                    <div>
+                                        <p>Enter at least three characters to search</p>
+                                    </div>
+                                </ng-template>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: right;">
+                    <button nz-button
+                        style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin-right: 3px;"
+                        nzType="default" (click)="advanceFilterModalCancel()">
+                        Cancel
+                    </button>
+
+                    <button nz-button
+                        style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin-right: 3px;"
+                        nzType="default" (click)="clearAdvanceFilter()">
+                        Clear
+                    </button>
+
+                    <button nz-button
+                        style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin-right: 3px;"
+                        nzType="default" (click)="advanceFilterModalOk()">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="(multipleSearchText.length > 0) || (advanceMultipleSearchText.length > 0) || (advanceMultiplePostCreatedBy.length > 0) || (advanceMultipleFederationNames.length > 0) || (advanceMultipleUnitNames.length > 0) || (advanceMultipleGroupNames.length > 0) || (advanceMultipleHashtags.length > 0)"
+        style="height: 7vh; overflow-y: auto; border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="padding: 3px 0px 3px 0px;">
+                    <span *ngIf="multipleSearchText.length > 0">
+                        <span *ngFor="let text of multipleSearchText; let i = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable" (nzOnClose)="onClose(i)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultipleSearchText.length > 0">
+                        <span *ngFor="let text of advanceMultipleSearchText; let j = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable" (nzOnClose)="onAdvanceFilterTagClose(j)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultiplePostCreatedBy.length > 0">
+                        <span *ngFor="let text of advanceMultiplePostCreatedBy; let k = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable"
+                                (nzOnClose)="onAdvanceFilterPostCreatedByTagClose(k)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultipleFederationNames.length > 0">
+                        <span *ngFor="let text of advanceMultipleFederationNames; let l = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable"
+                                (nzOnClose)="onAdvanceFilterFederationNamesTagClose(l)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultipleUnitNames.length > 0">
+                        <span *ngFor="let text of advanceMultipleUnitNames; let m = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable"
+                                (nzOnClose)="onAdvanceFilterUnitNamesTagClose(m)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultipleGroupNames.length > 0">
+                        <span *ngFor="let text of advanceMultipleGroupNames; let n = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable"
+                                (nzOnClose)="onAdvanceFilterGroupNamesTagClose(n)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultipleHashtags.length > 0">
+                        <span *ngFor="let text of advanceMultipleHashtags; let o = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable"
+                                (nzOnClose)="onAdvanceFilterHashtagTagClose(o)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!advanceFilterModalVisible" id="activityItem" [ngStyle]="{ height: getHeigth() }"
+        style="overflow-y: auto; padding: 10px;" (scroll)="onScroll($event)">
+        <div id="top"></div>
+
+        <div *ngIf="dataList.length > 0">
+            <div *ngFor="let activity of dataList; let i = index;"
+                style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+                <div nz-row>
+                    <div nz-col nzXs="5" nzSm="5" nzMd="2" nzLg="2" nzXl="2">
+                        <img style="width: 50px; height: 50px; border-radius: 50%"
+                            [src]="getProfilePhoto(activity.CREATER_MEMBER_PROFILE)" alt="user">
+                    </div>
+
+                    <div nz-col nzXs="19" nzSm="19" nzMd="22" nzLg="22" nzXl="22">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="16" nzLg="16" nzXl="16">
+                                <span style="cursor: pointer;"
+                                    (click)="onMemberNameClick(activity['CREATER_MEMBER_NAME'],activity['MEMBER_ID'])">
+                                    <b style="color: #000102;">
+                                        {{activity['CREATER_MEMBER_NAME']}}
+                                    </b>
+                                </span>
+                            </div>
+
+                            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8"
+                                style="font-size: 10px; text-align: right;">
+                                <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></span>
+                                {{activity['POST_CREATED_DATETIME'] | date:'dd MMM yyyy, hh:mm a'}}
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0" style="font-size: 10px;">
+                                <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></span>
+                                {{activity['POST_CREATED_DATETIME'] | date:'dd MMM yyyy, hh:mm a'}}
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                style="font-size: 10px; font-weight: bold; color: #ff7a7a">
+                                <span>{{activity['ROLE_NAME']}}</span>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                *ngIf="activity['GROUP_ID'] != 0" style="font-size: 10px;">
+                                Home Group :
+                                <span style="cursor: pointer;" (click)="openGroupDetailsModal(activity['GROUP_ID'])">
+                                    {{activity['HOME_GROUP_NAME']}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <span *ngIf="(activity['POST_CREATED_MEMBER_ID'] != null) && (activity['POST_CREATED_MEMBER_ID'] != 0)">
+                    <div nz-row style="padding: 5px;">
+                        <div nz-col nzXs="5" nzSm="5" nzMd="3" nzLg="2" nzXl="2">
+                            <img style="width: 40px; height: 40px; border-radius: 50%"
+                                [src]="getProfilePhoto(activity.POST_CREATED_PROFILE_IMAGE)" alt="user">
+                        </div>
+
+                        <div nz-col nzXs="17" nzSm="17" nzMd="21" nzLg="22" nzXl="22">
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="16" nzLg="16" nzXl="16">
+                                    <span style="cursor: pointer; font-size: 12px; color: #000102;"
+                                        (click)="onMemberNameClick(activity['POST_CREATED_MEMBER_NAME'],activity['POST_CREATED_MEMBER_ID'])">
+                                        <b>{{activity['POST_CREATED_MEMBER_NAME']}}</b>
+                                    </span>
+                                </div>
+
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                    style="font-size: 8px; font-weight: bold; color: #ff7a7a">
+                                    <span>{{activity['POST_CREATED_MEMBER_ROLE']}}</span>
+                                </div>
+
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                    *ngIf="activity['POST_CREATED_GROUP_ID'] != 0" style="font-size: 8px;">
+                                    Home Group :
+                                    <span style="cursor: pointer;"
+                                        (click)="openGroupDetailsModal(activity['POST_CREATED_GROUP_ID'])">
+                                        {{activity['POST_CREATED_HOME_GROUP']}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+
+                <nz-divider></nz-divider>
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                        [ngStyle]="{'max-height': expandDescription[i] ? 'fit-content' : '76px'}"
+                        style="word-break: break-all; font-size: 12px; text-align: justify; overflow: hidden;">
+
+                        <div [innerHTML]="activity.DESCRIPTION"></div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: right"
+                        *ngIf="(activity.DESCRIPTION != undefined) && (activity.DESCRIPTION.length > 299) && (!expandDescription[i])">
+                        <a (click)="getHeightOfDescription(i)">
+                            <span style="font-size: 10px;">
+                                Read More
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24" *ngIf="(activity.IMAGE_URL1 != ' ')">
+                        <div style="padding: 5px;" *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 2">
+                            <div nz-row>
+                                <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                                    <div style="text-align: center; height: 50vh; padding: 1px; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+
+                                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                                    <div nz-row>
+                                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                            <div style="text-align: center; height: 25vh; padding: 1px; cursor: pointer;"
+                                                (click)="identifyClickOrDoubleClick(activity,i)">
+                                                <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
+
+                                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                            <div style="text-align: center; height: 25vh; padding: 1px; cursor: pointer;"
+                                                (click)="identifyClickOrDoubleClick(activity,i)">
+                                                <img [src]="getPhotoURL(activity.IMAGE_URL3,activity.IS_EVENT_POST)"
+                                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 5px;" *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 1">
+                            <div nz-row>
+                                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                    <div style="text-align: center; height: 40vh; padding: 1px; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+
+                                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                    <div style="text-align: center; height: 40vh; padding: 1px; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 5px;" *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 0">
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <div style="text-align: center; height: 50vh; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: contain;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0" *ngIf="(activity.IMAGE_URL1 != ' ')">
+                        <div style="padding: 5px;" *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 2">
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <div style="text-align: center; height: 25vh; padding: 1px; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <div nz-row>
+                                        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                            <div style="text-align: center; height: 15vh; padding: 1px; cursor: pointer;"
+                                                (click)="identifyClickOrDoubleClick(activity,i)">
+                                                <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
+
+                                        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                            <div style="text-align: center; height: 15vh; padding: 1px; cursor: pointer;"
+                                                (click)="identifyClickOrDoubleClick(activity,i)">
+                                                <img [src]="getPhotoURL(activity.IMAGE_URL3,activity.IS_EVENT_POST)"
+                                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 5px;" *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 1">
+                            <div nz-row>
+                                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                    <div style="text-align: center; height: 20vh; padding: 1px; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+
+                                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                    <div style="text-align: center; height: 20vh; padding: 1px; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 5px;" *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 0">
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <div style="text-align: center; height: 50vh; cursor: pointer;"
+                                        (click)="identifyClickOrDoubleClick(activity,i)">
+                                        <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                            style="width: 100%; height: 100%; object-fit: contain;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="(activity.HASHTAGS != null) && (activity.HASHTAGS != '')">
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="text-align: justify;">
+                            <span *ngFor="let tag of activity.HASHTAGS.split(',');">
+                                <span style="cursor: pointer; color: #1890ff; font-size: 10px;"
+                                    (click)="onHashtagClick(tag)">
+                                    #{{tag}}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <nz-divider></nz-divider>
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <span style="padding: 3px;">
+                            <svg style="cursor: pointer;" *ngIf="activity.LIKE_STATUS != 1" nzTooltipTitle="Like"
+                                nzTooltipPlacement="top" nz-tooltip
+                                (click)="likeTheButton(activity.ID,i,activity.LIKE_STATUS)"
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 21 16">
+                                <path id="Icon_feather-heart" data-name="Icon feather-heart"
+                                    d="M20.781,6.089a5.148,5.148,0,0,0-7.444,0L12.323,7.135,11.309,6.089a5.149,5.149,0,0,0-7.444,0,5.555,5.555,0,0,0,0,7.681l1.014,1.047L12.323,22.5l7.444-7.681,1.014-1.047a5.553,5.553,0,0,0,0-7.681Z"
+                                    transform="translate(-1.823 -3.997)" fill="#fff" stroke="#707070"
+                                    stroke-width="1" />
+                            </svg>
+
+                            <svg style="cursor: pointer;" *ngIf="activity.LIKE_STATUS == 1" nzTooltipTitle="Unlike"
+                                nzTooltipPlacement="top" nz-tooltip
+                                (click)="likeTheButton(activity.ID,i,activity.LIKE_STATUS)"
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 21 16">
+                                <path id="Icon_feather-heart" data-name="Icon feather-heart"
+                                    d="M20.781,6.089a5.148,5.148,0,0,0-7.444,0L12.323,7.135,11.309,6.089a5.149,5.149,0,0,0-7.444,0,5.555,5.555,0,0,0,0,7.681l1.014,1.047L12.323,22.5l7.444-7.681,1.014-1.047a5.553,5.553,0,0,0,0-7.681Z"
+                                    transform="translate(-1.823 -3.997)" fill="#f0304e" stroke="#f0304e"
+                                    stroke-width="1" />
+                            </svg>
+
+                            <span style="font-size: 20px; margin-left: 5px; cursor: pointer;"
+                                (click)="like(activity.ID)" nzTooltipTitle="View Likes" nzTooltipPlacement="top"
+                                nz-tooltip>
+                                {{activity.LIKE_COUNT}}
+                            </span>
+                        </span>
+
+                        <span style="cursor: pointer; padding: 3px;" nzTooltipTitle="Comments" nzTooltipPlacement="top"
+                            nz-tooltip (click)="addComment(activity.ID,i)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 35 25">
+                                <path id="Icon_awesome-comment-alt" data-name="Icon awesome-comment-alt"
+                                    d="M26.25,0H3.75A3.753,3.753,0,0,0,0,3.75V20.625a3.753,3.753,0,0,0,3.75,3.75H9.375V29.3a.7.7,0,0,0,1.119.568l7.318-5.49H26.25A3.753,3.753,0,0,0,30,20.625V3.75A3.753,3.753,0,0,0,26.25,0Z"
+                                    transform="translate(0.5 0.5)" fill="#fff" stroke="#707070" stroke-width="1" />
+                            </svg>
+
+                            <span style="font-size: 20px; margin-left: 5px;">
+                                {{activity.COMMENT_COUNT}}
+                            </span>
+                        </span>
+
+                        <span style="cursor: pointer; padding: 3px;" nzTooltipTitle="Share" nzTooltipPlacement="top"
+                            nz-tooltip (click)="showMsg(activity)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 31 22">
+                                <path id="Icon_ionic-md-share-alt" data-name="Icon ionic-md-share-alt"
+                                    d="M33.75,17.5,21.25,5.625v6.667c-11.667,1.667-15.833,10-17.5,18.333,4.167-5.833,9.167-8.5,17.5-8.5v6.834Z"
+                                    transform="translate(-3.26 -4.46)" fill="#fff" stroke="#707070" stroke-width="1" />
+                            </svg>
+                        </span>
+
+                        <span
+                            style="cursor: pointer; padding: 3px 0px 3px 0px; float: right; text-align: center; height: 30px; width: 30px; border-radius: 50%; background-color: #f0f2f5;"
+                            *ngIf="activity.MEMBER_ID == userID">
+                            <a nz-dropdown [nzDropdownMenu]="menu">
+                                <i nz-icon nzType="more" nzTheme="outline"
+                                    style="color: black; font-size: 21px; padding: 2px;">
+                                </i>
+                            </a>
+
+                            <nz-dropdown-menu #menu="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure publish this post?"
+                                        (nzOnConfirm)="publishPost(activity)" (nzOnCancel)="cancel()"
+                                        nzPopconfirmPlacement="topLeft" style="color: blue;"
+                                        *ngIf="activity.POST_STATUS == 'D'">
+                                        Publish Post
+                                    </li>
+
+                                    <li nz-menu-item (click)="edit(activity)" style="color: green;"
+                                        *ngIf="activity.POST_STATUS == 'D'">
+                                        Edit Post
+                                    </li>
+
+                                    <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure delete this Post?"
+                                        (nzOnConfirm)="DeletePost(activity)" (nzOnCancel)="cancel()"
+                                        nzPopconfirmPlacement="topLeft" style="color: red;">
+                                        Delete Post
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </span>
+
+                        <span style="padding: 3px; float: right;" *ngIf="activity.POST_STATUS == 'D'">
+                            <span style="font-size: 10px; color: green;">
+                                In Draft Mode
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="dataList.length == 0" style="margin-top: 20px;">
+            <nz-empty
+                [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                [nzNotFoundContent]="contentTpl">
+            </nz-empty>
+
+            <ng-template #contentTpl>
+                <span>No data available.</span>
+            </ng-template>
+        </div>
+    </div>
+</nz-spin>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+    <app-addpost [drawerClose]="closeCallback" [data]="drawerData">
+    </app-addpost>
+</nz-drawer>
+
+<!-- Post details drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible2"
+    [nzTitle]="drawerTitle2" (nzOnClose)="drawerClose2()" (nzKeyboard)="true">
+
+    <div *ngIf="(dataList.length > 0) && (selectedIndex > -1)">
+        <div nz-row>
+            <div nz-col nzXs="5" nzSm="5" nzMd="2" nzLg="2" nzXl="2">
+                <img style="width: 50px; height: 50px; border-radius: 50%"
+                    [src]="getProfilePhoto(dataList[selectedIndex].CREATER_MEMBER_PROFILE)" alt="user">
+            </div>
+
+            <div nz-col nzXs="19" nzSm="19" nzMd="22" nzLg="22" nzXl="22">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <b style="color: #000102;">
+                            {{dataList[selectedIndex]['CREATER_MEMBER_NAME']}}
+                        </b>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                        style="font-size: 10px; font-weight: bold; color: #ff7a7a">
+                        <span>{{dataList[selectedIndex]['ROLE_NAME']}}</span>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="font-size: 10px;">
+                        <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></span>
+                        {{dataList[selectedIndex]['POST_CREATED_DATETIME'] | date:'dd MMM yyyy, hh:mm a'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="font-size: 12px; margin-top: 10px; text-align: justify;">
+                    <div [innerHTML]="dataList[selectedIndex].DESCRIPTION"></div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-row style="text-align: center;">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="padding: 5px;"
+                *ngIf="(dataList[selectedIndex].IMAGE_URL1 != ' ')">
+                <div style="max-height: 60vh; overflow: auto;">
+                    <img [src]="getPhotoURL(dataList[selectedIndex].IMAGE_URL1,dataList[selectedIndex].IS_EVENT_POST)"
+                        style="width: 100%; object-fit: contain;" mouseWheel [style.max-width.vh]="imgWidth1"
+                        [style.max-height.vh]="imgWidth1" (mouseWheelUp)="mouseWheelUpFunc1()"
+                        (mouseWheelDown)="mouseWheelDownFunc1()">
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="padding: 5px;"
+                *ngIf="(dataList[selectedIndex].IMAGE_URL2 != ' ')">
+                <div style="max-height: 60vh; overflow: auto;">
+                    <img [src]="getPhotoURL(dataList[selectedIndex].IMAGE_URL2,dataList[selectedIndex].IS_EVENT_POST)"
+                        style="width: 100%; object-fit: contain;" mouseWheel [style.max-width.vh]="imgWidth2"
+                        [style.max-height.vh]="imgWidth2" (mouseWheelUp)="mouseWheelUpFunc2()"
+                        (mouseWheelDown)="mouseWheelDownFunc2()">
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="padding: 5px;"
+                *ngIf="(dataList[selectedIndex].IMAGE_URL3 != ' ')">
+                <div style="max-height: 60vh; overflow: auto;">
+                    <img [src]="getPhotoURL(dataList[selectedIndex].IMAGE_URL3,dataList[selectedIndex].IS_EVENT_POST)"
+                        style="width: 100%; object-fit: contain;" mouseWheel [style.max-width.vh]="imgWidth3"
+                        [style.max-height.vh]="imgWidth3" (mouseWheelUp)="mouseWheelUpFunc3()"
+                        (mouseWheelDown)="mouseWheelDownFunc3()">
+                </div>
+            </div>
+        </div>
+
+        <div nz-row *ngIf="(dataList[selectedIndex].HASHTAGS != null) && (dataList[selectedIndex].HASHTAGS != '')">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="margin-top: 5px; text-align: justify;">
+                    <span *ngFor="let tag of dataList[selectedIndex].HASHTAGS.split(',')">
+                        <span style="color: #1890ff; font-size: 10px;">
+                            #{{tag}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="drawerClose2()" class="ant-btn">
+            <span>Close</span>
+        </button>
+    </div>
+</nz-drawer>
+
+<!-- Post images modal -->
+<nz-modal nzWidth="1000px" [nzBodyStyle]="{height : '440px'}" [(nzVisible)]="photoModalVisible" [nzTitle]="'Photos'"
+    [nzContent]="photoModalContent" [nzFooter]="photoModalFooter" (nzOnCancel)="photoModalCancel()" nzClosable="false">
+
+    <ng-template #photoModalContent>
+        <div style="overflow-y: auto; height: 400px;">
+            <form nz-form #myFormPhotoView="ngForm">
+                <div nz-row *ngIf="(IMAGE_URL1 != '')">
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div style="text-align: center;">
+                            <img [src]="IMAGE_URL1" (click)="viewPhoto(IMAGE_URL1)" height="150px"
+                                style=" cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="(IMAGE_URL2 != '')">
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div style="text-align: center;">
+                            <img [src]="IMAGE_URL2" (click)="viewPhoto(IMAGE_URL2)" height="150px" width="250px"
+                                style=" cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="(IMAGE_URL3 != '')">
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div style="text-align: center;">
+                            <img [src]="IMAGE_URL3" (click)="viewPhoto(IMAGE_URL3)" height="150px" width="250px"
+                                style=" cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <ng-template #photoModalFooter>
+        <button nz-button nzType="default" (click)="photoModalCancel()">Cancel</button>
+    </ng-template>
+</nz-modal>
+
+<!-- Post description modal -->
+<nz-modal nzWidth="1000px" [nzBodyStyle]="{height : '440px'}" [(nzVisible)]="DETAILSModalVisible"
+    [nzTitle]="'Post Description'" [nzContent]="DETAILSModalContent" [nzFooter]="DETAILSModalFooter"
+    (nzOnCancel)="photoModalCancel()" nzClosable="false">
+
+    <ng-template #DETAILSModalContent>
+        <div style="overflow-y: auto; height: 400px;">
+            <p>{{DESCRIPTION1}}</p>
+        </div>
+    </ng-template>
+
+    <ng-template #DETAILSModalFooter>
+        <button nz-button nzType="default" (click)="DETAILSModalCancel()">Cancel</button>
+    </ng-template>
+</nz-modal>
+
+<!-- Comment drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible3"
+    [nzTitle]="drawerTitle3" (nzOnClose)="drawerClose3()" (nzKeyboard)="true">
+
+    <app-addcommentdrawer [drawerClose2]="closeCallback3" [dataa]="drawerData3" [dataList1]="dataList1">
+    </app-addcommentdrawer>
+</nz-drawer>
+
+<!-- Post liked member list drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible4"
+    [nzTitle]="likeDrawerTitle" (nzOnClose)="drawerClose4()" (nzKeyboard)="true">
+
+    <app-post-like-drawer [drawerClose]="postLikeCloseCallback" [dataList]="dataList2">
+    </app-post-like-drawer>
+</nz-drawer>
+
+<!-- Post share modal -->
+<nz-modal [(nzVisible)]="visible" [nzTitle]="'Share'" [nzContent]="sharePostContent" [nzFooter]="sharePostFooter"
+    (nzOnCancel)="CloseShare()">
+    <ng-template #sharePostContent>
+        <div style="text-align: center;">
+            <!-- <img src="assets/Instagram-Icon.png" (click)="social('Insta')"
+                style="width: 40px; margin: 10px; cursor: pointer;"> -->
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('facebook')">
+                    <span>
+                        <img src="assets/Facebook-Icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Facebook
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('twitter')">
+                    <span>
+                        <img src="assets/Twitter-Icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Twitter
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('Linkdin')">
+                    <span>
+                        <img src="assets/LinkedIn_Icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        LinkedIn
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('Whatsapp')">
+                    <span>
+                        <img src="assets/WhatsApp_icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        WhatsApp
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="copyPostLink()">
+                    <span>
+                        <img src="assets/copyLinkWithBG.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Copy Link
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;" *ngIf="resharePostMemberID != userID">
+                <span style="cursor: pointer;" (click)="showPostDetails(resharePostData)">
+                    <span>
+                        <img src="assets/reshare.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Repost
+                    </span>
+                </span>
+            </div>
+
+            <!-- <img src="assets/Gmail.png" (click)="ForGmail()" style="width: 40px; margin: 10px; cursor: pointer;"> -->
+        </div>
+    </ng-template>
+
+    <ng-template #sharePostFooter>
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="CloseShare()">
+            Cancel
+        </button>
+    </ng-template>
+</nz-modal>
+
+<!-- Email verification modal -->
+<nz-modal [(nzVisible)]="ForGmailVisible" nzTitle="Enter Receiver's Email ID" [nzContent]="ForGmailContent"
+    [nzFooter]="ForGmailFooter" (nzOnCancel)="CloseGmail()" nzClosable="false">
+    <ng-template #ForGmailContent>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-control nzRequired nzErrorTip="Please fill the field">
+                        <input nz-input type="text" name="abc" maxlength="256" [(ngModel)]="sendGmail"
+                            [pattern]="emailpattern" placeholder="Enter Email ID" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #ForGmailFooter>
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="CloseGmail()">
+            Cancel
+        </button>
+
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="SendMail(sendGmail)">
+            Ok
+        </button>
+    </ng-template>
+</nz-modal>
+
+<!-- Group details modal -->
+<nz-modal [(nzVisible)]="groupDetailsModalVisible" [nzTitle]="'Group Details'" [nzContent]="groupDetailsModalContent"
+    [nzFooter]="groupDetailsModalFooter" (nzOnCancel)="groupDetailsModalClose()" nzClosable="false" [nzWidth]="600">
+    <ng-template #groupDetailsModalContent>
+        <nz-spin [nzSpinning]="Spinning">
+            <div>
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <div style="padding: 3px;">
+                            <span>
+                                <i nz-icon nzType="global" nzTheme="outline"
+                                    style="font-size: 15px; color: #ff8d73;"></i>
+                            </span>
+
+                            &nbsp;
+
+                            <span>
+                                <b>{{homeGroupDetails["FEDERATION_NAME"]}}</b>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                        <div style="padding: 3px;">
+                            <span>
+                                <i nz-icon nzType="deployment-unit" nzTheme="outline"
+                                    style="font-size: 15px; color: #ff8d73;"></i>
+                            </span>
+
+                            &nbsp;
+
+                            <span>
+                                <b>{{homeGroupDetails["UNIT_NAME"]}}</b>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                        <div style="padding: 3px;">
+                            <span>
+                                <i nz-icon nzType="team" nzTheme="outline" style="font-size: 15px; color: #ff8d73;"></i>
+                            </span>
+
+                            &nbsp;
+
+                            <span>
+                                <b>{{homeGroupDetails["GROUP_NAME"]}}</b>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                        style="border-radius: 8px; background-color: #f0f2f5; padding: 7px; font-size: 12px; text-align: center; color: #000102;margin-top: 10px;">
+                        <div nz-col nzXs="8" nzSm="8" nzMd="4" nzLg="4" nzXl="4" style="margin-bottom: -12px;">
+                            <p
+                                style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                {{homeGroupDetails["POST_COUNT"] || 0}}
+                            </p>
+                            <p style="margin-top: -10px"><i nz-icon nzType="qrcode" nzTheme="outline"></i>
+                                Posts
+                            </p>
+                        </div>
+
+                        <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                            <p
+                                style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                {{homeGroupDetails["MEETING_COUNT"] || 0}}
+                            </p>
+                            <p style="margin-top: -10px"><i nz-icon nzType="calendar" nzTheme="outline"></i>
+                                Meetings
+                            </p>
+                        </div>
+
+                        <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                            <p
+                                style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                {{homeGroupDetails["EVENT_COUNT"] || 0}}
+                            </p>
+                            <p style="margin-top: -10px"><i nz-icon nzType="carry-out" nzTheme="outline"></i>
+                                Events
+                            </p>
+                        </div>
+
+                        <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                            <p
+                                style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                {{homeGroupDetails["CIRCULAR_COUNT"] || 0}}
+                            </p>
+                            <p style="margin-top: -10px"><i nz-icon nzType="audit" nzTheme="outline"></i>
+                                Circulars
+                            </p>
+                        </div>
+
+                        <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                            <p
+                                style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                {{homeGroupDetails["PROJECT_COUNT"] || 0}}
+                            </p>
+                            <p style="margin-top: -10px"><i nz-icon nzType="appstore" nzTheme="outline"></i>
+                                Projects
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </ng-template>
+
+    <ng-template #groupDetailsModalFooter>
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="groupDetailsModalClose()">
+            Cancel
+        </button>
+    </ng-template>
+</nz-modal>
+
+<!-- Member profile drawer -->
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'none', 'padding-bottom': '0px'}" [nzClosable]="false"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidthForProfileDrawer()" [nzVisible]="MemberProfileVisible"
+    [nzTitle]="memberProfileDrawerTitle" (nzOnClose)="MemberProfiledrawerClose()" (nzKeyboard)="true"
+    [nzTitle]="ProfileTitle">
+
+    <app-member-readable-profile [MemberProfiledrawerClose]="closeCallbackMemberProfile"
+        [drawerVisible]="MemberProfileVisible" [data]="MemberProfiles" [postData]="ForDisplayProfile"
+        [passmember_id]="Member_ID" [totalRecords]="totalRecords22">
+    </app-member-readable-profile>
+</nz-drawer>

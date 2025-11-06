@@ -1,0 +1,1152 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="presidentPhoto"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    President
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{presidentMobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{presidentName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{presidentFederation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{presidentUnit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{presidentGroup}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{presidentDOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{presidentEmail}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{presidentAddress}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{presidentInchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(1)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="height: 60px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="ippPhoto"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    IPP
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{ippMobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{ippName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{ippFederation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{ippUnit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{ippGroup}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{ippDOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{ippEmail}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{ippAddress}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{ippInchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(11)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="vpiPhoto"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    VPI
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{vpiMobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{vpiName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{vpiFederation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{vpiUnit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{vpiGroup}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{vpiDOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{vpiEmail}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{vpiAddress}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{vpiInchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(2)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row nzGutter="10">
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="vpePhoto"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    VPE
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{vpeMobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{vpeName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{vpeFederation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{vpeUnit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{vpeGroup}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{vpeDOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{vpeEmail}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{vpeAddress}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{vpeInchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(3)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="secretaryPhoto"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Secretary
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{secretaryMobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{secretaryName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{secretaryFederation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{secretaryUnit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{secretaryGroup}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{secretaryDOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{secretaryEmail}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{secretaryAddress}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{secretaryInchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(4)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="treasurerPhoto"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Treasurer
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{treasurerMobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{treasurerName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{treasurerFederation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{treasurerUnit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{treasurerGroup}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{treasurerDOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{treasurerEmail}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{treasurerAddress}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{treasurerInchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(5)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row nzGutter="10">
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="height: 60px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="director1Photo"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Director 1
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{director1Mobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{director1Name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director1Federation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director1Unit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director1Group}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{director1DOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{director1Email}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{director1Address}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{director1InchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(6)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="height: 60px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="director2Photo"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Director 2
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{director2Mobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{director2Name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director2Federation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director2Unit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director2Group}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{director2DOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{director2Email}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{director2Address}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{director2InchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(7)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="height: 60px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="director3Photo"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Director 3
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{director3Mobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{director3Name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director3Federation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director3Unit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director3Group}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{director3DOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{director3Email}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{director3Address}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{director3InchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(8)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="height: 60px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="director4Photo"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Director 4
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{director4Mobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{director4Name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director4Federation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director4Unit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director4Group}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{director4DOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{director4Email}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{director4Address}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{director4InchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(9)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSm="24" nzMd="24" nzLg="8" nzXl="8" style="margin-bottom: 5px;">
+                    <div
+                        style="text-align: center; border: 2px solid rgb(173, 170, 170); border-radius: 5px; width: 100%; height: 260px; padding: 5px; cursor: pointer;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="height: 60px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="6">
+                                        <span>
+                                            <img [src]="director5Photo"
+                                                style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                        </span>
+                                    </div>
+
+                                    <div nz-col nzSpan="18">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: right; color: black; font-size: 15px; font-weight: bold;">
+                                                <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                                    Director 5
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 10px; font-weight: bold; color: gray;">
+                                                <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                {{director5Mobile}}
+                                            </div>
+
+                                            <div nz-col nzSpan="24"
+                                                style="text-align: left; height: 20px; overflow: hidden; font-size: 12px; font-weight: bold; color: black;">
+                                                {{director5Name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director5Federation}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director5Unit}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        {{director5Group}}
+                                    </div>
+
+                                    <div nz-col nzSpan="7"
+                                        style="text-align: left; height: 20px; overflow: hidden; font-size: 10px;">
+                                        DOB : {{director5DOB}}
+                                    </div>
+
+                                    <div nz-col nzSpan="17"
+                                        style="text-align: right; height: 20px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="mail" nzTheme="outline"></span>
+                                        {{director5Email}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                        {{director5Address}}
+                                    </div>
+
+                                    <div nz-col nzSpan="24"
+                                        style="text-align: left; height: 40px; overflow: hidden; font-size: 10px;">
+                                        I/C : {{director5InchargeOf}}
+                                    </div>
+                                </div>
+
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="text-align: center;">
+                                        <button type="button" nzType="default" nz-button (click)="addMembers(10)"
+                                            style="height: 25px;"
+                                            *ngIf="(federationID == tempOpenedGroupsFederationID) || (unitID == tempOpenedGroupsUnitID) || (groupID == tempOpenedGroupID) || (groupID == tempOpenedSponsoredGroupID && groupID > 0)">
+                                            <span>Manage</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+</div>
+
+<div class="footer">
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'P') && (groupID == tempOpenedGroupID)">
+        <b style="color: blue;">
+            New BOD Finalised
+        </b>&nbsp;
+    </span>
+
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'P') && (groupID == tempOpenedGroupID)">
+        <button nz-button type="button" class="ant-btn" [nzLoading]="isSpinning" nz-popconfirm
+            nzPopconfirmTitle="Are you sure want to delete finalised BOD?" (nzOnConfirm)="deleteFinalisedBOD()"
+            (nzOnCancel)="cancel()" nzPopconfirmPlacement="top" style="margin-right: 8px;">
+            <span style="color: red;">
+                Delete finalised BOD
+            </span>
+        </button>
+    </span>
+
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'A') && (groupID == tempOpenedGroupID)">
+        <b style="color: green;">
+            New BOD finalised and approved
+        </b>&nbsp;
+    </span>
+
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'R') && (groupID == tempOpenedGroupID)">
+        <b style="color: red;">
+            New BOD finalised and rejected
+        </b>&nbsp;
+    </span>
+
+    <button nz-button type="button" class="ant-btn" style="margin-right: 8px;" [nzLoading]="isSpinning"
+        *ngIf="((groupBODStatusData.length == 0) || (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'R')) && (groupID == tempOpenedGroupID)"
+        nz-popconfirm nzPopconfirmTitle="Are you sure want to finalise BOD?"
+        (nzOnConfirm)="sendForApprovalToUnitDirector()" (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+        Finalise
+    </button>
+
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'P') && (groupID == tempOpenedGroupID)">
+        <button nz-button type="button" class="ant-btn" style="margin-right: 8px;" (click)="sendForApproval()">
+            <span style="color: green;">
+                Approve
+            </span>
+        </button>
+    </span>
+
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'A') && (unitID > 0) && (unitID == tempOpenedGroupsUnitID)">
+        <b style="color: green;">
+            Group's new BOD finalised
+        </b>
+    </span>
+
+    <span
+        *ngIf="(groupBODStatusData.length > 0) && (groupBODStatusData[0]['GROUP_BOD_STATUS'] == 'R') && (unitID > 0) && (unitID == tempOpenedGroupsUnitID)">
+        <b style="color: red;">
+            Group's new BOD rejected
+        </b>
+    </span>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()">
+    <ng-template #modalTitle>Select Member</ng-template>
+
+    <ng-template #modalContent>
+        <form nz-form #myForm="ngForm">
+            <nz-spin [nzSpinning]="isConfirmLoading">
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Member</nz-form-label>
+
+                            <nz-form-control>
+                                <nz-select name="newEmpID" nzShowSearch nzAllowClear [nzLoading]="memberLoading"
+                                    style="width: 100%" nzPlaceHolder="Select Member" [(ngModel)]="NEW_MEMBER_ID">
+
+                                    <nz-option nzCustomContent *ngFor="let member of members;" [nzValue]="member.ID"
+                                        [nzLabel]="member.NAME">
+
+                                        <div nz-row>
+                                            <div nz-col nzSpan="3" style="margin-top: 14px;">
+                                                <nz-avatar nzText="{{getInitial(member.NAME) | uppercase }}"
+                                                    nzSize="large" style="color:red; background-color:#fde3cf;">
+                                                </nz-avatar>
+                                            </div>
+
+                                            <div nz-col nzSpan="21">
+                                                <div nz-row>
+                                                    <div nz-col nzSpan="12" style="color: black; font-size: 14px;">
+                                                        <b>{{member.NAME}}</b>
+                                                    </div>
+
+                                                    <div nz-col nzSpan="12" style="font-size: 11px;">
+                                                        <i nz-icon nzType="mobile" nzTheme="outline"
+                                                            style="color: black;"></i>&nbsp;
+                                                        {{member.MOBILE_NUMBER}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="12" style="font-size: 11px;">
+                                                        Federation :&nbsp;
+                                                        {{member.FEDERATION_NAME}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="12" style="font-size: 11px;">
+                                                        Unit :&nbsp;
+                                                        {{member.UNIT_NAME}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="12" style="font-size: 11px;">
+                                                        Group :&nbsp;
+                                                        {{member.GROUP_NAME}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-spin>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleOk(data)" [nzLoading]="isConfirmLoading">Submit</button>
+    </ng-template>
+</nz-modal>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+    [nzVisible]="memberDrawerVisible" [nzTitle]="memberDrawerTitle" (nzOnClose)="memberDrawerClose()"
+    (nzKeyboard)="true">
+
+    <app-manage-group-members [drawerClose]="memberDrawerCloseCallback" [drawerVisible]="memberDrawerVisible"
+        [data]="data" [BOD_Position]="BOD_Position" [memberDrawerRoleName]="memberDrawerRoleName">
+    </app-manage-group-members>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1300"
+    [nzVisible]="sendApprovalDrawerVisible" [nzTitle]="sendApprovalDrawerTitle" (nzOnClose)="sendApprovalDrawerClose()"
+    (nzKeyboard)="true">
+
+    <app-group-bod-send-for-approval [drawerClose]="sendApprovalDrapwerCloseCallback"
+        [drawerVisible]="sendApprovalDrawerVisible" [DOCUMENTS_LIST]="DOCUMENTS_LIST" [PAYMENT_LIST]="PAYMENT_LIST"
+        [BIO_DATA_LIST]="BIO_DATA_LIST" [GROUP_INFO]="GROUP_INFO" [NEW_GROUP_BOD]="NEW_GROUP_BOD">
+    </app-group-bod-send-for-approval>
+</nz-drawer>

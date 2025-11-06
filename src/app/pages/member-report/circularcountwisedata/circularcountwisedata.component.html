@@ -1,0 +1,67 @@
+<div>
+    <div id="activityItem" style="border-radius: 8px; background-color: #fff9f9; padding: 10px; margin-bottom: 10px;">
+        <div *ngIf="CircuCount.length > 0">
+            <div *ngFor="let data of CircuCount; let i = index;"
+                style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px;">
+                <div nz-row>
+                    <div nz-col nzXs="21" nzSm="21" nzMd="22" nzLg="22" nzXl="22">
+                        <div nz-row>
+                            <div nz-col nzXs="21" style="padding-left: 10px;">
+                                <b>{{data['CREATOR_NAME']}}</b>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                style="font-size: 10px; font-weight: bold; color: #ff7a7a; padding-left: 10px;">
+                                {{data['MEMBER_ROLE']}}
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+                                style="font-size: 10px; padding-left: 10px;">
+                                <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></span>
+                                {{data['DATE'] | date:'dd MMM yyyy'}}
+                            </div>
+
+                            <div nz-col nzXs="0" nzSm="0" nzMd="12" nzLg="12" nzXl="12">
+                                <div style="font-size: 10px; color:#FF7A7A; text-align: right;">
+                                    {{data["CIRCULAR_NO"]}}
+                                </div>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                                <div style="font-size: 10px; color:#FF7A7A; text-align: right;">
+                                    {{data["CIRCULAR_NO"]}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" style="margin-top: 10px;">
+                        {{data['CIRCULAR_TYPE_NAME']}}
+                    </div>
+
+                    <div nz-col nzXs="24">
+                        <b>{{data['SUBJECT']}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="CircuCount.length == 0" style="margin-top: 20px">
+            <nz-empty
+                [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                [nzNotFoundContent]="contentTpl">
+            </nz-empty>
+
+            <ng-template #contentTpl>
+                <span>No data available.</span>
+            </ng-template>
+        </div>
+
+        <div>
+            <!-- <nz-spin [nzSpinning]="loadingRecords2" style="margin: 20px auto 0px;">
+            </nz-spin> -->
+        </div>
+    </div>
+</div>

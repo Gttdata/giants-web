@@ -1,0 +1,53 @@
+<div>
+    <!-- <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn"><i nz-icon nzType="close"
+                nzTheme="outline"></i></button>
+    </div> -->
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Enter the Title</nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Enter Title">
+                                        <input nz-input placeholder="Enter the Title" name="title"
+                                            [(ngModel)]="ContiProjectdata.TITLE" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Enter the Description</nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Enter Description">
+                                        <textarea rows="4" nz-input placeholder="Description" name="description"
+                                            [(ngModel)]="ContiProjectdata.DESCRIPTION" maxlength="1000" required>
+                                </textarea>
+                                    </nz-form-control>
+                                    <span *ngIf="ContiProjectdata.DESCRIPTION" style="font-size: 10px; color: red;">
+                                            {{ContiProjectdata.DESCRIPTION.length}}/ 1000    
+                                      </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+    <br />
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="save(false,myForm)">
+        <span>Add & close</span>
+    </button>
+
+
+</div>

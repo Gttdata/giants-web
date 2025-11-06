@@ -1,0 +1,429 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row class="my-box">
+                <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <div *ngIf="(data.IMAGE_URL1) && (data.IMAGE_URL1.trim() != '')"
+                                (click)="deleteFirstImage()"
+                                style="position: absolute; right: 5px; top: 5px; font-size: 18px; color: red; height: 30px; width: 30px; border-radius: 50%; background-color: #f0f2f5; text-align: center; cursor: pointer; border: 1px solid #bcbcbd;">
+                                <div style="margin-top: -6px;">
+                                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                </div>
+                            </div>
+
+                            <div *ngIf="(data.IMAGE_URL1 == undefined) || (data.IMAGE_URL1 == null) || (data.IMAGE_URL1 == '')"
+                                style="cursor: pointer; width: 100%; height: 150px; text-align: center; padding: 10px; border: 1px dashed gray;"
+                                (click)="fileInput1.click()">
+                                <div
+                                    style="font-size: 50px; font-weight: bold; margin-top: 35px; margin-bottom: -15px;">
+                                    +
+                                </div>
+                                Choose Image
+                            </div>
+
+                            <input #fileInput1 type="file" accept="image/*" (change)="onFileSelected1($event)"
+                                (click)="fileInput1.value = null" style="display: none;" />
+
+                            <div>
+                                <img *ngIf="(data.IMAGE_URL1 != undefined) && (data.IMAGE_URL1 != null) && (data.IMAGE_URL1 != '')"
+                                    [src]="data.IMAGE_URL1" (click)="fileInput1.click()"
+                                    style="height: 150px; width: 100%; cursor: pointer; border: 1px solid #bcbcbd;">
+                            </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8"
+                    [ngClass]="data.IMAGE_URL1 ? '' : 'divReadOnly'">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <div *ngIf="(data.IMAGE_URL2) && (data.IMAGE_URL2.trim() != '')"
+                                (click)="deleteSecondImage()"
+                                style="position: absolute; right: 5px; top: 5px; font-size: 18px; color: red; height: 30px; width: 30px; border-radius: 50%; background-color: #f0f2f5; text-align: center; cursor: pointer; border: 1px solid #bcbcbd;">
+                                <div style="margin-top: -6px;">
+                                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                </div>
+                            </div>
+
+                            <div *ngIf="(data.IMAGE_URL2 == undefined) || (data.IMAGE_URL2 == null) || (data.IMAGE_URL2 == '')"
+                                style="cursor: pointer; width: 100%; height: 150px; text-align: center; padding: 10px; border: 1px dashed gray;"
+                                (click)="fileInput2.click()">
+                                <div
+                                    style="font-size: 50px; font-weight: bold; margin-top: 35px; margin-bottom: -15px;">
+                                    +
+                                </div>
+                                Choose Image
+                            </div>
+
+                            <input #fileInput2 type="file" accept="image/*" (change)="onFileSelected2($event)"
+                                (click)="fileInput2.value = null" style="display: none;" />
+
+                            <div>
+                                <img *ngIf="(data.IMAGE_URL2 != undefined) && (data.IMAGE_URL2 != null) && (data.IMAGE_URL2 != '')"
+                                    [src]="data.IMAGE_URL2" (click)="fileInput2.click()"
+                                    style="height: 150px; width:100%; cursor: pointer; border: 1px solid #bcbcbd;">
+                            </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8"
+                    [ngClass]="data.IMAGE_URL2 ? '' : 'divReadOnly'">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <div *ngIf="(data.IMAGE_URL3) && (data.IMAGE_URL3.trim() != '')"
+                                (click)="deleteThirdImage()"
+                                style="position: absolute; right: 5px; top: 5px; font-size: 18px; color: red; height: 30px; width: 30px; border-radius: 50%; background-color: #f0f2f5; text-align: center; cursor: pointer; border: 1px solid #bcbcbd;">
+                                <div style="margin-top: -6px;">
+                                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                </div>
+                            </div>
+
+                            <div *ngIf="(data.IMAGE_URL3 == undefined) || (data.IMAGE_URL3 == null) || (data.IMAGE_URL3 == '')"
+                                style="cursor: pointer; width: 100%; height: 150px; text-align: center; padding: 10px; border: 1px dashed gray;"
+                                (click)="fileInput3.click()">
+                                <div
+                                    style="font-size: 50px; font-weight: bold; margin-top: 35px; margin-bottom: -15px;">
+                                    +
+                                </div>
+                                Choose Image
+                            </div>
+
+                            <input #fileInput3 type="file" accept="image/*" (change)="onFileSelected3($event)"
+                                (click)="fileInput3.value = null" style="display: none;" />
+
+                            <div>
+                                <img *ngIf="(data.IMAGE_URL3 != undefined) && (data.IMAGE_URL3 != null) && (data.IMAGE_URL3 != '')"
+                                    [src]="data.IMAGE_URL3" (click)="fileInput3.click()"
+                                    style="height: 150px; width: 100%; cursor: pointer; border: 1px solid #bcbcbd;">
+                            </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row class="my-box">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Write Something</nz-form-label>
+
+                        <nz-form-control nzErrorTip="Please Write Something">
+                            <nz-mention #mentions [nzSuggestions]="suggestions" [nzLoading]="mentionLoading"
+                                (nzOnSearchChange)="onSearchChange($event)" (nzOnSelect)="getMentions()"
+                                nzNotFoundContent="No Data">
+                                <!-- <textarea rows="3" nz-input name="details"
+                                    placeholder="Write Something Here..." [(ngModel)]="data.DESCRIPTION"
+                                    maxlength="2000" nzMentionTrigger required>
+                                </textarea> -->
+
+                                <angular-editor name="details" [placeholder]="'Write Something Here...'"
+                                    [config]="editorConfig" [(ngModel)]="data.DESCRIPTION" nzMentionTrigger required>
+                                </angular-editor>
+                            </nz-mention>
+
+                            <!-- <nz-mention #mentions [nzSuggestions]="suggestions" [nzLoading]="mentionLoading"
+                                [nzValueWith]="valueWith" (nzOnSearchChange)="onSearchChange($event)"
+                                (nzOnSelect)="getMentions()" nzNotFoundContent="No Data"
+                                [(ngModel)]="MENTION_DATA">
+                                <textarea rows="3" nz-input name="details"
+                                    placeholder="Write Something Here..." [(ngModel)]="data.DESCRIPTION"
+                                    maxlength="2000" nzMentionTrigger required>
+                                </textarea>
+
+                                <ng-container *nzMentionSuggestion="let framework">
+                                    <span>{{ framework.name }} - {{ framework.id }}</span>
+                                </ng-container>
+                            </nz-mention> -->
+                        </nz-form-control>
+
+                        <!-- <span *ngIf="data.DESCRIPTION" style="font-size: 10px; color: red;">
+                            {{data.DESCRIPTION.length}}/ 2000
+                        </span> -->
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Hashtag(s)</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="hashTag" nzShowSearch nzAllowClear nzMode="tags" [nzMaxTagCount]="5"
+                                style="width: 100%" nzPlaceHolder="Select Hashtag(s)" [(ngModel)]="data.HASHTAGS">
+
+                                <nz-option *ngFor="let hashtag of hashtags;" [nzValue]="hashtag.NAME"
+                                    [nzLabel]="hashtag.NAME">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row class="my-box">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon nzRequired>Sharing Type</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-radio-group name="sharingType" (ngModelChange)="onSharingTypeChange($event)"
+                                [(ngModel)]="data.POST_TYPE">
+                                <label nz-radio nzValue="P">Public</label>
+                                <label nz-radio nzValue="F">Federation</label>
+                                <label nz-radio nzValue="U">Unit</label>
+                                <label nz-radio nzValue="G">Group</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" *ngIf="data.POST_TYPE != 'P'">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon nzRequired>
+                            Share Within&nbsp;
+                            <nz-switch name="selectAll" nzCheckedChildren="All"
+                                (ngModelChange)="onSelectAllChange($event)" [(ngModel)]="SELECT_ALL">
+                            </nz-switch>
+                        </nz-form-label>
+
+                        <nz-form-control>
+                            <nz-select name="typeID" [nzMaxTagCount]="3" nzShowSearch nzMode="multiple" nzAllowClear
+                                style="width: 100%" [nzPlaceHolder]="shareWithinPlaceHolder"
+                                [nzLoading]="shareWithinLoading" [(ngModel)]="data.TYPE_ID">
+
+                                <nz-option nzCustomContent *ngFor="let typeID of typeIDs;" [nzValue]="typeID.ID"
+                                    [nzLabel]="typeID.NAME">
+
+                                    <div nz-row *ngIf="data.POST_TYPE == 'F'">
+                                        <div nz-col nzSpan="24">
+                                            <b>{{typeID.NAME}}</b>
+                                        </div>
+                                    </div>
+
+                                    <div nz-row *ngIf="data.POST_TYPE == 'U'">
+                                        <div nz-col nzSpan="24">
+                                            <b>{{typeID.NAME}}</b>
+                                        </div>
+
+                                        <div nz-col nzSpan="24" style="font-size: 11px;">
+                                            <i nz-icon nzType="global" nzTheme="outline" style="color: #ff8d73;">
+                                            </i>
+
+                                            {{typeID.FEDERATION_NAME}}
+                                        </div>
+                                    </div>
+
+                                    <div nz-row *ngIf="data.POST_TYPE == 'G'">
+                                        <div nz-col nzSpan="24">
+                                            <b>{{typeID.NAME}}</b>
+                                        </div>
+
+                                        <div nz-col nzSpan="24" style="font-size: 11px;">
+                                            <i nz-icon nzType="global" nzTheme="outline" style="color: #ff8d73;">
+                                            </i>
+
+                                            {{typeID.FEDERATION_NAME}}
+                                        </div>
+
+                                        <div nz-col nzSpan="24" style="font-size: 11px;">
+                                            <i nz-icon nzType="deployment-unit" nzTheme="outline"
+                                                style="color: #ff8d73;">
+                                            </i>
+
+                                            {{typeID.UNIT_NAME}}
+                                        </div>
+                                    </div>
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" nz-button *ngIf="data.DESCRIPTION" (click)="previewModalOpen()" class="ant-btn"
+            style="margin-right: 8px;" [nzLoading]="isSpinning">
+            <span>Preview</span>
+        </button>
+
+        <button type="button" style="margin-right: 8px;" class="ant-btn ant-btn-primary" nz-button
+            [nzLoading]="isSpinning" (click)="save(false,myForm,'D')">
+            <span>Save as Draft</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+            (click)="save(false,myForm,'P')">
+            <span>Publish</span>
+        </button>
+    </div>
+</div>
+
+<!-- View preview modal -->
+<nz-modal nzWidth="1000px" [nzBodyStyle]="{height : '460px'}" [(nzVisible)]="previewModalVisible" [nzTitle]="'Preview'"
+    [nzContent]="previewModalContent" [nzFooter]="previewModalFooter" (nzOnCancel)="previewModalCancel()"
+    nzClosable="false">
+
+    <ng-template #previewModalContent>
+        <div style="overflow: auto; height: 430px; padding: 5px;">
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                    style="font-size: 12px; padding: 3px; text-align: justify;">
+                    <div [innerHTML]="data.DESCRIPTION"></div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="padding: 3px;"
+                        *ngIf="getImageCount(data.IMAGE_URL1,data.IMAGE_URL2,data.IMAGE_URL3) == 3">
+                        <div nz-row>
+                            <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                                <div style="text-align: center; height: 50vh; padding: 1px;">
+                                    <img [src]="data.IMAGE_URL1" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        <div style="text-align: center; height: 25vh; padding: 1px;">
+                                            <img [src]="data.IMAGE_URL2"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        <div style="text-align: center; height: 25vh; padding: 1px;">
+                                            <img [src]="data.IMAGE_URL3"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 3px;"
+                        *ngIf="getImageCount(data.IMAGE_URL1,data.IMAGE_URL2,data.IMAGE_URL3) == 2">
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <div style="text-align: center; height: 40vh; padding: 1px;">
+                                    <img [src]="data.IMAGE_URL1" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <div style="text-align: center; height: 40vh; padding: 1px;">
+                                    <img [src]="data.IMAGE_URL2" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 3px;"
+                        *ngIf="getImageCount(data.IMAGE_URL1,data.IMAGE_URL2,data.IMAGE_URL3) == 1">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <div style="text-align: center; height: 50vh;">
+                                    <img [src]="data.IMAGE_URL1"
+                                        style="width: 100%; height: 100%; object-fit: contain;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <div style="padding: 3px;"
+                        *ngIf="getImageCount(data.IMAGE_URL1,data.IMAGE_URL2,data.IMAGE_URL3) == 3">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <div style="text-align: center; height: 25vh; padding: 1px;">
+                                    <img [src]="data.IMAGE_URL1" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <div nz-row>
+                                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                        <div style="text-align: center; height: 15vh; padding: 1px;">
+                                            <img [src]="data.IMAGE_URL2"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+
+                                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                        <div style="text-align: center; height: 15vh; padding: 1px;">
+                                            <img [src]="data.IMAGE_URL3"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 3px;"
+                        *ngIf="getImageCount(data.IMAGE_URL1,data.IMAGE_URL2,data.IMAGE_URL3) == 2">
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <div style="text-align: center; height: 20vh; padding: 1px;">
+                                    <img [src]="data.IMAGE_URL1" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <div style="text-align: center; height: 20vh; padding: 1px;">
+                                    <img [src]="data.IMAGE_URL2" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 3px;"
+                        *ngIf="getImageCount(data.IMAGE_URL1,data.IMAGE_URL2,data.IMAGE_URL3) == 1">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <div style="text-align: center; height: 50vh;">
+                                    <img [src]="data.IMAGE_URL1"
+                                        style="width: 100%; height: 100%; object-fit: contain;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row *ngIf="(data.HASHTAGS != null) && (data.HASHTAGS != '')">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style=" padding: 3px; text-align: justify;">
+                        <span *ngFor="let tag of data.HASHTAGS;">
+                            <span style="color: #1890ff; font-size: 10px;">
+                                #{{tag}}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #previewModalFooter>
+        <button nz-button nzType="default" (click)="previewModalCancel()">
+            Cancel
+        </button>
+    </ng-template>
+</nz-modal>

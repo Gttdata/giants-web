@@ -1,0 +1,467 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzXs="24" nzSm="24" nzMd="10" nzLg="10" nzXl="10">
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Unit</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Unit">
+                                        <nz-select name="unitName" nzShowSearch nzAllowClear style="width: 100%"
+                                            nzPlaceHolder="Select Unit" [nzLoading]="unitLoading"
+                                            (ngModelChange)="onUnitChange($event)" [(ngModel)]="data.UNIT_ID" required>
+
+                                            <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID"
+                                                [nzLabel]="unit.NAME">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Sponsored Group</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Group">
+                                        <nz-select name="sponseredGroupName" nzShowSearch nzAllowClear
+                                            style="width: 100%" nzPlaceHolder="Select Sponsored Group"
+                                            [nzLoading]="groupLoading" (ngModelChange)="onSponsoredGroupChange($event)"
+                                            [(ngModel)]="data.SPONSERED_GROUP" required>
+
+                                            <nz-option *ngIf="(federationID > 0) || (unitID > 0) || (data['GROUP_ID'])"
+                                                nzValue="0" nzLabel="None">
+                                            </nz-option>
+
+                                            <nz-option *ngFor="let group of groups;" [nzValue]="group.ID"
+                                                [nzLabel]="group.NAME">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Group Name</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Group Name">
+                                        <input nz-input name="groupName" autocomplete="off"
+                                            placeHolder="Enter Group Name" maxlength="256" type="text"
+                                            [pattern]="namePattern"
+                                            (ngModelChange)="changeOrientationDraftOnGroupNameChange($event)"
+                                            [(ngModel)]="data.NAME" required />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.NAME" style="font-size: 10px; color: red;">
+                                        {{data.NAME.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Short Name</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Short Name">
+                                        <input nz-input name="shortName" autocomplete="off"
+                                            placeHolder="Enter Short Name" maxlength="7" type="text"
+                                            [pattern]="shortNamePattern" [(ngModel)]="data.SHORT_NAME" required />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.SHORT_NAME" style="font-size: 10px; color: red;">
+                                        {{data.SHORT_NAME.length}}/ 7
+                                    </span>
+                                </nz-form-item>
+                            </div>
+
+                            <!-- <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Active Status</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-switch name="status" [(ngModel)]="data.STATUS"></nz-switch>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div> -->
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Group Type</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Type">
+                                        <nz-select name="groupType" nzShowSearch nzAllowClear style="width: 100%"
+                                            nzPlaceHolder="Select Group Type" [(ngModel)]="data.GROUP_TYPE" required>
+
+                                            <nz-option nzValue="Y" nzLabel="Young"></nz-option>
+                                            <nz-option nzValue="N" nzLabel="Main"></nz-option>
+                                            <nz-option nzValue="S" nzLabel="Saheli"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Group Area Type</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Type">
+                                        <nz-select name="areaType" nzShowSearch nzAllowClear style="width: 100%"
+                                            nzPlaceHolder="Select Area Type" [(ngModel)]="data.TYPE" required>
+
+                                            <nz-option nzValue="R" nzLabel="Rural"></nz-option>
+                                            <nz-option nzValue="U" nzLabel="Urban"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row *ngIf="data.GROUP_TYPE == 'Y'">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Parent Group</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Parent Group">
+                                        <nz-select name="parentGroup" nzShowSearch nzAllowClear style="width: 100%"
+                                            nzPlaceHolder="Select Parent Group" [(ngModel)]="data.PARENT_GROUP_ID"
+                                            required>
+
+                                            <nz-option nzValue="0" nzLabel="None"></nz-option>
+                                            <nz-option *ngFor="let group of parentGroups;" [nzValue]="group.ID"
+                                                [nzLabel]="group.NAME">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Date</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-date-picker name="date" nzFormat="dd/MM/yyyy" [(ngModel)]="data.BO_DATE">
+                                        </nz-date-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Status</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="groupStatus" nzShowSearch nzAllowClear style="width: 100%"
+                                            nzPlaceHolder="Select Status" [(ngModel)]="data.GROUP_STATUS" disabled>
+
+                                            <nz-option nzValue="C" nzLabel="Created"></nz-option>
+                                            <nz-option nzValue="SFA" nzLabel="Pending For Approve"></nz-option>
+                                            <nz-option nzValue="A" nzLabel="Approved"></nz-option>
+                                            <nz-option nzValue="RJ" nzLabel="Reject"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box" *ngIf="(data.ORIENTATION_LETTER_URL)">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Orientation Letter</nz-form-label>
+
+                                    <nz-form-control>
+                                        <a (click)="viewLetter(data.ORIENTATION_LETTER_URL)">
+                                            {{data.ORIENTATION_LETTER_URL}}
+                                        </a>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Administrative a/c No.</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="administrativeAcNo" autocomplete="off"
+                                            placeHolder="Enter Administrative a/c No." maxlength="256"
+                                            [(ngModel)]="data.AD_ACC_NO" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.AD_ACC_NO" style="font-size: 10px; color: red;">
+                                        {{data.AD_ACC_NO.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Administrative Bank Name</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="administrativeBankName" autocomplete="off"
+                                            placeHolder="Enter Administrative Bank Name" maxlength="256"
+                                            [(ngModel)]="data.AD_BANK_NAME" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.AD_BANK_NAME" style="font-size: 10px; color: red;">
+                                        {{data.AD_BANK_NAME.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Administrative Branch Name</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="administrativeBranchName" autocomplete="off"
+                                            placeHolder="Enter Administrative Branch Name" maxlength="256"
+                                            [(ngModel)]="data.AD_BRANCH_NAME" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.AD_BRANCH_NAME" style="font-size: 10px; color: red;">
+                                        {{data.AD_BRANCH_NAME.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Project a/c No.</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="projectAcNo" autocomplete="off"
+                                            placeHolder="Enter Project a/c No." maxlength="256"
+                                            [(ngModel)]="data.PR_ACC_NO" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.PR_ACC_NO" style="font-size: 10px; color: red;">
+                                        {{data.PR_ACC_NO.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Project Bank Name</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="projectBankName" autocomplete="off"
+                                            placeHolder="Enter Project Bank Name" maxlength="256"
+                                            [(ngModel)]="data.PR_BANK_NAME" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.PR_BANK_NAME" style="font-size: 10px; color: red;">
+                                        {{data.PR_BANK_NAME.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Project Branch Name</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="projectBranchName" autocomplete="off"
+                                            placeHolder="Enter Project Branch Name" maxlength="256"
+                                            [(ngModel)]="data.PR_BRANCH_NAME" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.PR_BRANCH_NAME" style="font-size: 10px; color: red;">
+                                        {{data.PR_BRANCH_NAME.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="14" nzLg="14" nzXl="14">
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Orientation Date</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-date-picker name="orientationDate" nzFormat="dd/MM/yyyy"
+                                            (ngModelChange)="changeOrientationDraftOnDateChange($event)"
+                                            [(ngModel)]="data.ORIENTATION_DATE">
+                                        </nz-date-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="16" nzLg="16" nzXl="16">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Venue</nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Venue">
+                                        <textarea nz-input name="venue" rows="2" autocomplete="off"
+                                            placeholder="Enter Venue" maxlength="200"
+                                            (ngModelChange)="changeOrientationDraftOnVenueChange($event)"
+                                            [(ngModel)]="data.VENUE" required>
+                                        </textarea>
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.VENUE" style="font-size: 10px; color: red;">
+                                        {{data.VENUE.length}}/ 200
+                                    </span>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Orientation Letter Draft</nz-form-label>
+
+                                    <nz-form-control nzErrorTip="Enter Valid Orientation Draft">
+                                        <angular-editor [placeholder]="'Orientation Letter Draft Type Here...'"
+                                            [config]="editorConfig" name="description"
+                                            [(ngModel)]="data.ORIENTATION_DRAFT">
+                                        </angular-editor>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>PAN Number</nz-form-label>
+
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="PAN_NUMBER" autocomplete="off"
+                                            placeHolder="Enter PAN Number" [pattern]="panNumberPattern" maxlength="10"
+                                            oninput="this.value = this.value.toUpperCase()"
+                                            [(ngModel)]="data.PAN_NUMBER" />
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.PAN_NUMBER" style="font-size: 10px; color: red;">
+                                        {{data.PAN_NUMBER.length}}/ 10
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        <nz-form-item>
+                                            <nz-form-label nzNoColon>PAN Card</nz-form-label>
+
+                                            <nz-form-control>
+                                                <button nz-button
+                                                    style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                                    (click)="pdfFileInput1.click()">Choose File
+
+                                                    <input #pdfFileInput1 type="file" accept="application/pdf,image/*"
+                                                        (change)="onPdfFileSelected1($event)"
+                                                        (click)="pdfFileInput1.value = null" style="display: none;" />
+                                                </button>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                    </div>
+
+                                    <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                                        *ngIf="pdfFileURL1 != null" style="overflow: hidden; font-size: 13px;">
+                                        {{pdfFileURL1.name}}
+                                    </div>
+
+                                    <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1"
+                                        *ngIf="pdfFileURL1 != null">
+                                        <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                            [nzTwotoneColor]="'#ff0000'">
+                                        </i>
+                                    </div>
+
+                                    <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                                        *ngIf="(data.PAN_URL) && (pdfFileURL1 == null)"
+                                        style="overflow: hidden; font-size: 13px;">
+
+                                        <a (click)="viewPANCard(data.PAN_URL)">
+                                            {{data.PAN_URL}}
+                                        </a>
+                                    </div>
+
+                                    <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1"
+                                        *ngIf="(data.PAN_URL) && pdfFileURL1 == null">
+
+                                        <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                            [nzTwotoneColor]="'#ff0000'">
+                                        </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data['ID']" nz-button [nzLoading]="isSpinning"
+            nz-dropdown [nzDropdownMenu]="menu" (click)="save(false, myForm)">
+            <span>Save & Close</span>
+        </button>
+
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+                <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff;">
+                    <a (click)="save(true, myForm)">Save & New</a>
+                </li>
+            </ul>
+        </nz-dropdown-menu>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data['ID']"
+            (click)="save(false, myForm)">
+            <span>Update & close</span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,664 @@
+<!-- <ng-container > -->
+<div nz-row class="header" *ngIf="CurrentYear==SelectedYear">
+    <button type="button" nz-button (click)="FetchOldData()">Fetch Data</button>
+</div>
+<div nz-row style="margin: 11px;left: 825px;position: absolute;top: 0px;">
+    <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+        (ngModelChange)="SelectYear($event)" style="width: 150px">
+        <nz-option *ngFor="let abc of range" [nzValue]="abc" [nzLabel]="abc">
+        </nz-option>
+    </nz-select>
+</div>
+<div>
+    <form nz-form #myForm="ngForm">
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <label><span style="color: red;" *ngIf="data.SWICTHING">*</span>As Vice President Internal /
+                        External, whether he has discharged his
+                        duties ?
+                    </label>
+
+                    <nz-switch [(ngModel)]="data.SWICTHING" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                        name="switching"></nz-switch>
+
+                    <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+                    <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+                    <textarea nz-input placeholder="Discharged Duties Description" [(ngModel)]="data.DISCHARGED_DETAILS"
+                        name="discharged_duties" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000"
+                        *ngIf="data.SWICTHING==true">
+                    </textarea>
+
+                    <span *ngIf="data.SWICTHING==true && validation==false && data.DISCHARGED_DETAILS==''"
+                        style="color:red">Please fill the
+                        field
+                    </span>
+
+                    <span *ngIf="data.DISCHARGED_DETAILS && data.SWICTHING==true " style="font-size: 10px; color: red;">
+                        {{data.DISCHARGED_DETAILS.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Contribution to various committees by way of guidance</nz-form-label>
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Contribution To Various" [(ngModel)]="data.CONTRIBUTION_DETAILS"
+                            maxlength="2000" name="contribution_various" [nzAutosize]="{ minRows: 2, maxRows: 6 }">
+                        </textarea>
+
+                        <span *ngIf="data.CONTRIBUTION_DETAILS=='' && validation==false" style="color:red">Please fill
+                            the field
+                        </span>
+
+                        <span *ngIf="data.CONTRIBUTION_DETAILS" style="font-size: 10px; color: red;">
+                            {{data.CONTRIBUTION_DETAILS.length}}/ 2000
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Whether Fiscal Discipline </nz-form-label>
+
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Fiscal Discipline" [(ngModel)]="data.FISCLE" maxlength="2000"
+                            name="fiscal_discipline" [nzAutosize]="{ minRows: 2, maxRows: 6 }">
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.FISCLE=='' && validation==false" style="color:red">Please fill the field</span>
+
+                    <span *ngIf="data.FISCLE" style="font-size: 10px; color: red;">
+                        {{data.FISCLE.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <label>
+                        <span style="color: red;" *ngIf="data.SWICTHING1==true">*</span>
+                        Whether Activity Assisted President ?
+                    </label>
+
+                    <nz-switch [(ngModel)]="data.SWICTHING1" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                        name="swicthing1"></nz-switch>
+
+                    <nz-form-control *ngIf="data.SWICTHING1==true">
+                        <textarea nz-input placeholder="Assisted Activity in Details"
+                            [(ngModel)]="data.ACTIVITY_DETAILS" name="activity_president"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                        </textarea>
+
+                        <span *ngIf="validation==false && data.ACTIVITY_DETAILS==''" style="color:red">Please fill the
+                            field
+                        </span>
+
+                        <span *ngIf="data.ACTIVITY_DETAILS" style="font-size: 10px; color: red;">
+                            {{data.ACTIVITY_DETAILS.length}}/ 2000
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <label>
+                        <span style="color: red;" *ngIf="data.SWICTHING2==true">*</span>
+                        Whether he/she has inspired Various Committees to undertake Innovative
+                        Projects
+                    </label>
+
+                    <nz-switch [(ngModel)]="data.SWICTHING2" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                        name="swicthing2">
+                    </nz-switch>
+
+                    <nz-form-control *ngIf="data.SWICTHING2==true">
+                        <textarea nz-input placeholder="Innovative Project Details"
+                            [(ngModel)]="data.INOVATIVATIVE_PROJECT_DETAILS" name="annexure_b"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                        </textarea>
+
+                        <span
+                            *ngIf="data.SWICTHING2==true && validation==false && data.INOVATIVATIVE_PROJECT_DETAILS==''"
+                            style="color:red">Please fill the
+                            field
+                        </span>
+
+                        <span *ngIf="data.SWICTHING2==true && data.INOVATIVATIVE_PROJECT_DETAILS"
+                            style="font-size: 10px; color: red;">
+                            {{data.INOVATIVATIVE_PROJECT_DETAILS.length}}/ 2000
+                        </span>
+                    </nz-form-control>
+
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-row [nzGutter]="8">
+                <h4>No. of meetings attended:</h4>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Group Meeting</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter Group Meeting" name="group_meeting"
+                                    (keypress)="omit($event)" [(ngModel)]="data.TOTAL_GROUP_MEETINGS"
+                                    placeholder="Group Meeting" maxlength="5"
+                                    (change)="groupmeeting(data.TOTAL_GROUP_MEETINGS,data.OUT_OF_MEETINGS)"
+                                    required />
+                            </nz-input-group>
+
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_group_meeting" (keypress)="omit($event)"
+                                    [(ngModel)]="data.OUT_OF_MEETINGS" maxlength="5"
+                                    (change)="groupmeeting(data.TOTAL_GROUP_MEETINGS,data.OUT_OF_MEETINGS)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+
+                        <span *ngIf="data.TOTAL_GROUP_MEETINGS=='' && validation==false" style="color:red">Please fill
+                            the field</span>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Board Meeting</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter Board Meeting Count" name="board_meeting"
+                                    (keypress)="omit($event)" [(ngModel)]="data.TOTAL_BOARD_MEETINGS"
+                                    placeholder="Board Meeting" maxlength="5"
+                                    (change)="boardmeeting(data.TOTAL_BOARD_MEETINGS,data.BOARD_OUT_OF_MEETINGS)"
+                                    required />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_board_meeting" (keypress)="omit($event)"
+                                    [(ngModel)]="data.BOARD_OUT_OF_MEETINGS" maxlength="5"
+                                    (change)="boardmeeting(data.TOTAL_BOARD_MEETINGS,data.BOARD_OUT_OF_MEETINGS)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+
+                        <span *ngIf="data.TOTAL_BOARD_MEETINGS=='' && validation==false" style="color:red">Please
+                            fill the field</span>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Unit Council Meetings</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Meeting">
+                                <input nz-input placeholder="Enter Unit Council Count" name="unit_council_meeting"
+                                    (keypress)="omit($event)" [(ngModel)]="data.UNIT_COUNCILS_TOTAL"
+                                    placeholder="Unit Council Meetings" maxlength="5"
+                                    (change)="unitcouncilmeeting(data.UNIT_COUNCILS_TOTAL,data.UNIT_COUNCILS_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_unit_council_meeting"
+                                    (keypress)="omit($event)" [(ngModel)]="data.UNIT_COUNCILS_OUT_OF" maxlength="5"
+                                    (change)="unitcouncilmeeting(data.UNIT_COUNCILS_TOTAL,data.UNIT_COUNCILS_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+
+                        <span *ngIf="data.UNIT_COUNCILS_TOTAL=='' && validation==false" style="color:red">Please
+                            fill the field</span>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Unit Conferences</nz-form-label>
+
+                        <nz-form-control>
+                            <nz-input-group nzAddOnAfter="Conferences">
+                                <input nz-input placeholder="Enter Unit Conferences" name="unit_conferences"
+                                    (keypress)="omit($event)" [(ngModel)]="data.UNIT_CONFERENCES_TOTAL"
+                                    placeholder="Unit Conferences" maxlength="5"
+                                    (change)="unitconferences(data.UNIT_CONFERENCES_TOTAL,data.UNIT_CONFERENCES_OUT_OF)" />
+                            </nz-input-group>
+                            <nz-input-group nzAddOnAfter="Out of">
+                                <input nz-input placeholder="Out Of" name="out_unit_council_meeting"
+                                    (keypress)="omit($event)" [(ngModel)]="data.UNIT_CONFERENCES_OUT_OF" maxlength="5"
+                                    (change)="unitconferences(data.UNIT_CONFERENCES_TOTAL,data.UNIT_CONFERENCES_OUT_OF)"
+                                    required />
+                            </nz-input-group>
+                        </nz-form-control>
+
+                        <span *ngIf="data.UNIT_CONFERENCES_TOTAL=='' && validation==false" style="color:red">Please
+                            fill the field</span>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-label nzRequired> Branch Programmes
+                    </nz-form-label>
+
+                    <nz-form-item>
+                        <nz-input-group>
+                            <nz-form-control>
+                                <input nz-input type="text" name="branch_programmes"
+                                    [(ngModel)]="data.BRANCH_PROGRAM_COUNT" maxlength="5" (keypress)="omit($event)"
+                                    placeholder="No. Of Branch Programmes" />
+                            </nz-form-control>
+
+                            <span *ngIf="data.BRANCH_PROGRAM_COUNT=='' && validation==false" style="color:red">Please
+                                fill the field</span>
+                        </nz-input-group>
+                    </nz-form-item>
+                </div>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <label>
+                    <span style="color: red;" *ngIf="data.SWICTHING3==true">*</span>
+                    Whether worked for membership Retention Growth & Group Extension
+                </label>
+
+                <nz-switch [(ngModel)]="data.SWICTHING3" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                    name="swicthing3">
+                </nz-switch>
+
+                <nz-form-item>
+                    <nz-form-control *ngIf="data.SWICTHING3==true">
+                        <textarea nz-input placeholder="working for membership in details"
+                            [(ngModel)]="data.MEMBERSHIP_GROUP_GROWTH_DETAILS" name="annexure_b"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                        </textarea>
+
+                        <span
+                            *ngIf="data.SWICTHING3==true && validation==false &&  data.MEMBERSHIP_GROUP_GROWTH_DETAILS==''"
+                            style="color:red">Please fill the
+                            field
+                        </span>
+
+                        <span *ngIf="data.MEMBERSHIP_GROUP_GROWTH_DETAILS" style="font-size: 10px; color: red;">
+                            {{data.MEMBERSHIP_GROUP_GROWTH_DETAILS.length}}/ 2000
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Any other relevant information
+                    </nz-form-label>
+
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Any other information" [(ngModel)]="data.MORE_DETAILS"
+                            maxlength="2000" name="description" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                        <span *ngIf="data.MORE_DETAILS=='' && validation==false" style="color:red">Please fill
+                            the field
+                        </span>
+                    </nz-form-control>
+
+                    <span *ngIf="data.MORE_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.MORE_DETAILS.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label>Date</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-date-picker [(ngModel)]="data.CREATED_DATE" name="date" [nzDisabledDate]="disabledDate"
+                            nzDisabled nzFormat="dd-MM-yyyy">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Photo 1 &nbsp;
+                        <span
+                            *ngIf="data.PHOTO_URL_1 && data.PHOTO_URL_1!='' && data.PHOTO_URL_1!=' ' || fileURL1!=undefined && fileURL1!=null ">
+                            <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                                [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                                nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear1()"
+                                (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                            </i>
+                        </span>
+                    </nz-form-label>
+
+                    <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                            (click)="fileInput.click()">Choose File
+                            <input #fileInput type="file" accept="image/*" (change)="onFileSelected1($event)"
+                                (click)="fileInput.value = null" style="display: none;" />
+                        </button>
+
+                        <br>
+
+                        <span *ngIf="data.PHOTO_URL_1 && data.PHOTO_URL_1!='' || fileURL1!=undefined && fileURL1!=null">
+                            <a href="{{url}}/{{data.PHOTO_URL_1}}" target="_blank">
+                                {{data.PHOTO_URL_1 || fileURL1.name}} </a>
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>
+                        Photo 2 &nbsp;
+                        <span
+                            *ngIf="data.PHOTO_URL_2 && data.PHOTO_URL_2!='' && data.PHOTO_URL_2!=' ' || fileURL2!=undefined && fileURL2!=null ">
+                            <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                                [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                                nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear2()"
+                                (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                            </i>
+                        </span>
+                    </nz-form-label>
+
+                    <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                            (click)="fileInput1.click()">Choose File
+                            <input #fileInput1 type="file" accept="image/*" (change)="onFileSelected2($event)"
+                                (click)="fileInput1.value = null" style="display: none;" />
+                        </button>
+
+                        <br>
+
+                        <span *ngIf="data.PHOTO_URL_2 && data.PHOTO_URL_2!='' || fileURL2!=undefined && fileURL2!=null">
+                            <a href="{{url}}/{{data.PHOTO_URL_2}}" target="_blank">
+                                {{data.PHOTO_URL_2 || fileURL2.name}} </a>
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>
+                        Photo 3 &nbsp;
+                        <span
+                            *ngIf="data.PHOTO_URL_3 && data.PHOTO_URL_3!='' && data.PHOTO_URL_3!=' ' || fileURL3!=undefined && fileURL3!=null ">
+                            <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                                [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                                nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear3()"
+                                (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                            </i>
+                        </span>
+                    </nz-form-label>
+
+                    <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                            (click)="fileInput2.click()">Choose File
+                            <input #fileInput2 type="file" accept="image/*" (change)="onFileSelected3($event)"
+                                (click)="fileInput2.value = null" style="display: none;" />
+                        </button>
+
+                        <br>
+
+                        <span *ngIf="data.PHOTO_URL_3 && data.PHOTO_URL_3!='' || fileURL3!=undefined && fileURL3!=null">
+                            <a href="{{url}}/{{data.PHOTO_URL_3}}" target="_blank">
+                                {{data.PHOTO_URL_3 || fileURL3.name}} </a>
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <span *ngIf="CurrentYear == SelectedYear">
+            <span *ngIf="data.IS_SUBMITED != 'S'">
+                <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button
+                    (click)="submit(false,myForm)" [nzLoading]="isSpinning" style="margin-right: 8px;">
+                    <span>Save as Draft & Close</span>
+                </button>
+
+                <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+                    (click)="submit(false,myForm)" style="margin-right: 8px;">
+                    <span>Save as Draft & Close</span>
+                </button>
+
+                <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+                    (click)="ApplySubmit(myForm)" style="margin-right: 8px;">
+                    <span>Apply for Award & Close</span>
+                </button>
+            </span>
+        </span>
+
+        <button type="button" nz-button (click)="showModal()" class="ant-btn">
+            <span>Preview</span>
+        </button>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle>Print Document</ng-template>
+
+    <ng-template #modalContent>
+        <div id="print" style="color:#0b1113;">
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;margin-bottom: 5px;">
+                GIANTS WELFARE FOUNDATION<br></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;margin-bottom: 5px;">
+                AWARD BIDDING FORM NO. 12
+            </div>
+            <div style="color:black; text-align: center; font-weight: bolder; font-size: 18px; margin-bottom: 5px;">
+                NAME OF THE AWARD : OUTSTANDING VICE PRESIDENT OF THE GROUP
+            </div>
+
+            <div style="font-weight: bold;">Details</div>
+
+            <div style="display: inline-flex; width: 100%;">
+                <div style="width: 18%;">
+                    <p>NAME OF THE GROUP</p>
+                    <p>NAME OF PERSON</p>
+                </div>
+
+                <div style="width:82%;">
+                    <p style="border-bottom: 1px solid grey; min-height: 20px; margin-bottom: 10px;">
+                        :<b>{{data["GROUP_NAME"]}}</b>
+                    </p>
+
+                    <p style="border-bottom: 1px solid grey; min-height: 20px; margin-bottom: 10px;">
+                        :<b>{{data["MEMBER_NAME"]}}</b>
+                    </p>
+                </div>
+            </div>
+            <table style="margin-left: 30px;">
+                <tr>
+                    <td>1) As Vice President Internal / External, whether he has discharged his
+                        duties:&nbsp;&nbsp;<b>{{data.DISCHARGED_DETAILS}}</b></td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 10px">2) Contribution to various committees by way of
+                        guidance
+                        :&nbsp;&nbsp;<b>{{data.CONTRIBUTION_DETAILS}}</b></td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 10px">3) Whether Fiscal
+                        Discipline:&nbsp;&nbsp;<b>{{data.FISCLE}}</b></td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 10px">4) Whether Activity Assisted
+                        President:&nbsp;&nbsp;<b>{{data.ACTIVITY_DETAILS}}</b></td>
+                </tr>
+
+                <tr>
+                    <td style="padding-top: 10px">5) Whether he/she has inspired Various
+                        Committees to undertake
+                        Innovative
+                        Projects:&nbsp;&nbsp;<b>{{data.INOVATIVATIVE_PROJECT_DETAILS}}</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-top: 10px">
+                        <b>6) NO. of meetings attended:&nbsp;&nbsp;</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px; padding-top: 10px">a) Group Meeting
+                        :&nbsp;&nbsp;<b>{{data.TOTAL_GROUP_MEETINGS}} </b>&nbsp;&nbsp;OUT
+                        OF
+                        :&nbsp;<b>{{data.OUT_OF_MEETINGS}}</b></td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px; padding-top: 10px">b) Unit Council
+                        Meetings:&nbsp;&nbsp;<b>{{data.UNIT_COUNCILS_TOTAL}}</b>&nbsp;&nbsp; OUT
+                        OF :&nbsp;<b>{{data.UNIT_COUNCILS_OUT_OF}}</b></td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px; padding-top: 10px">c) Board Meeting
+                        :&nbsp;&nbsp;<b>{{data.TOTAL_BOARD_MEETINGS}}</b>
+                        &nbsp;&nbsp;OUT OF
+                        :&nbsp;<b>{{data.BOARD_OUT_OF_MEETINGS}}</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px; padding-top: 10px"> d)Unit Conferences
+                        :&nbsp;&nbsp;<b>{{data.UNIT_CONFERENCES_TOTAL}}</b>
+                        &nbsp;&nbsp;OUT
+                        OF :&nbsp; <b>{{data.UNIT_CONFERENCES_OUT_OF}}</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px; padding-top: 10px"> e) Branch
+                        Programmes:&nbsp;&nbsp;<b>{{data.BRANCH_PROGRAM_COUNT}}</b></td>
+                </tr>
+
+                <tr>
+                    <td style="padding-top: 10px">7) Whether worked for membership Retention
+                        Growth & Group
+                        Extension:&nbsp;<b>{{data.MEMBERSHIP_GROUP_GROWTH_DETAILS}}</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-top: 10px">8) Any other relevant
+                        information:&nbsp;&nbsp;<b>{{data.MORE_DETAILS}}</b></td>
+                </tr>
+            </table>
+            <div style="text-align: justify; font-weight: bold; font-size: 15px; margin-top: 40px; padding-left: 30px;">
+                I, undersigned, PRESIDENT/Director of Administration of the Giants Group of
+                ……………………… do hereby certify that the information contained is true and
+                correct to the best of our knowledge.
+            </div>
+            <div style="display: inline-flex; width: 100%; margin-top: 10px;">
+                <div style="width: 30%; padding-top: 30px; text-align: center;">
+                    Date:
+                    <b>{{data.CREATED_DATE| date:'dd-MMM-yyyy'}}</b>
+                </div>
+                <div style="width: 30%;">
+                    <div
+                        style="width: 80px; height: 80px; border-radius: 50%; border: 1px solid grey; margin:0px auto;">
+                    </div>
+                </div>
+                <div style="width: 30%;text-align: center;padding-top: 30px;">
+                    <b>(SEAL) President / Director of Adm.</b>
+                </div>
+            </div>
+            <br>
+            <p style="display: flex; border-bottom: 1px solid rgb(39, 38, 38); padding-bottom: 5px;"></p>
+            <div style="page-break-after: always;"></div>
+
+            <div style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                Annexure A</div>
+            <br>
+            <div style="width:100%; padding-top: 10px">Whether worked for membership Retention Growth & Group Extension
+                :
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.MEMBERSHIP_GROUP_GROWTH_DETAILS}}</b>
+            </div>
+            <div style="page-break-after: always;"></div>
+
+            <div style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                Annexure B</div>
+            <br>
+            <div style="width: 100%; padding-top: 10px">
+                Whether he/she has inspired Various
+                Committees to undertake
+                Innovative
+                Projects:
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.INOVATIVATIVE_PROJECT_DETAILS}}</b>
+            </div>
+            <div style="page-break-after: always;"></div>
+            <div style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                Annexure C</div>
+            <br>
+            <div style="width:100%;padding-top: 10px">
+                Any more information:
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.MORE_DETAILS}}</b>
+            </div>
+            <div style="page-break-after: always;"></div>
+
+            <div style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                Annexure D</div>
+            <br>
+            <div nz-row [nzGutter]="8">
+
+                <div nz-row>
+
+                    <div nz-col [nzSpan]="24" *ngIf="data.PHOTO_URL_1 != ' ' && data.PHOTO_URL_1 != ''">
+                        &nbsp;&nbsp;&nbsp; <a href="{{url}}/{{data.PHOTO_URL_1}}" target="_blank">
+                            <img src="{{url}}/{{data.PHOTO_URL_1}}" target="_blank"
+                                style=" width: 100%; height: 500px"><br>
+                        </a>
+                    </div><br>
+                    <div nz-col [nzSpan]="24" *ngIf="data.PHOTO_URL_2 != ' '  && data.PHOTO_URL_2 != ''">
+                        &nbsp;&nbsp;&nbsp; <a href="{{url}}/{{data.PHOTO_URL_2}}" target="_blank">
+                            <img src="{{url}}/{{data.PHOTO_URL_2}}" target="_blank"
+                                style=" width: 100%; height: 500px"><br>
+                        </a>
+                    </div><br>
+                    <div nz-col [nzSpan]="24" *ngIf="data.PHOTO_URL_3 != ' ' && data.PHOTO_URL_3 != ''">
+                        &nbsp;&nbsp;&nbsp; <a href="{{url}}/{{data.PHOTO_URL_3}}" target="_blank">
+                            <img src="{{url}}/{{data.PHOTO_URL_3}}" target="_blank"
+                                style=" width: 100%; height: 500px"><br>
+                        </a>
+                    </div><br>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint
+            (click)="handleCancel()">Print</button>
+    </ng-template>
+</nz-modal>

@@ -1,0 +1,102 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row nzGutter="10">
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <div style="padding: 5px;">
+                <span class="formname">{{formTitle}}</span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div>
+                <nz-select name="federationName" nzShowSearch [nzLoading]="isFederationLoading" style="width: 100%"
+                    nzPlaceHolder="Select federation" (ngModelChange)="onFederationChange($event)"
+                    [(ngModel)]="FEDERATION_NAME">
+
+                    <nz-option *ngFor="let federation of federations;" [nzValue]="federation.ID"
+                        [nzLabel]="federation.NAME">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+
+        <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+            <div>
+                <nz-select name="unitName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getUnits($event)"
+                    [nzLoading]="isUnitLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 100%"
+                    nzPlaceHolder="Type here to search unit(s)" [(ngModel)]="UNIT_NAME"
+                    (ngModelChange)="getUnitInfo($event)">
+
+                    <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID" [nzLabel]="unit.NAME">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+
+        <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+            <div>
+                <nz-select name="groupName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getGroups($event)"
+                    [nzLoading]="isGroupLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 100%"
+                    nzPlaceHolder="Type here to search group(s)" [(ngModel)]="GROUP_NAME"
+                    (ngModelChange)="getGroupInfo($event)">
+
+                    <nz-option *ngFor="let group of groups;" [nzValue]="group.ID" [nzLabel]="group.NAME">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #table1 nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th><b>Sr. No.</b></th>
+
+                        <th *ngFor="let column of columns;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+
+                        <th *ngFor="let monthColumn of monthColumns;">
+                            <b>{{monthColumn[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of table1.data; let i = index;">
+                        <td align="center">
+                            {{((pageIndex - 1) * 10) + (i + 1)}}
+                        </td>
+
+                        <td align="left" *ngFor="let column of columns;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div style="font-size: 13px; text-align: left;">
+                                        {{data[column[0]]}}
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="font-size: 10px; text-align: right;">
+                                        ~ {{data["UNIT_NAME"]}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td align="center" *ngFor="let monthColumn of monthColumns;">
+                            {{data[monthColumn[0]]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

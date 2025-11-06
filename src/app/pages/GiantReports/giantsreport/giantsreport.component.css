@@ -1,0 +1,15 @@
+/* table,th,td{
+    border: 1px solid black;
+    border-collapse: collapse;
+} */
+
+nz-select {
+  width: 100%;
+}
+
+nz-form-item {
+  display: inline-block;
+  margin-bottom: 5px;
+  width: -webkit-fill-available;
+  padding: 0px 10px;
+}

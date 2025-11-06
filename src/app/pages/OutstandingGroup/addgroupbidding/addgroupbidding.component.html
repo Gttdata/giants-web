@@ -1,0 +1,1284 @@
+<div>
+  <div class="header1">
+    
+      <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+      style="width: 150px; margin-left: 10px;" (ngModelChange)="selectChangeYear()">
+      <nz-option *ngFor="let fillYears of range;" [nzValue]="fillYears" [nzLabel]="fillYears">
+      </nz-option>
+    </nz-select>
+    <span *ngIf="data.IS_SUBMITED != 'S'"><button type="button"  style="margin-left: 10px;" nz-button (click)="FetchOldData()" class="ant-btn">
+      Fetch Data
+    </button>
+    </span>
+      
+    
+  </div>
+  <!-- <div class="header">
+    <button type="button" nz-button (click)="FetchOldData()" class="ant-btn">
+      Fetch Data
+    </button>
+  </div> -->
+
+  <form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row nzGutter="10">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>A) Number of Meetings Held During the Year</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter No.of Meeting">
+                    <nz-input-group style="width: 170px;" nzAddOnAfter="No's">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter No." name="noofmeeting" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.GROUP_MEETINGS" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>B) Average attendance</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Average In Percentage">
+                    <nz-input-group style="width: 170px;" nzAddOnAfter="%">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter Average" name="avgattend" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.AVG_ATTENDANCE_MEETINGS" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>C) Monthly of Reporting to Giants Welfare Foundation/Branch
+                  </nz-form-label>
+                  <nz-form-control nzHasFeedback
+                    nzErrorTip="Enter No.of Monthly of Report to Giants Welfare Foundation/Branch">
+                    <nz-input-group style="width: 170px;" nzAddOnAfter="No's">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter No." name="NoOfProject" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.MONTHLY_REPORTING_SENT" required />
+                      </span>
+                    </nz-input-group>
+                    <span style="font-size: 10px;">[Sent before 10th of each month]</span>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>A) Board Meeting held during the year </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter No.of Meeting">
+                    <nz-input-group style="width: 170px;" nzAddOnAfter="No's">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter No." name="boardmeeting" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.BOARD_MEETINGS" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>B) Average attendance</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Average In Percentage">
+                    <nz-input-group style="width: 170px;" nzAddOnAfter="%">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter Average " name="avgattend2" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.BOARD_MEETINGS_ATTENDENCE" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>A) Dues paid to Welfare foundation
+                  </nz-form-label>
+
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addPaidDue()">
+                      <span>Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #paidDueTable nzBordered [nzHideOnSinglePage]="true" [nzData]="paidDueArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Date</b></th>
+                        <th><b>Amount (Rs.)</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of paidDueTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editPaidDue(data,i)">Edit </a>
+                        </td>
+                        <td class="td-center">{{data['DATE'] | date:'dd MMM yyyy'}}</td>
+                        <td class="td-right">{{ data.AMOUNT }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <!-- <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>B) Is there any Outstanding dues of Welfare Foundation?
+                  </nz-form-label>
+                  <nz-switch name="isoutstanding" (ngModelChange)="switchFun($event)" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No" [(ngModel)]="switchValue"></nz-switch>
+                </nz-form-item> -->
+                <nz-form-item>
+                  <label><span style="color: red;" *ngIf="data.SWICTHING==true">*</span>B) Is there any Outstanding dues
+                    of
+                    Welfare Foundation?
+                  </label>
+                  <nz-switch [(ngModel)]="data.SWICTHING" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                    (ngModelChange)="switchFun($event)" name="swicthing"></nz-switch>
+
+
+                  <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+                  <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+                  <!-- <textarea nz-input placeholder="Name of Programme"
+                      [(ngModel)]="data.NATIONAL_PROGRAMME" name="nameofprogram"
+                      [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000"
+                      *ngIf="Swicthing==true"></textarea> -->
+
+                </nz-form-item>
+              </div>
+
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item><span style="color: red;" *ngIf="data.SWICTHING==true">
+                    <nz-form-label nzRequired nzNoColon>Amount</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Enter the outstanding Amount">
+                      <!-- <span  *ngIf="['switchValue'] == 'true'">
+                      <nz-input-group nzAddOnBefore="Rs.">
+                        <input nz-input placeholder="Amount" name="outstanding" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.OUTSTANDING_DUES_AMOUNT" [disabled]="false"/>
+                      </nz-input-group>
+                    </span>
+                    <span *ngIf="['switchValue'] == 'false'">
+                      <nz-input-group nzAddOnBefore="Rs.">
+                        <input nz-input placeholder="Amount" name="outstanding" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.OUTSTANDING_DUES_AMOUNT" [disabled]="true"/>
+                      </nz-input-group>
+                    </span> -->
+                      <nz-input-group nzAddOnBefore="Rs.">
+                        <span class="td-right">
+                          <input nz-input placeholder="Amount" name="outstanding" (keypress)="numberOnly($event)"
+                            [(ngModel)]="data.OUTSTANDING_DUES_AMOUNT" *ngIf="data.SWICTHING==true" required />
+                        </span>
+                        <span *ngIf="data.SWICTHING == true && data.OUTSTANDING_DUES_AMOUNT== 0 "
+                          style="color:red">Please fill the field</span>
+                        <!-- <span *ngIf="data.OUTSTANDING_DUES_AMOUNT  && Swicthing==true "
+                        style="font-size: 10px; color: red;">
+                        [(ngModel)]="data.OUTSTANDING_DUES_AMOUNT"
+                      </span> -->
+                      </nz-input-group>
+                      <!-- <nz-input-group nzAddOnBefore="Rs.">
+                      <span class="td-right">
+                        <input nz-input placeholder="Amount" name="outstanding" (keypress)="numberOnly($event)"
+                        [(ngModel)]="data.OUTSTANDING_DUES_AMOUNT" required/>
+                      </span>
+                    </nz-input-group> -->
+                    </nz-form-control>
+                  </span>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <nz-form-item>
+                  <span style="color: red;" *ngIf="data.SWICTHING==true">
+                    <nz-form-label nzRequired nzNoColon>Details</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Enter the Details">
+                      <!-- <textarea rows="1" nz-input name="details" placeholder="Enter Details"
+                      [(ngModel)]="data.OUTSTANDING_DUES_DETAILS" maxlength="2000" *ngIf="Swicthing==true" required></textarea>
+                      <span *ngIf="Swicthing==true && validation==false && data.OUTSTANDING_DUES_AMOUNT==''"
+                        style="color:red">Please fill the field</span> -->
+
+                      <textarea nz-input placeholder="Details" [(ngModel)]="data.OUTSTANDING_DUES_DETAILS"
+                        name="nameofprogram" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000"
+                        *ngIf="data.SWICTHING==true" required></textarea>
+                      <span *ngIf="data.SWICTHING==true && data.OUTSTANDING_DUES_DETAILS==''"
+                        style="color:red">Please fill the field
+                        field</span>
+                      <span *ngIf="data.OUTSTANDING_DUES_DETAILS && Swicthing==true "
+                        style="font-size: 10px; color: red;">
+                        {{data.OUTSTANDING_DUES_DETAILS.length}}/ 1000
+                      </span>
+
+                    </nz-form-control>
+
+                  </span>
+                </nz-form-item>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Undertaken Projects Details
+                  </nz-form-label>
+
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addProject()">
+                      <span>+Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #basicTable nzBordered [nzHideOnSinglePage]="true" [nzData]="projectArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Project Name</b></th>
+                        <th><b>Implementation Date</b></th>
+                        <th><b>Project cost (Rs.)</b></th>
+                        <th><b>No.of Benefited Persons</b></th>
+                        <th><b>Member Count</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of basicTable.data;let i = index">
+
+                        <td class="td-center">
+                          <a (click)="edit(data,i)">Edit </a>
+                        </td>
+                        <td class="td-center">{{ data.NAME }}</td>
+                        <td class="td-center">{{data['DATE_OF_IMPLEMENTATION'] | date:'dd MMM yyyy'}}</td>
+                        <td class="td-right">{{ data.PROJECT_COST }}</td>
+                        <td class="td-center">{{ data.BENIFITED_PERSONS_COUNT }}</td>
+                        <td class="td-center">{{ data.MEMBERS_COUNT }}</td>
+
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Any Continuing projects undertaken by the Group
+                  </nz-form-label>
+
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Continuing projects" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addContiProject()">
+                      <span>+Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #contprojectTable nzBordered [nzHideOnSinglePage]="true" [nzData]="contiProjectArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Title</b></th>
+                        <th><b>Description</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of contprojectTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editContiProject(data,i)">Edit </a>
+                        </td>
+                        <td class="td-center">{{ data.TITLE }}</td>
+                        <td>{{ data.DESCRIPTION }}</td>
+
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Fund Raising Project Amount Collected </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Amount Collected">
+                    <nz-input-group style="width:170px" nzAddOnBefore="Rs.">
+                      <span class="td-right">
+                        <input nz-input placeholder="Enter Amount" name="collectedamt" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.FUND_RAISING_COLLECTED_AMOUNT" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Fund Raising Project Amount Gained</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Project Amount Gained">
+                    <nz-input-group style="width:170px" nzAddOnBefore="Rs.">
+                      <span class="td-right">
+                        <input nz-input placeholder="Enter Amount" name="gainedamt" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.FUND_RAISING_GAINED_AMOUNT" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Membership of the Group </nz-form-label>
+                </nz-form-item>
+              </div>
+
+            </div>
+            <div nz-row>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>On 31th Mar Previous Year </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter members count">
+                    <nz-input-group nzAddOnAfter="Members">
+                      <span class="td-left">
+                        <input nz-input placeholder="Member Count" name="groupmemberonmar"
+                          (keypress)="numberOnly($event)" [(ngModel)]="data.MEMBERSHIP_ON_31_MARCH" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>On 31th Sept Current Year</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter members count">
+                    <nz-input-group nzAddOnAfter="Members">
+                      <span class="td-left">
+                        <input nz-input placeholder="Member Count" name="groupmemberonsep"
+                          (keypress)="numberOnly($event)" [(ngModel)]="data.MEMBERSHIP_ON_30_SEPT" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>On 31th Dec Current Year</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter members count">
+                    <nz-input-group nzAddOnAfter="Members">
+                      <span class="td-left">
+                        <input nz-input placeholder="Member Count" name="clientname" (keypress)="numberOnly($event)"
+                          [(ngModel)]="data.MEMBERSHIP_ON_31_DEC" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+
+            <div nz-row>
+              <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Media Coverage </nz-form-label>
+                </nz-form-item>
+              </div>
+
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon required>Enclose Press Clippings & other Details
+                  </nz-form-label>
+
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Media Cover" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addMediaCover()">
+                      <span>Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #mediaCoverTable nzBordered [nzHideOnSinglePage]="true" [nzData]="mediaCoverArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Details</b></th>
+                        <th><b>Photo 1</b></th>
+                        <th><b>Photo 2</b></th>
+                        <th><b>Photo 3</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of mediaCoverTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editMediaCover(data,i)">Edit </a>
+                        </td>
+                        <td class="td-center">{{ data.DETAILS }}</td>
+                        <!-- <td class="td-center">
+                          <a href="{{data.PHOTO_URL1}}" target="_blank">Photo1</a>
+                        </td> -->
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL1 != undefined &&  data.PHOTO_URL1 != null &&  data.PHOTO_URL1 != ' ' &&  data.PHOTO_URL1 != '' ">
+                            <a href="{{api.retriveimgUrl}}mediaPhotos/{{ data.PHOTO_URL1 }}" target="_blank">Photo1</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL1 == undefined ||  data.PHOTO_URL1 == null ||  data.PHOTO_URL1 == ' ' ||  data.PHOTO_URL1 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL2 != undefined &&  data.PHOTO_URL2 != null &&  data.PHOTO_URL2 != ' ' &&  data.PHOTO_URL2 != '' ">
+                            <a href="{{api.retriveimgUrl}}mediaPhotos/{{ data.PHOTO_URL2 }}" target="_blank">Photo2</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL2 == undefined ||  data.PHOTO_URL2 == null ||  data.PHOTO_URL2 == ' ' ||  data.PHOTO_URL2 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL3 != undefined &&  data.PHOTO_URL3 != null &&  data.PHOTO_URL3 != ' ' &&  data.PHOTO_URL3 != '' ">
+                            <a href="{{api.retriveimgUrl}}mediaPhotos/{{ data.PHOTO_URL3 }}" target="_blank">Photo3</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL3 == undefined ||  data.PHOTO_URL3 == null ||  data.PHOTO_URL3 == ' ' ||  data.PHOTO_URL3 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                        <!-- <span *ngIf="data.PHOTO_URL1 && data.PHOTO_URL1!=' '>
+                        <a href="{{api.retriveimgUrl}}/{{data[i].PHOTO_URL1}}" target="_blank">
+
+                          {{data.PHOTO_URL1}} </a> </span> -->
+
+
+
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="my-box">
+
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon required>List of the New Groups Sponsored
+                  </nz-form-label>
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Group Sponsored" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addGroupSpons()">
+                      <span>Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #groupsponsTable nzBordered [nzHideOnSinglePage]="true" [nzData]="groupSponsArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Sponsored Group</b></th>
+                        <th><b>Date of Inauguration</b></th>
+                        <th><b>Present Status</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of groupsponsTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editGroupSpons(data,i)">Edit </a>
+                        </td>
+                        <td class="td-center">{{ data.SPONSERED_GROUP_NAME}}</td>
+                        <td class="td-center">{{data['DATE_OF_INAUGUARTION'] | date:'dd MMM yyyy'}}</td>
+                        <td>{{ data.PRESENT_STATUS }}</td>
+
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Attendance Details </nz-form-label>
+                </nz-form-item>
+              </div>
+
+            </div>
+            <div nz-row>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>UNIT COUNCILS Conducted </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter UNIT COUNCILS Attendance">
+                    <nz-input-group nzAddOnAfter="Members">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter Member Count" name="attendcount" maxlength="5"
+                          (keypress)="numberOnly($event)" [(ngModel)]="data.ATTENDANCE_OF_UNIT_COUNCILS_COUNT"
+                          (change)="unitCouncile(data.ATTENDANCE_OF_UNIT_COUNCILS_COUNT,data.ATTENDANCE_OF_UNIT_COUNCILS_TOTAL)"
+                          required />
+                      </span>
+                    </nz-input-group>
+                    <nz-input-group nzAddOnAfter="Out of">
+                      <span class="td-left">
+                        <input nz-input placeholder="Out Of" name="outofattend" maxlength="5"
+                          (keypress)="numberOnly($event)" [(ngModel)]="data.ATTENDANCE_OF_UNIT_COUNCILS_TOTAL"
+                          (change)="unitCouncile(data.ATTENDANCE_OF_UNIT_COUNCILS_COUNT,data.ATTENDANCE_OF_UNIT_COUNCILS_TOTAL)"
+                          required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>UNIT CONFERENCES Conducted</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter UNIT CONFERENCES Attendance">
+                    <nz-input-group nzAddOnAfter="Members">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter Member Count" name="unitconfattend" maxlength="5"
+                          (keypress)="numberOnly($event)" [(ngModel)]="data.ATTENDANCE_OF_UNIT_CONFERENCES_COUNT"
+                          (change)="unitconferences(data.ATTENDANCE_OF_UNIT_CONFERENCES_COUNT,data.ATTENDANCE_OF_UNIT_CONFERENCES_TOTAL)"
+                          required /> </span>
+
+                    </nz-input-group>
+                    <nz-input-group nzAddOnAfter="Out of">
+                      <span class="td-left">
+                        <input nz-input placeholder="Out Of" name="outofconfer" (keypress)="numberOnly($event)"
+                          maxlength="5" [(ngModel)]="data.ATTENDANCE_OF_UNIT_CONFERENCES_TOTAL"
+                          (change)="unitconferences(data.ATTENDANCE_OF_UNIT_CONFERENCES_COUNT,data.ATTENDANCE_OF_UNIT_CONFERENCES_TOTAL)"
+                          required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Past GWF CONVENTION</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Past GWF CONVENTION Attendance">
+                    <nz-input-group nzAddOnAfter="Members">
+                      <span class="td-left">
+                        <input nz-input placeholder="Enter Member Count" name="gwfattend" maxlength="5"
+                          (keypress)="numberOnly($event)" [(ngModel)]="data.ATTENDANCE_OF_PAST_GWF_COUNT"
+                          (change)="pastGWF(data.ATTENDANCE_OF_PAST_GWF_COUNT,data.ATTENDANCE_OF_PAST_GWF_TOTAL)"
+                          required />
+                      </span>
+                    </nz-input-group>
+                    <nz-input-group nzAddOnAfter="Out of">
+                      <span class="td-left">
+                        <input nz-input placeholder="Out Of" name="outofgwe" (keypress)="numberOnly($event)"
+                          maxlength="5" [(ngModel)]="data.ATTENDANCE_OF_PAST_GWF_TOTAL"
+                          (change)="pastGWF(data.ATTENDANCE_OF_PAST_GWF_COUNT,data.ATTENDANCE_OF_PAST_GWF_TOTAL)"
+                          required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Present Year Members list mail sent date </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Select the Date">
+                    <span class="td-left">
+                      <nz-date-picker name="memberpresentyear" nzPlaceHolder="Select Date" style="width: 150px;"
+                        [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy"
+                        [(ngModel)]="data.MEMBER_MAILING_LIST_SENT_PRESENT_YEAR" required>
+                      </nz-date-picker>
+                    </span>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Present Year BOD list mail sent date</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Select the Date">
+                    <span class="td-left">
+                      <nz-date-picker name="bodpresentyear" nzPlaceHolder="Select Date" style="width: 150px;"
+                        [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy"
+                        [(ngModel)]="data.BOD_MAILING_LIST_SENT_PRESENT_YEAR" required></nz-date-picker>
+                    </span>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Ensuing Year Members list mail sent date </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Select the Date">
+                    <span class="td-left">
+                      <nz-date-picker name="membersentyear" nzPlaceHolder="Select Date" style="width: 150px;"
+                        [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy"
+                        [(ngModel)]="data.MEMBER_MAILING_LIST_SENT_ENSUING_YEAR" required>
+                      </nz-date-picker>
+                    </span>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Ensuing Year BOD list mail sent date</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Select the Date">
+                    <span class="td-left">
+                      <nz-date-picker name="bodsentyear" nzPlaceHolder="Select Date" style="width: 150px;"
+                        [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy"
+                        [(ngModel)]="data.BOD_MAILING_LIST_SENT_ENSUING_YEAR" required>
+                      </nz-date-picker>
+                    </span>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Any Other Information </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Other Information">
+                    <textarea rows="3" nz-input placeholder="Enter other Information" name="otherinfo"
+                      [(ngModel)]="data.OTHER_DETAILS" maxlength="1000" required></textarea>
+                  </nz-form-control>
+                  <span *ngIf="data.OTHER_DETAILS" style="font-size: 10px; color: red;">
+                    {{data.OTHER_DETAILS.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+  <br />
+</div>
+<div class="footer">
+  <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+    style="margin-right: 8px;"><span>Cancel</span></button>
+    <span *ngIf="currentYear == SelectedYear">
+      <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" *ngIf="!data.ID && data.IS_SUBMITED != 'S'" nz-button
+      (click)="save(false,myForm)">
+      <span>Save As Draft & Close</span>
+    </button>
+    <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+          <a style="color: white" (click)="save(true,myForm)">Save & new</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu> -->
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button [nzLoading]="isSpinning"
+      *ngIf="data.ID && data.IS_SUBMITED != 'S'" (click)="save(false,myForm)">
+      <span>Save As Draft & Close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button [nzLoading]="isSpinning"
+      *ngIf="data.IS_SUBMITED != 'S'" (click)="ApplySubmit(myForm)" >
+      <span>Apply For Award & Close</span>
+    </button>
+    </span>
+  
+  <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary">
+    <span>Preview</span>
+  </button>
+</div>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerProjectVisible"
+  [nzTitle]="drawerProjectTitle" (nzOnClose)="drawerProjectClose()" (nzKeyboard)="true">
+
+  <app-addprojectundertaken [projectMediaCoverArray]="projectMediaCoverArray2"
+    [drawerProjectClose]="closeProjectCallback" (projectMediaCoverArrayData)="ProjectMedia($event)"
+    [projectdata]="drawerProjectData" [projectUnderTable]="projectUnderTableCallback">
+  </app-addprojectundertaken>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getDueWidth()"
+  [nzVisible]="drawerPaidDueVisible" [nzTitle]="drawerPaidDueTitle" (nzOnClose)="drawerPaidDueClose()"
+  (nzKeyboard)="true">
+
+  <app-addpaiddue [drawerPaidDueClose]="closePaidDueCallback" [drawerPaidDueVisible]="drawerPaidDueVisible"
+    [PaidDuedata]="drawerPaidDueData" [PaidDueTable]="PaidDueTableCallback">
+  </app-addpaiddue>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="drawerMediaCoverVisible" [nzTitle]="drawerMediaCoverTitle" (nzOnClose)="drawerMediaCoverClose()"
+  (nzKeyboard)="true">
+
+  <app-addmediacoverings [drawerMediaCoverClose]="closeMediaCoverCallback"
+    [drawerMediaCoverVisible]="drawerMediaCoverVisible" (fUrl1)="SentUrl1($event)" (fUrl2)="SentUrl2($event)"
+    (fUrl3)="SentUrl3($event)" [mediaCoverdata]="drawerMediaCoverData"
+    [MediaCoverageTable]="MediaCoverageTableCallback">
+  </app-addmediacoverings>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="drawerContiProjectVisible" [nzTitle]="drawerContiProjectTitle" (nzOnClose)="drawerContiProjectClose()"
+  (nzKeyboard)="true">
+
+  <app-addcontinuingprojects [drawerContiProjectClose]="closeContiProjectCallback"
+    [drawerContiProjectVisible]="drawerContiProjectVisible" [ContiProjectdata]="drawerContiProjectData"
+    [contiProjectTable]="contiProjectTableCallback">
+  </app-addcontinuingprojects>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="drawerGroupSponsVisible" [nzTitle]="drawerGroupSponsTitle" (nzOnClose)="drawerGroupSponsClose()"
+  (nzKeyboard)="true">
+
+  <app-addgroupsponsered [drawerGroupSponsClose]="closeGroupSponsCallback"
+    [drawerGroupSponsVisible]="drawerGroupSponsVisible" [GroupSponsdata]="drawerGroupSponsData"
+    [grpSponsTable]="grpSponsTableCallback">
+  </app-addgroupsponsered>
+</nz-drawer>
+
+
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()" [nzWidth]="900">
+  <ng-template #modalTitle>Print Document</ng-template>
+  <ng-template #modalContent>
+    <div nz-row id="print">
+      <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;padding-bottom: 10px;">
+        GIANTS WELFARE FOUNDATION<br>
+      </div>
+
+      <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 10px;">
+        AWARD BIDDING FORM NO. 1
+      </div>
+
+      <div style="color:black;text-align: center;font-weight: bolder;font-size: 18px;padding-bottom: 20px;">
+        NAME OF THE AWARD : THE OUTSTANDING GROUP
+      </div>
+
+      <div style="display:inline-flex;width: 100%;">
+        <div style="width: 22%;">
+          <p>NAME OF THE GROUP </p>
+        </div>
+        <div style="width:86%;">
+          <p style="border-bottom: 1px solid grey;min-height:20px;margin-bottom: 10px; "> :<b> {{data.GROUP_NAME}}</b>
+          </p>
+        </div>
+      </div>
+      <b style="font-weight: bold; padding-left: 30px;">Details</b>
+
+      <table style="margin-left: 30px;">
+
+        <tr>
+          <td><b>1)</b> A) Number of meetings held during the year :<b> {{data.GROUP_MEETINGS}} &nbsp;No.s</b></td>
+        </tr>
+        <tr>
+          <td> &nbsp;&nbsp;&nbsp; B) Average attendance : <b>{{data.AVG_ATTENDANCE_MEETINGS}}%</b></td>
+        </tr>
+        <tr>
+          <td>&nbsp;&nbsp;&nbsp; C) Monthly of reporting to Giants Welfare Foundation/Branch :
+            <b>{{data.MONTHLY_REPORTING_SENT}} No.s </b>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-size: 12px; padding-left: 30px">
+            <div>
+              &nbsp;&nbsp;&nbsp;[Sent before 10th of each month]
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><b>2) </b> A) Board Meeting held during the year : <b>{{data.BOARD_MEETINGS}} No.s </b>
+          </td>
+        </tr>
+        <tr>
+          <td> &nbsp;&nbsp;&nbsp;&nbsp; B) Average attendance : <b>{{data.BOARD_MEETINGS_ATTENDENCE}} % </b>
+          </td>
+        </tr>
+
+
+        <!-- <tr>
+           <td style="padding-top: 30px">
+
+               <b>3)</b>A) Dues paid to Welfare foundation :
+
+            </td>
+        </tr> -->
+
+        <tr>
+          <td style="padding-top: 30px"><b>3) </b> A) Dues paid to Welfare foundation :
+          </td>
+        </tr>
+
+        <tr *ngFor="let paidDuedata of paidDueArray;">
+          <td style="padding-left: 30px;padding-top: 10px">
+            <div>
+              &nbsp;&nbsp;Dues paid Date : <b>{{paidDuedata['DATE'] | date:'dd MMM yyyy'}}</b>
+            </div>
+            <div>
+              &nbsp;&nbsp; Rs. : <b> {{ paidDuedata.AMOUNT }} </b>
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td> &nbsp;&nbsp;&nbsp; B) Is there any outstanding dues of Welfare foundation ?
+
+            &nbsp; </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">
+            <div>
+              &nbsp;&nbsp;&nbsp;If so give details?
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">
+            <div>
+              &nbsp;&nbsp;&nbsp; Rs. <b>{{data.OUTSTANDING_DUES_AMOUNT}}</b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">
+            <div>
+              &nbsp;&nbsp;&nbsp; Details : <b>{{data.OUTSTANDING_DUES_DETAILS}}</b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-top: 30px"><b>4)</b> No. of projects undertaken : Annexure 'A'
+          </td>
+        </tr>
+
+        <!-- <tr *ngFor="let projectdata of projectArray;">
+
+           <td style="padding-left: 30px;padding-top: 10px">
+            <div>
+              a) Name of the project : <b> {{ projectdata.NAME }} </b>
+            </div>
+            <div>
+              b) Date implemented : <b> {{projectdata['DATE_OF_IMPLEMENTATION'] | date:'dd MMM yyyy'}} </b>
+
+            </div>
+            <div>
+              c) Project cost : <b> {{ projectdata.PROJECT_COST }} </b>
+            </div>
+            <div>
+              d) No. of persons benefited : <b> {{projectdata.BENIFITED_PERSONS_COUNT }} </b>
+            </div>
+            <div>
+              e) Involvement of members : <b> {{projectdata.MEMBERS_COUNT }} </b>
+            </div>
+            <div>
+              f) Impact on the Society : <b> {{projectdata.IMPACT_ON_SOCIETY }} </b>
+            </div>
+          </td>
+
+        </tr> -->
+
+        <tr>
+          <td style="padding-top: 30px"><b>5)</b> Any Continuing projects undertaken by the Group : Annexure 'B'
+          </td>
+        </tr>
+        <!-- <tr *ngFor="let contiProjectdata of contiProjectArray;">
+
+           <td style="padding-left: 30px;padding-top: 10px">
+            <div>
+              a) Name of the project : <b> {{ contiProjectdata.TITLE }} </b>
+            </div>
+            <div>
+              b) Description : <b> {{ contiProjectdata.DESCRIPTION }} </b>
+            </div>
+          </td>
+        </tr> -->
+        <tr>
+          <td style="padding-top: 20px"><b>6)</b>Fund raising project </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">
+            <div>
+              &nbsp;&nbsp;&nbsp; Amount Collected : <b> Rs. {{data.FUND_RAISING_COLLECTED_AMOUNT}} </b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">
+            <div>
+              &nbsp;&nbsp;&nbsp; Amount Gained : <b> Rs. {{data.FUND_RAISING_GAINED_AMOUNT}} </b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+
+          <td style="padding-top: 20px"><b>7) </b>Membership of the Group &nbsp; </td>
+        </tr>
+
+
+        <td style="padding-left: 30px;padding-top: 10px">
+          <div>
+            As on 31st Mar. Previous Year : <b> {{data.MEMBERSHIP_ON_31_MARCH}} </b> members
+          </div>
+          <div>
+            As on 30th Sep. Current Year : <b> {{data.MEMBERSHIP_ON_30_SEPT}} </b> members
+          </div>
+          <div>
+            As on 31st Dec. Current Year : <b> {{data.MEMBERSHIP_ON_31_DEC}} </b> members
+          </div>
+        </td>
+
+        <tr>
+
+          <td style="padding-top: 20px"><b>8) </b> Media Coverage : <b>Enclose Press Clippings & other detail </b>
+            &nbsp; </td>
+        </tr>
+
+        <tr>
+          <td style="padding-top: 30px"><b>9)</b> List of the New Groups Sponsored: Group
+          </td>
+        </tr>
+        <tr *ngFor="let groupSponsdata of groupSponsArray;">
+
+          <td style="padding-left: 30px;padding-top: 10px">
+            <div>
+              Sponsored Group Name : <b> {{ groupSponsdata.SPONSERED_GROUP_NAME }} </b>
+            </div>
+            <div>
+              Date of Inauguaration : <b> {{groupSponsdata['DATE_OF_INAUGUARTION'] | date:'dd MMM yyyy'}} </b>
+            </div>
+            <div>
+              Present Status : <b> {{ groupSponsdata.PRESENT_STATUS }} </b>
+            </div>
+
+          </td>
+
+        </tr>
+        <tr>
+          <td style="padding-top: 20px"><b>10) </b>Attendance of UNIT COUNCILS conducted :
+            <b> {{data.ATTENDANCE_OF_UNIT_COUNCILS_COUNT}}
+              (No./out of) {{data.ATTENDANCE_OF_UNIT_COUNCILS_TOTAL}} </b>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">
+            <div>
+              &nbsp; Attendance of UNIT CONFERENCES conducted : <b> {{data.ATTENDANCE_OF_UNIT_CONFERENCES_COUNT}}
+                (No./out of) {{data.ATTENDANCE_OF_UNIT_CONFERENCES_TOTAL}} </b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 15px">
+            <div>
+              &nbsp; Attendance of Past GWF CONVENTION : <b> {{data.ATTENDANCE_OF_PAST_GWF_COUNT}} (Venue)
+                {{data.ATTENDANCE_OF_PAST_GWF_TOTAL}} </b>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+
+          <td style="padding-top: 20px"><b>11) </b>Date of mailing list sent : </td>
+        </tr>
+
+
+        <td style="padding-left: 30px;padding-top: 10px">
+          <div>
+            a) Present Year Members list on date : <b> {{data['MEMBER_MAILING_LIST_SENT_PRESENT_YEAR'] | date:'dd MMM
+              yyyy'}} </b> &nbsp; &nbsp;
+            BOD list on date :
+            <b> {{data['BOD_MAILING_LIST_SENT_PRESENT_YEAR'] | date:'dd MMM yyyy'}} </b>
+          </div>
+          <div>
+            b) Ensuing Year Members list on date : <b> {{data['MEMBER_MAILING_LIST_SENT_ENSUING_YEAR'] | date:'dd MMM
+              yyyy'}} </b> &nbsp;
+            &nbsp; BOD list on date : <b>{{data['BOD_MAILING_LIST_SENT_ENSUING_YEAR'] | date:'dd MMM yyyy'}}</b>
+          </div>
+
+        </td>
+
+
+        <tr>
+          <td style="padding-top: 20px"><b>12)</b> Any other information : Annexure 'E'
+        </tr>
+
+      </table>
+
+      <div style="text-align: justify;font-size: 15px;margin-top: 40px;padding-left: 30px;">
+
+
+
+        I, undersigned, PRESIDENT/Director of Administration of the Giants Group of
+        ……………………… do hereby certify that the information contained is true and correct to the best of our knowledge.
+
+      </div>
+
+
+
+      <div style="display:inline-flex;width: 100%;margin-top: 10px;">
+
+        <div style="width: 30%;padding-top: 70px;text-align: center;">
+
+          Date : <b> {{data['DATE_OF_BIDING'] | date:'dd MMM yyyy'}}</b>
+
+
+
+        </div>
+
+        <div style="width: 30%;">
+
+          <div style="width:80px; height:80px;border-radius:50%;border:1px solid grey;margin:0px auto; ">
+
+          </div>
+
+        </div>
+
+        <div style="width: 30%;text-align: center;padding-top: 70px;">
+
+          President / Director of Adm.
+
+        </div>
+
+      </div>
+
+      <div style="page-break-after: always;">
+      </div>
+
+      <div>
+
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Annexure 'A'<br>
+        </div>
+
+        <tr *ngFor="let projectdata of projectArray;">
+
+          <td>
+            <div style="text-align: left;margin-top: 10px; padding-left: 30px; width: max-content;">
+              a) Name of the project : <b> {{ projectdata.NAME }} </b>
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: max-content;">
+              b) Date implemented : <b> {{projectdata['DATE_OF_IMPLEMENTATION'] | date:'dd MMM yyyy'}} </b>
+
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: max-content;">
+              c) Project cost : <b> Rs. {{ projectdata.PROJECT_COST }} </b>
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: max-content;">
+              d) No. of persons benefited : <b> {{projectdata.BENIFITED_PERSONS_COUNT }} </b>
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px;width: max-content;">
+              e) Involvement of members : <b> {{projectdata.MEMBERS_COUNT }} </b>
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px;width: max-content;">
+              f) Impact on the Society : <b> {{projectdata.IMPACT_ON_SOCIETY }} </b>
+            </div>
+          </td>
+
+        </tr>
+
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Annexure 'B'<br>
+        </div>
+
+        <tr *ngFor="let contiProjectdata of contiProjectArray;">
+
+          <td>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px;width: max-content;">
+              a) Name of the project : <b> {{ contiProjectdata.TITLE }} </b>
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px;width: max-content;">
+              b) Description : <b> {{ contiProjectdata.DESCRIPTION }} </b>
+            </div>
+          </td>
+        </tr>
+
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Media Coverage<br>
+        </div>
+
+
+        <tr *ngFor="let mediaCoverData of mediaCoverArray;">
+
+          <td>
+            <div style="text-align: justify; margin-top: 10px; padding-left: 30px;">
+              {{ mediaCoverData.DETAILS }}
+            </div>
+            <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+              <span
+                *ngIf="mediaCoverData.PHOTO_URL1 != undefined &&  mediaCoverData.PHOTO_URL1 != null &&  mediaCoverData.PHOTO_URL1 != '' &&  mediaCoverData.PHOTO_URL1 != ' ' ">
+                <b> Photo 1 </b>
+              </span>
+
+            </div>
+            <div style="text-align: center; margin-top: 10px; ">
+              <img
+                *ngIf="mediaCoverData.PHOTO_URL1 != undefined &&  mediaCoverData.PHOTO_URL1 != null &&  mediaCoverData.PHOTO_URL1 != '' &&  mediaCoverData.PHOTO_URL1 != ' ' "
+                style="width: 600px; height: 400px; margin-left: 15px;"
+                src="{{api.retriveimgUrl}}mediaPhotos/{{ mediaCoverData.PHOTO_URL1 }}" />
+            </div>
+            <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+              <span
+                *ngIf="mediaCoverData.PHOTO_URL2 != undefined &&  mediaCoverData.PHOTO_URL2 != null &&  mediaCoverData.PHOTO_URL2 != '' &&  mediaCoverData.PHOTO_URL2 != ' ' ">
+                <b> Photo 2 </b>
+              </span>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+              <img
+                *ngIf="mediaCoverData.PHOTO_URL2 != undefined &&  mediaCoverData.PHOTO_URL2 != null &&  mediaCoverData.PHOTO_URL2 != '' &&  mediaCoverData.PHOTO_URL2 != ' ' "
+                style="width: 600px; height: 400px; margin-left: 15px;"
+                src="{{api.retriveimgUrl}}mediaPhotos/{{ mediaCoverData.PHOTO_URL2 }}" />
+            </div>
+            <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+              <span
+                *ngIf="mediaCoverData.PHOTO_URL3 != undefined &&  mediaCoverData.PHOTO_URL3 != null &&  mediaCoverData.PHOTO_URL3 != '' &&  mediaCoverData.PHOTO_URL3 != ' ' ">
+                <b> Photo 3 </b>
+              </span>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+              <img
+                *ngIf="mediaCoverData.PHOTO_URL3 != undefined &&  mediaCoverData.PHOTO_URL3 != null &&  mediaCoverData.PHOTO_URL3 != '' &&  mediaCoverData.PHOTO_URL3 != ' ' "
+                style="width: 600px; height: 400px; margin-left: 15px;"
+                src="{{api.retriveimgUrl}}mediaPhotos/{{ mediaCoverData.PHOTO_URL3 }}" />
+            </div>
+          </td>
+        </tr>
+
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 40px;">
+          Annexure 'E'<br>
+        </div>
+        <div style="text-align: justify;padding-top: 10px;">
+          {{data.OTHER_DETAILS}}<br>
+        </div>
+      </div>
+    </div>
+
+
+  </ng-template>
+
+  <ng-template #modalFooter>
+
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+
+    <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint
+      (click)="handleCancel()">Print</button>
+
+  </ng-template>
+
+</nz-modal>

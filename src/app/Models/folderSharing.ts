@@ -1,0 +1,29 @@
+export class FolderSharing {
+    ACCESS_TYPE: string
+    CLIENT_ID: number
+    BRANCH_ID: number
+    BRANCH_NAME: string
+    CREATED_MODIFIED_DATE: string
+    DEPARTMENT_ID: number
+    DEPARTMENT_NAME: null
+    DESGNATION_NAME: null
+    DESIGNATION_ID: number
+    EMPLOYEE_BRANCH_ID: number
+    EMPLOYEE_BRANCH_NAME: string
+    EMPLOYEE_CODE: number
+    EMPLOYEE_DEPARTMENT_ID: number
+    EMPLOYEE_DEPARTMENT_NAME: string
+    EMPLOYEE_DESIGNATION_ID: number
+    EMPLOYEE_DESIGNATION_NAME: string
+    EMPLOYEE_EMAIL_ID: string
+    EMPLOYEE_ID: number
+    EMPLOYEE_MOBILE_NUMBER: string
+    EMPLOYEE_NAME: string
+    FOLDER_ID: number
+    FOLDER_NAME: string
+    ID: number
+    READ_ONLY: string
+    REPORTING_HEAD_ID: number
+    SHARING_TYPE: number
+    TEMPORARY_HEAD_ID: number
+}

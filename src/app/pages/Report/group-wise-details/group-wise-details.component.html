@@ -1,0 +1,103 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzXs="10" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">
+                    {{formTitle}}
+                </span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="10" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+            <div style="text-align: right;">
+                <nz-select name="unitName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getUnits($event)"
+                    [nzLoading]="isUnitLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 100%"
+                    nzPlaceHolder="Type here to search unit(s)" [(ngModel)]="UNIT_NAME"
+                    (ngModelChange)="getUnitInfo($event)">
+
+                    <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID" [nzLabel]="unit.NAME">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+
+        <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+            <div style="text-align: right;">
+                <nz-select placeholder="Select Year" name="year" [(ngModel)]="SELECTED_YEAR" nzShowSearch
+                    style="width: 150px;" (ngModelChange)="search(true)">
+
+                    <nz-option *ngFor="let year of yearRange;" [nzValue]="year" [nzLabel]="year">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+
+        <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1">
+            <div style="text-align: right;">
+                <button nz-button nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading"
+                    nzTooltipTitle="Excel File" nzTooltipPlacement="top" nz-tooltip>
+                    <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #table1 nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th rowspan="2"><b>Sr. No.</b></th>
+                        <th rowspan="2"><b>Unit Name</b></th>
+                        <th rowspan="2"><b>Group Name</b></th>
+                        <th rowspan="2"><b>B.O.D.</b></th>
+                        <th rowspan="2"><b>M.L.</b></th>
+                        <th colspan="2"><b>Paid Membership</b></th>
+                        <th rowspan="2"><b>Period</b></th>
+                        <th rowspan="2"><b>New Member(s)</b></th>
+                        <th rowspan="2"><b>NCF Member(s)</b></th>
+                    </tr>
+
+                    <tr>
+                        <th><b>{{SELECTED_YEAR - 1}}</b></th>
+                        <th><b>{{SELECTED_YEAR}}</b></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of table1.data; let i = index;">
+                        <td align="center">{{((pageIndex - 1) * 10) + (i + 1)}}</td>
+                        <td align="left">{{data["UNIT_NAME"]}}</td>
+                        <td align="left">{{data["NAME"]}}</td>
+                        <td align="center">{{data["BOD_2022_23"] ? data["BOD_2022_23"] : "NO"}}</td>
+                        <td align="center">{{data["MAILING_LIST"] ? data["MAILING_LIST"] : "NO"}}</td>
+                        <td align="center">{{data["PAID_" + (SELECTED_YEAR - 1)]}}</td>
+                        <td align="center">{{data["PAID_" + (SELECTED_YEAR)]}}</td>
+                        <td align="center">{{data["PEROID"]}}</td>
+                        <td align="center">{{data["MEMBER_COUNT"]}}</td>
+                        <td align="center">{{data["NCF_MEMBER_COUNT"]}}</td>
+                    </tr>
+
+                    <tr style="font-weight: bold;" *ngIf="(pageIndex * 10) >= totalRecords">
+                        <td align="center">Total</td>
+                        <td align="left">---</td>
+                        <td align="left">---</td>
+                        <td align="center">---</td>
+                        <td align="center">---</td>
+                        <td align="center">{{PAID_1}}</td>
+                        <td align="center">{{PAID_2}}</td>
+                        <td align="center">---</td>
+                        <td align="center">{{MEMBER_COUNT}}</td>
+                        <td align="center">{{NCF_MEMBER_COUNT}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,727 @@
+<div>
+    <div nz-row class="header" *ngIf="CurrentYear == SelectedYear">
+        <button type="button" nz-button (click)="FetchOldData()">
+            Fetch Data
+        </button>
+    </div>
+
+    <div nz-row style="margin: 11px; left: 825px; position: absolute; top: 0px;">
+        <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+            (ngModelChange)="selectChangeYear($event)" style="width: 150px">
+            <nz-option *ngFor="let abc of range;" [nzValue]="abc" [nzLabel]="abc">
+            </nz-option>
+        </nz-select>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-label style="font-weight: bold;">
+                    1) PARTICIPATION :
+                </nz-form-label>
+            </div>
+
+            <br><br>
+
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>In meetings</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-input-group nzAddOnAfter="Meeting">
+                            <input nz-input placeholder="Enter Total Meetings" name="_meeting" type="text"
+                                (keypress)="omit($event)" [(ngModel)]="data.PARTICIPATION_IN_MEETINGS" maxlength="5"
+                                (change)="regularmeeting(data.PARTICIPATION_IN_MEETINGS,data.PARTICIPATION_IN_MEETINGS_OUT_OF)"
+                                required />
+                        </nz-input-group>
+
+                        <nz-input-group nzAddOnAfter="Out of">
+                            <input nz-input placeholder="Out Of" name="out_meeting" (keypress)="omit($event)"
+                                [(ngModel)]="data.PARTICIPATION_IN_MEETINGS_OUT_OF" maxlength="5" type="text"
+                                (change)="regularmeeting(data.PARTICIPATION_IN_MEETINGS,data.PARTICIPATION_IN_MEETINGS_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                    </nz-form-control>
+
+                    <span *ngIf="data.PARTICIPATION_IN_MEETINGS==0" style="color:red">Please fill
+                        the field</span>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>In projects</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-input-group nzAddOnAfter="Project">
+                            <input nz-input placeholder="Enter Total Project" name="project_meeting"
+                                (keypress)="omit($event)" [(ngModel)]="data.PARTICIPATION_IN_PROJECTS" maxlength="5"
+                                (change)="Projectmeeting(data.PARTICIPATION_IN_PROJECTS,data.PARTICIPATION_IN_PROJECTS_OUT_OF)"
+                                required />
+                        </nz-input-group>
+
+                        <nz-input-group nzAddOnAfter="Out of">
+                            <input nz-input placeholder="Out Of" name="out_project" (keypress)="omit($event)"
+                                [(ngModel)]="data.PARTICIPATION_IN_PROJECTS_OUT_OF" maxlength="5"
+                                (change)="Projectmeeting(data.PARTICIPATION_IN_PROJECTS,data.PARTICIPATION_IN_PROJECTS_OUT_OF)"
+                                required />
+                        </nz-input-group>
+                    </nz-form-control>
+
+                    <span *ngIf="data.PARTICIPATION_IN_PROJECTS==0" style="color:red">Please fill
+                        the field</span>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>In Unit Conference</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-input-group nzAddOnAfter="Meeting">
+                            <input nz-input placeholder="Enter Total Unit Conference" name="group_meeting"
+                                (keypress)="omit($event)" [(ngModel)]="data.PARTICIPATION_IN_UNIT_CONFERENCE"
+                                maxlength="5"
+                                (change)="Unitmeeting(data.PARTICIPATION_IN_UNIT_CONFERENCE,data.PARTICIPATION_IN_UNIT_CONFERENCE_OUT_OF)"
+                                required />
+                        </nz-input-group>
+
+                        <nz-input-group nzAddOnAfter="Out of">
+                            <input nz-input placeholder="Out Of" name="out_unit"
+                                [(ngModel)]="data.PARTICIPATION_IN_UNIT_CONFERENCE_OUT_OF" maxlength="5"
+                                (change)="Unitmeeting(data.PARTICIPATION_IN_UNIT_CONFERENCE,data.PARTICIPATION_IN_UNIT_CONFERENCE_OUT_OF)"
+                                (keypress)="omit($event)" required />
+                        </nz-input-group>
+                    </nz-form-control>
+
+                    <span *ngIf="data.PARTICIPATION_IN_UNIT_CONFERENCE==0" style="color:red">Please fill
+                        the field
+                    </span>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon> In G.I. Past Convention </nz-form-label>
+                    <nz-form-item>
+                        <nz-input-group>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input placeholder="Enter G.I. Past Convention" name="GI"
+                                    [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    [(ngModel)]="data.PARTICIPATION_IN_GWF_PAST_CONVENTION" required maxlength="500">
+                                </textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="data.PARTICIPATION_IN_GWF_PAST_CONVENTION"
+                                style="font-size: 10px; color: red;">
+                                {{data.PARTICIPATION_IN_GWF_PAST_CONVENTION.length}}/ 500
+                            </span>
+                        </nz-input-group>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div class="grouping">
+            <div nz-row>
+                <div nz-col nzSpan="12">
+                    <nz-form-label nzNoColon style="font-weight: bold;">No. of New Members added
+                    </nz-form-label>
+
+                    <nz-form-item>
+                        <nz-input-group>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                            </nz-form-control>
+                        </nz-input-group>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12" style="text-align: right;">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                class="ant-btn ant-btn-primary" nz-button (click)="NewMember()">
+                                <span>Add New</span>
+                            </button>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <nz-table #drawerNewMemberdata nzBordered [nzData]="drawerNewMemberArray" [nzFrontPagination]="false"
+                    [nzShowPagination]="false">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: bold;">Action</th>
+                            <th style="font-weight: bold;">New Member</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let tab of drawerNewMemberdata.data;let i = index">
+                            <td class="datecenter">
+                                <a (click)="editNewMemberdata(tab,i)">Edit </a>
+                            </td>
+
+                            <td>{{ tab.MEMBER_NAME }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-label style="font-weight: bold;">Individual Contribution in
+                </nz-form-label>
+            </div>
+
+            <br><br>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>National Extension </nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter National Extension" name="Exten_detail"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" [(ngModel)]="data.NATIONAL_EXTENSION"
+                            maxlength="500" required>
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.NATIONAL_EXTENSION" style="font-size: 10px; color: red;">
+                        {{data.NATIONAL_EXTENSION.length}}/ 500
+                    </span>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>International Extension</nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter International Extension" name="Extension"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="500"
+                            [(ngModel)]="data.INTERNATIONAL_EXTENSION" required></textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.INTERNATIONAL_EXTENSION" style="font-size: 10px; color: red;">
+                        {{data.INTERNATIONAL_EXTENSION.length}}/ 500
+                    </span>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Assignments undertaken and fulfilled in Group activities
+                    </nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter Group Activity" name="grp_activity"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" [(ngModel)]="data.GROUP_ACTIVITIES" required
+                            maxlength="500">
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.GROUP_ACTIVITIES" style="font-size: 10px; color: red;">
+                        {{data.GROUP_ACTIVITIES.length}}/ 500
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Participation of fiscal activities</nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter Fiscal Activity" name="Fiscal_act"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" [(ngModel)]="data.FISCAL_ACTIVITIES"
+                            maxlength="500" required>
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.FISCAL_ACTIVITIES" style="font-size: 10px; color: red;">
+                        {{data.FISCAL_ACTIVITIES.length}}/ 500
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Any other information and reason for Recommendation
+                    </nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                        <textarea nz-input placeholder="Enter Any Other Information" name="Recomm"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" [(ngModel)]="data.OTHER_DETAILS" maxlength="500"
+                            required>
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.OTHER_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.OTHER_DETAILS.length}}/ 500
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div class="grouping">
+            <div nz-row>
+                <div nz-col nzSpan="12">
+                    <nz-form-label nzNoColon style="font-weight: bold;">Details And Documents
+                    </nz-form-label>
+
+                    <nz-form-item>
+                        <nz-input-group>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                            </nz-form-control>
+                        </nz-input-group>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12" style="text-align: right;">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                class="ant-btn ant-btn-primary" nz-button (click)="DetailAndDocument()">
+                                <span>Add New</span>
+                            </button>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row>
+                <nz-table #drawerDocAndDetaildata nzBordered [nzData]="drawerDocAndDetailArray"
+                    [nzFrontPagination]="false" [nzShowPagination]="false">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: bold;">Action</th>
+                            <th style="font-weight: bold;">Details</th>
+                            <th style="font-weight: bold;">Documents</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let tab of drawerDocAndDetaildata.data;let i = index">
+                            <td class="datecenter">
+                                <a (click)="editDocAndDetaildata(tab,i)">Edit </a>
+                            </td>
+
+                            <td>{{ tab.DETAILS }}</td>
+
+                            <td><span *ngIf="tab.DOCUMENTS.type != 'application/pdf'">
+                                    <a href="{{DocumentUrl}}/{{tab.DOCUMENTS}}" target="_blank">
+                                        {{ tab.DOCUMENTS }}</a>
+                                </span>
+
+                                <span *ngIf="tab.DOCUMENTS != ''">
+                                    {{ tab.DOCUMENTS.name}}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+
+    <span *ngIf="CurrentYear == SelectedYear">
+        <span *ngIf="data.IS_SUBMITED != 'S'">
+            <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" style="margin-right: 8px" nz-button
+                (click)="save(myForm)">
+                <span>Save As Draft & close</span>
+            </button>
+
+            <button type="button" *ngIf="data.ID" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+                [nzLoading]="isSpinning" (click)="save(myForm)">
+                <span>Save As Draft & close</span>
+            </button>
+
+            <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px" nz-button
+                (click)="ApplyForAward(myForm)">
+                <span>Apply For Award & close</span>
+            </button>
+        </span>
+    </span>
+
+    <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary">
+        <span>Preview</span>
+    </button>
+</div>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="drawerNewMemberVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeNewMemberDrawer()" (nzKeyboard)="true">
+
+    <app-new-lady-member [NewMemberSaveInTable]="closeCallbackNewMember" [drawerVisible]="drawerNewMemberVisible"
+        [data]="drawerNewMember" [drawerNewMemberArray]="NewMemberDataArray"
+        [NewLadyMemberDrawerClose]="callBackNewMemberclose">
+    </app-new-lady-member>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="drawerDocAndDetailVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeDetailAndDocDrawer()" (nzKeyboard)="true">
+
+    <app-doc-and-details-drawe [DocAndDetailSaveInTable]="closeCallbackDetailAndDoc"
+        [drawerVisible]="drawerDocAndDetailVisible" [data]="drawerDocAndDetail"
+        [drawerDocAndDetailArray]="DocAndDetailrDataArray" [LadyDocAndDetDrawerClose]="callBackDocAndDetclose">
+    </app-doc-and-details-drawe>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle>Print Document</ng-template>
+
+    <ng-template #modalContent>
+        <div id="print">
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;padding-bottom: 5px;">
+                GIANTS WELFARE FOUNDATION<br>
+            </div>
+
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 5px;">
+                AWARD BIDDING FORM NO. 4
+            </div>
+
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 18px;padding-bottom: 5px;">
+                NAME OF THE AWARD : THE OUTSTANDING LADY MEMBER
+            </div>
+
+            <div style="color:#0b1113;font-weight: bolder; margin-bottom: 1px;font-size: 15px;">
+                Details:</div>
+            <br>
+
+            <div nz-row>
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;">
+                                NAME OF THE GROUP : <b>{{data.GROUP_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 13px;">
+                                NAME OF THE PERSON : <b>{{data.MEMBER_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                1) PARTICIPATION
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                a) In meetings : Nos.
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.PARTICIPATION_IN_MEETINGS}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp;out
+                                of
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.PARTICIPATION_IN_MEETINGS_OUT_OF}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                b) In projects : Nos. &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.PARTICIPATION_IN_PROJECTS}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; out of &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.PARTICIPATION_IN_PROJECTS_OUT_OF}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                c) In Unit Conference : Nos. &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.PARTICIPATION_IN_UNIT_CONFERENCE}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp; out of &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.PARTICIPATION_IN_UNIT_CONFERENCE_OUT_OF}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                d) In GWF Past Convention &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.PARTICIPATION_IN_GWF_PAST_CONVENTION}}</b>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p> -->
+            <div nz-row [nzGutter]="8">
+                <div
+                    style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                </div>
+
+                <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px; margin-left: 10px;">
+                    2) No. of New Members added/ introduced During the year [enclose list]
+                </div>
+            </div>
+
+            <div nz-row [nzGutter]="8">
+                <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px; margin-left: 10px;">
+                    Name Of Member
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <tr *ngFor="let tab of drawerNewMemberArray;">
+                        <td> &nbsp;&nbsp;&nbsp;&nbsp;{{ tab.MEMBER_NAME }}</td><br>
+                    </tr>
+                </div>
+            </div>
+
+            <br>
+
+            <div nz-row>
+                <div style="display: flex;">
+                    <div style="width: 100%">
+                        <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                            margin-left: 10px;">
+                            3) Individual Contribution in
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                a) National Extension [detail] : &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.NATIONAL_EXTENSION}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 12px;
+                                margin-left: 20px;">
+                                b) International Extension : &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.INTERNATIONAL_EXTENSION}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div nz-row>
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                4) Assignments undertaken and fulfilled in Group activities &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.GROUP_ACTIVITIES}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;margin-left: 10px;">
+                                5) Participation of fiscal activities &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.FISCAL_ACTIVITIES}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div nz-row *ngIf="data.OTHER_DETAILS.length > 0">
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                6) Any other information and reason for Recommendation: &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.OTHER_DETAILS}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <Br>
+
+            <div nz-row *ngIf="drawerDocAndDetailArray.length > 0">
+                <div style="width: 100%">
+                    <div style="display: flex;">
+                        <div style="width: 100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                7) Details & Documents &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-row [nzGutter]="8">
+                        <div nz-col nzSpan="24">
+                            <table style="overflow: none; width: 100%;text-align: center;border: 2px solid black ;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid black ;">Details</th>
+                                        <th style="border: 1px solid black ;">Documents</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerDocAndDetailArray;">
+                                        <td style="border: 1px solid black ;">{{ tab.DETAILS }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.DOCUMENTS }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div
+                style="color:rgb(32, 32, 32);font-weight: bolder;font-size: 14px;padding-bottom: 5px;margin-left: 10px;">
+                I, undersigned being President / Director of Administration of Giants Group of
+                ___________ hereby certify that the information contained is true and correct to the best
+                of our knowledge.
+            </div>
+
+            <br>
+
+            <div nz-row style="width: 100%;">
+                <div nz-col nzSpan="8" style="padding: 70px; width: 40%;">
+                    <b>Date:</b>
+                    {{data.CREATED_MODIFIED_DATE| date:'dd MMM yyyy'}}
+                </div>
+
+                <div nz-col nzSpan="8" class="dot">
+                    <!-- <p >(SEAL)</p> -->
+                </div>
+
+                <div nz-col nzSpan="8" style="float: right; padding-top: 70px; font-weight: bold;">
+                    <p>President / Director of Adm.</p>
+                </div>
+            </div>
+
+            <p style="display: flex; border-bottom: 1px solid rgb(39, 38, 38); padding-bottom: 5px;"></p>
+
+            <div style="page-break-after: always;"></div>
+
+            <div nz-row [nzGutter]="8" *ngIf="data.OTHER_DETAILS != ''">
+                <div
+                    style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                    Annexure A
+                </div>
+
+                <br>
+
+                <div style="color:#0b1113; margin-bottom: 1px; font-size: 15px; margin-left: 10px;">
+                    Any other information and reason for Recommendation: &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>{{data.OTHER_DETAILS}}</b>
+                </div>
+            </div>
+
+            <!-- <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p> -->
+
+            <div style="page-break-after: always;"></div>
+
+            <div *ngIf="drawerDocAndDetailArray.length > 0">
+                <div nz-row [nzGutter]="8">
+                    <div
+                        style="color:black; text-align: center; font-weight: bolder; font-size: 20px; padding-bottom: 5px;">
+                        Annexure B</div>
+                    <br>
+                </div>
+
+                <div nz-row [nzGutter]="8">
+                    <div nz-col nzSpan="24">
+                        <table style="overflow: none; width: 100%; text-align: center; border: 2px solid black;">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid black;">Details</th>
+                                    <th style="border: 1px solid black;">Documents</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let tab of drawerDocAndDetailArray;">
+                                    <td style="border: 1px solid black;">{{ tab.DETAILS }}</td>
+                                    <td style="border: 1px solid black;">{{ tab.DOCUMENTS }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint>
+            Print
+        </button>
+    </ng-template>
+</nz-modal>

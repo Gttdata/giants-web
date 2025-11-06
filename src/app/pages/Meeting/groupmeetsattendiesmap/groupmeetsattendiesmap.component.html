@@ -1,0 +1,125 @@
+<div nz-row class="my-box">
+  <div nz-col nzSpan="21">
+    <nz-form-item>
+      <nz-form-label nzNoColon>Member's Name</nz-form-label>
+
+      <nz-form-control>
+        <input nz-input name="searchName" autocomplete="off" placeHolder="Type here to search" type="text"
+          oninput="this.value = this.value.toLowerCase()" [(ngModel)]="SEARCH_NAME" />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col nzSpan="3">
+    <nz-form-item>
+      <nz-form-label nzNoColon></nz-form-label>
+
+      <nz-form-control>
+        <button nz-button nzType="dafault" (click)="resetSearchBox()"
+          style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;">
+          Reset
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div>
+  <nz-table class="my-scroll no-wrap1" nzBordered #dataTable nzShowSizeChanger [nzFrontPagination]="false"
+    [nzFrontPagination]="false" [nzData]="trainattendiesData" [nzLoading]="isSpinning" [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize" [nzScroll]="{y: '440px'}">
+    <thead>
+      <tr>
+        <th style="width: 80px;">
+          <b>Sr. No.</b>
+        </th>
+
+        <th>
+          <b>Member Name</b>
+        </th>
+
+        <th style="width: 150px;">
+          <b>Present/ Absent</b><br>
+
+          <label nz-checkbox name="global_P_A" (ngModelChange)="onGlobalPAChange($event)"
+            [nzIndeterminate]="indeterminate" [(ngModel)]="GLOBAL_P_A">
+          </label>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let data of dataTable.data | searchPipe: SEARCH_NAME: 'MEMBER_NAME'; let i = index;">
+        <td style="width: 80px;" align="center">
+          {{i+1}}
+        </td>
+
+        <td>
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <span style="color: black; font-weight: bold;">
+                {{data.MEMBER_NAME}}
+              </span>&nbsp;
+
+              <span style="font-size: 10px; color: #ff8d73; font-weight: bold;">
+                ({{data.MEMBER_ROLE}})
+              </span>
+            </div>
+
+            <div nz-col nzSpan="24">
+              <span style="font-size: 10px;">
+                {{data.FEDERATION_NAME}},
+                {{data.UNIT_NAME}},
+                {{data.GROUP_NAME}}
+              </span>
+            </div>
+          </div>
+        </td>
+
+        <td style="width: 150px;" align="center">
+          <label nz-checkbox name="is_attending{{i}}" (ngModelChange)="onCheckBoxChanges($event,data['MEMBER_ID'])"
+            [(ngModel)]="data['P_A']">
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<div class="footer">
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <div style="padding: 5px; text-align: left;">
+        <nz-tag [nzColor]="'blue'">
+          <span style="font-size: 12px;">
+            Total : {{meetingTotalCount}}
+          </span>
+        </nz-tag>
+
+        <nz-tag [nzColor]="'green'">
+          <span style="font-size: 12px;">
+            Present : {{meetingPresentCount}}
+          </span>
+        </nz-tag>
+
+        <nz-tag [nzColor]="'red'">
+          <span style="font-size: 12px;">
+            Absent : {{meetingAbsentCount}}
+          </span>
+        </nz-tag>
+      </div>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <div style="text-align: right;">
+        <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+          <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" (click)="save()">
+          <span>Mark Attendance</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

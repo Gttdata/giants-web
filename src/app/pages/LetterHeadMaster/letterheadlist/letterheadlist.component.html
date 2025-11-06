@@ -1,0 +1,81 @@
+<div
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-row>
+    <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8">
+      <div style="text-align: left; padding: 5px;">
+        <span class="formname">
+          Letter Heads
+        </span>
+      </div>
+    </div>
+
+    <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8">
+      <div style="text-align: center;">
+        <button nz-button nzType="default" style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+          (click)="add()">
+          <i nz-icon nzType="plus"></i>Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div *ngFor="let meeting of dataList; let i = index;"
+    style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+    <div nz-row>
+      <div nz-col nzXs="20" nzSm="20" nzMd="20" nzLg="20" nzXl="20">
+        <div style="font-size: 14px; color:black; font-weight: bold; text-align: left;">
+          {{meeting.NAME}}
+        </div>
+        <div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="22" nzXl="22" style="text-align: right;">
+          <i nz-icon nzType="edit" (click)="edit(meeting)" nzTheme="twotone"></i>
+        </div>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+        <div style="font-size: 10px; text-align: center; color: black;">
+          <img [src]="getPhotoURL(meeting.PHOTO1)" style="width: 100%; text-align: center;">
+        </div>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+        <div style="font-size: 10px; text-align: left; color: black;">
+          {{meeting.DESCRIPTION}}
+        </div>
+      </div>
+
+
+      <!-- <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; color:#FF7A7A; text-align: right;">
+            {{meeting.MEETING_NUMBER}}
+          </div>
+        </div> -->
+    </div>
+
+  </div>
+
+</div>
+
+<!-- <div *ngIf="dataList.length == 0">
+    <nz-empty
+      [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+      [nzNotFoundContent]="contentTpl">
+    </nz-empty>
+
+    <ng-template #contentTpl>
+      <span>No data available.</span>
+    </ng-template>
+  </div> -->
+<!-- </div> -->
+
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+  <app-addletterhead [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData">
+  </app-addletterhead>
+</nz-drawer>

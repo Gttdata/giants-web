@@ -1,0 +1,319 @@
+<div
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-row>
+    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+      <div style="text-align: left; padding: 5px;">
+        <span class="formname">
+          {{formTitle}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-row>
+    <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon>Month</nz-form-label>
+
+        <nz-form-control>
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Month" name="month" [(ngModel)]="MONTH">
+            <nz-option [nzValue]="'January'" [nzLabel]="'January'"></nz-option>
+            <nz-option [nzValue]="'February'" [nzLabel]="'February'"></nz-option>
+            <nz-option [nzValue]="'March'" [nzLabel]="'March'"></nz-option>
+            <nz-option [nzValue]="'April'" [nzLabel]="'April'"></nz-option>
+            <nz-option [nzValue]="'May'" [nzLabel]="'May'"></nz-option>
+            <nz-option [nzValue]="'June'" [nzLabel]="'June'"></nz-option>
+            <nz-option [nzValue]="'July'" [nzLabel]="'July'"></nz-option>
+            <nz-option [nzValue]="'August'" [nzLabel]="'August'"></nz-option>
+            <nz-option [nzValue]="'September'" [nzLabel]="'September'"></nz-option>
+            <nz-option [nzValue]="'October'" [nzLabel]="'October'"></nz-option>
+            <nz-option [nzValue]="'November'" [nzLabel]="'November'"></nz-option>
+            <nz-option [nzValue]="'December'" [nzLabel]="'December'"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon>Year</nz-form-label>
+
+        <nz-form-control>
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Year" name="year" [(ngModel)]="YEAR">
+            <nz-option *ngFor="let year of YEAR_SELECTION;" [nzValue]="year.NAME" [nzLabel]="year.NAME"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzXs="11" nzSm="11" nzMd="11" nzLg="11" nzXl="11">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon>Group</nz-form-label>
+
+        <nz-form-control>
+          <nz-select name="group" nzShowSearch nzAllowClear style="width: 100%" nzPlaceHolder="Select Group"
+            [(ngModel)]="GROUP_ID">
+            <nz-option *ngFor="let group of groups;" [nzValue]="group.ID" [nzLabel]="group.NAME"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+      <nz-form-item>
+        <nz-form-label nzNoColon></nz-form-label>
+
+        <nz-form-control>
+          <button nz-button nzType="default" style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+            (click)="showreport()" [nzLoading]="isLoading">
+            Show
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</div>
+
+<nz-modal nzWidth="1120px" [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent"
+  [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+  <ng-template #modalTitle>
+    Giants Group Report
+  </ng-template>
+
+  <ng-template #modalContent>
+    <div *ngIf="(dataList.length == 0) && (dataList1.length == 0)" style="margin-top: 20px">
+      <nz-empty
+        [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+        [nzNotFoundContent]="contentTpl">
+      </nz-empty>
+
+      <ng-template #contentTpl>
+        <span> No data available.</span>
+      </ng-template>
+    </div>
+
+    <div id="print" *ngIf="(dataList.length > 0) || (dataList1.length > 0)" style="height: 450px; overflow: auto;">
+      <div nz-row style="width: 1050px; height: 500px; background-color: white;">
+        <div nz-col nzSpan="24">
+          <img src="assets/giantgroupreport.png" alt="logo" style="width: 100%;">
+        </div>
+
+        <div nz-col nzSpan="24">
+          <div style="text-align: center; color: blue; font-size: 25px;">
+            <b>रिपोर्टिंग</b>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <div style="text-align: center; color: black; font-size: 20px;">
+            <b>{{reportGroupName}}</b>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <div style="text-align: center; color: black; font-size: 17px;">
+            <b>{{MONTH}} {{YEAR}}</b>
+          </div>
+        </div>
+
+        <br />
+
+        <div nz-col nzSpan="24">
+          <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+            <tr>
+              <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;" colspan="4">
+                अनुक्रमणिका
+              </th>
+            </tr>
+
+            <tr>
+              <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">अ. क्र.</th>
+              <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 200px;">दिनाांक</th>
+              <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">प्रोजेक्ट नाव</th>
+              <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">परिशिष्ट</th>
+            </tr>
+
+            <tr *ngFor="let project of dataList1; let i = index;">
+              <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                {{i+1}}
+              </td>
+
+              <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 200px;">
+                {{project['DATE'] | date : 'dd MMM yyyy'}}
+              </td>
+
+              <td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                {{project['PROJECT_NAME']}}
+              </td>
+
+              <td style="border: 1px solid black; border-collapse: collapse;"></td>
+            </tr>
+          </table>
+        </div>
+
+        <div nz-col nzSpan="24" style="margin-top: 10px;">
+          <div *ngFor="let data of dataList; let i = index;">
+            <div nz-row>
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 15px; padding: 5px;">
+                <span><b>Meeting Subject</b></span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 13px; padding: 5px;">
+                <span>{{data['MEETING_SUB']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 15px; padding: 5px;">
+                <span><b>Agenda</b></span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 13px; padding: 5px;">
+                <span>{{data['AGENDA']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(data['PHOTO1'] != ' ') && (data['PHOTO1'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupMeeting/{{data['PHOTO1']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="data['DESCRIPTION1'] != null" style="text-align: center; padding: 5px;">
+                <span>{{data['DESCRIPTION1']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(data['PHOTO2'] != ' ') && (data['PHOTO2'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupMeeting/{{data['PHOTO2']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="data['DESCRIPTION2'] != null" style="text-align: center; padding: 5px;">
+                <span>{{data['DESCRIPTION2']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="data['PHOTO3']!=' ' && data['PHOTO3']!=null"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupMeeting/{{data['PHOTO3']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="data['DESCRIPTION3'] != null" style="text-align: center; padding: 5px;">
+                <span>{{data['DESCRIPTION3']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(data['PHOTO4'] != ' ') && (data['PHOTO4'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupMeeting/{{data['PHOTO4']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="data['DESCRIPTION4'] != null" style="text-align: center; padding: 5px;">
+                <span>{{data['DESCRIPTION4']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(data['PHOTO5'] != ' ') && (data['PHOTO5'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupMeeting/{{data['PHOTO5']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="data['DESCRIPTION5'] != null" style="text-align: center; padding: 5px;">
+                <span>{{data['DESCRIPTION5']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 15px; padding: 5px;">
+                <span><b>Minutes</b></span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 13px; padding: 5px;">
+                <span>{{data['MINUTES']}}</span>
+              </div>
+            </div>
+
+            <div nz-col nzSpan="24" *ngIf="i < dataList.length-1" style="border-bottom: 1px solid black;"></div>
+            <div nz-col nzSpan="24" *ngIf="i == dataList.length-1" style="border-bottom: 3px solid black;"></div>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="24" style="margin-top: 10px;">
+          <div *ngFor="let dataev of dataList1; let j = index;">
+            <div nz-row>
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 15px; padding: 5px;">
+                <span><b>Event Name</b></span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 13px; padding: 5px;">
+                <span>{{dataev['PROJECT_NAME']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 15px; padding: 5px;">
+                <span><b>Details</b></span>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 13px; padding: 5px;">
+                <span>{{dataev['DETAILS']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(dataev['PHOTO1'] != ' ') && (dataev['PHOTO1'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupActivity/{{dataev['PHOTO1']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="dataev['DESCRIPTION1'] != null" style="text-align: center; padding: 5px;">
+                <span>{{dataev['DESCRIPTION1']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(dataev['PHOTO2'] != ' ') && (dataev['PHOTO2'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupActivity/{{dataev['PHOTO2']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="dataev['DESCRIPTION2']!=null" style="text-align: center; padding: 5px;">
+                <span>{{dataev['DESCRIPTION2']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(dataev['PHOTO3'] != ' ') && (dataev['PHOTO3'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupActivity/{{dataev['PHOTO3']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="dataev['DESCRIPTION3'] != null" style="text-align: center; padding: 5px;">
+                <span>{{dataev['DESCRIPTION3']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(dataev['PHOTO4'] != ' ') && (dataev['PHOTO4'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupActivity/{{dataev['PHOTO4']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="dataev['DESCRIPTION4'] != null" style="text-align: center; padding: 5px;">
+                <span>{{dataev['DESCRIPTION4']}}</span>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="(dataev['PHOTO5'] != ' ') && (dataev['PHOTO5'] != null)"
+                style="text-align: center; padding: 3px;">
+                <img style="height: 500px; width: 700px;" src="{{imgurl}}groupActivity/{{dataev['PHOTO5']}}" />
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="dataev['DESCRIPTION5'] != null" style="text-align: center; padding: 5px;">
+                <span>{{dataev['DESCRIPTION5']}}</span>
+              </div>
+            </div>
+
+            <div nz-col nzSpan="24" *ngIf="j < dataList1.length-1"
+              style="border-bottom: 1px solid black; margin-top: 10px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">
+      Cancel
+    </button>
+
+    <button nz-button nzType="default" *ngIf="(dataList.length > 0) || (dataList1.length > 0)" [useExistingCss]="true"
+      printSectionId="print" ngxPrint>
+      Print
+    </button>
+  </ng-template>
+</nz-modal>

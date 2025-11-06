@@ -1,0 +1,38 @@
+export class GroupMeetAttendance {
+    ID: number;
+    CLIENT_ID: number;
+    DATE: any;
+    FROM_TIME: any;
+    TO_TIME: any;
+    MEETING_NUMBER: string;
+    MEETING_SUB: string;
+    AGENDA: string;
+    MINUTES: any;
+    PHOTO1: any;
+    PHOTO2: any;
+    PHOTO3: any;
+    PHOTO4: any;
+    PHOTO5: any;
+    DESCRIPTION1: string;
+    DESCRIPTION2: string;
+    DESCRIPTION3: string;
+    DESCRIPTION4: string;
+    DESCRIPTION5: string;
+    GROUP_ID: number;
+    PDF1: string;
+    PDF2: string;
+    CREATOR_ID: number;
+    VENUE: string;
+    STATUS: string = "D";
+    IS_DELETED: boolean = false;
+    TYPE_ID: any;
+    MEETING_TYPE: string = "P";
+    TYPE_OF_MEET: string = "G";
+    IS_HOSTED: boolean = false;
+    HOSTING_LEVEL: String;
+    HOSTED_BY_GROUP_IDS: any;
+    HOSTED_PROGRAMME_ID: any;
+    FEDERATION_ID_TO_SHOW: Number = 0;
+    UNIT_ID_TO_SHOW: Number = 0;
+    GROUP_ID_TO_SHOW: Number = 0;
+}

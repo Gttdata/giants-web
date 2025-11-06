@@ -1,0 +1,82 @@
+<div>
+    <form nz-form #myForm="ngForm">
+        <div nz-row nzGutter="10">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div class="my-box">   
+                    <div nz-row>
+                        <div nz-col nzSpan="24">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzNoColon>Letter Head Name</nz-form-label>
+        
+                                <nz-form-control nzHasFeedback nzErrorTip="Please Enter Letter Head Name">
+                                    <input nz-input name="letterheadname" placeHolder="Enter Name" maxlength="256" type="text"
+                                        [(ngModel)]="data.NAME" required />
+                                </nz-form-control>
+        
+                                <span *ngIf="data.NAME" style="font-size: 10px; color: red;">
+                                    {{data.NAME.length}}/ 250</span>
+                            </nz-form-item>
+                        </div>
+                    </div>                 
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <div *ngIf="data.TEMPLATE_URL == undefined || data.TEMPLATE_URL == null || data.TEMPLATE_URL == ''"
+                                        style="width:100%; height:200px;text-align:center;padding:10px;border: 1px dashed gray; "
+                                        (click)="fileInput1.click()">
+                                        <div style="font-size: 50px;
+                                                    font-weight: bold;
+                                                    margin-top: 50px;
+                                                    margin-bottom: -15px;"> +</div> Choose Image
+                                    </div>
+                                    <input #fileInput1 type="file" accept="image/*" (change)="onFileSelected1($event)"
+                                        (click)="fileInput1.value = null" style="display: none;" />
+                                    <span *ngIf="fileURL1 == undefined || fileURL1 == null || fileURL1 == '' ">
+                                        <img *ngIf="data.TEMPLATE_URL != undefined &&  data.TEMPLATE_URL != null &&  data.TEMPLATE_URL != '' "
+                                            src="{{api.retriveimgUrl}}templateImages/{{data.TEMPLATE_URL}}"
+                                            (click)="fileInput1.click()"
+                                            style="height: 200px; width:100%; cursor: pointer;">
+                                    </span>
+
+                                    <span *ngIf="fileURL1 != null">
+                                        <img [src]="data.TEMPLATE_URL" (click)="fileInput1.click()"
+                                            style="height: 200px; width:100%; cursor: pointer;">
+                                    </span>
+
+                                    
+
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row>
+                        <div nz-col nzSpan="24">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzNoColon>Description</nz-form-label>
+                                <nz-form-control nzHasFeedback nzErrorTip="Enter Description">
+                                    <textarea rows="4" nz-input placeholder="Description" name="description"
+                                    [(ngModel)]="data.DESCRIPTION"  maxlength="1000" required>
+                                  </textarea>
+                                </nz-form-control>
+                                <span *ngIf="data.DESCRIPTION" style="font-size: 10px; color: red;">
+                                  {{data.DESCRIPTION.length}}/ 1000    
+                                </span>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="save(false,myForm)">
+        <span>Add & close</span>
+    </button>
+
+
+</div>

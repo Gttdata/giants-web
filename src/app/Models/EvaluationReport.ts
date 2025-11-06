@@ -1,0 +1,13 @@
+export class EvaluationReport {
+    CRITERIA_NAME
+    RATING
+    WEIGHTAGE
+    POINTS
+    REMARK
+    REPORTING_HEAD
+    EVALUATION_DATE
+    EMPLOYEE_ID
+    MONTH
+    YEAR
+    CLIENT_ID
+}

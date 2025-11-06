@@ -1,0 +1,35 @@
+export class GroupActivityMaster {
+    ID: number;
+    CLIENT_ID: number;
+    GROUP_ID: number;
+    PROJECT_ID: number;
+    DETAILS: string;
+    PHOTO1: string;
+    PHOTO2: string;
+    PHOTO3: string;
+    PHOTO4: string;
+    PHOTO5: string;
+    DESCRIPTION1: string;
+    DESCRIPTION2: string;
+    DESCRIPTION3: string;
+    DESCRIPTION4: string;
+    DESCRIPTION5: string;
+    DATE: string;
+    COUNT: string;
+    PDF1: string;
+    PDF2: string;
+    HASHTAGS: any;
+    VENUE: any;
+    CREATOR_ID = 0;
+    STATUS: string = 'D';
+    FROM_TIME: any;
+    TO_TIME: any;
+    IS_DELETED: boolean = false;
+    IS_GIANTS_CELEBRATION_EVENT: boolean = false;
+    EVENT_NAME: string;
+    IS_POST_CREATED: boolean = false;
+    FEDERATION_ID_TO_SHOW: Number = 0;
+    UNIT_ID_TO_SHOW: Number = 0;
+    GROUP_ID_TO_SHOW: Number = 0;
+    BENIFICIERY_DETAILS: string;
+}

@@ -1,0 +1,253 @@
+<nz-spin [nzSpinning]='loadingRecords'>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="activityItem" style="height: 80vh; overflow-y: auto; padding-bottom: 45px;" (scroll)="onScroll($event)">
+        <div *ngIf="dataList.length > 0">
+            <div *ngFor="let group of dataList; let i = index;"
+                style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px;">
+                <div>
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="font-weight: bold; color: black; padding: 5px;">
+                                {{group["GROUP_NAME"]}}
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; padding: 5px;">
+                                <span
+                                    style="font-size: 10px; border-radius: 0px; padding: 5px; background-color: white; color: rgb(42, 42, 42)">
+                                    <span style="border: 1px solid black; padding: 3px; background-color: #f0f2f5;"
+                                        *ngIf="group.FEDERATION_SHORT_NAME">
+                                        {{group.FEDERATION_SHORT_NAME}}
+                                    </span>
+
+                                    <span style="border: 1px solid black; padding: 3px; background-color: #f0f2f5;"
+                                        *ngIf="group.UNIT_SHORT_NAME">
+                                        {{group.UNIT_SHORT_NAME}}
+                                    </span>
+
+                                    <span style=" border: 1px solid black; padding: 3px; background-color: #f0f2f5;"
+                                        *ngIf="group.SHORT_NAME">
+                                        {{group.SHORT_NAME}}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <div
+                                style="font-size: 10px; font-weight: bold; text-align: left; color: gray; padding: 5px;">
+                                <i nz-icon nzType="global" nzTheme="outline" style="color: #ff7a7a"></i>
+                                {{group.FEDERATION_NAME}}
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <div
+                                style="font-size: 10px; font-weight: bold; text-align: left; color: gray; padding: 5px;">
+                                <i nz-icon nzType="deployment-unit" nzTheme="outline" style="color: #ff7a7a"></i>
+                                {{group.UNIT_NAME}}
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <div *ngIf="group.SPONSERED_GROUP_NAME"
+                                style="font-size: 10px; font-weight: bold; text-align: left; color: gray; padding: 5px;">
+                                ~ Sponsored By : {{group.SPONSERED_GROUP_NAME}}
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <div style="text-align: center;">
+                                <div style="margin: 3px; display: inline;">
+                                    <button nz-button
+                                        style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                        nzType="default" (click)="addMembers(group)" nzJustify="end">
+                                        <span style="font-size: 10px;">
+                                            <i nz-icon nzType="user" nzTheme="outline"></i>
+                                            BOD
+                                        </span>
+                                    </button>
+                                </div>
+
+                                <div style="margin: 3px; display: inline;">
+                                    <button nz-button
+                                        style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                        nzType="default" (click)="goToMemberMaster(group)" nzJustify="end">
+                                        <span style="font-size: 10px;">
+                                            <i nz-icon nzType="team" nzTheme="outline"></i>
+                                            Members : {{group.MEMBER_COUNT}}
+                                        </span>
+                                    </button>
+                                </div>
+
+                                <div style="margin: 3px; display: inline;">
+                                    <button nz-button
+                                        style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                        nzType="default" (click)="goToPayments(group)" nzJustify="end">
+                                        <span style="font-size: 10px;">
+                                            Payments
+                                        </span>
+                                    </button>
+                                </div>
+
+                                <div style="margin: 3px; display: inline;">
+                                    <button nz-button
+                                        style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                        nzType="default" (click)="showModal(group)" nzJustify="end">
+                                        <span style="font-size: 10px;">
+                                            <i nz-icon nzType="interaction" nzTheme="outline"></i>
+                                            Action
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="dataList.length == 0" style="margin-top: 20px">
+            <nz-empty
+                [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                [nzNotFoundContent]="contentTpl">
+            </nz-empty>
+
+            <ng-template #contentTpl>
+                <span>No data available.</span>
+            </ng-template>
+        </div>
+    </div>
+</nz-spin>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+    [nzVisible]="memberDrawerVisible" [nzTitle]="memberDrawerTitle" (nzOnClose)="memberDrawerClose()"
+    (nzKeyboard)="true">
+
+    <app-assign-group-member [drawerClose]="memberDrawerCloseCallback" [drawerVisible]="memberDrawerVisible"
+        [data]="memberDrawerData">
+    </app-assign-group-member>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()">
+    <ng-template #modalContent>
+        <form nz-form #myForm="ngForm">
+            <nz-spin [nzSpinning]="isConfirmLoading">
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Status</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Select Status">
+                                <nz-select name="status" nzShowSearch nzAllowClear style="width: 100%"
+                                    nzPlaceHolder="Select Status" [(ngModel)]="STATUS" required>
+
+                                    <nz-option nzValue="A" nzLabel="Approve"></nz-option>
+                                    <nz-option nzValue="R" nzLabel="Reject"></nz-option>
+                                    <nz-option nzValue="CA" nzLabel="Conditional Approve"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Remark</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Remark">
+                                <textarea nz-input rows="2" autocomplete="off" placeholder="Remark" maxlength="250"
+                                    name="remark" [(ngModel)]="REMARK" required>
+                                </textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="REMARK" style="font-size: 10px; color: red;">
+                                {{REMARK.length}}/ 250
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="STATUS == 'CA'">
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Member Remark</nz-form-label>
+
+                            <nz-form-control>
+                                <textarea nz-input rows="2" autocomplete="off" placeholder="Member Remark"
+                                    maxlength="250" name="memberRemark" [(ngModel)]="MEMBER_REMARK">
+                                </textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="MEMBER_REMARK" style="font-size: 10px; color: red;">
+                                {{MEMBER_REMARK.length}}/ 250
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="STATUS == 'CA'">
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Payment Remark</nz-form-label>
+
+                            <nz-form-control>
+                                <textarea nz-input rows="2" autocomplete="off" placeholder="Payment Remark"
+                                    maxlength="250" name="paymentRemark" [(ngModel)]="PAYMENT_REMARK">
+                                </textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="PAYMENT_REMARK" style="font-size: 10px; color: red;">
+                                {{PAYMENT_REMARK.length}}/ 250
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="STATUS == 'CA'">
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>BOD Remark</nz-form-label>
+
+                            <nz-form-control>
+                                <textarea nz-input rows="2" autocomplete="off" placeholder="BOD Remark" maxlength="250"
+                                    name="BODRemark" [(ngModel)]="BOD_REMARK">
+                                </textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="BOD_REMARK" style="font-size: 10px; color: red;">
+                                {{BOD_REMARK.length}}/ 250
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-spin>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">
+            Submit
+        </button>
+    </ng-template>
+</nz-modal>

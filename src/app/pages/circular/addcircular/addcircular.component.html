@@ -1,0 +1,1120 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close(circularmaster)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <form nz-form #circularmaster="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzSpan="6">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Date</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Select Date">
+                                <nz-date-picker nzFormat="dd/MM/yyyy" nzPlaceHolder="Select Date"
+                                    [(ngModel)]="data.DATE" name="date" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="18">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>
+                                Circular Type &nbsp;
+                                <span nz-icon nzType="plus-circle" nzTheme="twotone"
+                                    style="font-size: 20px; cursor: pointer;" (click)="addCircularType()">
+                                </span>
+                            </nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Select circular Type">
+                                <nz-select nzShowSearch nzAllowClear name="cast" [(ngModel)]="data.CIRCULAR_TYPE_ID"
+                                    nzPlaceHolder="Select Circular Type" required>
+
+                                    <nz-option [nzLabel]="role.NAME" *ngFor="let role of circularType;"
+                                        [nzValue]="role.ID">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Subject</nz-form-label>
+
+                            <nz-form-control nzErrorTip="Enter Valid Subject">
+                                <textarea rows="3" nz-input name="Name" placeholder="Enter Subject"
+                                    [(ngModel)]="data.SUBJECT" maxlength="500" required>
+                                </textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="data.SUBJECT" style="font-size: 10px; color: red;">
+                                {{data.SUBJECT.length}}/ 500
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Circular Draft</nz-form-label>
+
+                            <nz-form-control nzErrorTip="Enter Valid Circular Draft">
+                                <angular-editor [placeholder]="'Draft circular here...'" [config]="editorConfig"
+                                    name="description" [(ngModel)]="data.DESCRIPTION" required>
+                                </angular-editor>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Letter Head</nz-form-label>
+
+                            <nz-form-control>
+                                <nz-radio-group name="letterHead" [(ngModel)]="data.LETTER_HEAD"
+                                    [disabled]="editAccess">
+                                    <label nz-radio nzValue="SIGNING_AUTHORITY1">
+                                        Signing Authority 1
+                                    </label>
+
+                                    <label nz-radio nzValue="SIGNING_AUTHORITY2" *ngIf="data.SIGNING_AUTHORITY2">
+                                        Signing Authority 2
+                                    </label>
+
+                                    <label nz-radio nzValue="SIGNING_AUTHORITY3"
+                                        *ngIf="(data.SIGNING_AUTHORITY2) && (data.SIGNING_AUTHORITY3)">
+                                        Signing Authority 3
+                                    </label>
+                                </nz-radio-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <div nz-col nzSpan="8">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzNoColon>
+                                    Signing Authority 1
+                                </nz-form-label>
+
+                                <nz-form-control nzHasFeedback nzErrorTip="Select Signing Authority 1">
+                                    <nz-select nzShowSearch nzAllowClear name="authority1" nzServerSearch
+                                        (nzOnSearch)="onSigningAuthority1TextChanged($event)"
+                                        [nzLoading]="isMember1Loading" (ngModelChange)="signingAuthority1Change($event)"
+                                        [(ngModel)]="data.SIGNING_AUTHORITY1" nzPlaceHolder="Type here to search"
+                                        [disabled]="editAccess" required>
+
+                                        <nz-option nzCustomContent [nzLabel]="Mem.NAME" *ngFor="let Mem of Members1;"
+                                            [nzValue]="Mem.ID">
+                                            <div nz-row>
+                                                <div nz-col nzSpan="24">
+                                                    {{Mem.NAME}}
+                                                </div>
+
+                                                <div nz-col nzSpan="24">
+                                                    <div style="font-size: 10px; color: blue; text-align: right;">
+                                                        ~ {{Mem.MEMBER_ROLE}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-row *ngIf="USER_ID == data.SIGNING_AUTHORITY1">
+                                <div nz-col nzSpan="16">
+                                    <nz-form-item>
+                                        <nz-form-label nzNoColon nzRequired>Your Signature</nz-form-label>
+
+                                        <nz-form-control>
+                                            <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                                (click)="pdfFileInput1.click()">Choose File
+
+                                                <input #pdfFileInput1 type="file" accept="image/*"
+                                                    (change)="onPdfFileSelected1($event)"
+                                                    (click)="pdfFileInput1.value = null" style="display: none;" />
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col nzSpan="8" style="text-align: right;">
+                                    <nz-form-item
+                                        *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                        <nz-form-label nzNoColon></nz-form-label>
+
+                                        <nz-form-control>
+                                            <button type="button" class="ant-btn ant-btn-primary" nz-button
+                                                (click)="uploadSignature()"><i nz-icon nzType="upload"
+                                                    nzTheme="outline"></i>
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col nzSpan="23"
+                                    *ngIf="(memberData['SIGNATURE'] != null) && (memberData['SIGNATURE'] != undefined) && (memberData['SIGNATURE'] != ' ') && (fileURL1 == null)">
+                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{memberData.SIGNATURE}}" alt="img"
+                                        style="width: 150px; height: 50px;">
+                                </div>
+
+                                <div nz-col nzSpan="1"
+                                    *ngIf="(memberData['SIGNATURE'] != null) && (memberData['SIGNATURE'] != undefined) && (memberData['SIGNATURE'] != ' ') && (fileURL1 == null)">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzSpan="23"
+                                    *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                    <img src="{{selectedURL}}" alt="img" style="width: 150px; height: 50px;">
+                                </div>
+
+                                <div nz-col nzSpan="1"
+                                    *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="8">
+                            <nz-form-item>
+                                <nz-form-label nzNoColon>
+                                    Signing Authority 2
+                                </nz-form-label>
+
+                                <nz-form-control>
+                                    <nz-select nzShowSearch nzAllowClear name="authority2" nzServerSearch
+                                        (nzOnSearch)="onSigningAuthority2TextChanged($event)"
+                                        [nzLoading]="isMember2Loading" (ngModelChange)="signingAuthority2Change($event)"
+                                        [(ngModel)]="data.SIGNING_AUTHORITY2" nzPlaceHolder="Type here to search"
+                                        [disabled]="editAccess">
+
+                                        <nz-option nzCustomContent [nzLabel]="Mem.NAME" *ngFor="let Mem of Members2;"
+                                            [nzValue]="Mem.ID">
+                                            <div nz-row>
+                                                <div nz-col nzSpan="24">
+                                                    {{Mem.NAME}}
+                                                </div>
+
+                                                <div nz-col nzSpan="24">
+                                                    <div style="font-size: 10px; color: blue; text-align: right;">
+                                                        ~ {{Mem.MEMBER_ROLE}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-row *ngIf="USER_ID == data.SIGNING_AUTHORITY2">
+                                <div nz-col nzSpan="16">
+                                    <nz-form-item>
+                                        <nz-form-label nzNoColon nzRequired>Your Signature</nz-form-label>
+
+                                        <nz-form-control>
+                                            <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                                (click)="pdfFileInput1.click()">Choose File
+
+                                                <input #pdfFileInput1 type="file" accept="image/*"
+                                                    (change)="onPdfFileSelected1($event)"
+                                                    (click)="pdfFileInput1.value = null" style="display: none;" />
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col nzSpan="8" style="text-align: right;">
+                                    <nz-form-item
+                                        *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                        <nz-form-label nzNoColon></nz-form-label>
+
+                                        <nz-form-control>
+                                            <button type="button" class="ant-btn ant-btn-primary" nz-button
+                                                (click)="uploadSignature()"><i nz-icon nzType="upload"
+                                                    nzTheme="outline"></i>
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col nzSpan="23"
+                                    *ngIf="(memberData['SIGNATURE'] != null) && (memberData['SIGNATURE'] != undefined) && (memberData['SIGNATURE'] != ' ') && (fileURL1 == null)">
+                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{memberData.SIGNATURE}}" alt="img"
+                                        style="width: 150px; height: 50px;">
+                                </div>
+
+                                <div nz-col nzSpan="1"
+                                    *ngIf="(memberData['SIGNATURE'] != null) && (memberData['SIGNATURE'] != undefined) && (memberData['SIGNATURE'] != ' ') && (fileURL1 == null)">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzSpan="23"
+                                    *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                    <img src="{{selectedURL}}" alt="img" style="width: 150px; height: 50px;">
+                                </div>
+
+                                <div nz-col nzSpan="1"
+                                    *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="8" *ngIf="data.SIGNING_AUTHORITY2">
+                            <nz-form-item>
+                                <nz-form-label nzNoColon>
+                                    Signing Authority 3
+                                </nz-form-label>
+
+                                <nz-form-control>
+                                    <nz-select nzShowSearch nzAllowClear name="authority3"
+                                        [(ngModel)]="data.SIGNING_AUTHORITY3" nzServerSearch
+                                        (nzOnSearch)="onSigningAuthority3TextChanged($event)"
+                                        [nzLoading]="isMember3Loading" nzPlaceHolder="Type here to search"
+                                        [disabled]="editAccess">
+
+                                        <nz-option nzCustomContent [nzLabel]="Mem.NAME" *ngFor="let Mem of Members3;"
+                                            [nzValue]="Mem.ID">
+                                            <div nz-row>
+                                                <div nz-col nzSpan="24">
+                                                    {{Mem.NAME}}
+                                                </div>
+
+                                                <div nz-col nzSpan="24">
+                                                    <div style="font-size: 10px; color: blue; text-align: right;">
+                                                        ~ {{Mem.MEMBER_ROLE}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-row *ngIf="USER_ID == data.SIGNING_AUTHORITY3">
+                                <div nz-col nzSpan="16">
+                                    <nz-form-item>
+                                        <nz-form-label nzNoColon nzRequired>Your Signature</nz-form-label>
+
+                                        <nz-form-control>
+                                            <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                                (click)="pdfFileInput1.click()">Choose File
+
+                                                <input #pdfFileInput1 type="file" accept="image/*"
+                                                    (change)="onPdfFileSelected1($event)"
+                                                    (click)="pdfFileInput1.value = null" style="display: none;" />
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col nzSpan="8" style="text-align: right;">
+                                    <nz-form-item
+                                        *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                        <nz-form-label nzNoColon></nz-form-label>
+
+                                        <nz-form-control>
+                                            <button type="button" class="ant-btn ant-btn-primary" nz-button
+                                                (click)="uploadSignature()"><i nz-icon nzType="upload"
+                                                    nzTheme="outline"></i>
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col nzSpan="23"
+                                    *ngIf="(memberData['SIGNATURE'] != null) && (memberData['SIGNATURE'] != undefined) && (memberData['SIGNATURE'] != ' ') && (fileURL1 == null)">
+                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{memberData.SIGNATURE}}" alt="img"
+                                        style="width: 150px; height: 50px;">
+                                </div>
+
+                                <div nz-col nzSpan="1"
+                                    *ngIf="(memberData['SIGNATURE'] != null) && (memberData['SIGNATURE'] != undefined) && (memberData['SIGNATURE'] != ' ') && (fileURL1 == null)">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzSpan="23"
+                                    *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                    <img src="{{selectedURL}}" alt="img" style="width: 150px; height: 50px;">
+                                </div>
+
+                                <div nz-col nzSpan="1"
+                                    *ngIf="(selectedURL != null) && (selectedURL != undefined) && (fileURL1 != null)">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box" *ngIf="(data.CREATER_ID == USER_ID) || (!data.ID)">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>PDF 1</nz-form-label>
+
+                                    <nz-form-control>
+                                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                            (click)="pdfFileInput1.click()">Choose File
+
+                                            <input #pdfFileInput1 type="file" accept="application/pdf"
+                                                (change)="onAttachedPdfFileSelected1($event)"
+                                                (click)="pdfFileInput1.value = null" style="display: none;" />
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="1" *ngIf="attachedpdfFileURL1 != null">
+                                <nz-form-item>
+                                    <i nz-icon nzType="delete" (click)="attachedpdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="23" *ngIf="attachedpdfFileURL1 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    {{attachedpdfFileURL1.name}}
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="1" *ngIf="data.ATTACHED_PDF1 != null">
+                                <nz-form-item>
+                                    <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'"
+                                        nz-popconfirm nzPopconfirmTitle="Are you sure delete this PDF?"
+                                        (nzOnConfirm)="attachedpdfClear1()" (nzOnCancel)="cancel()"
+                                        nzPopconfirmPlacement="top">
+                                    </i>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="23" *ngIf="data.ATTACHED_PDF1 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    <a (click)="viewAttachedPDF(data.ATTACHED_PDF1)">{{data.ATTACHED_PDF1}}</a>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>PDF 2</nz-form-label>
+
+                                    <nz-form-control>
+                                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                            (click)="pdfFileInput2.click()">Choose File
+
+                                            <input #pdfFileInput2 type="file" accept="application/pdf"
+                                                (change)="onAttachedPdfFileSelected2($event)"
+                                                (click)="pdfFileInput2.value = null" style="display: none;" />
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="1" *ngIf="attachedpdfFileURL2 != null">
+                                <nz-form-item>
+                                    <i nz-icon nzType="delete" (click)="attachedpdfClear2()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="23" *ngIf="attachedpdfFileURL2 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    {{attachedpdfFileURL2.name}}
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="1" *ngIf="data.ATTACHED_PDF2 != null">
+                                <nz-form-item>
+                                    <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'"
+                                        nz-popconfirm nzPopconfirmTitle="Are you sure delete this PDF?"
+                                        (nzOnConfirm)="attachedpdfClear2()" (nzOnCancel)="cancel()"
+                                        nzPopconfirmPlacement="top">
+                                    </i>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="23" *ngIf="data.ATTACHED_PDF2 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    <a (click)="viewAttachedPDF(data.ATTACHED_PDF2)">{{data.ATTACHED_PDF2}}</a>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Image 1</nz-form-label>
+
+                                    <nz-form-control>
+                                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                            (click)="pdfFileInput3.click()">Choose File
+
+                                            <input #pdfFileInput3 type="file" accept="image/*"
+                                                (change)="onAttachedPdfFileSelected3($event)"
+                                                (click)="pdfFileInput3.value = null" style="display: none;" />
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="1" *ngIf="attachedpdfFileURL3 != null">
+                                <nz-form-item>
+                                    <i nz-icon nzType="delete" (click)="attachedpdfClear3()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="23" *ngIf="attachedpdfFileURL3 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    {{attachedpdfFileURL3.name}}
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="1" *ngIf="data.ATTACHED_PDF3 != null">
+                                <nz-form-item>
+                                    <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'"
+                                        nz-popconfirm nzPopconfirmTitle="Are you sure delete this Image?"
+                                        (nzOnConfirm)="attachedpdfClear3()" (nzOnCancel)="cancel()"
+                                        nzPopconfirmPlacement="top">
+                                    </i>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="23" *ngIf="data.ATTACHED_PDF3 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <nz-form-item>
+                                    <a (click)="viewAttachedPDF(data.ATTACHED_PDF3)">{{data.ATTACHED_PDF3}}</a>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box"
+                *ngIf="(data.CREATER_ID != USER_ID) && (data.ID) && ((data.ATTACHED_PDF1) || (data.ATTACHED_PDF2) || (data.ATTACHED_PDF3))">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>PDF 1</nz-form-label>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="data.ATTACHED_PDF1 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <a (click)="viewAttachedPDF(data.ATTACHED_PDF1)">
+                                    {{data.ATTACHED_PDF1}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>PDF 2</nz-form-label>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="data.ATTACHED_PDF2 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <a (click)="viewAttachedPDF(data.ATTACHED_PDF2)">
+                                    {{data.ATTACHED_PDF2}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Image</nz-form-label>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="data.ATTACHED_PDF3 != null"
+                                style="overflow: hidden; font-size: 13px;">
+                                <a (click)="viewAttachedPDF(data.ATTACHED_PDF3)">
+                                    {{data.ATTACHED_PDF3}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button class="ant-btn" *ngIf="isRemarkVisible == false" (click)="close(circularmaster)"
+            style="margin-right: 8px">
+            <span>Cancel</span>
+        </button>
+
+        <span *ngIf="!(data.SIGNING_AUTHORITY2 == USER_ID)">
+            <span *ngIf="!(data.SIGNING_AUTHORITY3 == USER_ID)">
+                <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+                    style="margin-right: 8px" (click)="save(false,circularmaster,true,'D')">
+                    <span>Save as Draft</span>
+                </button>
+            </span>
+        </span>
+
+        <span *ngIf="(data.SIGNING_AUTHORITY2)">
+            <span *ngIf="!(data.SIGNING_AUTHORITY2 == USER_ID)">
+                <span *ngIf="!(data.SIGNING_AUTHORITY3 == USER_ID)">
+                    <span *ngIf="(data.SUBMITTED_TO_SIGNING_AUTHORITY2) && !(data.SIGNING_AUTHORITY2_STATUS == 'A')">
+                        <button type="button" nz-button class="ant-btn" (click)="msgForSigningAuth2()"
+                            style="margin-right: 8px; color: green; border: 1px solid green;">
+                            <span>Submitted to Signing Authority 2</span>
+                        </button>
+                    </span>
+
+                    <span *ngIf="!(data.SUBMITTED_TO_SIGNING_AUTHORITY2)">
+                        <span
+                            *ngIf="(data.SIGNING_AUTHORITY2_STATUS == 'NA') || (data.SIGNING_AUTHORITY2_STATUS == 'R')">
+                            <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+                                style="margin-right: 8px" (click)="save(false,circularmaster,false,'D',true)">
+                                <span>Submit to Signing Authority 2</span>
+                            </button>
+                        </span>
+                    </span>
+                </span>
+            </span>
+        </span>
+
+        <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+            *ngIf="(data.SIGNING_AUTHORITY2 == USER_ID)" style="margin-right: 8px" (click)="auth2RejectionModalShow()">
+            <span>Reject By Signing Authority 2</span>
+        </button>
+
+        <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+            *ngIf="(data.SIGNING_AUTHORITY3 == USER_ID)" style="margin-right: 8px" (click)="auth3RejectionModalShow()">
+            <span>Reject By Signing Authority 3</span>
+        </button>
+
+        <span *ngIf="(data.SIGNING_AUTHORITY3)">
+            <span
+                *ngIf="(data.SUBMITTED_TO_SIGNING_AUTHORITY3) && !(data.SIGNING_AUTHORITY3_STATUS == 'A') && !(data.SIGNING_AUTHORITY3 == USER_ID)">
+                <button type="button" nz-button class="ant-btn" (click)="msgForSigningAuth3()"
+                    style="margin-right: 8px; color: green; border: 1px solid green;">
+                    <span>Submitted to Signing Authority 3</span>
+                </button>
+            </span>
+        </span>
+
+        <span *ngIf="((data.SIGNING_AUTHORITY2 == USER_ID) && (data.SIGNING_AUTHORITY3))">
+            <span *ngIf="!(data.SUBMITTED_TO_SIGNING_AUTHORITY3)">
+                <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+                    style="margin-right: 8px" (click)="save(false,circularmaster,false,'D',false,false,true)">
+                    <span>Approve & Submit to Signing Authority 3</span>
+                </button>
+            </span>
+        </span>
+
+        <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+            *ngIf="((data.SIGNING_AUTHORITY2 == USER_ID) && (!data.SIGNING_AUTHORITY3))" style="margin-right: 8px"
+            (click)="save(false,circularmaster,false,'D',false,false,false,false,false,true)">
+            <span>Approve By Signing Authority 2</span>
+        </button>
+
+        <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+            *ngIf="(data.SIGNING_AUTHORITY3 == USER_ID)" style="margin-right: 8px"
+            (click)="save(false,circularmaster,false,'D',false,false,false,false,true)">
+            <span>Approve By Signing Authority 3</span>
+        </button>
+
+        <span *ngIf="!(data.SIGNING_AUTHORITY2) && !(data.SIGNING_AUTHORITY3)">
+            <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+                style="margin-right: 8px" (click)="save(false,circularmaster,false,'P')">
+                <span>Publish</span>
+            </button>
+        </span>
+
+        <span *ngIf="(data.SIGNING_AUTHORITY2) && !(data.SIGNING_AUTHORITY3)">
+            <span *ngIf="(data.SIGNING_AUTHORITY2_STATUS == 'A')">
+                <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+                    style="margin-right: 8px" (click)="save(false,circularmaster,false,'P')">
+                    <span>Publish</span>
+                </button>
+            </span>
+        </span>
+
+        <span *ngIf="(data.SIGNING_AUTHORITY2) && (data.SIGNING_AUTHORITY3)">
+            <span *ngIf="(data.SIGNING_AUTHORITY2_STATUS == 'A') && (data.SIGNING_AUTHORITY3_STATUS == 'A')">
+                <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+                    style="margin-right: 8px" (click)="save(false,circularmaster,false,'P')">
+                    <span>Publish</span>
+                </button>
+            </span>
+        </span>
+
+        <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning"
+            (click)="viewPDF(data)">
+            <span>Preview</span>
+        </button>
+    </div>
+</div>
+
+<nz-modal [nzWidth]="getwidth()" [(nzVisible)]="isVisible" nzMaskClosable="false" nzClosable="false"
+    *ngIf="isVisible == true" [nzContent]="pdfModalContent" [nzTitle]="'Circular'" (nzOnCancel)="handleCancel()"
+    [nzFooter]="pdfModalFooter">
+
+    <ng-template #pdfModalContent>
+        <nz-spin [nzSpinning]='loading_Records'>
+            <div style="height: 450px; overflow: auto;">
+                <div id="printCircular">
+                    <div style="width: 900px; padding: 3px; margin-left: 30px;">
+                        <div
+                            style="color:red; text-align: center; font-weight: bolder; font-size: 22px; padding-bottom: 5px;">
+                            {{federationInfo.NAME | uppercase}}
+                        </div>
+
+                        <div style="display: flex; border-bottom: 2px solid rgb(117, 117, 117); padding-bottom: 5px;">
+                            <div style="width: 30%; padding: 3px;">
+                                <div>
+                                    <b
+                                        style="color:#009cb8; font-weight: bold; text-transform: uppercase; margin-bottom: 1px; font-size: 14px;">
+                                        {{memberData['NAME']}}
+                                    </b>
+                                </div>
+
+                                <b style="font-size: 12px;">
+                                    {{memberData.MEMBER_ROLE}}
+                                    <br>
+                                    HG : {{memberData.GROUP_NAME}}
+                                    <br>
+                                    {{memberData.ADDRESS1}} {{memberData.ADDRESS2}}
+                                    <br>
+                                    City : {{(memberData.CITY) ? (memberData.CITY.trim()) : ""}}{{(memberData.PINCODE) ?
+                                    ('-' + memberData.PINCODE) : ""}}
+                                    <br>
+                                    <b style="font-weight: bolder;">Mob</b> : {{memberData.MOBILE_NUMBER}}
+                                    <br>
+                                    <b style="font-weight: bolder;">
+                                        Email
+                                    </b> : {{(memberData.EMAIL_ID) ? (memberData.EMAIL_ID.split(',')[0]) : ''}}
+                                </b>
+                            </div>
+
+                            <div style="width: 40%; padding: 10px; text-align: center;">
+                                <div>
+                                    <img src="assets/demo.png" style="width: 80%; height: 120px;">
+                                </div>
+
+                                <div>
+                                    <b style="color: red; font-weight: bold; font-size: 20px;">
+                                        "Do Something Different"
+                                    </b>
+                                </div>
+                            </div>
+
+                            <div style="width: 30%; padding: 3px;">
+                                <div *ngIf="data['LETTER_HEAD_ID'] != presidentInfo.ID">
+                                    <div>
+                                        <b
+                                            style="color:#009cb8; font-weight: bold; text-transform: uppercase; margin-bottom: 1px; font-size: 14px;">
+                                            {{presidentInfo.NAME}}
+                                        </b>
+                                    </div>
+
+                                    <b style="font-weight: bold; font-size: 12px;">PRESIDENT,
+                                        {{presidentInfo.FEDERATION_NAME}}
+                                        <br>
+                                        {{presidentInfo.ADDRESS1}} {{presidentInfo.ADDRESS2}}
+                                        <br>
+                                        City : {{(presidentInfo.CITY) ? (presidentInfo.CITY.trim()) :
+                                        ""}}{{(presidentInfo.PINCODE) ? ('-' + presidentInfo.PINCODE) : ""}}
+                                        <br>
+                                        <b style="font-weight: bolder;">Mob</b> : {{presidentInfo.MOBILE_NUMBER}}
+                                        <br>
+                                        <b style="font-weight: bolder;">
+                                            Email
+                                        </b> : {{presidentInfo.EMAIL_ID ? presidentInfo.EMAIL_ID.split(',')[0] : ''}}
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-top: 1px solid grey ; margin-top: 1px; padding-top: 2px;">
+                            <div style="text-align: end;">{{data['DATE']| date:'dd-MMM-yyyy'}}</div>
+                        </div>
+
+                        <div style="text-align: center; font-size: 15px;">
+                            <b>{{data['SUBJECT']}}</b>
+                        </div>
+
+                        <div style="text-align: justify; word-break: break-all;" [innerHTML]="data.DESCRIPTION"></div>
+
+                        <br>
+
+                        <div nz-row nzSpan="24">
+                            <table style="width: 100%">
+                                <td style="width: 32%;">
+                                    <div style="text-align: center;" *ngIf="displaySigningAuth3Sign">
+                                        <div *ngIf="GENDER3 != 'F'">
+                                            <div>
+                                                आपला स्नेहांकित,
+
+                                                <br>
+
+                                                <div *ngIf="(SIGNATURE3) && (SIGNATURE3 != ' ')">
+                                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{SIGNATURE3}}"
+                                                        alt="img" style="width: 100px; height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                <div *ngIf="(SIGNATURE3 == null) || (SIGNATURE3 == ' ')"
+                                                    style="height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                {{CREATOR_NAME3}}
+
+                                                <br>
+
+                                                <span *ngIf="ROLE3_FEDERATION_UNIT_GROUP != ''">
+                                                    {{ROLE3_FEDERATION_UNIT_GROUP}}
+
+                                                    <br>
+                                                </span>
+
+                                                ({{MEMBER_ROLE3}})
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="(GENDER3 != '') && (GENDER3 != null) && (GENDER3 != 'M')">
+                                            <div>
+                                                आपली स्नेहांकित,
+
+                                                <br>
+
+                                                <div *ngIf="(SIGNATURE3) && (SIGNATURE3 != ' ')">
+                                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{SIGNATURE3}}"
+                                                        alt="img" style="width: 100px; height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                <div *ngIf="(SIGNATURE3 == null) || (SIGNATURE3 == ' ')"
+                                                    style="height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                {{CREATOR_NAME3}}
+
+                                                <br>
+
+                                                <span *ngIf="ROLE3_FEDERATION_UNIT_GROUP != ''">
+                                                    {{ROLE3_FEDERATION_UNIT_GROUP}}
+
+                                                    <br>
+                                                </span>
+
+                                                ({{MEMBER_ROLE3}})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td style="width: 32%;">
+                                    <div style="text-align: center;" *ngIf="displaySigningAuth2Sign">
+                                        <div *ngIf="GENDER2 != 'F'">
+                                            <div>
+                                                आपला स्नेहांकित,
+
+                                                <br>
+
+                                                <div *ngIf="(SIGNATURE2) && (SIGNATURE2 != ' ')">
+                                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{SIGNATURE2}}"
+                                                        alt="img" style="width: 100px; height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                <div *ngIf="(SIGNATURE2 == null) || (SIGNATURE2 == ' ')"
+                                                    style="height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                {{CREATOR_NAME2}}
+
+                                                <br>
+
+                                                <span *ngIf="ROLE2_FEDERATION_UNIT_GROUP != ''">
+                                                    {{ROLE2_FEDERATION_UNIT_GROUP}}
+                                                    <br>
+                                                </span>
+
+                                                ({{MEMBER_ROLE2}})
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="(GENDER2 != null) && (GENDER2 != '') && (GENDER2 != 'M')">
+                                            <div>
+                                                आपली स्नेहांकित,
+
+                                                <br>
+
+                                                <div *ngIf="(SIGNATURE2) && (SIGNATURE2 != ' ')">
+                                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{SIGNATURE2}}"
+                                                        alt="img" style="width: 100px; height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                <div *ngIf="(SIGNATURE2 == null) || (SIGNATURE2 == ' ')"
+                                                    style="height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                {{CREATOR_NAME2}}
+
+                                                <br>
+
+                                                <span *ngIf="ROLE2_FEDERATION_UNIT_GROUP != ''">
+                                                    {{ROLE2_FEDERATION_UNIT_GROUP}}
+
+                                                    <br>
+                                                </span>
+
+                                                ({{MEMBER_ROLE2}})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td style="width: 32%;">
+                                    <div style="text-align: center;">
+                                        <div *ngIf="GENDER1 != 'F'">
+                                            <div>
+                                                आपला स्नेहांकित,
+
+                                                <br>
+
+                                                <div *ngIf="(SIGNATURE1) && (SIGNATURE1 != ' ')">
+                                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{SIGNATURE1}}"
+                                                        alt="img" style="width: 100px; height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                <div *ngIf="(SIGNATURE1 == null) || (SIGNATURE1 == ' ')"
+                                                    style="height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                {{CREATOR_NAME1}}
+
+                                                <br>
+
+                                                <span *ngIf="ROLE1_FEDERATION_UNIT_GROUP != ''">
+                                                    {{ROLE1_FEDERATION_UNIT_GROUP}}
+
+                                                    <br>
+                                                </span>
+
+                                                ({{MEMBER_ROLE1}})
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="(GENDER1 != null) && (GENDER1 != '') && (GENDER1 != 'M')">
+                                            <div>
+                                                आपली स्नेहांकित,
+
+                                                <br>
+
+                                                <div *ngIf="(SIGNATURE1) && (SIGNATURE1 != ' ')">
+                                                    <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{SIGNATURE1}}"
+                                                        alt="img" style="width: 100px; height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                <div *ngIf="(SIGNATURE1 == null) || (SIGNATURE1 == ' ')"
+                                                    style="height: 45px;">
+
+                                                    <br>
+                                                </div>
+
+                                                {{CREATOR_NAME1}}
+
+                                                <br>
+
+                                                <span *ngIf="ROLE1_FEDERATION_UNIT_GROUP != ''">
+                                                    {{ROLE1_FEDERATION_UNIT_GROUP}}
+                                                    <br>
+                                                </span>
+
+                                                ({{MEMBER_ROLE1}})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </ng-template>
+
+    <ng-template #pdfModalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">
+            Close
+        </button>
+
+        <button nz-button nzType="primary" *ngIf="downloadBtn" printSectionId="printCircular" [useExistingCss]="true"
+            ngxPrint>
+            Print
+        </button>
+
+        <!-- <button nz-button nzType="primary" *ngIf="downloadBtn" (click)="generatePDF()">
+            Download
+        </button> -->
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="auth2RejectionModalVisible" [nzTitle]="'Remark'" [nzContent]="auth2RejectionModalContent"
+    [nzFooter]="auth2RejectionModalFooter" (nzOnCancel)="auth2RejectionModalClose()" nzClosable="false">
+    <ng-template #auth2RejectionModalContent>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Remark</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Enter Valid Remark">
+                        <textarea rows="3" nz-input name="rejectRemarkAuth2" placeholder="Enter Remark"
+                            [(ngModel)]="REJECT_REMARK_AUTH_2" maxlength="200" required>
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="REJECT_REMARK_AUTH_2" style="font-size: 10px; color: red;">
+                        {{REJECT_REMARK_AUTH_2.length}}/ 200
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #auth2RejectionModalFooter>
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="auth2RejectionModalClose()">
+            Cancel
+        </button>
+
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="save(false,circularmaster,false,'D',false,true)">
+            Submit
+        </button>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="auth3RejectionModalVisible" [nzTitle]="'Remark'" [nzContent]="auth3RejectionModalContent"
+    [nzFooter]="auth3RejectionModalFooter" (nzOnCancel)="auth3RejectionModalClose()" nzClosable="false">
+    <ng-template #auth3RejectionModalContent>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Remark</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Enter Valid Remark">
+                        <textarea rows="3" nz-input name="rejectRemarkAuth3" placeholder="Enter Remark"
+                            [(ngModel)]="REJECT_REMARK_AUTH_3" maxlength="200" required>
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="REJECT_REMARK_AUTH_3" style="font-size: 10px; color: red;">
+                        {{REJECT_REMARK_AUTH_3.length}}/ 200
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #auth3RejectionModalFooter>
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="auth3RejectionModalClose()">
+            Cancel
+        </button>
+
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="save(false,circularmaster,false,'D',false,false,false,true)">
+            Submit
+        </button>
+    </ng-template>
+</nz-modal>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="450"
+    [nzVisible]="circularTypeDrawerVisible" [nzTitle]="circularTypeDrawerTitle" (nzOnClose)="circularTypeDrawerClose()"
+    (nzKeyboard)="true">
+
+    <app-addcirculartypedrawer [drawerClose]="circularTypeDrawerCloseCallback" [drawerVisible]="drawerVisible"
+        [data]="circularTypeDrawerData">
+    </app-addcirculartypedrawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="500"
+    [nzVisible]="circularDrawerVisibleEmail" [nzTitle]="circularDrawerTitleEmail"
+    (nzOnClose)="circularDrawerCloseEmail()" (nzKeyboard)="true">
+
+    <app-circularemailsenderlist [drawerClose]="circularDrawerCloseEmailCallback"
+        [drawerVisible]="circularDrawerCloseEmail" [data]="circularDrawerDataID">
+    </app-circularemailsenderlist>
+</nz-drawer>

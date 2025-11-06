@@ -1,0 +1,221 @@
+<div class="header1">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+</div>
+
+<div class="header2">
+    <nz-select name="year" nzShowSearch nzAllowClear style="width: 200px;" nzPlaceHolder="Select Year"
+        (ngModelChange)="callGetInternationFeeStructure($event)" [(ngModel)]="YEAR">
+        <nz-option *ngFor="let year of years;" [nzValue]="year.NAME" [nzLabel]="year.NAME">
+        </nz-option>
+    </nz-select>
+</div>
+
+<form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+        <div nz-row>
+            <!-- <div nz-col nzSpan="24">
+                <div class="my-box">
+                    <div nz-row>
+                        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                            <nz-form-item>
+                                <nz-form-label nzNoColon>Federation(s)
+                                    <nz-switch name="federationSwitch" (ngModelChange)="selectFederations($event)"
+                                        [(ngModel)]="FEDERATION_SWITCH" nzCheckedChildren="All"
+                                        nzUnCheckedChildren="None">
+                                    </nz-switch>
+                                </nz-form-label>
+
+                                <nz-form-control>
+                                    <nz-select name="federation" nzShowSearch nzAllowClear nzMode="multiple"
+                                        [nzLoading]="federationLoading" nzMaxTagCount="3" style="width: 100%"
+                                        nzPlaceHolder="Select Federation(s)" (ngModelChange)="getUnits($event)"
+                                        [(ngModel)]="FEDERATION_ID">
+
+                                        <nz-option *ngFor="let federation of federations;" [nzValue]="federation.ID"
+                                            [nzLabel]="federation.NAME">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                            <nz-form-item>
+                                <nz-form-label nzNoColon>Unit(s)
+                                    <nz-switch name="unitSwitch" (ngModelChange)="selectUnits($event)"
+                                        [(ngModel)]="UNIT_SWITCH" nzCheckedChildren="All" nzUnCheckedChildren="None">
+                                    </nz-switch>
+                                </nz-form-label>
+
+                                <nz-form-control>
+                                    <nz-select name="unit" nzShowSearch nzAllowClear nzMode="multiple"
+                                        [nzLoading]="unitLoading" nzMaxTagCount="3" style="width: 100%"
+                                        nzPlaceHolder="Select Unit(s)" (ngModelChange)="getGroups($event)"
+                                        [(ngModel)]="UNIT_ID">
+
+                                        <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID"
+                                            [nzLabel]="unit.NAME">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                            <nz-form-item>
+                                <nz-form-label nzNoColon>Group(s)
+                                    <nz-switch name="groupSwitch" (ngModelChange)="selectGroups($event)"
+                                        [(ngModel)]="GROUP_SWITCH" nzCheckedChildren="All" nzUnCheckedChildren="None">
+                                    </nz-switch>
+                                </nz-form-label>
+
+                                <nz-form-control>
+                                    <nz-select name="group" nzShowSearch nzAllowClear nzMode="multiple"
+                                        [nzLoading]="groupLoading" nzMaxTagCount="3" style="width: 100%"
+                                        nzPlaceHolder="Select Group(s)" (ngModelChange)="groupSelection($event)"
+                                        [(ngModel)]="GROUP_ID">
+
+                                        <nz-option *ngFor="let group of groups;" [nzValue]="group.ID"
+                                            [nzLabel]="group.NAME">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div nz-col nzSpan="24">
+                <nz-table class="my-scroll no-wrap1" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+                    [nzFrontPagination]="false" [nzData]="feeDetails" [nzLoading]="loadingRecords"
+                    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+                    <thead>
+                        <tr>
+                            <th nzLeft="0px" nzWidth="250px">
+                                <b>Fee Type</b>
+                            </th>
+
+                            <th nzLeft="250px" nzWidth="130px">
+                                <b>Joining<br>Quarter</b>
+                            </th>
+
+                            <th nzWidth="150px">
+                                <b>Expiry<br>Date</b>
+                            </th>
+
+                            <th nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'S'">
+                                <b>International<br>Saheli's Fee</b>
+                            </th>
+
+                            <th nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'S'">
+                                <b>Group Saheli's Fee</b><br>
+
+                                <input nz-input class="numField" autocomplete="off" name="saheliFeeAmt"
+                                    placeHolder="Saheli Fee" (keypress)="numberOnly($event)"
+                                    (ngModelChange)="onSaheliAmtChange($event)" [(ngModel)]="SAHELI" maxlength="10" />
+                            </th>
+
+                            <th nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'N'">
+                                <b>International<br>Main's Fee</b>
+                            </th>
+
+                            <th nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'N'">
+                                <b>Group Main's Fee</b><br>
+
+                                <input nz-input class="numField" autocomplete="off" name="normalFeeAmt"
+                                    placeHolder="Main Fee" (keypress)="numberOnly($event)"
+                                    (ngModelChange)="onNormalAmtChange($event)" [(ngModel)]="NORMAL" maxlength="10" />
+                            </th>
+
+                            <th nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'Y'">
+                                <b>International<br>Young's Fee</b>
+                            </th>
+
+                            <th nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'Y'">
+                                <b>Group Young's Fee</b><br>
+
+                                <input nz-input class="numField" autocomplete="off" name="youngFeeAmt"
+                                    placeHolder="Young Fee" (keypress)="numberOnly($event)"
+                                    (ngModelChange)="onYoungAmtChange($event)" [(ngModel)]="YOUNG" maxlength="10" />
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let data of table.data; let i = index;">
+                            <td nzWidth="250px" align="left">
+                                {{data.FEE_TYPE}}
+                            </td>
+
+                            <td nzWidth="130px" align="center">
+                                {{data.QUARTER}}
+                            </td>
+
+                            <td nzWidth="150px" align="center">
+                                <span *ngIf="i == 0">
+                                    Lifetime
+                                </span>
+
+                                <span *ngIf="i != 0">
+                                    <nz-date-picker style="width: 150px;" name="expiryDate" nzFormat="dd/MM/yyyy"
+                                        [(ngModel)]="data.EXPIRY_DATE">
+                                    </nz-date-picker>
+                                </span>
+                            </td>
+
+                            <td align="right" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'S'">
+                                <span style="color: blue; font-weight: bold;"
+                                    *ngIf="internationalFeeStructure.length > 0">
+                                    {{internationalFeeStructure[i]["SAHELI"]}}
+                                </span>
+                            </td>
+
+                            <td align="right" nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'S'">
+                                <input nz-input class="numField" name="saheliFeeAmt{{i}}" placeHolder="Saheli Fee"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.SAHELI" />
+                            </td>
+
+                            <td align="right" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'N'">
+                                <span style="color: blue; font-weight: bold;"
+                                    *ngIf="internationalFeeStructure.length > 0">
+                                    {{internationalFeeStructure[i]["NORMAL"]}}
+                                </span>
+                            </td>
+
+                            <td align="right" nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'N'">
+                                <input nz-input class="numField" name="normalFeeAmt{{i}}" placeHolder="Normal Fee"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.NORMAL" />
+                            </td>
+
+                            <td align="right" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'Y'">
+                                <span style="color: blue; font-weight: bold;"
+                                    *ngIf="internationalFeeStructure.length > 0">
+                                    {{internationalFeeStructure[i]["YOUNG"]}}
+                                </span>
+                            </td>
+
+                            <td align="right" nzWidth="130px" *ngIf="currentGroupInfo['GROUP_TYPE'] == 'Y'">
+                                <input nz-input class="numField" name="youngFeeAmt{{i}}" placeHolder="Young Fee"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.YOUNG" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </nz-spin>
+</form>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+        <span>Cancel</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+        (click)="save(false,myForm)">
+        <span>Submit</span>
+    </button>
+</div>

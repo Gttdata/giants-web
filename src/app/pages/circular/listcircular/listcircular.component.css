@@ -1,0 +1,41 @@
+th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+p {
+  font-family: Lato;
+}
+
+th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.col {
+  float: left;
+  width: 33.33%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.column {
+  float: left;
+  width: 9%;
+}
+
+.column2 {
+  float: left;
+  width: 12%;
+}
+
+nz-form-item {
+  display: inline-block;
+  margin-bottom: 5px;
+  width: -webkit-fill-available;
+  padding: 0px 10px;
+}

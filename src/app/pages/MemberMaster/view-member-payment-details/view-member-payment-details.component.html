@@ -1,0 +1,50 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close()" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #dataTable nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="paymentData" [nzLoading]="loadingRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize">
+                <thead>
+                    <tr>
+                        <th *ngFor="let column of columns;">
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td *ngFor="let column of columns;">
+                            <div class="centerAlign" *ngIf="column[0] == 'DATE'">
+                                {{data[column[0]] == 'Total' ? data[column[0]] : data[column[0]] | date:'dd MMM
+                                yyyy'}}
+                            </div>
+
+                            <div class="leftAlign" *ngIf="column[0] == 'TRANSACTION_TYPE'">
+                                {{data[column[0]]}}
+                            </div>
+
+                            <div class="rightAlign" *ngIf="(column[0] != 'DATE') && (column[0] != 'TRANSACTION_TYPE')">
+                                {{data[column[0]]}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight: bold;" class="centerAlign">Total</td>
+                        <td style="font-weight: bold;" class="centerAlign">-</td>
+                        <td style="font-weight: bold;" class="rightAlign">{{TOTAL_CREDIT_AMT}}</td>
+                        <td style="font-weight: bold;" class="rightAlign">{{TOTAL_DEBIT_AMT}}</td>
+                        <td style="font-weight: bold;" class="rightAlign">{{TOTAL_PENDING_AMT}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

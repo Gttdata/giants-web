@@ -1,0 +1,135 @@
+<div class="header1">
+    <button type="button" nz-button (click)="close()" class="ant-btn">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+</div>
+
+<div class="header">
+    <button nz-button nzType="primary" nzShape="circle" nzTooltipTitle="Send Notification" nzTooltipPlacement="bottom"
+        nz-tooltip (click)="openSendNotiDrawer()">
+        <img src="/assets/img/sendIcon.png" style="height: 18px; width: 18px; padding-bottom: 2px; padding-left: 2px;">
+    </button>
+
+    &nbsp;
+
+    <button nz-button *ngIf="roleId == 12" nzType="primary" nzShape="circle" nzTooltipTitle="Send Email"
+        nzTooltipPlacement="bottom" nz-tooltip (click)="openSendEmailDrawer()">
+        <i nz-icon nzType="mail" nzTheme="outline"></i>
+    </button>
+</div>
+
+<nz-spin [nzSpinning]="isSpinning">
+    <div id="viewNotiData" style="padding: 10px; height: 80vh; overflow-y: auto;" (scroll)="onScroll($event)">
+        <div id="top123"></div>
+
+        <div *ngIf="notificationData.length > 0">
+            <div nz-row *ngFor="let noti of notificationData; let i = index;">
+                <div nz-col nzSpan="24">
+                    <div
+                        style="border: 2px solid rgb(173, 170, 170); border-radius: 5px; padding: 5px; margin-bottom: 5px;">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <div style="font-size: 10px; padding: 3px; padding-left: 0px;">
+                                    <span nz-icon nzType="clock-circle" nzTheme="outline" style="color: #FF7A7A;">
+                                    </span>
+
+                                    <span style="color: gray;">
+                                        {{noti.CREATED_MODIFIED_DATE | date: 'dd MMM yy, hh:mm a'}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                <div
+                                    style="font-size: 14px; color: black; font-weight: bold; word-break: break-all; text-align: justify; padding: 3px; padding-left: 0px;">
+                                    {{noti.TITLE}}
+                                </div>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="!expandDescription[i]"
+                                [ngStyle]="{'max-height': expandDescription[i] ? 'fit-content' : '76px'}"
+                                style="word-break: break-all; text-align: justify; font-size: 13px;">
+                                {{(getTextInOriginalFormat(noti.DESCRIPTION).length > 180) ?
+                                (getTextInOriginalFormat(noti.DESCRIPTION).substring(0,180) + "...") :
+                                getTextInOriginalFormat(noti.DESCRIPTION)}}
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="expandDescription[i]"
+                                [ngStyle]="{'max-height': expandDescription[i] ? 'fit-content' : '76px'}"
+                                style="word-break: break-all; text-align: justify; font-size: 13px;">
+                                {{getTextInOriginalFormat(noti.DESCRIPTION)}}
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: right"
+                                *ngIf="(getTextInOriginalFormat(noti.DESCRIPTION).length > 180) && (!expandDescription[i])">
+                                <a (click)="getHeightOfDescription(i)">
+                                    <span style="font-size: 10px;">Read More</span>
+                                </a>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="noti.ATTACHMENT">
+                                <div style="text-align: center;">
+                                    <img style="height: 100px; width: 100px; border: solid black 2px; border-radius: 5px; cursor: pointer;"
+                                        [src]="noti.ATTACHMENT" (click)="openImage(noti.ATTACHMENT)">
+                                </div>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="noti.NOTIFY_SENDER_NAME">
+                                <div style="font-size: 10px; font-weight: bold; margin-top: 3px;">
+                                    Sender : {{noti.NOTIFY_SENDER_NAME}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="notificationData.length == 0" style="margin-top: 20px">
+            <nz-empty
+                [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                [nzNotFoundContent]="contentTpl">
+            </nz-empty>
+
+            <ng-template #contentTpl>
+                <span>No data available.</span>
+            </ng-template>
+        </div>
+    </div>
+</nz-spin>
+
+<div class="footer">
+    <div nz-row>
+        <div nz-col nzSpan="12">
+            <div style="text-align: left; padding: 5px;">
+                <nz-tag [nzColor]="'magenta'" style="font-size: 13px; font-weight: bold; padding: 3px;"
+                    *ngIf="totalRecords > 0">
+                    Count : {{notificationData.length + '/ ' +
+                    totalRecords}}
+                </nz-tag>
+            </div>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <button type="button" nz-button class="ant-btn" (click)="close()">
+                <span>Close</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="sendNotiDrawerVisible"
+    [nzTitle]="sendNotiDrawerTitle" (nzOnClose)="sendNotiDrawerClose()" (nzKeyboard)="true">
+
+    <app-add-new-notification-drawer [drawerClose]="sendNotiDrawerCloseCallback">
+    </app-add-new-notification-drawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="sendEmailDrawerVisible"
+    [nzTitle]="sendEmailDrawerTitle" (nzOnClose)="sendEmailDrawerClose()" (nzKeyboard)="true">
+
+    <app-send-email-drawer [drawerClose]="sendEmailDrawerCloseCallback">
+    </app-send-email-drawer>
+</nz-drawer>

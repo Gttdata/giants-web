@@ -1,0 +1,244 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <div nz-row>
+            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Date</nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Select the Date">
+                        <nz-date-picker name="date" nzFormat="dd/MM/yyyy" [(ngModel)]="data.DATE"
+                            [nzDisabledDate]="disabledDate" required>
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- <div nz-col nzSpan="16">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Payment Type</nz-form-label>
+    
+                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Payment Types">
+                        <nz-select name="paymenttype" nzShowSearch nzAllowClear style="width: 100%"
+                            nzPlaceHolder="Select Payment Type" [(ngModel)]="data.PAYMENT_TYPE" nzMode="multiple" required>
+    
+                            <nz-option nzValue="R" nzLabel="Renew"></nz-option>
+                            <nz-option nzValue="N" nzLabel="New Membership"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div> -->
+
+            <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Young Giants Group</nz-form-label>
+
+                    <nz-form-control nzHasFeedback>
+                        <nz-select name="childGroup" nzShowSearch nzAllowClear style="width: 100%"
+                            nzPlaceHolder="Select Young Giants Group" (ngModelChange)="onChildGroupChange($event)"
+                            [(ngModel)]="data.CHILD_GROUP_ID">
+                            <nz-option *ngFor="let group of childGroups;" [nzValue]="group.ID" [nzLabel]="group.NAME">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Young Giants Group Amount</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-input-group [nzAddOnBefore]="childBeforeTemplateInfo">
+                            <input nz-input name="childTotalAmount" [(ngModel)]="data.CHILD_GROUP_AMOUNT"
+                                placeHolder="Young Giants Group Amount" readonly />
+                        </nz-input-group>
+
+                        <ng-template #childBeforeTemplateInfo>
+                            <span>Rs.</span>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Group Amount</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Please Add Total Amount">
+                        <nz-input-group [nzAddOnBefore]="beforeTemplateInfo" [nzAddOnAfter]="afterTemplateUser">
+                            <input nz-input name="groupTotalAmount" [(ngModel)]="data.AMOUNT" placeHolder="Total Amount"
+                                readonly />
+                        </nz-input-group>
+
+                        <ng-template #beforeTemplateInfo>
+                            <span>Rs.</span>
+                        </ng-template>
+
+                        <ng-template #afterTemplateUser>
+                            <a nz-tooltip nzTooltipTitle="Members List" nzTooltipPlacement="top">
+                                <i nz-icon nzType="team" style="font-size: 20px;" nzTheme="outline" (click)="add()"></i>
+                            </a>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Total Amount</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-input-group [nzAddOnBefore]="childBeforeTemplateInfo">
+                            <input nz-input name="totalAmount" [(ngModel)]="CHILD_PARENT_GROUP_AMOUNT"
+                                placeHolder="Total Amount" readonly />
+                        </nz-input-group>
+
+                        <ng-template #childBeforeTemplateInfo>
+                            <span>Rs.</span>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Payment Type</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-radio-group name="paymentModeType" nzSize="small" [(ngModel)]="PAYMENT_MODE_TYPE">
+                            <label nz-radio nzValue="ONL">Online Payment</label>
+                            <label nz-radio nzValue="OFFL">Manual Payment</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row *ngIf="PAYMENT_MODE_TYPE == 'OFFL'">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Payment Mode</nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Payment Mode">
+                        <nz-select name="paymentmode" nzShowSearch nzAllowClear style="width: 100%"
+                            nzPlaceHolder="Select Payment Mode" [(ngModel)]="data.PAYMENT_MODE" required>
+
+                            <nz-option nzValue="N" nzLabel="NEFT"></nz-option>
+                            <nz-option nzValue="R" nzLabel="RTGS"></nz-option>
+                            <nz-option nzValue="C" nzLabel="CHEQUE"></nz-option>
+                            <nz-option nzValue="U" nzLabel="UPI"></nz-option>
+                            <nz-option nzValue="D" nzLabel="DD"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Reference Number</nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Reference Number">
+                        <input nz-input name="referenceNo" autocomplete="off" [(ngModel)]="data.PAYMENT_REFERENCE_NO"
+                            placeHolder="Enter Reference Number" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row *ngIf="PAYMENT_MODE_TYPE == 'ONL'">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <button nz-button nzType="primary" (click)="payNow()" disabled>
+                        Pay Now
+                    </button>
+
+                    <span style="font-size: 10px; color: red;">
+                        *Online payment not available
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Narration</nz-form-label>
+
+                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Narration">
+                        <textarea nz-input name="narration" rows="3" autocomplete="off" placeholder="Enter Narration"
+                            maxlength="1000" [(ngModel)]="data.NARRATION" required>
+                        </textarea>
+                    </nz-form-control>
+
+                    <span *ngIf="data.NARRATION" style="font-size: 10px; color: red;">
+                        {{data.NARRATION.length}}/ 1000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row *ngIf="PAYMENT_MODE_TYPE == 'OFFL'">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <button nz-button nzType="default" (click)="fileInput.click()"
+                        style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;">
+                        Upload Receipt
+
+                        <input #fileInput [(ngModel)]="data.FILE_URL" name="icon" type="file"
+                            (change)="onFileSelected($event)" style="display: none;" required />
+                    </button>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24" *ngIf="fileURL != null" style="overflow: hidden; font-size: 13px;">
+                <nz-form-item>{{fileURL.name}}</nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <img *ngIf="displayUploadFile" [src]="fileURLToDisplay"
+                    style="height: 350px; width: 100%; object-fit: contain;">
+            </div>
+        </div>
+
+        <!-- <div nz-col nzSpan="24" *ngIf="fileURL == null && data.FILE_URL != ''">
+            <img style="width: 100%; height: 180px; margin-left: 10px;" src="{{fileURL}}paymentFiles/{{ data.FILE_URL }}" />
+    
+            <button (click)="removeImage()" [nzSize]="'default'" nz-button style="margin-left: 50%; margin-top: 10px; ">
+                <nz-badge>
+                    <i style="font-size: 15px; color: red;" [(ngModel)]="data.FILE_URL" nz-icon nzType="delete"></i>
+                </nz-badge>
+            </button>
+        </div> -->
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" [nzLoading]="isSpinning" *ngIf="!data.ID" nz-button
+            (click)="save(false,myForm)" [disabled]="PAYMENT_MODE_TYPE == 'ONL'">
+            <span>Save & Close</span>
+        </button>
+    </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 70px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1000" [nzVisible]="drawerVisible2"
+    [nzTitle]="drawerTitle2" (nzOnClose)="drawerClose2()" (nzKeyboard)="true">
+
+    <app-paymentdetails [dataListForAmount]="dataListForAmount" [sum]="sum" [drawerClose2]="closeCallback2"
+        [drawerVisible2]="drawerVisible2" (sumOfAmount)="sentAmount($event)" (memberPaymentData)="sentAllData($event)"
+        [data]="drawerData2" [loadingRecords]="loadingRecords">
+    </app-paymentdetails>
+</nz-drawer>

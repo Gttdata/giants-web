@@ -1,0 +1,798 @@
+<div>
+    <div class="header1">
+        <nz-select placeholder="Select" name="Year" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+            style="width: 150px; margin-left: 10px;" (ngModelChange)="selectChangeYear()">
+            <nz-option *ngFor="let fillYears of range;" [nzValue]="fillYears" [nzLabel]="fillYears">
+            </nz-option>
+        </nz-select>
+
+        <span *ngIf="data.IS_SUBMITED != 'S'"><button type="button" style="margin-left: 10px;" nz-button
+                (click)="FetchOldData()" class="ant-btn">
+                Fetch Data
+            </button>
+        </span>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        How the divisions cohesive and well-knit
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback
+                                        nzErrorTip="Enter the divisions cohesive and well-knit">
+                                        <textarea rows="2" nz-input placeholder="Enter description"
+                                            name="divisionCohesiveAndWellKnit" maxlength="1000"
+                                            [(ngModel)]="data.DESCRIPTION_OF_COHESIVE_WELLKNIT" required>
+                                        </textarea>
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.DESCRIPTION_OF_COHESIVE_WELLKNIT"
+                                        style="font-size: 10px; color: red;">
+                                        {{data.DESCRIPTION_OF_COHESIVE_WELLKNIT.length}}/
+                                        1000
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>No. of
+                                        members
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="No. of members required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Members" name="noOfMembers" maxlength="10"
+                                                    [(ngModel)]="data.NO_OF_MEMBERS" (keypress)="numberOnly($event)"
+                                                    required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>No. of
+                                        well knit
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="No. of well knit required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Well knit" name="noOfWellKnit"
+                                                    maxlength="10" [(ngModel)]="data.NO_OF_WELL_KNIT"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>
+                                        <span style="color: red;" *ngIf="data.Swicthing1==true">*</span>
+                                        Whether project undertaken and/or worked in co-ordination with the parent group
+                                        : Annexure "A"
+                                    </nz-form-label>
+
+                                    <nz-switch [(ngModel)]="data.Swicthing1" nzCheckedChildren="YES"
+                                        nzUnCheckedChildren="NO" name="swicthing1">
+                                    </nz-switch>
+
+                                    <nz-form-control *ngIf="data.Swicthing1==true" nzHasFeedback>
+                                        <textarea rows="2" nz-input maxlength="1000" name="detailsDescription"
+                                            placeholder="Enter description" [(ngModel)]="data.PARENT_GROUP_DESCRIPTION">
+                                        </textarea>
+
+                                        <span *ngIf="data.PARENT_GROUP_DESCRIPTION" style="font-size: 10px; color:
+                                            red;">
+                                            {{data.PARENT_GROUP_DESCRIPTION.length}}/
+                                            1000
+                                        </span>
+                                        <span *ngIf="data.PARENT_GROUP_DESCRIPTION == '' "
+                                            style="font-size: 13px; color: red;">
+                                            Enter project undertaken and/or worked in co-ordination with the parent group description
+                                        </span>
+                                    </nz-form-control>
+
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Active
+                                        participation of members
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback
+                                        nzErrorTip="Active participation of members required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Members"
+                                                    name="activeParticipationOfMembers"
+                                                    [(ngModel)]="data.ACTIVE_PARTICIPATION_MEMBERS" maxlength="10"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Percentage
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Percentage required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="%">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Percentage" name="avtivePercentage"
+                                                    maxlength="100"
+                                                    [(ngModel)]="data.ACTIVE_PARTICIPATION_MEMBERS_PERCENTAGE"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                    <span *ngIf="data.ACTIVE_PARTICIPATION_MEMBERS_PERCENTAGE>
+                                        100" style="font-size: 13px; color: red;">
+                                        Enter percentage less than or equal to
+                                        100 </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>
+                                        Meetings and attendance
+                                    </nz-form-label>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        No. of regular meetings
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="No. of regular meetings
+                                        required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Regular" name="regularMeetings"
+                                                    maxlength="10" [(ngModel)]="data.NO_OF_REGULAR_MEET"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Percentage
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Percentage required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="%">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Percentage" name="regularPercentage"
+                                                    maxlength="100" [(ngModel)]="data.PERCENTAGE_OF_REGULAR_MEET"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                    <span *ngIf="data.PERCENTAGE_OF_REGULAR_MEET>
+                                        100" style="font-size: 13px; color: red;">
+                                        Enter percentage less than or equal to
+                                        100
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        No. of board meetings
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="No. of board meetings required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Board" name="boardMeetings" maxlength="10"
+                                                    [(ngModel)]="data.BOARD_MEETINGS" (keypress)="numberOnly($event)"
+                                                    required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Percentage
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Percentage required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="%">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Percentage" name="boardPercentage"
+                                                    maxlength="100" [(ngModel)]="data.BOARD_PRESENT_DIR"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                    <span *ngIf="data.BOARD_PRESENT_DIR>
+                                        100" style="font-size: 13px; color: red;">
+                                        Enter percentage less than or equal to
+                                        100
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        No. of parent body meetings
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="No. of parent body meetings required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Parent body" name="parentBodyMeetings"
+                                                    maxlength="10" [(ngModel)]="data.NO_OF_PARENT_BODY_MEET"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Percentage
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Percentage required">
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="%">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Percentage" name="parentBodyPercentage"
+                                                    maxlength="100" [(ngModel)]="data.PERCENTAGE_OF_PARENT_BODY_MEET"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                    <span *ngIf="data.PERCENTAGE_OF_PARENT_BODY_MEET>
+                                        100" style="font-size: 13px; color: red;">
+                                        Enter percentage less than or equal to
+                                        100
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <nz-form-item>
+                                        <nz-form-label nzNoColon>
+                                            Whether director of YG, as
+                                            present in your meeting
+                                        </nz-form-label>
+
+                                        <nz-switch [(ngModel)]="data.Swicthing2" nzCheckedChildren="YES"
+                                            nzUnCheckedChildren="NO" name="swicthing2">
+                                        </nz-switch>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item *ngIf="data.Swicthing2 == true">
+                                    <nz-form-label nzNoColon>
+                                        No. of YG
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback>
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="No's">
+                                            <span class="td-left">
+                                                <input nz-input name="noOfYG" placeholder="Enter YG" maxlength="10"
+                                                    [(ngModel)]="data.NO_OF_YG" (keypress)="numberOnly($event)" />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                    <span *ngIf="data.NO_OF_YG.toString() == '' " style="font-size: 13px; color: red;">
+                                        No. of YG required
+                                    </span>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item *ngIf="data.Swicthing2 == true">
+                                    <nz-form-label nzNoColon>
+                                        Percentage
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback>
+                                        <nz-input-group style="width: 180px;" nzAddOnAfter="%">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Percentage" name="YGpercentage"
+                                                    maxlength="100" [(ngModel)]="data.PERCENTAGE_OF_YG"
+                                                    (keypress)="numberOnly($event)" />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+                                    <span *ngIf="data.PERCENTAGE_OF_YG> 100" style="font-size: 13px; color: red;">
+                                        Enter percentage less than or equal to
+                                        100
+                                    </span>
+                                    <span *ngIf="data.PERCENTAGE_OF_YG.toString() == '' "
+                                        style="font-size: 13px; color: red;">
+                                        Percentage required
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>
+                                        <span style="color: red;" *ngIf="data.Swicthing3==true">*</span>
+                                        Whether president of the parent group was invited to you meetings and project,
+                                        if so
+
+                                    </nz-form-label>Annexure "B"
+                                    <nz-switch [(ngModel)]="data.Swicthing3" nzCheckedChildren="YES"
+                                        nzUnCheckedChildren="NO" name="swicthing3">
+                                    </nz-switch>
+
+                                    <nz-form-control *ngIf="data.Swicthing3==true" nzHasFeedback>
+                                        <textarea rows="2" nz-input maxlength="1000" name="meetProjectDescription"
+                                            placeholder="Enter description"
+                                            [(ngModel)]="data.DESCRIPTION_OF_PRESIDENT_MEET_PROJECT">
+                                        </textarea>
+                                    </nz-form-control>
+                                    <span *ngIf="data.DESCRIPTION_OF_PRESIDENT_MEET_PROJECT
+                                        && data.Swicthing3==true" style="font-size: 10px; color: red;">
+                                        {{data.DESCRIPTION_OF_PRESIDENT_MEET_PROJECT.length}}/
+                                        1000
+                                    </span>
+                                    <span *ngIf="data.DESCRIPTION_OF_PRESIDENT_MEET_PROJECT == '' "
+                                        style="font-size: 13px; color: red;">
+                                        Enter description
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        How far young giants becomes a division
+                                        of name and fame
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback
+                                        nzErrorTip="Enter young giants becomes a division of name and fame">
+                                        <textarea rows="2" nz-input maxlength="1000" name="divisionOfNameAndFame"
+                                            placeholder="Enter description" [(ngModel)]="data.DESCRIPTION_OF_NAME_FAME"
+                                            required>
+                                        </textarea>
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.DESCRIPTION_OF_NAME_FAME" style="font-size: 10px; color: red;">
+                                        {{data.DESCRIPTION_OF_NAME_FAME.length}}/
+                                        1000
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>
+                                        Name of bank, if you have a seperate
+                                        account
+                                    </nz-form-label>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Bank name
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Bank name required">
+                                        <nz-input-group style="width: 100%;">
+                                            <input nz-input type="text" placeholder="Enter bank name" maxlength="250"
+                                                name="bankName" [(ngModel)]="data.BANK_NAME" required />
+                                        </nz-input-group>
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.BANK_NAME" style="font-size: 10px; color: red;">
+                                        {{data.BANK_NAME.length}}/ 250
+                                    </span>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Account number
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Account number required">
+                                        <nz-input-group style="width: 180px;">
+                                            <span class="td-left">
+                                                <input nz-input placeholder="Enter ac. no." name="accountNumber"
+                                                    [(ngModel)]="data.BANK_ACCOUNT_NUMBER" maxlength="20"
+                                                    (keypress)="numberOnly($event)" required />
+                                            </span>
+                                        </nz-input-group>
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.BANK_ACCOUNT_NUMBER" style="font-size: 10px; color: red;">
+                                        {{data.BANK_ACCOUNT_NUMBER.length}}/ 20
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>
+                                        Project details annexure 'C'
+                                    </nz-form-label>
+
+                                    <nz-form-control nzHasFeedback nzErrorTip="Enter project details">
+                                        <textarea rows="2" nz-input maxlength="1000" name="projectDetails"
+                                            placeholder="Enter description"
+                                            [(ngModel)]="data.DESCRIPTION_PROJECT_DETAILS" required>
+                                        </textarea>
+                                    </nz-form-control>
+
+                                    <span *ngIf="data.DESCRIPTION_PROJECT_DETAILS" style="font-size: 10px; color: red;">
+                                        {{data.DESCRIPTION_PROJECT_DETAILS.length}}/
+                                        1000
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+    <span *ngIf="currentYear == SelectedYear">
+        <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;"
+            *ngIf="!data.ID && data.IS_SUBMITED != 'S'" nz-button (click)="save(false,myForm)">
+            <span>Save As Draft & Close</span>
+        </button>
+        <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+            <a style="color: white" (click)="save(true,myForm)">Save & new</a>
+          </li>
+        </ul>
+      </nz-dropdown-menu> -->
+        <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+            [nzLoading]="isSpinning" *ngIf="data.ID && data.IS_SUBMITED != 'S'" (click)="save(false,myForm)">
+            <span>Save As Draft & Close</span>
+        </button>
+        <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+            [nzLoading]="isSpinning" *ngIf="data.IS_SUBMITED != 'S'" (click)="ApplySubmit(myForm)">
+            <span>Apply For Award & Close</span>
+        </button>
+    </span>
+
+    <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary">
+        <span>Preview</span>
+    </button>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle>Print document</ng-template>
+
+    <ng-template #modalContent>
+        <div nz-row id="print">
+            <div style="color:black;text-align: center;font-weight:
+                bolder;font-size: 25px;padding-bottom: 8px;">
+                GIANTS WELFARE FOUNDATION<br>
+            </div>
+
+            <div style="color:black;text-align: center;font-weight:
+                bolder;font-size: 16px;padding-bottom: 8px;">
+                AWARD BIDDING FORM NO. 1
+            </div>
+
+            <div style="color:black;text-align: center;font-weight:
+                bolder;font-size: 18px;padding-bottom: 20px;">
+                NAME OF THE AWARD : OUTSTANDING YOUNG GIANTS DIVISION
+            </div>
+
+            <b style="color: black; font-weight: bold; padding-left: 20px;">Details
+                :</b>
+            <table style="margin-left: 30px;">
+                <tr>
+                    <td style="color: black; font-weight: bold; padding-left:
+                        20px;padding-top: 10px;"> NAME OF
+                        THE DIVISION : YOUNG GIANTS OF
+                        <b>
+                            {{data.GROUP_NAME}}
+                        </b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;<b>1)
+                            How the division cohesive and well-knit : </b>
+                        &nbsp;
+                        {{data.DESCRIPTION_OF_COHESIVE_WELLKNIT}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;<b>2)
+                            No. of members of the division : </b>&nbsp;
+                        {{data.NO_OF_MEMBERS}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">
+                        &nbsp;&nbsp;&nbsp;<b>3) Whether
+                            projects undertaken and/or worked in
+                            co-ordination with the parent
+                            group : </b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;
+                        {{data.PARENT_GROUP_DESCRIPTION}}
+                    </td>
+                </tr>
+
+                <div style="color:black;text-align: center;font-weight:
+                    bolder;font-size: 15px;padding-top: 10px;">
+                    Annexure 'A'<br>
+                </div>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;<b>4)
+                            Active participation of members : </b>&nbsp;&nbsp;
+                        {{data.ACTIVE_PARTICIPATION_MEMBERS}}
+                        &nbsp;&nbsp;&&nbsp;&nbsp;
+                        {{data.ACTIVE_PARTICIPATION_MEMBERS_PERCENTAGE}} %
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="color: black; font-weight: bold; padding-left:
+                        20px;padding-top: 10px;">
+                        &nbsp;&nbsp;&nbsp; 5)
+                        Meetings and attendance
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>No. of regular
+                            meetings no. : </b>&nbsp;&nbsp;
+                        {{data.NO_OF_REGULAR_MEET}}
+                        &nbsp; &nbsp;&&nbsp;&nbsp;
+                        {{data.PERCENTAGE_OF_REGULAR_MEET}} %
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>No.
+                            of board meetings no. : </b>&nbsp;&nbsp;
+                        {{data.BOARD_MEETINGS}}
+                        &nbsp;&nbsp; &&nbsp; &nbsp;
+                        {{data.BOARD_PRESENT_DIR}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>No.
+                            of parent body meetings no.
+                            :</b>&nbsp;&nbsp;
+                        {{data.NO_OF_PARENT_BODY_MEET}}&nbsp; &nbsp;&&nbsp;
+                        &nbsp;{{data.PERCENTAGE_OF_PARENT_BODY_MEET}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Whether director of YG
+                            ,as present in your meetings : (Yes / No,) No. :</b>&nbsp;&nbsp;
+                        {{data.NO_OF_YG}} &nbsp;&nbsp;&&nbsp;&nbsp;
+                        {{data.PERCENTAGE_OF_YG}} %
+                    </td>
+                </tr>
+
+                <div style="color:black; text-align: center; font-weight:
+                    bolder; font-size: 15px; padding-top: 10px;">
+                    Annexure 'B'<br>
+                </div>
+
+                <tr>
+                    <td style="padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;<b>
+                            6) Whether
+                            president of the parent group was invited to your
+                            meetings and
+                            projects, if so, :
+                        </b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;
+                        {{data.DESCRIPTION_OF_PRESIDENT_MEET_PROJECT}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;<b>7)
+                            How far young giants
+                            became a division of name and fame :</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;
+                        {{data.DESCRIPTION_OF_NAME_FAME}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;
+                        <b>8) Name of the bank, if you
+                            have a separate account :</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 30px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;
+                        {{data.BANK_NAME}} &nbsp;&nbsp;& &nbsp;&nbsp;Ac.number
+                        :&nbsp;&nbsp;{{data.BANK_ACCOUNT_NUMBER}}
+                    </td>
+                </tr>
+
+                <div style="color:black; text-align: center; font-weight:
+                    bolder; font-size: 15px; padding-top: 10px;">
+                    Annexure 'C'<br>
+                </div>
+
+                <tr>
+                    <td style="padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;<b>9)
+                            Project
+                            details :</b>&nbsp;&nbsp;
+                        {{data.DESCRIPTION_PROJECT_DETAILS}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 40px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;I,
+                        undersigned being group
+                        president / director
+                        for YG president / DA of YG
+                        division of giants group of
+                        {{data.GROUP_NAME}}
+                        hereby certify that the information
+                        contained is true and correct to the best of our
+                        knowledge.
+                    </td>
+                </tr>
+
+            </table>
+            <div style="display: inline-flex; width: 100%; padding-top: 10px;">
+                <div style="width: 30%; padding-top: 70px; text-align: center;
+                    margin-left: 30px;">
+                    <b>Date :</b>&nbsp;
+                    {{data['CREATED_MODIFIED_DATE'] | date:'dd MMM yyyy'}}
+                </div>
+
+                <div style="width: 30%;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%;
+                        border:1px solid grey; margin: 0px auto; margin-top:
+                        30px;">
+                    </div>
+                </div>
+
+                <div style="width: 30%; text-align: center; padding-top: 70px;">
+                    <b> (SEAL)</b>
+                </div>
+            </div>
+
+            <div style="display:inline-flex; width: 100%; padding-top: 10px;
+                margin-left: 15%;">
+                <div style="width: 20%; padding-top: 70px; text-align: center;
+                    font-weight: bold;">
+                    Group president
+                </div>
+
+                <div style="width: 20%; padding-top: 70px; text-align: center;
+                    font-weight: bold;">
+                    Director of YG
+                </div>
+
+                <div style="width: 30%; text-align: center; padding-top: 70px;
+                    font-weight: bold;">
+                    President/DA of YG division
+                </div>
+            </div>
+
+            <div style="page-break-after: always;"></div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint
+            (click)="handleCancel()">
+            Print
+        </button>
+    </ng-template>
+</nz-modal>

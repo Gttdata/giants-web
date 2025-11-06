@@ -1,0 +1,290 @@
+<div>
+    <form nz-form #myForm="ngForm">
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="15">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Project Title</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <input nz-input type="text" [(ngModel)]="data.PROJECT_TITLE" name="project_title"
+                                PlaceHolder="Project Title" maxlength="500" />
+                        </nz-form-control>
+
+                        <span *ngIf="validation==false && (data.PROJECT_TITLE=='' || data.PROJECT_TITLE==undefined)"
+                            style="color:red">Please fill the field
+                        </span>
+
+                        <span *ngIf="data.PROJECT_TITLE" style="font-size: 10px; color: red;">
+                            {{data.PROJECT_TITLE.length}}/ 500
+                        </span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="9">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Implementation Year</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-year-picker [(ngModel)]="data.IMPLEMENTATION_YEAR" name='implementation_year'
+                                [nzDisabledDate]="disabledDate" (ngModelChange)="onChange($event)"
+                                nzPlaceHolder="Select Year">
+                            </nz-year-picker>
+                        </nz-form-control>
+
+                        <span
+                            *ngIf="validation == false && (data.IMPLEMENTATION_YEAR == '' || data.IMPLEMENTATION_YEAR == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Category</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-select name="category" nzShowSearch nzAllowClear style="width: 100%"
+                                nzPlaceHolder="Select Category" [(ngModel)]="data.CATEGORY">
+                                <nz-option *ngFor="let project of projects;" [nzValue]="project.ID"
+                                    [nzLabel]="project.NAME">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+
+                        <!-- <nz-form-control>
+                            <textarea nz-input placeholder="Category" [(ngModel)]="data.CATEGORY" name="category"
+                                [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000"></textarea>
+                        </nz-form-control>
+                        <span *ngIf="data.CATEGORY" style="font-size: 10px; color: red;">
+                            {{data.CATEGORY.length}}/ 2000
+                        </span> -->
+
+                        <span *ngIf="validation == false && (data.CATEGORY == '' || data.CATEGORY == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Regularity Details</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input placeholder="Regularity Details" [(ngModel)]="data.REGULARITY_DETAILS"
+                                name="regularity_details" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                            </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.REGULARITY_DETAILS" style="font-size: 10px; color: red;">
+                            {{data.REGULARITY_DETAILS.length}}/ 2000
+                        </span>
+
+                        <span
+                            *ngIf="validation == false && (data.REGULARITY_DETAILS == '' || data.REGULARITY_DETAILS == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Benefits To Community</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input placeholder="Benefits To Community" maxlength="2000"
+                                [(ngModel)]="data.BENEFITS_TO_COMMUNITY" name="benefits_to_community"
+                                [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.BENEFITS_TO_COMMUNITY"
+                            style="font-size: 10px; color: red;">{{data.BENEFITS_TO_COMMUNITY.length}}/ 2000</span>
+
+                        <span
+                            *ngIf="validation == false && (data.BENEFITS_TO_COMMUNITY == '' || data.BENEFITS_TO_COMMUNITY == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Expenses Details</nz-form-label>
+                    <nz-form-item>
+
+                        <nz-form-control>
+                            <textarea nz-input placeholder="Expenses Details" [(ngModel)]="data.EXPENSES_DETAILS"
+                                maxlength="2000" name="expenses_details"
+                                [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.EXPENSES_DETAILS" style="font-size: 10px; color: red;">
+                            {{data.EXPENSES_DETAILS.length}}/ 2000
+                        </span>
+
+                        <span
+                            *ngIf="validation == false && (data.EXPENSES_DETAILS == '' || data.EXPENSES_DETAILS == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Sponsorship Details</nz-form-label>
+
+                        <nz-form-item>
+                            <nz-form-control>
+                                <textarea nz-input placeholder="Sponsorship Details"
+                                    [(ngModel)]="data.SPONSERSHIP_DETAILS" name="sponsorship_details"
+                                    [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                                </textarea>
+
+                                <span
+                                    *ngIf="validation == false && (data.SPONSERSHIP_DETAILS == '' || data.SPONSERSHIP_DETAILS == undefined)"
+                                    style="color:red">Please fill the field
+                                </span>
+                            </nz-form-control>
+
+                            <span *ngIf="data.SPONSERSHIP_DETAILS" style="font-size: 10px; color: red;">
+                                {{data.SPONSERSHIP_DETAILS.length}}/ 2000
+                            </span>
+                        </nz-form-item>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Sponsor Certificate </nz-form-label>
+
+                        <nz-form-item>
+                            <nz-form-label nzNoColon>File
+                                <span *ngIf="data.SPONSER_CERTIFICATE && data.SPONSER_CERTIFICATE != ''">
+                                    <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                                        [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                                        nzPopconfirmTitle="Are you sure delete this PDF?" (nzOnConfirm)="clear1()"
+                                        (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                                    </i>
+                                </span>
+                            </nz-form-label>
+
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="fileInput.click()">Choose File
+
+                                    <input #fileInput type="file" accept="application/pdf"
+                                        (change)="onFileSelected1($event)" (click)="fileInput.value = null"
+                                        style="display: none;" />
+                                </button>
+
+                                <br>
+
+                                <span *ngIf="data.SPONSER_CERTIFICATE != undefined && data.SPONSER_CERTIFICATE != null">
+                                    <a href="{{url}}{{data.SPONSER_CERTIFICATE}}" target="_blank">
+                                        {{ data.SPONSER_CERTIFICATE.name || data.SPONSER_CERTIFICATE}} </a>
+                                </span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </nz-form-item>
+                </div>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Project Planning</nz-form-label>
+                    <nz-form-item>
+
+                        <nz-form-control>
+                            <textarea nz-input placeholder="Project Palnning" [(ngModel)]="data.PROJECT_PLANNING"
+                                name="project_planning" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                            </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.PROJECT_PLANNING" style="font-size: 10px; color: red;">
+                            {{data.PROJECT_PLANNING.length}}/ 2000
+                        </span>
+
+                        <span
+                            *ngIf="validation == false && (data.PROJECT_PLANNING == '' || data.PROJECT_PLANNING == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Execution Details</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input placeholder="Execution Details" [(ngModel)]="data.EXECUTION_DETAILS"
+                                name="EXECUTION_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                            </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.EXECUTION_DETAILS" style="font-size: 10px; color: red;">
+                            {{data.EXECUTION_DETAILS.length}}/ 2000
+                        </span>
+
+                        <span
+                            *ngIf="validation == false && (data.EXECUTION_DETAILS == '' || data.EXECUTION_DETAILS == undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Impact Society</nz-form-label>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input placeholder="Impact Society" [(ngModel)]="data.IMPACT_SOCIETY"
+                                name="impact_society" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000">
+                            </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.IMPACT_SOCIETY" style="font-size: 10px; color: red;">
+                            {{data.IMPACT_SOCIETY.length}}/ 2000
+                        </span>
+
+                        <span
+                            *ngIf="validation == false && (data.IMPACT_SOCIETY == '' || data.IMPACT_SOCIETY == undefined)"
+                            style="color:red">Please fill the field
+                        </span>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button (click)="submit()"
+            style="margin-right: 8px;">
+            <span>Save & Close</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+            (click)="submit()" style="margin-right: 8px;">
+            <span>Update & close</span>
+        </button>
+    </div>
+</div>

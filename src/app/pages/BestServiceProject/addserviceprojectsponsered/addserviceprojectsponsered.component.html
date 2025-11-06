@@ -1,0 +1,108 @@
+<div>
+    <!-- <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">Add</button>
+    </div> -->
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Enter the Sponsored Name</nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Enter Sponsored Name">
+                                        <input nz-input placeholder="Sponsored Name" name="sponsored"
+                                            [(ngModel)]="ProjectSponsData.SPONSERED_PROJECT" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Select Inauguration Date</nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Enter Inauguration Date">
+                                        <nz-date-picker name="inaugurtiondate" nzFormat="dd/MM/yyyy"
+                                            [(ngModel)]="ProjectSponsData.DATE_OF_INAGUARATION" [nzDisabledDate]="disabledDate">
+                                        </nz-date-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Enter the Description</nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Enter Description">
+                                        <textarea rows="4" nz-input placeholder="Description" name="description"
+                                            [(ngModel)]="ProjectSponsData.DESCRIPTION" maxlength="500" required>
+                                </textarea>
+                                    </nz-form-control>
+                                    <span *ngIf="ProjectSponsData.DESCRIPTION" style="font-size: 10px; color: red;">
+                                        {{ProjectSponsData.DESCRIPTION.length}}/ 500
+                                  </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Upload Any Certificate from the Sponsorer</nz-form-label>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8">
+                              <nz-form-item>
+                                <nz-form-control>
+                                  <div *ngIf="ProjectSponsData.SPONSERED_CERTIFICATE == undefined || ProjectSponsData.SPONSERED_CERTIFICATE == null || ProjectSponsData.SPONSERED_CERTIFICATE == ''"
+                                                          style="width:100%; height:120px;text-align:center;padding:10px;border: 1px dashed gray; "
+                                                              (click)="fileInput1.click()">
+                                                              <div style="font-size: 50px;
+                                                              font-weight: bold;
+                                                              margin-top: 20px;
+                                                              margin-bottom: -15px;"> +</div> Choose Image
+                                  </div>
+                                  <input #fileInput1 type="file" accept="image/*"
+                                                              (change)="onFileSelected1($event)" (click)="fileInput1.value = null"
+                                                              style="display: none;" />
+                                                              <!-- <img *ngIf="ProjectSponsData.SPONSERED_CERTIFICATE != undefined &&  ProjectSponsData.SPONSERED_CERTIFICATE != null &&  ProjectSponsData.SPONSERED_CERTIFICATE != '' "
+                                                              [src]="ProjectSponsData.SPONSERED_CERTIFICATE" (click)="fileInput1.click()"
+                                                              style="height: 120px; width:100%; cursor: pointer;"> -->
+
+                                                              <span *ngIf="sponsorFileURL1 == undefined || sponsorFileURL1 == null || sponsorFileURL1 == '' ">
+                                                                <img *ngIf="ProjectSponsData.SPONSERED_CERTIFICATE != undefined &&  ProjectSponsData.SPONSERED_CERTIFICATE != null &&  ProjectSponsData.SPONSERED_CERTIFICATE != '' "
+                                                                src="{{api.retriveimgUrl}}sponsershipCertificate/{{ProjectSponsData.SPONSERED_CERTIFICATE}}" (click)="fileInput1.click()"
+                                                                style="height: 120px; width:100%; cursor: pointer;">
+                                                              </span>
+          
+                                                              <!-- <span *ngIf="sponsorFileURL1 != null || sponsorFileURL1 != undefined || sponsorFileURL1 != ''" >
+                                                                <img 
+                                                              [src]="ProjectSponsData.SPONSERED_CERTIFICATE" (click)="fileInput1.click()"
+                                                              style="height: 120px; width:100%; cursor: pointer;">
+                                                              </span> -->
+                                                              <span *ngIf="sponsorFileURL1 != null" >
+                                                                <img 
+                                                              [src]="ProjectSponsData.SPONSERED_CERTIFICATE" (click)="fileInput1.click()"
+                                                              style="height: 120px; width:100%; cursor: pointer;">
+                                                              </span>
+
+                                </nz-form-control>
+                              </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+    <br />
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="save(false,myForm)">
+        <span>Add & close</span>
+    </button>
+
+</div>

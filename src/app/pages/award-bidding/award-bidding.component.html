@@ -1,0 +1,602 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div style="text-align: left; padding: 5px;">
+        <span class="formname">
+            {{formTitle}}
+        </span>
+    </div>
+</div>
+
+<div style="height: 80vh; overflow-y: auto; padding-bottom: 40px;">
+    <div nz-row>
+        <!-- 1. Outstanding Group -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="(groupID > 0)">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Group</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="openOutstandingGroupAward()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Outstanding New Group -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding New Group</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="openOutstandingNewGroupAward()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Outstanding Member -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+            *ngIf="(federationID == 0) && (unitID == 0) && (groupID == 0) && (GENDER =='M')">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Member</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="theOutstandingMember()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Outstanding Lady Member -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+            *ngIf="(federationID == 0) && (unitID == 0) && (groupID == 0) && (GENDER =='F')">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Lady Member</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="theOutstandingLadyMember()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Outstanding President -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="(federationID > 0) && (roleID == 4)">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding President</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="outstandingPresident()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Director of Administration -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="(federationID > 0) && (roleID == 4)">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Director of Administration</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="OpenAdministration()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Director of Finance -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="(federationID > 0) && (roleID == 11)">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Director of Finance</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="directorOfFinance()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Outstanding Activity of the Year -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Activity of the Year</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="activityOfTheYear()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Best Service Project of the Year -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Best Service Project of the Year</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="bestServiceProjectOfTheYear()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Outstanding Immediate Past President -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="(federationID > 0) && (roleID == 5)">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Immediate Past President</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="OpenDrawer()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. Outstanding Past President -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="(federationID > 0) && (roleID == 5)">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Past President</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="OpenDrawer1()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. Outstanding Vice President of the Group -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Vice President of the Group</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="vicePresidentOfTheGroup()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. Outstanding Giants Week Celebrations -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Giants Week Celebrations</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="outstandingGiantsWeekCelebrations()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. Outstanding Monumental Project -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Monumental Project</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="outstandingMonumentalProject()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. Outstanding Young Giants Division -->
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" *ngIf="groupID > 0">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; text-align: center;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24">
+                                    <div>
+                                        <span>Outstanding Young Giants Division</span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="outstandingYoungGiantsDivision()">
+                                            <i nz-icon nzType="plus"></i>Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="VicePresident"
+    [nzTitle]="drawerTitle1" (nzOnClose)="closeDrawer1()" (nzKeyboard)="true">
+
+    <app-vice-president [isRemarkVisible]="isRemarkVisible1" [drawerClose]="closeCallback1"
+        [drawerVisible]="VicePresident" [data]="drawerData1">
+    </app-vice-president>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="drawerVisibleImmediatePastPresident" [nzTitle]="drawerTitleImmediatePastPresident"
+    (nzOnClose)="closeImmediatePastPresidentDrawer()" (nzKeyboard)="true">
+
+    <app-immediate-past-president [isRemarkVisible]="isRemarkVisibleImmediatePastPresident"
+        [drawerClose]="closeCallbackImmediatePastPresident" [drawerVisible]="drawerVisibleImmediatePastPresident"
+        [data]="drawerDataImmediatePastPresident" [ImmediatedrawerPastdataArray]="ImmediatedrawerDataz">
+    </app-immediate-past-president>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="drawerVisiblePastPresident" [nzTitle]="drawerTitlePastPresident"
+    (nzOnClose)="closeclosePastPresidentDrawerDrawer()" (nzKeyboard)="true">
+
+    <app-past-president [isRemarkVisible]="isRemarkVisiblePastPresident" [drawerClose]="closeCallbackPastPresident"
+        [drawerVisible]="drawerVisiblePastPresident" [data]="drawerDataPastPresident"
+        [drawerPastdataArray]="drawerDatazPastPresident">
+    </app-past-president>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="VisiableAdministration" [nzTitle]="administrationTitle" (nzOnClose)="administrationCloseDrawer()"
+    (nzKeyboard)="true">
+
+    <app-administration [isRemarkVisible]="administrationVisible" [drawerClose]="closeCallbackAdministration"
+        [drawerVisible]="VisiableAdministration" [data]="administrationData" [AllMembers]="AllMembers">
+    </app-administration>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="outstandingGroupDrawerVisible" [nzTitle]="outstandingGroupDrawerTitle"
+    (nzOnClose)="outstandingGroupAwardDrawerClose()" (nzKeyboard)="true">
+
+    <app-addgroupbidding [drawerClose]="outstandingGroupAwardCloseCallback"
+        [drawerVisible]="outstandingGroupDrawerVisible" [data]="outstandingGroupDrawerData"
+        [contiProjectArray]="outstandingGroupDrawerContiProjectData" [paidDueArray]="outstandingGroupDrawerDuePaidData"
+        [projectArray]="outstandingGroupDrawerUndertakenProjData"
+        [mediaCoverArray]="outstandingGroupDrawerMediaCoverageData"
+        [groupSponsArray]="outstandingGroupDrawerSponsorData" [FormStatus]="FormStatus">
+    </app-addgroupbidding>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="drawerWeekVisible"
+    [nzTitle]="giantWeekCelebrationDrawerTitle" (nzOnClose)="closeGiantWeekCelebrationDrawer()" (nzKeyboard)="true">
+
+    <app-giant-week-celebration-award [isRemarkVisible]="isRemarkWeekVisible"
+        [drawerClose]="closeCallbackGiantWeekCelebration" [drawerVisible]="drawerWeekVisible"
+        [data]="drawerWeekCeleData"
+        [ArrayProjectDuringServiceDrawerDataSaveInTable]="ProjectDuringServiceDrawerDataArray"
+        [ArrayDateAndScheduleSaveInTable]="DateAndScheduleDrawerDataArray"
+        [ArrayProjectExpensesDrawerDataSaveInTable]="ProjectExpensesDrawerDataArray"
+        [ArrayDescriptionOfWeekSaveInTable]="DescriptionOfWeekDrawerDataArray"
+        [ArrayPublicitySaveInTable]="PublicityWithPressDrawerDataArray">
+    </app-giant-week-celebration-award>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="VisiableActivitics"
+    [nzTitle]="ActiviticsTitle" (nzOnClose)="ActiviticsCloseDrawer()" (nzKeyboard)="true">
+
+    <app-activites [isRemarkVisible]="ActiviticsVisible" [drawerClose]="closeCallbackActivitics"
+        [drawerVisible]="VisiableActivitics" [data]="ActiviticsData" [drawerActivityDetails]="drawerActivityDetails">
+    </app-activites>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="directorOfFinanceDrawerVisible" [nzTitle]="directorOfFinanceDrawerTitle"
+    (nzOnClose)="directorOfFinanceDrawerClose()" (nzKeyboard)="true">
+
+    <app-addaward [drawerClose]="directorOfFinanceCloseCallback" [data]="directorfinancedrawerData"
+        [data2]="directorOfFinanceData2">
+    </app-addaward>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="drawerMemberVisible" [nzTitle]="drawerTitle" (nzOnClose)="closeMemberDrawer()" (nzKeyboard)="true">
+
+    <app-member-award [isRemarkVisible]="isRemarkMemberVisible" [drawerClose]="closeCallbackMember"
+        [drawerVisible]="drawerMemberVisible" [data]="MemberDrawerData"
+        [drawerNewMemberArray]="NewMemberDrawerDataArray" [drawerDocAndDetailArray]="DocAndDetailDrawerDataArray">
+    </app-member-award>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="drawerLadyMemberVisible" [nzTitle]="drawerTitle" (nzOnClose)="closeLadyMemberDrawer()"
+    (nzKeyboard)="true">
+
+    <app-lady-member-award [isRemarkVisible]="isRemarkLadyMemberVisible" [drawerClose]="closeCallbackLadyMember"
+        [drawerVisible]="drawerLadyMemberVisible" [data]="LadyMemberDrawerData"
+        [drawerNewMemberArray]="LadyNewMemberDrawerDataArray"
+        [drawerDocAndDetailArray]="LadyDocAndDetailDrawerDataArray">
+    </app-lady-member-award>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="VisiablePresident"
+    [nzTitle]="PresidentTitle" (nzOnClose)="PresidentCloseDrawer()" (nzKeyboard)="true">
+
+    <app-the-president [isRemarkVisible]="PresidentVisible" [drawerClose]="closeCallbackPresident"
+        [drawerVisible]="VisiablePresident" [data]="PresidentData" [drawerPresidentDetails]="drawerPresidentDetails">
+    </app-the-president>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="bestServiceProjectDrawerVisible" [nzTitle]="bestServiceProjectDrawerTitle"
+    (nzOnClose)="bestServiceProjectAwardDrawerClose()" (nzKeyboard)="true">
+
+    <app-addbestserviceproject [drawerClose]="bestServiceProjectAwardCloseCallback"
+        [drawerVisible]="bestServiceProjectDrawerVisible" [data]="bestServiceProjectDrawerData"
+        [ProjectSponsArray]="bestServiceProjectSponsorDrawerData" [UnitAwardArray]="unitConferenceAwardDrawerData">
+    </app-addbestserviceproject>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+    [nzVisible]="outstandingMonumentalProjectDrawerVisible" [nzTitle]="outstandingMonumentalProjectDrawerTitle"
+    (nzOnClose)="outstandingMonumentalProjectAwardDrawerClose()" (nzKeyboard)="true">
+
+    <app-addmonumentalaward [drawerClose]="outstandingMonumentalProjectAwardCloseCallback"
+        [drawerVisible]="outstandingMonumentalProjectDrawerVisible" [data]="outstandingMonumentalProjectDrawerData"
+        [gaintsBannerArray]="bannerDrawerData" [pressClippingArray]="mediaClippingDrawerData"
+        [MonumentalSponsArray]="monumnentalSponsorDrawerData">
+    </app-addmonumentalaward>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px'}"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" (nzKeyboard)="true"
+    [nzVisible]="outstandingYoungGiantsDrawerVisible" [nzTitle]="outstandingYoungGiantsDrawerTitle"
+    (nzOnClose)="outstandingYoungGiantsDrawerClose()">
+
+    <app-add-young-giantsaward [drawerVisible]="outstandingYoungGiantsDrawerVisible"
+        [drawerClose]="outstandingYoungGiantsAwardsCloseCallBack" [data]="outstandingYoungGiantsData">
+    </app-add-young-giantsaward>
+</nz-drawer>

@@ -1,0 +1,33 @@
+<div style="overflow-y: auto; height: 400px;">
+  <div>
+    <nz-table class="my-scroll no-wrap1" nzBordered #dataTable nzShowSizeChanger [nzFrontPagination]="false"
+      [nzFrontPagination]="false" [nzData]="data" [nzLoading]="isSpinning" [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize">
+
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th><b>Member Name</b></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data1 of dataTable.data; let i = index;">
+          <td>
+            {{[i+1]}}
+          </td>
+
+          <td>
+            {{data1.NAME}}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<div class="footer">
+  <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+    <span>Cancel</span>
+  </button>
+</div>

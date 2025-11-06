@@ -1,0 +1,280 @@
+<div>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div style="text-align: left; padding: 5px 0px 5px 0px;">
+                    <span class="formname">
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+
+            <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div *ngIf="(roleId != 59) && (roleId != 60) && (roleId != 61) && (roleId != 1)"
+                    style="text-align: right; padding: 5px 0px 5px 0px;">
+                    <nz-radio-group (ngModelChange)="onCommunitySelectionChange($event)"
+                        [(ngModel)]="COMMUNITY_SELECTION">
+                        <label nz-radio nzValue="GWF">GWF</label>
+                        <label nz-radio nzValue="MF">My Federation</label>
+                    </nz-radio-group>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div nz-row style="height: 80vh; overflow-y: scroll; padding: 10px;">
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToFederationtMaster()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="global" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_FEDERATION}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Federation(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToUnitMaster()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="deployment-unit" nzTheme="outline"
+                            style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_UNITS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Unit(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToGroupMaster()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="team" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_GROUPS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Group(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToMemberMaster()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="user" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_MEMBERS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Member(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToPostPage()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="qrcode" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_POSTS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Post(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToMeetingPage()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="calendar" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_MEETINGS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Meeting(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToEventPage()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="carry-out" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_EVENTS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Event(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToCircularPage()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="audit" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_CIRCULARS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Circular(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToProjectPage()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <i nz-icon nzType="apartment" nzTheme="outline" style="font-size: 40px; color: #ff8d73;"></i>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{TOTAL_PROJECTS}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Project(s)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzSm="24" nzXs="24" nzXl="0" nzLg="0" nzMd="0" (click)="goToPaymentPage()">
+            <div
+                style="border-radius: 5px; background-color: white; padding: 10px; margin-bottom: 10px; box-shadow: 1px 1px 3px 3px rgb(249 249 249); cursor: pointer; height: 60px;">
+                <div nz-row>
+                    <div nz-col nzSpan="12" style="text-align: right; padding-right: 3px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 30.271 28.276">
+                            <g id="Collected_Fee" data-name="Collected Fee"
+                                transform="translate(-11721.681 -14304.316)">
+                                <g id="_1915272532000" transform="translate(11722.669 14305.327)">
+                                    <path id="Path_43" data-name="Path 43" fill="none"
+                                        d="M11930.859,14845.344c.2,1.272-.054,1.738-.895,2.256a5.942,5.942,0,0,1-2.4.73,26.665,26.665,0,0,1-4.644.128c-.714-.017-1.213.172-1.225-.517.518-.283,2.749-.04,3.526-.047,1.152-.01,5.739-.155,5.067-2.21-.447-1.366-3.889-.105-6.559-.852-3.2-.894-5.209-1.763-9.265-.521,0,.328-.132,6.1.145,6.381.518.382,8.985,1.8,10.248,1.883,1.747.107,3.107-1.214,4.124-1.96,3.083-2.266,6.348-4.977,9.4-7.191,1.193-.867,0-2.271-1.846-1.607C11934.2,14842.664,11931.922,14844.788,11930.859,14845.344Z"
+                                        transform="translate(-11910.577 -14826.315)" stroke="#ff8d73"
+                                        stroke-miterlimit="22.926" stroke-width="2" fill-rule="evenodd" />
+                                    <path id="Path_44" data-name="Path 44" fill="none"
+                                        d="M12214.675,14309.724a7.57,7.57,0,1,0,8.8,6.207A7.543,7.543,0,0,0,12214.675,14309.724Z"
+                                        transform="translate(-12200.01 -14309.593)" stroke="#ff8d73"
+                                        stroke-miterlimit="22.926" stroke-width="2" fill-rule="evenodd" />
+                                    <path id="Path_45" data-name="Path 45" fill="none"
+                                        d="M11723.009,14903.683c.643.281,2.438.271,2.864-.241a80.283,80.283,0,0,0,.039-8.395,3.889,3.889,0,0,0-2.687-.269c-.767.205-.517,1.307-.517,2.689l.008,5.669C11722.79,14903.653,11722.76,14903.479,11723.009,14903.683Z"
+                                        transform="translate(-11722.669 -14878.264)" stroke="#ff8d73"
+                                        stroke-miterlimit="22.926" stroke-width="2" fill-rule="evenodd" />
+                                    <text id="_" data-name="₹" transform="translate(13.365 10.323)" stroke="#ff8d73"
+                                        stroke-width="0.5" font-size="9" font-family="ArialMT, Arial">
+                                        <tspan x="0" y="0">₹</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size: 18px;">
+                                <b>{{COLLECTED_FEE ? (COLLECTED_FEE | number:'1.0-2') : 0}}</b>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                Collected Fee
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

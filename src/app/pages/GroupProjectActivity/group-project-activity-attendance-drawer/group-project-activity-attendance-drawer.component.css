@@ -1,0 +1,26 @@
+nz-form-item {
+    padding: 0px 8px;
+    display: block;
+}
+
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.my-box {
+    border: 1px dashed #e9e9e9;
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    background-color: #fafafa;
+}
+
+tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}

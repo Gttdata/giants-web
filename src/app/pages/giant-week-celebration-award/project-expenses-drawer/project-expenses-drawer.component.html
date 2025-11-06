@@ -1,0 +1,74 @@
+<div>
+    <form nz-form>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="16">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Project</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input type="text" name="Project Title" placeholder="Enter Project Title"
+                            [(ngModel)]="data.PROJECT" />
+                    </nz-form-control>
+                    <span *ngIf="validation==false && (data.PROJECT=='' || data.PROJECT==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Sponsorship Date</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker name="implemented" [(ngModel)]="data.SPONSORSHIP_DATE"
+                            (ngModelChange)="onChange($event)">
+                        </nz-date-picker>
+                    </nz-form-control>
+                    <span *ngIf="validation==false && (data.SPONSORSHIP_DATE=='' || data.SPONSORSHIP_DATE==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Amount(Rs.)</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group style="width:200px" nzAddOnBefore="Rs.">
+                            <span class="td-right">
+                                <input nz-input placeholder="Enter Amount" name="collectedamt"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.AMOUNT" />
+                            </span>
+                        </nz-input-group>
+                    </nz-form-control>
+                    <span *ngIf="data.AMOUNT==0 || data.AMOUNT==undefined"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="16">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Details Of Project Expenses</nz-form-label>
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Enter Expenses" name="society" maxlength="500"
+                            [(ngModel)]="data.EXPENSES_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                    </nz-form-control>
+                    <span *ngIf="data.EXPENSES_DETAILS" style="font-size: 10px; color: red;">
+                        {{data.EXPENSES_DETAILS.length}}/ 500
+                    </span>
+                    <span *ngIf="validation==false && (data.EXPENSES_DETAILS=='' || data.EXPENSES_DETAILS==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button
+        (click)="save(false)">
+        <span>Add & close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" nz-button *ngIf="data.ID"
+        (click)="save(false)">
+        <span>Update & close</span>
+    </button>
+</div>

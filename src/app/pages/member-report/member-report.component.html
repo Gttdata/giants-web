@@ -1,0 +1,1955 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">
+                    {{formTitle}}
+                </span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="12" style="text-align: right;">
+            <form nz-form [nzLayout]="'inline'">
+                <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch
+                    style="width: 150px; margin-left: 10px;" (ngModelChange)="SelectYear($event)">
+
+                    <nz-option *ngFor="let abc of range;" [nzValue]="abc" [nzLabel]="abc">
+                    </nz-option>
+                </nz-select>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24" style="text-align: right;">
+            <button nz-button nzType="primary" (click)="goToClear()" style="margin-left: 10px;"
+                nzTooltipTitle="Clear All Filter" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="delete"
+                    nzTheme="outline"></i>
+            </button>
+
+            <button nz-button nzType="primary" (click)="goToSchedule()" style="margin-left: 10px;"
+                nzTooltipTitle="Schedule" nzTooltipPlacement="top" nz-tooltip>
+                <i nz-icon nzType="calendar" nzTheme="outline" nz-popover nzPopoverContent="Schedule">
+                </i>
+            </button>
+
+            <button nz-button nzType="primary" (click)="importInExcel()" style="margin-left: 10px;"
+                nzTooltipTitle="Excel File" nzTooltipPlacement="top" nz-tooltip>
+                <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+            </button>
+
+            <nz-tree-select [nzDropdownStyle]="{ 'max-height': '300px' }"
+                style="width:25%;margin-left: 10px;margin-top: 10px;" [(ngModel)]="tagValue" [nzNodes]="nodes"
+                (ngModelChange)="onChange($event)" nzShowSearch nzCheckable [nzMaxTagCount]="5"
+                nzPlaceHolder="Please select">
+            </nz-tree-select>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #dataTable nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="federations" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)" [nzLoading]="loadingRecords">
+
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzLeft="0px" *ngIf="Col1" nzShowSort nzSortKey="FEDERATION_NAME" nzWidth="300px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalfednm()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Federation Name</b>
+                        </th>
+
+                        <th nzLeft="300px" *ngIf="Col2" nzShowSort nzSortKey="UNIT_NAME" nzWidth="171px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalUnitcount()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Name Of Unit</b>
+                        </th>
+
+                        <th nzLeft="471px" *ngIf="Col3" nzShowSort nzSortKey="GROUP_NAME" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalgrpcount()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Name Of Group</b>
+                        </th>
+
+                        <th *ngIf="Col4" nzShowSort nzSortKey="MEMBER_NAME" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalMemberName()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Member Name</b>
+                        </th>
+
+                        <!-- <th *ngIf="Col5" nzShowSort nzSortKey="MEETING_PLANNED">
+                            <b>Meeting Planned</b>
+                        </th> -->
+
+                        <th *ngIf="Col5" nzShowSort nzSortKey="MEETING_PLANNED" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalMeetPlanned()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Meeting Planned</b>
+                        </th>
+
+                        <th *ngIf="Col6" nzShowSort nzSortKey="MEETING_INVITED" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalMeetInvite()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Meeting Invited</b>
+                        </th>
+
+                        <th *ngIf="Col7" nzShowSort nzSortKey="MEETING_ATTEMPTED" nzWidth="210px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalMeetAttempt()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Attempted Meeting</b>
+                        </th>
+
+                        <!-- <th *ngIf="Col8" nzShowSort nzSortKey="AVG_ATTENDENCE">
+                            <b>Avg. Attendence</b>
+                        </th> -->
+
+                        <th *ngIf="Col8" nzShowSort nzSortKey="AVG_ATTENDENCE" nzWidth="210px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalAvgAttend()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Avg. Attendence</b>
+                        </th>
+
+                        <th *ngIf="Col9" nzShowSort nzSortKey="POSTS" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalPostCount()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>No. Of Post</b>
+                        </th>
+
+                        <!-- Meeting Planned , Avg. Attendence , No. Of Post , Total Likes , Total Comments , Total event Planned , No. Of Circular , Total View's -->
+
+                        <th *ngIf="Col10" nzShowSort nzSortKey="LIKES" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalTotalPostLikes()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Total Likes</b>
+                        </th>
+
+                        <th *ngIf="Col11" nzShowSort nzSortKey="COMMENTS" nzWidth="200px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalTotalPostComment()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>Total Comments</b>
+                        </th>
+
+                        <th *ngIf="Col12" nzShowSort nzSortKey="EVENT_PLANNED">
+                            <b>Total event Planned</b>
+                        </th>
+
+                        <th *ngIf="Col13" nzShowSort nzSortKey="CIRCULAR" nzWidth="190px">
+                            <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown"
+                                nzType="filter" nzTheme="fill" nzTrigger="click" (click)="showModalCircularCount()"
+                                nzPlacement="left" [nzClickHide]="false" nzTableFilter
+                                style="margin-left:-39px"></i><b>No. Of Circular</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td nzLeft="0px" *ngIf="Col1" align="center">
+                            <span>{{data.FEDERATION_NAME}}</span>
+                        </td>
+
+                        <td nzLeft="300px" *ngIf="Col2" align="center">
+                            <span>{{data.UNIT_NAME}}</span>
+                        </td>
+
+                        <td nzLeft="471px" *ngIf="Col3" align="left">
+                            <span>{{data.GROUP_NAME}}</span>
+                        </td>
+
+                        <td *ngIf="Col4" align="left">
+                            <span>{{data.MEMBER_NAME}}</span>
+                        </td>
+
+                        <td *ngIf="Col5" align="center">
+                            <span>{{data.MEETING_PLANNED}}</span>
+                        </td>
+
+                        <td *ngIf="Col6" align="center">
+                            <span>{{data.MEETING_INVITED}}</span>
+                        </td>
+
+                        <td *ngIf="Col7" align="center">
+                            <span>{{data.MEETING_ATTEMPTED}}</span>
+                        </td>
+
+                        <td *ngIf="Col8" align="center">
+                            <span>{{data.AVG_ATTENDENCE || '-'}}</span>
+                        </td>
+
+                        <td *ngIf="Col9" align="center" (click)="PostCountWiseData(data.ID)">
+                            <span>{{data.POSTS}}</span>
+                        </td>
+
+                        <td *ngIf="Col10" align="center">
+                            <span>{{data.LIKES}}</span>
+                        </td>
+
+                        <td *ngIf="Col11" align="center">
+                            <span>{{data.COMMENTS}}</span>
+                        </td>
+
+                        <td *ngIf="Col12" align="center">
+                            <span>{{data.EVENT_PLANNED}}</span>
+                        </td>
+
+                        <td *ngIf="Col13" align="center" (click)="CircuCountWiseData(data.ID)">
+                            <span>{{data.CIRCULAR}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisiblepdf" [nzTitle]="modalTitle1" [nzContent]="modalContent1" [nzFooter]="modalFooter1"
+    (nzOnCancel)="HandleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle1>Print Document</ng-template>
+
+    <ng-template #modalContent1>
+        <div id="print" style="overflow-x: scroll;margin-right: 20px; margin-top: 10px;">
+            <div
+                style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 5px;margin-top: 20px;">
+                Group Report </div>
+            <br><br>
+            <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+            <br><br>
+            <div>
+                <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                    <thead>
+                        <tr>
+                            <th *ngIf="Col1" style="border: 1px solid black ;">Federation Name</th>
+                            <th *ngIf="Col2" style="border: 1px solid black ;">Name Of Unit</th>
+                            <th *ngIf="Col3" style="border: 1px solid black ;">Name Of Group</th>
+                            <th *ngIf="Col4" style="border: 1px solid black ;">Member Name</th>
+                            <th *ngIf="Col5" style="border: 1px solid black ;">Meeting Planned</th>
+                            <th *ngIf="Col6" style="border: 1px solid black ;">Meeting Invited</th>
+                            <th *ngIf="Col7" style="border: 1px solid black ;">Meeting Attempted</th>
+                            <th *ngIf="Col8" style="border: 1px solid black ;">Avg. Attendence</th>
+                            <th *ngIf="Col9" style="border: 1px solid black ;">No. Of Post</th>
+                            <th *ngIf="Col10" style="border: 1px solid black ;">Total Likes</th>
+                            <th *ngIf="Col11" style="border: 1px solid black ;">Total Comments</th>
+                            <th *ngIf="Col12" style="border: 1px solid black ;">Total event Planned</th>
+                            <th *ngIf="Col13" style="border: 1px solid black ;">No. Of Circular</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let tab of GroupWiseData;">
+                            <td *ngIf="Col1" style="border: 1px solid black ;">{{ tab.FEDERATION_NAME }}</td>
+                            <td *ngIf="Col2" style="border: 1px solid black ;">{{ tab.UNIT_NAME }}</td>
+                            <td *ngIf="Col3" style="border: 1px solid black ;">{{ tab.GROUP_NAME }}</td>
+                            <td *ngIf="Col4" style="border: 1px solid black ;">{{ tab.MEMBER_NAME }}</td>
+                            <td *ngIf="Col5" style="border: 1px solid black ;">{{ tab.MEETING_PLANNED }}</td>
+                            <td *ngIf="Col6" style="border: 1px solid black ;">{{tab.MEETING_INVITED}}</td>
+                            <td *ngIf="Col7" style="border: 1px solid black ;">{{tab.MEETING_ATTEMPTED}}</td>
+                            <td *ngIf="Col8" style="border: 1px solid black ;">{{ tab.AVG_ATTENDENCE }}</td>
+                            <td *ngIf="Col9" style="border: 1px solid black ;">{{ tab.POSTS }}</td>
+                            <td *ngIf="Col10" style="border: 1px solid black ;">{{ tab.LIKES }}</td>
+                            <td *ngIf="Col11" style="border: 1px solid black ;">{{ tab.COMMENTS }}</td>
+                            <td *ngIf="Col12" style="border: 1px solid black ;">{{ tab.EVENT_PLANNED }}</td>
+                            <td *ngIf="Col13" style="border: 1px solid black ;">{{ tab.CIRCULAR }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter1>
+        <button nz-button nzType="default" (click)="handleCancel1()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint>
+            Print
+        </button>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisiblePostCount" [nzTitle]="modalTitlefedPostCount" [nzContent]="modalContentfedPostCount"
+    [nzFooter]="modalFooterfedPostCount" (nzOnCancel)="ClosePostCount()" [nzWidth]="400">
+
+    <ng-template #modalTitlefedPostCount style="text-align: center;">
+        {{ModelName}}
+    </ng-template>
+
+    <ng-template #modalContentfedPostCount>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayPost;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupPostCount(i)"></i>
+                    </div>
+
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTPostCount(i)"><span
+                                    *ngIf="mainFilterArrayPost[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayPost[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTPostCount(i)"><span
+                                    *ngIf="mainFilterArrayPost[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayPost[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayPost[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTPostCount1(i,j)"><span
+                                        *ngIf="mainFilterArrayPost[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayPost[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTPostCount1(i,j)"><span
+                                        *ngIf="mainFilterArrayPost[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayPost[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupPostCount1(i,j)"></i>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayPost[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayPost[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24" *ngIf="mainFilterArrayPost[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayPost[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterPostCount(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooterfedPostCount>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupPostCount()">
+            <span>Add Filter Group</span>
+        </button>
+
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterPostCount()" nz-button type="button">
+            Apply Filter
+        </button>
+
+        <button class="ant-btn cls" nz-button type="button" (click)="ClearFilterPostCount()">
+            <span>Clear</span>
+        </button>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisibleEventPlanned" [nzTitle]="modalTitlefedEventPlanned"
+    [nzContent]="modalContentfedEventPlanned" [nzFooter]="modalFooterfedEventPlanned" (nzOnCancel)="CloseEventPlanned()"
+    [nzWidth]="400">
+    <ng-template #modalTitlefedEventPlanned style="text-align: center;">{{ModelName}}</ng-template>
+
+    <ng-template #modalContentfedEventPlanned>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayEventPlanned;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupEventPlanned(i)">
+                        </i>
+                    </div>
+
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW'] == true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTEventPlanned (i)"><span
+                                    *ngIf="mainFilterArrayEventPlanned[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span
+                                    *ngIf="mainFilterArrayEventPlanned[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTEventPlanned(i)"><span
+                                    *ngIf="mainFilterArrayEventPlanned[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayEventPlanned[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayEventPlanned[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTEventPlanned1(i,j)"><span
+                                        *ngIf="mainFilterArrayEventPlanned[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayEventPlanned[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTEventPlanned1(i,j)"><span
+                                        *ngIf="mainFilterArrayEventPlanned[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayEventPlanned[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupEventPlanned1(i,j)"></i>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayEventPlanned[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayEventPlanned[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayEventPlanned[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayEventPlanned[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterEventPlanned(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooterfedEventPlanned>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupEventPlanned()">
+            <span>Add Filter Group</span>
+        </button>
+
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterEventPlanned()" nz-button type="button">
+            Apply Filter
+        </button>
+
+        <button class="ant-btn cls" nz-button type="button" (click)="ClearFilterEventPlanned()">
+            <span>Clear</span>
+        </button>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisibleCircularCount" [nzTitle]="modalTitlefedCircularCount"
+    [nzContent]="modalContentfedCircularCount" [nzFooter]="modalFooterfedCircularCount"
+    (nzOnCancel)="CloseCircularCount()" [nzWidth]="400">
+    <ng-template #modalTitlefedCircularCount style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedCircularCount>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayCircular;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupCircularCount(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTCircularCount (i)"><span
+                                    *ngIf="mainFilterArrayCircular[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayCircular[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTCircularCount(i)"><span
+                                    *ngIf="mainFilterArrayCircular[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayCircular[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayCircular[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTCircularCount1(i,j)"><span
+                                        *ngIf="mainFilterArrayCircular[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayCircular[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTCircularCount1(i,j)"><span
+                                        *ngIf="mainFilterArrayCircular[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayCircular[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupCircularCount1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayCircular[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayCircular[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24" *ngIf="mainFilterArrayCircular[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayCircular[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterCircularCount(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedCircularCount>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupCircularCount()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterCircularCount()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button"
+            (click)="ClearFilterCircularCount()"><span>Clear</span></button>
+
+        <!-- ClearFilterCircularCount -->
+    </ng-template>
+</nz-modal>
+
+<!-- Meeting Planned -->
+<nz-modal [(nzVisible)]="isVisibleMeetPlanned" [nzTitle]="modalTitlefedMeetPlanned"
+    [nzContent]="modalContentfedMeetPlanned" [nzFooter]="modalFooterfedMeetPlanned" (nzOnCancel)="CloseMeetPlanned()"
+    [nzWidth]="400">
+    <ng-template #modalTitlefedMeetPlanned style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedMeetPlanned>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayMeetPlanned;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupMeetPlanned(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTMeetPlanned (i)"><span
+                                    *ngIf="mainFilterArrayMeetPlanned[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayMeetPlanned[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTMeetPlanned(i)"><span
+                                    *ngIf="mainFilterArrayMeetPlanned[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayMeetPlanned[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayMeetPlanned[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTMeetPlanned1(i,j)"><span
+                                        *ngIf="mainFilterArrayMeetPlanned[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMeetPlanned[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTMeetPlanned1(i,j)"><span
+                                        *ngIf="mainFilterArrayMeetPlanned[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMeetPlanned[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupMeetPlanned1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMeetPlanned[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayMeetPlanned[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayMeetPlanned[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMeetPlanned[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterMeetPlanned(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedMeetPlanned>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupMeetPlanned()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterMeetPlanned()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button"
+            (click)="ClearFilterMeetPlanned()"><span>Clear</span></button>
+
+        <!-- ClearFilterMeetPlanned -->
+    </ng-template>
+</nz-modal>
+
+<!-- Total Post Like -->
+<nz-modal [(nzVisible)]="isVisibleTotalPostLikes" [nzTitle]="modalTitlefedTotalPostLikes"
+    [nzContent]="modalContentfedTotalPostLikes" [nzFooter]="modalFooterfedTotalPostLikes"
+    (nzOnCancel)="CloseTotalPostLikes()" [nzWidth]="400">
+    <ng-template #modalTitlefedTotalPostLikes style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedTotalPostLikes>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayTotalPostLikes;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupTotalPostLikes(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTTotalPostLikes (i)"><span
+                                    *ngIf="mainFilterArrayTotalPostLikes[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span
+                                    *ngIf="mainFilterArrayTotalPostLikes[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTTotalPostLikes(i)"><span
+                                    *ngIf="mainFilterArrayTotalPostLikes[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span
+                                    *ngIf="mainFilterArrayTotalPostLikes[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayTotalPostLikes[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTTotalPostLikes1(i,j)"><span
+                                        *ngIf="mainFilterArrayTotalPostLikes[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayTotalPostLikes[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTTotalPostLikes1(i,j)"><span
+                                        *ngIf="mainFilterArrayTotalPostLikes[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayTotalPostLikes[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupTotalPostLikes1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayTotalPostLikes[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayTotalPostLikes[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayTotalPostLikes[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayTotalPostLikes[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterTotalPostLikes(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedTotalPostLikes>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupTotalPostLikes()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterTotalPostLikes()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button"
+            (click)="ClearFilterTotalPostLikes()"><span>Clear</span></button>
+
+        <!-- ClearFilterTotalPostLikes -->
+    </ng-template>
+</nz-modal>
+
+<!-- Total Post Comment -->
+<nz-modal [(nzVisible)]="isVisibleTotalPostComment" [nzTitle]="modalTitlefedTotalPostComment"
+    [nzContent]="modalContentfedTotalPostComment" [nzFooter]="modalFooterfedTotalPostComment"
+    (nzOnCancel)="CloseTotalPostComment()" [nzWidth]="400">
+    <ng-template #modalTitlefedTotalPostComment style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedTotalPostComment>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayTotalPostComment;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupTotalPostComment(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTTotalPostComment (i)"><span
+                                    *ngIf="mainFilterArrayTotalPostComment[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span
+                                    *ngIf="mainFilterArrayTotalPostComment[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTTotalPostComment(i)"><span
+                                    *ngIf="mainFilterArrayTotalPostComment[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span
+                                    *ngIf="mainFilterArrayTotalPostComment[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayTotalPostComment[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTTotalPostComment1(i,j)"><span
+                                        *ngIf="mainFilterArrayTotalPostComment[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayTotalPostComment[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTTotalPostComment1(i,j)"><span
+                                        *ngIf="mainFilterArrayTotalPostComment[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayTotalPostComment[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupTotalPostComment1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayTotalPostComment[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayTotalPostComment[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayTotalPostComment[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayTotalPostComment[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterTotalPostComment(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedTotalPostComment>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupTotalPostComment()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterTotalPostComment()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button"
+            (click)="ClearFilterTotalPostComment()"><span>Clear</span></button>
+
+        <!-- ClearFilterTotalPostComment -->
+    </ng-template>
+</nz-modal>
+
+<!-- Meeting Invite -->
+<nz-modal [(nzVisible)]="isVisibleMeetInvite" [nzTitle]="modalTitlefedMeetInvite"
+    [nzContent]="modalContentfedMeetInvite" [nzFooter]="modalFooterfedMeetInvite" (nzOnCancel)="CloseMeetInvite()"
+    [nzWidth]="400">
+    <ng-template #modalTitlefedMeetInvite style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedMeetInvite>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayMeetInvite;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupMeetInvite(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTMeetInvite (i)"><span
+                                    *ngIf="mainFilterArrayMeetInvite[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayMeetInvite[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTMeetInvite(i)"><span
+                                    *ngIf="mainFilterArrayMeetInvite[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayMeetInvite[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayMeetInvite[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTMeetInvite1(i,j)"><span
+                                        *ngIf="mainFilterArrayMeetInvite[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMeetInvite[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTMeetInvite1(i,j)"><span
+                                        *ngIf="mainFilterArrayMeetInvite[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMeetInvite[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupMeetInvite1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMeetInvite[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayMeetInvite[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayMeetInvite[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMeetInvite[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterMeetInvite(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedMeetInvite>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupMeetInvite()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterMeetInvite()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button"
+            (click)="ClearFilterMeetInvite()"><span>Clear</span></button>
+        <!-- ClearFilterMeetInvite -->
+    </ng-template>
+</nz-modal>
+
+<!-- Meeting Attempted -->
+<nz-modal [(nzVisible)]="isVisibleMeetAttempt" [nzTitle]="modalTitlefedMeetAttempt"
+    [nzContent]="modalContentfedMeetAttempt" [nzFooter]="modalFooterfedMeetAttempt" (nzOnCancel)="CloseMeetAttempt()"
+    [nzWidth]="400">
+    <ng-template #modalTitlefedMeetAttempt style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedMeetAttempt>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayMeetAttempt;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupMeetAttempt(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTMeetAttempt (i)"><span
+                                    *ngIf="mainFilterArrayMeetAttempt[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayMeetAttempt[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTMeetAttempt(i)"><span
+                                    *ngIf="mainFilterArrayMeetAttempt[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayMeetAttempt[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayMeetAttempt[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTMeetAttempt1(i,j)"><span
+                                        *ngIf="mainFilterArrayMeetAttempt[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMeetAttempt[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTMeetAttempt1(i,j)"><span
+                                        *ngIf="mainFilterArrayMeetAttempt[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMeetAttempt[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupMeetAttempt1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMeetAttempt[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayMeetAttempt[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayMeetAttempt[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMeetAttempt[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterMeetAttempt(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedMeetAttempt>
+        <div nz-row>
+            <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupMeetAttempt()"><span>Add Filter
+                    Group</span></button>
+            <button class="ant-btn ant-btn-primary" (click)="ApplyFilterMeetAttempt()" nz-button type="button">Apply
+                Filter</button>
+            <button class="ant-btn cls" nz-button type="button"
+                (click)="ClearFilterMeetAttempt()"><span>Clear</span></button>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<!-- Total Circular Views -->
+<nz-modal [(nzVisible)]="isVisibleTotViews" [nzTitle]="modalTitlefedTotViews" [nzContent]="modalContentfedTotViews"
+    [nzFooter]="modalFooterfedTotViews" (nzOnCancel)="CloseTotViews()" [nzWidth]="400">
+    <ng-template #modalTitlefedTotViews style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedTotViews>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayTotViews;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupTotViews(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTTotViews (i)"><span
+                                    *ngIf="mainFilterArrayTotViews[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayTotViews[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTTotViews(i)"><span
+                                    *ngIf="mainFilterArrayTotViews[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayTotViews[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayTotViews[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTTotViews1(i,j)"><span
+                                        *ngIf="mainFilterArrayTotViews[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayTotViews[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTTotViews1(i,j)"><span
+                                        *ngIf="mainFilterArrayTotViews[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayTotViews[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupTotViews1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayTotViews[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayTotViews[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24" *ngIf="mainFilterArrayTotViews[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayTotViews[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterTotViews(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedTotViews>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupTotViews()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterTotViews()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button" (click)="ClearFilterTotViews()"><span>Clear</span></button>
+
+        <!-- ClearFilterTotViews -->
+    </ng-template>
+</nz-modal>
+
+<!-- Average View Per Circular -->
+<nz-modal [(nzVisible)]="isVisibleViewCircular" [nzTitle]="modalTitlefedViewCircular"
+    [nzContent]="modalContentfedViewCircular" [nzFooter]="modalFooterfedViewCircular" (nzOnCancel)="CloseViewCircular()"
+    [nzWidth]="400">
+    <ng-template #modalTitlefedViewCircular style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedViewCircular>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayViewCircular;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupViewCircular(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTViewCircular (i)"><span
+                                    *ngIf="mainFilterArrayViewCircular[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span
+                                    *ngIf="mainFilterArrayViewCircular[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTViewCircular(i)"><span
+                                    *ngIf="mainFilterArrayViewCircular[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayViewCircular[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayViewCircular[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTViewCircular1(i,j)"><span
+                                        *ngIf="mainFilterArrayViewCircular[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayViewCircular[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTViewCircular1(i,j)"><span
+                                        *ngIf="mainFilterArrayViewCircular[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayViewCircular[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupViewCircular1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayViewCircular[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayViewCircular[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayViewCircular[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Count
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayViewCircular[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" (keypress)="numberOnly($event)" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterViewCircular(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedViewCircular>
+        <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupViewCircular()"><span>Add Filter
+                Group</span></button>
+        <button class="ant-btn ant-btn-primary" (click)="ApplyFilterViewCircular()" nz-button type="button">Apply
+            Filter</button>
+        <button class="ant-btn cls" nz-button type="button"
+            (click)="ClearFilterViewCircular()"><span>Clear</span></button>
+
+        <!-- ClearFilterViewCircular -->
+    </ng-template>
+</nz-modal>
+
+<!-- Member Name  -->
+<nz-modal [(nzVisible)]="isVisibleMemberName" [nzTitle]="modalTitlefedMemberName"
+    [nzContent]="modalContentfedMemberName" [nzFooter]="modalFooterfedMemberName" (nzOnCancel)="CloseMemberName()"
+    [nzWidth]="400">
+    <ng-template #modalTitlefedMemberName style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedMemberName>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayMemberName;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupMemberName(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTMemberName (i)"><span
+                                    *ngIf="mainFilterArrayMemberName[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayMemberName[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTMemberName(i)"><span
+                                    *ngIf="mainFilterArrayMemberName[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayMemberName[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayMemberName[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTMemberName1(i,j)"><span
+                                        *ngIf="mainFilterArrayMemberName[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMemberName[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTMemberName1(i,j)"><span
+                                        *ngIf="mainFilterArrayMemberName[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayMemberName[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupMemberName1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMemberName[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayMemberName[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators_name" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayMemberName[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayMemberName[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterMemberName(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedMemberName>
+        <div nz-row>
+            <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupMemberName()"><span>Add Filter
+                    Group</span></button>
+            <button class="ant-btn ant-btn-primary" (click)="ApplyFilterMemberName()" nz-button type="button">Apply
+                Filter</button>
+            <button class="ant-btn cls" nz-button type="button"
+                (click)="ClearFilterMemberName()"><span>Clear</span></button>
+        </div>
+    </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isVisiblefednm" [nzTitle]="modalTitlefedfednm" [nzContent]="modalContentfedfednm"
+    [nzFooter]="modalFooterfedfednm" (nzOnCancel)="Closefednm()" [nzWidth]="400">
+    <ng-template #modalTitlefedfednm style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedfednm>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayfednm;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupfednm(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTfednm (i)"><span
+                                    *ngIf="mainFilterArrayfednm[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayfednm[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTfednm(i)"><span
+                                    *ngIf="mainFilterArrayfednm[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayfednm[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayfednm[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTfednm1(i,j)"><span
+                                        *ngIf="mainFilterArrayfednm[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayfednm[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTfednm1(i,j)"><span
+                                        *ngIf="mainFilterArrayfednm[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayfednm[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupfednm1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayfednm[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayfednm[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators_name" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24" *ngIf="mainFilterArrayfednm[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayfednm[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterfednm(i)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedfednm>
+        <div nz-row>
+            <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupfednm()"><span>Add Filter
+                    Group</span></button>
+            <button class="ant-btn ant-btn-primary" (click)="ApplyFilterfednm()" nz-button type="button">Apply
+                Filter</button>
+            <button class="ant-btn" nz-button type="button" (click)="ClearFilterfednm()"><span>Clear</span></button>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisibleUnitCount" [nzTitle]="modalTitlefedUnitCount" [nzContent]="modalContentfedUnitCount"
+    [nzFooter]="modalFooterfedUnitCount" (nzOnCancel)="CloseUnitCount()" [nzWidth]="400">
+    <ng-template #modalTitlefedUnitCount style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedUnitCount>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArrayUnitCount;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupUnitCount(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTUnitCount (i)"><span
+                                    *ngIf="mainFilterArrayUnitCount[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArrayUnitCount[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTUnitCount(i)"><span
+                                    *ngIf="mainFilterArrayUnitCount[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArrayUnitCount[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArrayUnitCount[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTUnitCount1(i,j)"><span
+                                        *ngIf="mainFilterArrayUnitCount[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArrayUnitCount[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTUnitCount1(i,j)"><span
+                                        *ngIf="mainFilterArrayUnitCount[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArrayUnitCount[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupUnitCount1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayUnitCount[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArrayUnitCount[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators_name" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24"
+                                *ngIf="mainFilterArrayUnitCount[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArrayUnitCount[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFilterUnitCount(i,j)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedUnitCount>
+        <div nz-row>
+            <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupUnitCount()"><span>Add Filter
+                    Group</span></button>
+            <button class="ant-btn ant-btn-primary" (click)="ApplyFilterUnitCount()" nz-button type="button">Apply
+                Filter</button>
+            <button class="ant-btn cls" nz-button type="button"
+                (click)="ClearFilterUnitCount()"><span>Clear</span></button>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisiblegrpcount" [nzTitle]="modalTitlefedgrpcount" [nzContent]="modalContentfedgrpcount"
+    [nzFooter]="modalFooterfedgrpcount" (nzOnCancel)="Closegrpcount()" [nzWidth]="400">
+    <ng-template #modalTitlefedgrpcount style="text-align: center;">{{ModelName}}</ng-template>
+    <ng-template #modalContentfedgrpcount>
+        <form nz-form #myForm="ngForm">
+            <div *ngFor="let dynam of mainFilterArraygrpcount;let i = index;">
+                <div nz-row class="grouping">
+                    <div nz-col nzSpan="24" style="text-align: right;z-index: 3;">
+                        <i nz-icon nzType="close-circle" style="margin-bottom: 10px;" nzTheme="outline" *ngIf="i>0"
+                            (click)="CloseGroupgrpcount(i)"></i>
+                    </div>
+                    <div nz-row *ngIf="dynam['buttons']['IS_SHOW']==true">
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ANDBUTTONLASTgrpcount (i)"><span
+                                    *ngIf="mainFilterArraygrpcount[i]['buttons']['AND']==true"
+                                    style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                <span *ngIf="mainFilterArraygrpcount[i]['buttons']['AND']==false">AND</span></button>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}" nz-button
+                                type="button" (click)="ORBUTTONLASTgrpcount(i)"><span
+                                    *ngIf="mainFilterArraygrpcount[i]['buttons']['OR']==true"
+                                    style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                <span *ngIf="mainFilterArraygrpcount[i]['buttons']['OR']==false">OR</span></button>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let dynam1 of dynam['filter'];let j = index;">
+                        <div nz-row *ngIf="mainFilterArraygrpcount[i]['filter'][j]['buttons']['IS_SHOW']==true">
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: right;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ANDBUTTONLASTgrpcount1(i,j)"><span
+                                        *ngIf="mainFilterArraygrpcount[i]['filter'][j]['buttons']['AND']==true"
+                                        style="color: rgb(6, 183, 30); font-weight: bolder;">AND</span>
+                                    <span
+                                        *ngIf="mainFilterArraygrpcount[i]['filter'][j]['buttons']['AND']==false">AND</span></button>
+                            </div>
+                            <div nz-col nzSpan="12">
+                                <button class="ant-btn " style="float: left;margin: 10px" name="button2{{i}}{{j}}"
+                                    nz-button type="button" (click)="ORBUTTONLASTgrpcount1(i,j)"><span
+                                        *ngIf="mainFilterArraygrpcount[i]['filter'][j]['buttons']['OR']==true"
+                                        style="color: rgb(6, 183, 30);; font-weight: bolder;">OR</span>
+                                    <span
+                                        *ngIf="mainFilterArraygrpcount[i]['filter'][j]['buttons']['OR']==false">OR</span></button>
+                            </div>
+                        </div>
+                        <div>
+                            <div nz-col nzSpan="24">
+                                <i nz-icon nzType="close-circle" style="float: right;margin-bottom: 15px;color:thistle"
+                                    *ngIf='j!=0' nzTheme="outline" (click)="CloseGroupgrpcount1(i,j)"></i>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArraygrpcount[i]['filter'][j]['INPUT']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24">
+                                <nz-form-label>Condition
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <nz-select placeholder="Select" name="abc{{i}}{{j}}" nzShowSearch nzAllowClear
+                                            nzPlaceHolder="Select"
+                                            [(ngModel)]="mainFilterArraygrpcount[i]['filter'][j].DROPDOWN">
+                                            <nz-option *ngFor="let abc of Operators_name" nzValue="{{abc[0]}}"
+                                                nzLabel="{{abc[1]}}">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="24" *ngIf="mainFilterArraygrpcount[i]['filter'][j].DROPDOWN=='Between'">
+                                <nz-form-label>Name
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="Please fill the field">
+                                        <input nz-input type="text" name="INPUT2{{i}}{{j}}"
+                                            [(ngModel)]="mainFilterArraygrpcount[i]['filter'][j]['INPUT2']"
+                                            placeholder="Enter Value" required />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="24" *ngIf="(j+1)==dynam['filter'].length">
+                            <button class="ant-btn" style="margin-left: 120px;" nz-button type="button"
+                                (click)="AddFiltergrpcount(i,j)">
+                                <span>Add Filter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #modalFooterfedgrpcount>
+        <div nz-row>
+            <button class="ant-btn" nz-button type="button" (click)="AddFilterGroupgrpcount()"><span>Add Filter
+                    Group</span></button>
+            <button class="ant-btn ant-btn-primary" (click)="ApplyFiltergrpcount()" nz-button type="button">Apply
+                Filter</button>
+            <button class="ant-btn cls" nz-button type="button"
+                (click)="ClearFiltergrpcount()"><span>Clear</span></button>
+        </div>
+    </ng-template>
+</nz-modal>
+
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="ScheduleVisible"
+    [nzTitle]="ScheduleTitle" (nzOnClose)="ScheduleClose()" (nzKeyboard)="true">
+
+    <app-schedule-report [ScheduleClose]="closeCallbackSchedule" [ScheduleVisible]="ScheduleVisible"
+        [data_post]="ScheduleData" [data_List]="dataList" [totalRecords]="totalRecords">
+    </app-schedule-report>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="PostCountVisible"
+    [nzTitle]="PostCountTitle" (nzOnClose)="closePostCountDrawer()" (nzKeyboard)="true">
+
+    <app-postcountwisedata [closePostCountDrawer]="closeCallbackPostCount" [DetailCount]="DetailCount"
+        [PostCountVisible]="PostCountVisible" [totalRecords]="totalRecords">
+    </app-postcountwisedata>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="circucountVisible"
+    [nzTitle]="CircularCountTitle" (nzOnClose)="closeCircularCountDrawer()" (nzKeyboard)="true">
+
+    <app-circularcountwisedata [closeCircularCountDrawer]="closeCallbackCircularCount"
+        [circucountVisible]="circucountVisible" [totalRecords]="totalRecords" [CircuCount]="CircuCount">
+    </app-circularcountwisedata>
+</nz-drawer>

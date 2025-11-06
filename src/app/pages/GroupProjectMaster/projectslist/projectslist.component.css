@@ -1,0 +1,74 @@
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.container {
+    height: 150px;
+    position: relative;
+    overflow-y: auto;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.my-box {
+    border: 1px solid #747373;
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    background-color: #fafafa;
+}
+
+#centerAlign {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.img-wrap .close {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    z-index: 100;
+}
+
+.borderA {
+    border-radius: 5px;
+}
+
+.name {
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.name:hover {
+    height: auto;
+    overflow: hidden;
+    overflow-y: auto;
+    text-overflow: clip;
+    font-size: 13px;
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.opacityImg {
+    opacity: 0.3;
+}
+
+nz-form-item {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: -webkit-fill-available;
+    padding: 0px 10px;
+}

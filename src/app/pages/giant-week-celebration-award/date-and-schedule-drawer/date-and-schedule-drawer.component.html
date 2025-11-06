@@ -1,0 +1,46 @@
+<div>
+    <form nz-form #myForm="ngForm">
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Date</nz-form-label>
+                    <nz-form-control >
+                        <nz-date-picker name="Dat" [(ngModel)]="data.DATE"
+                            (ngModelChange)="onChange($event)">
+                        </nz-date-picker>
+                    </nz-form-control>
+                    <span *ngIf="validation==false && (data.DATE=='' || data.DATE==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Schedule</nz-form-label>
+                    <nz-form-control  >
+                        <textarea nz-input placeholder="Enter Schedule" name="Schedule"
+                            [(ngModel)]="data.SCHEDULE" maxlength="500"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                    </nz-form-control>
+                    <span *ngIf="data.SCHEDULE" style="font-size: 10px; color: red;">
+                        {{data.SCHEDULE.length}}/ 500
+                    </span>
+                    <span *ngIf="validation==false && (data.SCHEDULE=='' || data.SCHEDULE==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button
+        (click)="save(false,myForm)">
+        <span>Add & close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" nz-button *ngIf="data.ID"
+        (click)="save(false,myForm)">
+        <span>Update & close</span>
+    </button>
+</div>

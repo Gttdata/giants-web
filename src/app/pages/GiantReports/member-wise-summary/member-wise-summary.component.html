@@ -1,0 +1,202 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">{{formTitle}}</span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="12" style="text-align: right;">
+            <form nz-form [nzLayout]="'inline'">
+                <nz-form-item>
+                    <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+                        <i nz-icon nzType="filter"></i>
+                    </button>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" name="search" nz-input placeholder="Search Records"
+                            (keydown.enter)="onSearching()" [(ngModel)]="searchText" />
+                    </nz-input-group>
+
+                    <ng-template #suffixIconButton>
+                        <button nz-button id="button1" nzType="primary" (click)="search(true)" nzSearch>
+                            <i nz-icon nzType="search"></i>
+                        </button>
+                    </ng-template>
+                </nz-form-item>
+            </form>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <div class="filter {{filterClass}}">
+                <div class="filter-box">
+                    <form nz-form>
+                        <div nz-row nzGutter="8">
+                            <div nz-col nzSpan="6">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Membership Start Date</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-range-picker name="membershipStartDate" nzFormat="dd MMM yyyy"
+                                            [(ngModel)]="MEMBERSHIP_START_DATE">
+                                        </nz-range-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="6">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Membership Expiry Date</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-range-picker name="membershipExpiryDate" nzFormat="dd MMM yyyy"
+                                            [(ngModel)]="MEMBERSHIP_EXPIRY_DATE">
+                                        </nz-range-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row nzGutter="8">
+                            <div nz-col nzSpan="6">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Federation(s)</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="federation" nzShowSearch nzMode="multiple" nzAllowClear
+                                            style="width: 100%" nzPlaceHolder="Select Federation(s)"
+                                            (ngModelChange)="getUnits($event)" [(ngModel)]="FEDERATION_ID">
+
+                                            <nz-option *ngFor="let federation of federations;" [nzValue]="federation.ID"
+                                                [nzLabel]="federation.NAME">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="6">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Unit(s)</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="unit" nzShowSearch nzMode="multiple" nzAllowClear
+                                            style="width: 100%" nzPlaceHolder="Select Unit(s)"
+                                            (ngModelChange)="getGroups($event)" [(ngModel)]="UNIT_ID">
+
+                                            <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID"
+                                                [nzLabel]="unit.NAME">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="6">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Group(s)</nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="group" nzShowSearch nzMode="multiple" nzAllowClear
+                                            style="width: 100%" nzPlaceHolder="Select Group(s)" [(ngModel)]="GROUP_ID">
+
+                                            <nz-option *ngFor="let group of groups;" [nzValue]="group.ID"
+                                                [nzLabel]="group.NAME">
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="6">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Actions</nz-form-label>
+
+                                    <nz-form-control>
+                                        <button style="margin-right: 10px;" nz-button [nzLoading]="loadingRecords"
+                                            nzType="primary" (click)="applyFilter()" nzJustify="end">
+                                            <i nz-icon nzType="filter"></i>Apply Filter
+                                        </button>
+
+                                        <button nz-button nzType="primary" (click)="clearFilter()">
+                                            <i nz-icon nzType="filter"></i>Clear Filter
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24" style="text-align: right;">
+            <button nz-button nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+                <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+            </button>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #leaveTable nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzLeft="0px"><b>Status</b></th>
+                        <th *ngFor="let column of columns;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of leaveTable.data;">
+                        <td nzLeft="0px" align="center">
+                            <span *ngIf="data['ACTIVE_STATUS'] == 'P'" style="color: red;">
+                                {{getActiveStatus(data["ACTIVE_STATUS"])}}
+                            </span>
+
+                            <span *ngIf="data['ACTIVE_STATUS'] == 'A'" style="color: green;">
+                                {{getActiveStatus(data["ACTIVE_STATUS"])}}
+                            </span>
+                        </td>
+
+                        <td *ngFor="let column of columns;" [ngClass]="getColumnAlign(column[0])">
+                            <span
+                                *ngIf="(column[0] != 'GENDER') && (column[0] != 'MARITAL_STATUS') && (column[0] != 'MEMBERSHIP_DATE') && (column[0] != 'EXPIRY_DATE')">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'GENDER')">
+                                {{getGenderFullForm(data[column[0]])}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'MARITAL_STATUS')">
+                                {{getMaritalStatusFullForm(data[column[0]])}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'MEMBERSHIP_DATE') || (column[0] == 'EXPIRY_DATE')">
+                                {{data[column[0]] | date : 'dd MMM yyyy'}}
+                            </span>
+
+                            <span *ngIf="(column[0] == 'STATUS')">
+                                <nz-switch name="status" nzCheckedChildren="Y" nzUnCheckedChildren="N"
+                                    (ngModelChange)="onStatusChange(data,$event)" [(ngModel)]="data.STATUS">
+                                </nz-switch>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

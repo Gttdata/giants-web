@@ -1,0 +1,14 @@
+.header {
+    position: absolute;
+    top: 0px;
+    border-top: 1px solid rgb(232, 232, 232);
+    padding: 10px 0px;
+    right: 10px;
+}
+
+.header1 {
+    position: absolute;
+    top: 0px;
+    border-top: 1px solid rgb(232, 232, 232);
+    padding: 10px 0px;
+}

@@ -1,0 +1,32 @@
+<div>
+    <form nz-form>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Name Of New Member</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input type="text" name="unit_councils"
+                            placeholder="Enter Name Of Member" [(ngModel)]="data.MEMBER_NAME"/>
+                        <span *ngIf="validation==false && (data.MEMBER_NAME=='' || data.MEMBER_NAME==undefined)"
+                            style="color:red">Please fill the field</span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" style="margin-right: 8px" nz-button
+        (click)="save(false)">
+        <span>Save & close</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+        *ngIf="data.ID" (click)="save(false)">
+        <span>Update & close</span>
+    </button>
+</div>

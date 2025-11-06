@@ -1,0 +1,345 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">
+                    {{formTitle}}
+                </span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <div style="text-align: right; padding-right: 10px;">
+                <nz-input-group [nzPrefix]="prefixIcon">
+                    <input nz-input type="text" name="search" autocomplete="off" placeholder="Search here..."
+                        (keydown.enter)="search(true)" [(ngModel)]="searchText" />
+                </nz-input-group>
+
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+            </div>
+        </div>
+
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <div style="text-align: right; padding-right: 10px;">
+                <nz-select name="unitName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getUnits($event)"
+                    [nzLoading]="isUnitLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 100%"
+                    nzPlaceHolder="Type here to search unit(s)" [(ngModel)]="UNIT_NAME"
+                    (ngModelChange)="getUnitInfo($event)">
+
+                    <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID" [nzLabel]="unit.NAME">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+
+        <div nz-col nzXs="2" nzSm="2" nzMd="2" nzLg="2" nzXl="2">
+            <div style="text-align: right;">
+                <nz-select placeholder="Select Year" name="year" [(ngModel)]="SELECTED_YEAR" nzShowSearch
+                    style="width: 100%;" (ngModelChange)="search(true)">
+
+                    <nz-option *ngFor="let year of yearRange;" [nzValue]="year" [nzLabel]="year">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+
+        <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1">
+            <div style="text-align: center;">
+                <button nz-button nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading"
+                    nzTooltipTitle="Excel File" nzTooltipPlacement="top" nz-tooltip>
+                    <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #table1 nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzWidth="70px" nzLeft="0px" rowspan="3"><b>Sr. No.</b></th>
+                        <th nzWidth="350px" nzLeft="70px" rowspan="3"><b>Group Name</b></th>
+                        <th nzWidth="250px" nzLeft="420px" rowspan="3"><b>Group's President Name</b></th>
+                        <th rowspan="3"><b>Mobile No.</b></th>
+                        <th rowspan="3"><b>{{SELECTED_YEAR - 2}}</b></th>
+                        <th rowspan="3"><b>{{SELECTED_YEAR - 1}}</b></th>
+
+                        <th colspan="2"><b>B.O.D.</b></th>
+                        <th colspan="2"><b>M.L.</b></th>
+                        <th colspan="2"><b>Old Paid Membership</b></th>
+                        <th colspan="2"><b>New Paid Membership</b></th>
+                        <th colspan="2"><b>Revived Membership</b></th>
+                        <th colspan="2"><b>Honorable Membership</b></th>
+
+                        <th colspan="1"><b>NCF Member(s)</b></th>
+                        <th colspan="1"><b>Total Member(s)</b></th>
+
+                        <th rowspan="3"><b>Total Paid</b></th>
+                        <th rowspan="3"><b>Oath <br> (Yes/ No)</b></th>
+
+                        <th colspan="12"><b>Monthly Reporting</b></th>
+
+                        <th rowspan="3"><b>New Group/ <br> Revived Group <br> {{SELECTED_YEAR}}</b></th>
+                        <th rowspan="3"><b>Due Count <br> {{SELECTED_YEAR}}</b></th>
+                        <th rowspan="3"><b>M.L. <br> {{SELECTED_YEAR}}</b></th>
+
+                        <th colspan="2"><b>International Level</b></th>
+                        <th colspan="2"><b>Unit Level</b></th>
+
+                        <th rowspan="3"><b>Is Data Filled <br> in Application?</b></th>
+                        <th rowspan="3"><b>Members <br> Growth <br> (%)</b></th>
+                        <th rowspan="3"><b>Host Unit Level <br> Council/ Conference <br> Count</b></th>
+                        <th rowspan="3"><b>Host Council <br> Level Programme <br> Count</b></th>
+
+                        <th rowspan="3"><b>Monumental Project(s)</b></th>
+
+                        <th rowspan="3"><b>Service Project(s)</b> </th>
+
+                        <th rowspan="3"><b>Giants Week Celebration Event(s)</b></th>
+
+                        <th rowspan="3">
+                            <b>Unit Council/ <br> Conferance Attended <br> Member(s) count</b>
+                        </th>
+
+                        <th rowspan="3">
+                            <b>Federation Council/ <br> Conferance Attended <br> Member(s) count</b>
+                        </th>
+
+                        <th rowspan="3"><b>International Convention <br> Attended Member(s) <br> Count</b></th>
+                        <th rowspan="3"><b>Young Giants <br> Group Name</b></th>
+                        <th rowspan="3"><b>PAN Card <br> (Yes/ No)</b></th>
+                        <th rowspan="3"><b>Audit Report</b></th>
+                        <th rowspan="3"><b>Total Marks</b></th>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2"><b>{{SELECTED_YEAR}}</b></th>
+                        <th colspan="2"><b>{{SELECTED_YEAR}}</b></th>
+                        <th colspan="2"><b>{{SELECTED_YEAR}}</b></th>
+                        <th colspan="2"><b>{{SELECTED_YEAR}}</b></th>
+                        <th colspan="2"><b>{{SELECTED_YEAR}}</b></th>
+                        <th colspan="2"><b>{{SELECTED_YEAR}}</b></th>
+
+                        <th rowspan="2"><b>{{SELECTED_YEAR}}</b></th>
+                        <th rowspan="2"><b>{{SELECTED_YEAR}}</b></th>
+
+                        <th rowspan="2"><b>Jan</b></th>
+                        <th rowspan="2"><b>Feb</b></th>
+                        <th rowspan="2"><b>Mar</b></th>
+                        <th rowspan="2"><b>Apr</b></th>
+                        <th rowspan="2"><b>May</b></th>
+                        <th rowspan="2"><b>Jun</b></th>
+                        <th rowspan="2"><b>Jul</b></th>
+                        <th rowspan="2"><b>Aug</b></th>
+                        <th rowspan="2"><b>Sept</b></th>
+                        <th rowspan="2"><b>Oct</b></th>
+                        <th rowspan="2"><b>Nov</b></th>
+                        <th rowspan="2"><b>Dec</b></th>
+
+                        <th rowspan="2"><b>Award(s)</b></th>
+                        <th rowspan="2"><b>Certificate(s)</b></th>
+                        <th rowspan="2"><b>Award(s)</b></th>
+                        <th rowspan="2"><b>Certificate(s)</b></th>
+                    </tr>
+
+                    <tr>
+                        <th><b>Date</b></th>
+                        <th><b>Remark</b></th>
+                        <th><b>Date</b></th>
+                        <th><b>Remark</b></th>
+                        <th><b>Old <br> Member(s)</b></th>
+                        <th><b>Fees</b></th>
+                        <th><b>New <br> Member(s)</b></th>
+                        <th><b>Fees</b></th>
+                        <th><b>Revived <br> Member(s)</b></th>
+                        <th><b>Fees</b></th>
+                        <th><b>Honorable <br> Member(s)</b></th>
+                        <th><b>Fees</b></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of table1.data; let i = index;">
+                        <td nzWidth="70px" nzLeft="0px" align="center">
+                            {{((pageIndex - 1) * 5) + (i + 1)}}
+                        </td>
+
+                        <td nzWidth="350px" nzLeft="70px" align="left">
+                            {{data["NAME"]}}
+
+                            <div style="font-size: 12px;">
+                                ({{data["UNIT_NAME"]}})
+                            </div>
+                        </td>
+
+                        <td nzWidth="250px" nzLeft="420px" align="left">
+                            {{data["PRESIDENT_NAME"]}}
+                        </td>
+
+                        <td align="center">{{data["MOBILE_NUMBER"]}}</td>
+                        <td align="center">{{data["_20_21_MEMBER_COUNT"]}}</td>
+                        <td align="center">{{data["_21_22_MEMBER_COUNT"]}}</td>
+
+                        <td align="center">{{data["BOD_DATE"] | date: 'dd-MMM-yy'}}</td>
+                        <td align="center">{{data["BOD_REMARK"]}}</td>
+
+                        <td align="center">{{data["ML_DATE"] | date: 'dd-MMM-yy'}}</td>
+                        <td align="center">{{data["ML_REMARK"]}}</td>
+
+                        <td align="center">{{data["OLD_PAID_MEMBER"]}}</td>
+                        <td align="center">{{data["OLD_PAID_MEMBER_FEE"]}}</td>
+
+                        <td align="center">{{data["NEW_PAID_MEMBER"]}}</td>
+                        <td align="center">{{data["NEW_PAID_MEMBER_FEE"]}}</td>
+
+                        <td align="center">{{data["REVIVED_MEMBER"]}}</td>
+                        <td align="center">{{data["REVIVED_MEMBER_FEE"]}}</td>
+
+                        <td align="center">{{data["HONORABL_MEMBER_COUNT"]}}</td>
+                        <td align="center">{{data["HONORABLE_MEMBER_FEE"]}}</td>
+
+                        <td align="center">{{data["NCF_MEMBER"]}}</td>
+
+                        <td align="center">{{data["TOTAL_MEMBER"]}}</td>
+
+                        <td align="center">{{data["TOTAL_PAID"]}}</td>
+
+                        <td align="center">{{data["OATH"]}}</td>
+
+                        <td align="center">{{data["JAN"]}}</td>
+                        <td align="center">{{data["FEB"]}}</td>
+                        <td align="center">{{data["MAR"]}}</td>
+                        <td align="center">{{data["APR"]}}</td>
+                        <td align="center">{{data["MAY"]}}</td>
+                        <td align="center">{{data["JUNE"]}}</td>
+                        <td align="center">{{data["JULY"]}}</td>
+                        <td align="center">{{data["AUG"]}}</td>
+                        <td align="center">{{data["SEP"]}}</td>
+                        <td align="center">{{data["OCT"]}}</td>
+                        <td align="center">{{data["NOV"]}}</td>
+                        <td align="center">{{data["DECE"]}}</td>
+
+                        <td>
+                            <span *ngIf="data['GROUP_REVIVED_COUNT']">
+                                <span
+                                    *ngFor="let reviveOrNewGroup of data['GROUP_REVIVED_COUNT'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{reviveOrNewGroup}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td align="center">{{data["DUES_COUNT"]}}</td>
+
+                        <td align="center">{{data["MAILING_LIST_BOD"]}}</td>
+
+                        <td>
+                            <span *ngIf="data['AWARD_INTRNATION_LEVEL']">
+                                <span *ngFor="let award of data['AWARD_INTRNATION_LEVEL'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{award}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span *ngIf="data['CERTIFICATE_INTERNATIONAL']">
+                                <span
+                                    *ngFor="let certificate of data['CERTIFICATE_INTERNATIONAL'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{certificate}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span *ngIf="data['AWARD_UNIT_LEVEL']">
+                                <span *ngFor="let award of data['AWARD_UNIT_LEVEL'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{award}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span *ngIf="data['CERTIFICATE_UNIT_LEVEL']">
+                                <span
+                                    *ngFor="let certificate of data['CERTIFICATE_UNIT_LEVEL'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{certificate}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td align="center">---</td>
+
+                        <td align="center">{{data["MEMBER_GROWTH"] | number: '1.0-2'}}</td>
+
+                        <td align="center">{{data["HOST_UNIT_LEVEL"]}}</td>
+
+                        <td align="center">{{data["HOST_COUNCIL_LEVEL"]}}</td>
+
+                        <td>
+                            <span *ngIf="data['MONUMENTAL_PROJECT']">
+                                <span *ngFor="let project of data['MONUMENTAL_PROJECT'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{project}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span *ngIf="data['SERVICES_PROJECT']">
+                                <span *ngFor="let project of data['SERVICES_PROJECT'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{project}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span *ngIf="data['GIANTS_WEEK_DETAILS']">
+                                <span *ngFor="let event of data['GIANTS_WEEK_DETAILS'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{event}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span *ngIf="data['UNIT_LEVEL_CONFERENCE_ATTENDANCE_COUNT']">
+                                <span
+                                    *ngFor="let hostMeet of data['UNIT_LEVEL_CONFERENCE_ATTENDANCE_COUNT'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{hostMeet}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span *ngIf="data['FEDERATION_LEVEL_COUNCIL_ATTENDANCE_COUNT']">
+                                <span
+                                    *ngFor="let hostMeet of data['FEDERATION_LEVEL_COUNCIL_ATTENDANCE_COUNT'].split(','); let i = index;">
+                                    <span style="font-size: 10px;">{{i + 1}}. {{hostMeet}}</span><br>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td align="center">{{data["CONVENTION_MEMBER_COUNT"]}}</td>
+
+                        <td>{{data["YOUNG_GIANT_GROUP_NAME"]}}</td>
+
+                        <td align="center">{{data["PAN_CARD"]}}</td>
+
+                        <td align="center">
+                            <a style="font-size: 12px;" (click)="viewAuditReport(data['AUDIT_REPORT'])">
+                                {{data["AUDIT_REPORT"]}}
+                            </a>
+                        </td>
+
+                        <td align="right">{{data["TOTAL"]}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

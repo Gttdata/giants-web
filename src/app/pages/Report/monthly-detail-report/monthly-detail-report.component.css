@@ -1,0 +1,38 @@
+nz-form-item {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: -webkit-fill-available;
+    padding: 0px 10px;
+}
+
+.grouping {
+    border: 1px solid #e9e9e9;
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 12px;
+    /* margin-bottom: 12px; */
+    background-color: #fafafa;
+}
+
+.footer {
+    float: right;
+}
+
+th {
+    text-align: center !important;
+    width: 200px !important;
+
+}
+
+.datecenter {
+    text-align: center !important;
+}
+
+/* nz-table{
+      overflow-y: scroll;
+      height: 150px;
+    } */
+
+nz-select {
+    width: 100%;
+}

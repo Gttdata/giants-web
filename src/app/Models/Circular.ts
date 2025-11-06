@@ -1,0 +1,38 @@
+export class CircularMaster {
+  ID: number;
+  CIRCULAR_TYPE_ID: number;
+  DATE: string;
+  SUBJECT: string;
+  DESCRIPTION: string;
+  CREATER_ID: number;
+  STATUS: string;
+  CIRCULAR_NO: string;
+  PDF1: string;
+  REMARK: string;
+  APPROVER_ID: number;
+  ATTACHMENT: string;
+  APPROVAL_DATETIME: any;
+  SIGNING_AUTHORITY1: number;
+  SIGNING_AUTHORITY2: number;
+  SIGNING_AUTHORITY3: number;
+  GROUP_ID: number;
+  FEDERATION_ID: number;
+  UNIT_ID: number;
+  LETTER_HEAD_ID: number;
+  LETTER_HEAD: string = "SIGNING_AUTHORITY1";
+  UPLOAD_STATUS: any;
+  HEADERS: any;
+  SIGNING_AUTHORITY2_REMARK: string = "";
+  SIGNING_AUTHORITY3_REMARK: string = "";
+  SUBMITTED_TO_SIGNING_AUTHORITY2: boolean = false;
+  SUBMITTED_TO_SIGNING_AUTHORITY3: boolean = false;
+  SIGNING_AUTHORITY2_STATUS: string = "NA";
+  SIGNING_AUTHORITY3_STATUS: string = "NA";
+  ATTACHED_PDF1: string;
+  ATTACHED_PDF2: string;
+  ATTACHED_PDF3: string;
+  IS_DELETED: boolean = false;
+  FEDERATION_ID_TO_SHOW: Number = 0;
+  UNIT_ID_TO_SHOW: Number = 0;
+  GROUP_ID_TO_SHOW: Number = 0;
+}

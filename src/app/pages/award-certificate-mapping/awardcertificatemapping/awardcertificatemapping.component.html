@@ -1,0 +1,163 @@
+<div>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div class="formname" style="padding: 5px;">
+                    {{formTitle}}
+                </div>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-input-group [nzPrefix]="prefixIcon">
+                    <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+                        oninput="this.value = this.value.toLowerCase()" [(ngModel)]="SEARCH_NAME" />
+                </nz-input-group>
+
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Level</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Please Select Level">
+                        <nz-select name="level" nzPlaceHolder="Level" [(ngModel)]="AWARD_LEVEL"
+                            (ngModelChange)="selectChangeYear()" required>
+
+                            <nz-option nzValue="I" nzLabel="International"></nz-option>
+                            <nz-option nzValue="U" nzLabel="Unit"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Type</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Please Select Type">
+                        <nz-select name="type" nzPlaceHolder="Type" [(ngModel)]="AWARD_TYPE"
+                            (ngModelChange)="selectChangeYear()" required>
+
+                            <nz-option nzValue="A" nzLabel="Award"></nz-option>
+                            <nz-option nzValue="C" nzLabel="Certificate"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+                <nz-form-item>
+                    <nz-form-label nzNoColon>Year</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Please Select Year">
+                        <nz-select nzPlaceHolder="Year" name="year" nzShowSearch [(ngModel)]="SELECTED_YEAR"
+                            (ngModelChange)="selectChangeYear()" required>
+
+                            <nz-option *ngFor="let fillYears of range;" [nzValue]="fillYears" [nzLabel]="fillYears">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-table class="my-scroll no-wrap1" nzBordered #mappingtable [nzFrontPagination]="false"
+                    [nzData]="dataList" [nzLoading]="isSpinning" [nzScroll]="{ y: '390px' }">
+                    <thead nzSingleSort>
+                        <tr>
+                            <th style="width: 80px;" align="center">
+                                <b>Sr. No.</b>
+                            </th>
+
+                            <th style="width: 100px;" align="center">
+                                <b>Received</b><br>
+
+                                <div style="margin: 5px;">
+                                    <label nz-checkbox name="globalSelect"
+                                        (ngModelChange)="onGlobalSelectChanged($event)"
+                                        [nzIndeterminate]="indeterminate" [(ngModel)]="GLOBAL_SELECT">
+                                    </label>
+                                </div>
+                            </th>
+
+                            <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;" align="center">
+                                <b>{{(AWARD_TYPE == "A") ? "Award" : "Certificate"}}</b>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr
+                            *ngFor="let data of mappingtable.data | searchPipe: SEARCH_NAME: SEARCH_PIPE_KEY; let i = index;">
+                            <td style="width: 80px;" align="center">{{i + 1}}</td>
+
+                            <td style="width: 100px;" align="center">
+                                <label nz-checkbox name="is_received{{i}}" [(ngModel)]="data['IS_RECEIVED']"
+                                    (ngModelChange)="onAwardReceivedChanged($event)">
+                                </label>
+                            </td>
+
+                            <td style="max-width: 300px;">
+                                <div
+                                    style="padding: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    <span *ngIf="AWARD_TYPE == 'A'">
+                                        {{data.AWARD_NAME}}
+                                    </span>
+
+                                    <span *ngIf="AWARD_TYPE == 'C'">
+                                        {{data.CERTIFICATE_NAME}}
+                                    </span>
+                                </div>
+
+                                <div style="padding: 3px;" *ngIf="AllMembers">
+                                    <nz-select [nzPlaceHolder]="(AWARD_TYPE == 'C') ? 'Given To' : 'Awarded By'"
+                                        name="memberName{{i}}" nzShowSearch nzAllowClear [nzLoading]="isMemberLoading"
+                                        style="width: 100%; color: blue; font-size: 12px;" [(ngModel)]="data.MEMBER_ID">
+
+                                        <nz-option [nzValue]="0" nzLabel="None"></nz-option>
+                                        <nz-option *ngFor="let member of AllMembers;" [nzValue]="member.ID"
+                                            [nzLabel]="member.NAME">
+                                        </nz-option>
+                                    </nz-select>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+
+                <div style="padding-top: 10px;">
+                    <div nz-row>
+                        <div nz-col nzSpan="12">
+                            <div style="padding: 5px; padding-left: 0px;" *ngIf="mappedCount > 0">
+                                <nz-tag [nzColor]="'magenta'" style="font-size: 13px; padding: 3px;">
+                                    {{mappedAwardCertificateCount}}
+                                </nz-tag>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="12">
+                            <div style="text-align: right; padding: 5px;">
+                                <button nz-button nzType="default" [nzLoading]="isSpinning"
+                                    style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                    (click)="save()">
+                                    <span>Save</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

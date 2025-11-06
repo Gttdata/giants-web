@@ -1,0 +1,37 @@
+export class Adminstration {
+    ID: number;
+    MEMBER_ID: number;
+    GROUP_ID: number;
+    SENT_BEFORE_10th_OF_MONTH: number;
+    SENT_AFTER_10th_OF_MONTH: number;
+    PROJECT_AND_PROGRAMME: number;
+    GENERAL_MEETING: string;
+    GENERAL_MEETING_FILE_URL: any;
+    IS_BOOK_MAINTAINED: number = 1;
+    NO_OF_BOARD_MEETING: number;
+    NO_OF_BOARD_MEETING_OUT_OF: number;
+    CIRCULATED_TO_BOARD_MEMBERS: string;
+    DATE_OF_NOMINATION_APPOINTED: any;
+    DATE_OF_GENERAL_MEETINGS: any;
+    ENSURING_DATE_ON_SUBMITTED: any;
+    MEMBERSHIP_LIST_ON_CURRENT_YEAR: any;
+    GROUP_AND_BOARDING_MEETINGS: number;
+    GROUP_AND_BOARDING_MEETINGS_OUT_OF: number;
+    PROJECTS_MEETINGS: number;
+    PROJECTS_MEETINGS_OUT_OF: number;
+    UNIT_COUNCILS_MEETINGS: number;
+    UNIT_COUNCILS_MEETINGS_OUT_OF: number;
+    UNIT_CONFERENCES: number;
+    UNIT_CONFERENCES_OUT_OF: number;
+    ATTENDENCE_OF_ORIENTATION_MEETING: number;
+    ATTENDED_CONVENTION_PLACE: string;
+    YEAR: any;
+    RECOMMENDATION_FOR_AWARD: string;
+    FILE_URL: string;
+    COPY_FILE_URL: any;
+    CREATED_DATE: any;
+    SWICTHING4: boolean = true;
+    SWICTHING3: boolean = true;
+    IS_SUBMITED = 'D';
+}
+

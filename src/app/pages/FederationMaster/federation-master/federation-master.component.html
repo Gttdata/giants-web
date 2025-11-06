@@ -1,0 +1,287 @@
+<nz-spin [nzSpinning]='loadingRecords'>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        <i nz-icon nzType="left-circle" nzTheme="outline" (click)="back()"></i>
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8" style="text-align: center;">
+                <button nz-button nzType="default"
+                    style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" (click)="add()"
+                    *ngIf="(federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)">
+                    <i nz-icon nzType="plus"></i>
+                    Create
+                </button>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8" style="text-align: right;">
+                <nz-input-group [nzPrefix]="prefixIcon">
+                    <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here.."
+                        (keydown.enter)="addSearchTextForSearching(searchText)" [(ngModel)]="searchText" />
+                </nz-input-group>
+
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+
+                <ng-template #suffixIcon>
+                    <i nz-icon nzType="filter" nzTheme="outline" (click)="openAdvanceFilter()"
+                        nzTooltipTitle="Search Filter" nzTooltipPlacement="top" nz-tooltip>
+                    </i>
+                </ng-template>
+            </div>
+
+            <div nz-col nzXs="11" nzSm="11" nzMd="0" nzLg="0" nzXl="0">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        <i nz-icon nzType="left-circle" nzTheme="outline" (click)="back()"></i>
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+
+            <div nz-col nzXs="13" nzSm="13" nzMd="0" nzLg="0" nzXl="0" style="text-align: right;">
+                <nz-input-group [nzPrefix]="prefixIcon">
+                    <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here.."
+                        (keydown.enter)="addSearchTextForSearching(searchText)" [(ngModel)]="searchText" />
+                </nz-input-group>
+
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+
+                <ng-template #suffixIcon>
+                    <i nz-icon nzType="filter" nzTheme="outline" (click)="openAdvanceFilter()"
+                        nzTooltipTitle="Search Filter" nzTooltipPlacement="top" nz-tooltip>
+                    </i>
+                </ng-template>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                <div style="text-align: center; padding-top: 10px;">
+                    <button nz-button nzType="default"
+                        style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" (click)="add()"
+                        *ngIf="(federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)">
+                        <i nz-icon nzType="plus"></i>
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="(multipleSearchText.length > 0) || (advanceMultipleSearchText.length > 0)"
+        style="height: 7vh; overflow-y: auto; border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="padding: 3px 0px 3px 0px;">
+                    <span *ngIf="multipleSearchText.length > 0">
+                        <span *ngFor="let text of multipleSearchText; let i = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable" (nzOnClose)="onClose(i)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+
+                    <span *ngIf="advanceMultipleSearchText.length > 0">
+                        <span *ngFor="let text of advanceMultipleSearchText; let j = index;">
+                            <nz-tag [nzColor]="'magenta'" nzMode="closeable" (nzOnClose)="onAdvanceFilterTagClose(j)"
+                                style="font-size: 10px; padding: 1px; margin: 1px;">
+                                {{text}}
+                            </nz-tag>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="activityItem" [ngStyle]="{ height: getHeigth() }" style="overflow-y: auto; padding: 10px;"
+        (scroll)="onScroll($event)">
+        <div id="top"></div>
+
+        <div *ngIf="dataList.length > 0">
+            <div *ngFor="let federation of dataList; let i = index;"
+                style="border-radius: 8px; background-image: linear-gradient(to bottom right, #ffffff, #ffffff); padding: 10px; margin-bottom: 10px;">
+                <div>
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                            <div style="text-align: right; padding: 5px;">
+                                <span *ngIf="federation.SHORT_NAME != null">
+                                    <span
+                                        style="font-size: 10px; border: 1px solid black; padding: 5px; background-color: #f0f2f5;">
+                                        {{federation.SHORT_NAME}}
+                                    </span>
+                                </span>
+
+                                <span style="border-radius: 50%; padding: 5px; background-color: white;"
+                                    *ngIf="((federationID > 0) && (federationID == federation['FEDERATION_ID'])) || (roleID == 1) || (roleID == 59) || (roleID == 60) || (roleID == 61)">
+                                    <i nz-icon nzType="edit" nzTheme="twotone" (click)="edit(federation)"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="20">
+                            <div style="font-weight: bold; text-align: left; height: 40px; color: black; padding: 5px;">
+                                {{federation.NAME}}
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="4">
+                            <div style="text-align: right; padding: 5px;">
+                                <span *ngIf="federation.SHORT_NAME != null">
+                                    <span
+                                        style="font-size: 10px; border: 1px solid black; padding: 5px; background-color: #f0f2f5;">
+                                        {{federation.SHORT_NAME}}
+                                    </span>
+                                </span>
+
+                                <span style="border-radius: 50%; padding: 5px; background-color: white;"
+                                    *ngIf="((federationID > 0) && (federationID == federation['FEDERATION_ID'])) || (roleID == 1) || (roleID == 59) || (roleID == 60) || (roleID == 61)">
+                                    <i nz-icon nzType="edit" nzTheme="twotone" (click)="edit(federation)"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                            style="border-radius: 8px; background-color: #f0f2f5; padding: 7px; margin-left: 0px; margin-right: 10px; font-size: 12px; text-align: center; color: #000102;">
+                            <div nz-col nzXs="8" nzSm="8" nzMd="4" nzLg="4" nzXl="4" style="margin-bottom: -12px;">
+                                <p
+                                    style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                    {{federation.POST_COUNT || 0 }}
+                                </p>
+
+                                <p style="margin-top: -10px"><i nz-icon nzType="qrcode" nzTheme="outline"></i>
+                                    Posts
+                                </p>
+                            </div>
+
+                            <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                                <p
+                                    style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                    {{federation.MEETING_COUNT || 0}}
+                                </p>
+
+                                <p style="margin-top: -10px"> <i nz-icon nzType="calendar" nzTheme="outline"></i>
+                                    Meetings
+                                </p>
+                            </div>
+
+                            <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                                <p
+                                    style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                    {{federation.EVENT_COUNT || 0}}
+                                </p>
+
+                                <p style="margin-top: -10px"><i nz-icon nzType="carry-out" nzTheme="outline"></i>
+                                    Events
+                                </p>
+                            </div>
+
+                            <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                                <p
+                                    style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                    {{federation.CIRCULAR_COUNT || 0}}
+                                </p>
+
+                                <p style="margin-top: -10px"><i nz-icon nzType="audit" nzTheme="outline"></i>
+                                    Circulars
+                                </p>
+                            </div>
+
+                            <div nz-col nzXs="8" nzSm="8" nzMd="5" nzLg="5" nzXl="5" style="margin-bottom: -12px;">
+                                <p
+                                    style="font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold;">
+                                    {{federation.PROJECT_COUNT || 0}}
+                                </p>
+
+                                <p style="margin-top: -10px"><i nz-icon nzType="apartment" nzTheme="outline"></i>
+                                    Projects
+                                </p>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <div style="text-align: center; padding-top: 5px;">
+                                <button nz-button nzType="default"
+                                    style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                    (click)="goToUnitMaster(federation)" nzJustify="end">
+                                    <span style="font-size: 10px;">
+                                        <i nz-icon nzType="deployment-unit" nzTheme="outline" style="font-size: 10px;">
+                                        </i>
+                                        Units : {{federation.UNIT_COUNT || 0}}
+                                    </span>
+                                </button>
+
+                                <button nz-button nzType="default"
+                                    style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                    (click)="goToGroupMaster(federation)" nzJustify="end">
+                                    <span style="font-size: 10px;">
+                                        <i nz-icon nzType="team" nzTheme="outline" style="font-size: 10px;"></i>
+                                        Groups : {{federation.GROUP_COUNT || 0}}
+                                    </span>
+                                </button>
+
+                                <button nz-button nzType="default"
+                                    style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                    (click)="goToMemberMaster(federation)" nzJustify="end">
+                                    <span style="font-size: 10px;">
+                                        <i nz-icon nzType="user" nzTheme="outline" style="font-size: 10px;"></i>
+                                        Members : {{federation.MEMBER_COUNT || 0}}
+                                    </span>
+                                </button>
+
+                                <button nz-button nzType="default"
+                                    style="height: 25px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 3px;"
+                                    (click)="addMembers(federation)" nzJustify="end">
+                                    <span style="font-size: 10px;">
+                                        <i nz-icon nzType="user" nzTheme="outline" style="font-size: 10px;"></i>
+                                        Council List
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="dataList.length == 0" style="margin-top: 20px">
+            <nz-empty
+                [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                [nzNotFoundContent]="contentTpl">
+            </nz-empty>
+
+            <ng-template #contentTpl>
+                <span> No data available.</span>
+            </ng-template>
+        </div>
+    </div>
+</nz-spin>
+
+<!-- Federation dreawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getFederationDrawerWidth()"
+    [nzVisible]="drawerVisible" [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+    <app-federation-drawer [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData">
+    </app-federation-drawer>
+</nz-drawer>
+
+<!-- Assign federation council members -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+    [nzVisible]="memberDrawerVisible" [nzTitle]="memberDrawerTitle" (nzOnClose)="memberDrawerClose()"
+    (nzKeyboard)="true">
+
+    <app-assign-federation-members [drawerClose]="memberDrawerCloseCallback" [drawerVisible]="memberDrawerVisible"
+        [data]="memberDrawerData">
+    </app-assign-federation-members>
+</nz-drawer>

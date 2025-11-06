@@ -1,0 +1,37 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="0" nzSm="0" nzMd="12" nzLg="12" nzXl="12" style="text-align: left;">
+        <div class="formname">{{formTitle}}</div>
+    </div>
+
+    <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0" style="text-align: center;">
+        <div class="formname">{{formTitle}}</div>
+    </div>
+
+</div>
+
+<div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding-top: 10px; cursor: pointer;"  
+    nzTooltipTitle="Add Member" nzTooltipPlacement="top" nz-tooltip>
+    <div
+        style="border-radius: 5px; background-color: white; padding: 10px; box-shadow: 1px 1px 3px 3px rgb(220, 218, 218); height: 150px;">
+        <div style="height: 100%;">
+            <div class="container">
+                <div class="vertical-center" style="width: 100%;">
+                    <div style="text-align: center;">
+                        <span nz-icon nzType="plus-circle" nzTheme="outline" style="font-size: 30px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+    <app-addgroupbidding [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"
+        [contiProjectArray]="drawerContiProjectData" [paidDueArray]="drawerDuePaidData"
+        [projectArray]="drawerUndertakenProjData" [mediaCoverArray]="drawerMediaCoverageData"
+        [groupSponsArray]="drawerSponsorData">
+    </app-addgroupbidding>
+</nz-drawer>

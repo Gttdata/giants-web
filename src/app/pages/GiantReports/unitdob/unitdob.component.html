@@ -1,0 +1,125 @@
+<div
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-row>
+    <div nz-col nzSpan="4">
+      <div style="text-align: left; padding: 5px;">
+        <span class="formname">{{formTitle}}</span>
+      </div>
+    </div>
+
+    <div nz-col nzSpan="20">
+      <div nz-row nzGutter="10">
+        <div nz-col nzSpan="8">
+          <div style="text-align: end;">
+            <nz-select name="federationName" nzShowSearch nzAllowClear nzServerSearch
+              (nzOnSearch)="getFederations($event)" [nzLoading]="isFederationLoading" nzMode="multiple"
+              [nzMaxTagCount]="5" style="width: 95%" nzPlaceHolder="Type here to search federation(s)"
+              [(ngModel)]="FEDERATION_NAME" (ngModelChange)="getFederationInfo($event)">
+
+              <nz-option *ngFor="let federation of federations;" [nzValue]="federation.ID" [nzLabel]="federation.NAME">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="8">
+          <div style="text-align: end;">
+            <nz-select name="unitName" nzShowSearch nzAllowClear nzServerSearch (nzOnSearch)="getUnits($event)"
+              [nzLoading]="isUnitLoading" nzMode="multiple" [nzMaxTagCount]="5" style="width: 95%"
+              nzPlaceHolder="Type here to search unit(s)" [(ngModel)]="UNIT_NAME" (ngModelChange)="getUnitInfo($event)">
+
+              <nz-option *ngFor="let unit of units;" [nzValue]="unit.ID" [nzLabel]="unit.NAME">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="7">
+          <div style="text-align: end;">
+            <nz-form-item>
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Records"
+                  (keyup.enter)="search(true)" [(ngModel)]="searchText" />
+              </nz-input-group>
+
+              <ng-template #suffixIconButton>
+                <button nz-button id="button1" nzType="primary" (click)="search(true)" nzSearch>
+                  <i nz-icon nzType="search"></i>
+                </button>
+              </ng-template>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="1">
+          <div>
+            <button nz-button nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading"
+              nzTooltipTitle="Excel File" nzTooltipPlacement="top" nz-tooltip>
+              <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-table class="my-scroll no-wrap1" nzBordered #leaveTable nzShowSizeChanger [nzFrontPagination]="false"
+        [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+          <tr>
+            <th><b>Action</b></th>
+
+            <th *ngFor="let column of columns;" nzShowSort nzSortKey={{column[0]}}>
+              <b>{{column[1]}}</b>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let data of leaveTable.data;">
+            <td align="center">
+              <a (click)="viewBOD(data)">
+                <span nz-icon nzType="eye" nzTheme="outline" nzTooltipTitle="View BOD" nzTooltipPlacement="top"
+                  nz-tooltip>
+                </span>
+              </a>
+            </td>
+
+            <td align="center" *ngFor="let column of columns;">
+              <span *ngIf="(column[0] != 'STATUS')">
+                {{data[column[0]]}}
+              </span>
+
+              <span *ngIf="(column[0] == 'STATUS')">
+                <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#52c41a'">
+                </i>
+
+                <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#f50'">
+                </i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+
+<!-- View BOD drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1100" [nzVisible]="memberDrawerVisible"
+  [nzTitle]="memberDrawerTitle" (nzOnClose)="memberDrawerClose()" (nzKeyboard)="true">
+
+  <app-view-unit-bod [drawerClose]="memberDrawerCloseCallback" [drawerVisible]="memberDrawerVisible"
+    [data]="memberDrawerData">
+  </app-view-unit-bod>
+</nz-drawer>

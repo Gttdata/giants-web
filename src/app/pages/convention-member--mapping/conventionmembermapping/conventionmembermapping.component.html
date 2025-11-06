@@ -1,0 +1,129 @@
+<div>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="10" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+                <div class="formname" style="padding: 5px;">
+                    {{formTitle}}
+                </div>
+            </div>
+
+            <div nz-col nzXs="10" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+                <div style="padding-right: 5px;">
+                    <nz-input-group [nzPrefix]="prefixIcon">
+                        <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+                            oninput="this.value = this.value.toLowerCase()" [(ngModel)]="SEARCH_NAME" />
+                    </nz-input-group>
+
+                    <ng-template #prefixIcon>
+                        <span nz-icon nzType="search"></span>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+                <nz-select placeholder="Year" name="year" (ngModelChange)="search($event)" [(ngModel)]="SELECTED_YEAR"
+                    nzShowSearch style="width: 100%;">
+
+                    <nz-option *ngFor="let fillYears of range;" [nzValue]="fillYears" [nzLabel]="fillYears">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </div>
+
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-table class="my-scroll no-wrap1" nzBordered #mappingtable [nzFrontPagination]="false"
+                    [nzData]="dataList" [nzLoading]="isSpinning" [nzScroll]="{ y: '460px' }">
+                    <thead nzSingleSort>
+                        <tr>
+                            <th style="width: 80px;" align="center">
+                                <b>Sr. No.</b>
+                            </th>
+
+                            <th style="width: 100px;" align="center">
+                                <b>Attended</b><br>
+
+                                <div style="margin: 5px;">
+                                    <label nz-checkbox name="globalSelect"
+                                        (ngModelChange)="onGlobalSelectChanged($event)"
+                                        [nzIndeterminate]="indeterminate" [(ngModel)]="GLOBAL_SELECT">
+                                    </label>
+                                </div>
+                            </th>
+
+                            <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;" align="center">
+                                <b>Member Name</b>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let data of mappingtable.data | searchPipe: SEARCH_NAME; let i = index">
+                            <td style="width: 80px;" align="center">{{i + 1}}</td>
+
+                            <td style="width: 100px;" align="center">
+                                <label nz-checkbox name="is_checked{{i}}" [(ngModel)]="data['IS_CHECKED']"
+                                    (ngModelChange)="onCheckedChanged($event)">
+                                </label>
+                            </td>
+
+                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="24">
+                                        <div style="color: black;">
+                                            {{data.NAME}}
+                                        </div>
+                                    </div>
+
+                                    <div nz-col nzSpan="24">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="8">
+                                                <div style="text-align: left; font-size: 10px; color: gray;">
+                                                    <span nz-icon nzType="mobile" nzTheme="twotone"></span>
+                                                    {{data.MOBILE_NUMBER}}
+                                                </div>
+                                            </div>
+
+                                            <div nz-col nzSpan="16">
+                                                <div style="text-align: right; font-size: 10px; color: gray;"
+                                                    *ngIf="data.EMAIL_ID">
+                                                    <span nz-icon nzType="mail" nzTheme="twotone"></span>
+                                                    {{data.EMAIL_ID.split(",")[0]}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+
+                <div style="padding-top: 10px;">
+                    <div nz-row>
+                        <div nz-col nzSpan="12">
+                            <div style="padding: 5px; padding-left: 0px;" *ngIf="mappedCount > 0">
+                                <nz-tag [nzColor]="'magenta'" style="font-size: 13px; padding: 3px;">
+                                    {{mappedCountString}} / {{dataList.length}}
+                                </nz-tag>
+                            </div>
+                        </div>
+
+                        <div nz-col nzSpan="12">
+                            <div style="text-align: right; padding: 5px;">
+                                <button nz-button nzType="default" [nzLoading]="isSpinning"
+                                    style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                    (click)="save()">
+                                    <span>Save</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

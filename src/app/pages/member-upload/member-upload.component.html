@@ -1,0 +1,98 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <nz-table class="my-scroll no-wrap1" nzBordered #uploadTable nzShowSizeChanger [nzFrontPagination]="false"
+            [nzData]="newArray" [nzLoading]="isSpinning">
+            <thead>
+                <tr>
+                    <th><b>Sr. No.</b></th>
+
+                    <th *ngFor="let column of columns;">
+                        <b>{{column[1]}}</b>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let data of uploadTable.data; let i = index;">
+                    <td align="center">
+                        {{i + 1}}
+                    </td>
+
+                    <td align="center" *ngFor="let column of columns;">
+                        <span
+                            *ngIf="(column[0] != 'TEMP_STATUS') && (column[0] != 'DOB') && (column[0] != 'ANNIVERSARY_DATE') && (column[0] != 'MEMBERSHIP_DATE')">
+                            {{data[column[0]]}}
+                        </span>
+
+                        <span
+                            *ngIf="(column[0] == 'DOB') || (column[0] == 'ANNIVERSARY_DATE') || (column[0] == 'MEMBERSHIP_DATE')">
+                            {{data[column[0]] | date:'dd-MMM-yyyy'}}
+                        </span>
+
+                        <span *ngIf="column[0] == 'TEMP_STATUS'">
+                            <span *ngIf="(data['TEMP_STATUS'] == 'Pending') || (data['TEMP_STATUS'] == 'Failed')"
+                                style="color: red;">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="data['TEMP_STATUS'] == 'Upload'" style="color: green;">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="data['TEMP_STATUS'] == 'Duplicate'" style="color: blue;">
+                                {{data[column[0]]}}
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+<div class="footer">
+    <div nz-row>
+        <div nz-col nzSpan="12">
+            <div style="text-align: left; font-weight: bold;">
+                <span style="color: green;">
+                    {{uploadedMembersCount}} Member(s) Uploaded,
+                </span>
+
+                <span style="color: blue;">
+                    {{duplicateMembersCount}} Member(s) Duplicate,
+                </span>
+
+                <span style="color: red;">
+                    {{failedToUploadMembersCount}} Member(s) Failed to Upload
+                </span>
+            </div>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <div>
+                <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+                    <span>Cancel</span>
+                </button>
+
+                <button type="button" nz-button (click)="clear()" class="ant-btn" style="margin-right: 8px;"
+                    [nzLoading]="isSpinning">
+                    <span>Clear</span>
+                </button>
+
+                <button type="button" nz-button class="ant-btn ant-btn-primary" (click)="fileInput1.click()"
+                    style="margin-right: 8px;" [nzLoading]="isSpinning">
+                    Select CSV File
+
+                    <input #fileInput1 style="display: none;" class="upload" id="inputTag" type="file"
+                        (change)="csv2Array($event)" (click)="fileInput1.value = null" />
+                </button>
+
+                <button type="button" nz-button class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-popconfirm
+                    nzPopconfirmTitle="Are you sure want to upload the data?" (nzOnConfirm)="importData()"
+                    (nzOnCancel)="cancel()" nzPopconfirmPlacement="top" [nzLoading]="isSpinning">
+                    <span>Upload</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

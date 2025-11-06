@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>GIANTS WELFARE FOUNDATION</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/logo1.png">
+  <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin="" />
+
+  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin="">
+    </script> -->
+
+  <!-- Instamojo SDK -->
+  <!-- <script src="https://js.instamojo.com/v1/checkout.js"></script> -->
+
+  <!-- <script>
+    function onOpenHandler() {
+      // alert('Payments Modal is Opened');
+    }
+
+    function onCloseHandler() {
+      // alert('Payments Modal is Closed');
+    }
+
+    function onPaymentSuccessHandler(response) {
+      // alert('Payment Success');
+      console.log('Payment Success Response', response);
+      const paymentResponse = response;
+    }
+
+    function onPaymentFailureHandler(response) {
+      // alert('Payment Failure');
+      console.log('Payment Failure Response', response);
+    }
+    /* End client-defined Callback Handler Functions */
+
+    /* Configuring Handlers */
+    Instamojo.configure({
+      handlers: {
+        onOpen: onOpenHandler,
+        onClose: onCloseHandler,
+        onSuccess: onPaymentSuccessHandler,
+        onFailure: onPaymentFailureHandler
+      }
+    });
+
+    function onButtonClick(name, amount) {
+      Instamojo.open('https://test.instamojo.com/@ayushya?purpose=' + name + '&amount=' + amount);
+    }
+  </script> -->
+
+  <style type="text/css">
+    body,
+    html {
+      height: 100%;
+    }
+
+    .app-loading {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .app-loading .spinner {
+      height: 200px;
+      width: 200px;
+      animation: rotate 2s linear infinite;
+      transform-origin: center center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    .app-loading .spinner .path {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      animation: dash 1.5s ease-in-out infinite;
+      stroke-linecap: round;
+      stroke: #ddd;
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes dash {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+
+      50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+      }
+
+      100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <app-root>
+    <div class="app-loading">
+      <div class="logo">
+        <img src="assets/logo1.png" height="75px" width="75px">
+      </div>
+
+      <svg class="spinner" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+      </svg>
+    </div>
+  </app-root>
+</body>
+
+</html>

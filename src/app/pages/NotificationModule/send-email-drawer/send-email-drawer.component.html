@@ -1,0 +1,107 @@
+<div>
+    <div nz-row>
+        <div nz-col nzSpan="8">
+            <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>From Date</nz-form-label>
+
+                <nz-form-control>
+                    <nz-date-picker name="fromDate" nzFormat="dd/MM/yyyy" [(ngModel)]="FROM_DATE"
+                        (nzOnOpenChange)="moduleStartDateHandle($event)">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+            <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>To Date</nz-form-label>
+
+                <nz-form-control>
+                    <nz-date-picker #moduleEndDatePicker name="toDate" [nzDisabledDate]="disabledEndDate"
+                        nzFormat="dd/MM/yyyy" [(ngModel)]="TO_DATE">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+            <nz-form-item>
+                <nz-form-label nzNoColon>Action</nz-form-label>
+
+                <nz-form-control>
+                    <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="countLoading"
+                        (click)="getCount()" style="margin-right: 8px;"><span>Apply</span></button>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <div nz-row *ngIf="countLoading">
+        <div nz-col nzSpan="24" style="text-align: center;">
+            <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+        </div>
+    </div>
+
+    <div nz-row style="margin-bottom: 20px;" *ngIf="!countLoading">
+        <div nz-col nzSpan="24" style="font-size: 17px;">
+            <b>EMM Count</b>
+        </div>
+
+        <div nz-col nzSpan="24" style="height: 350px; overflow: hidden; overflow-y: auto;">
+            <table>
+                <tr>
+                    <th style="font-size: 16px;">
+                        <b>Details</b>
+                    </th>
+
+                    <th style="font-size: 16px;">
+                        <b>Count</b>
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>Day In</td>
+                    <td>{{emmData['Day_In']}}</td>
+                </tr>
+
+                <tr>
+                    <td>Day Out</td>
+                    <td>{{emmData['Day_Out']}}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Leave Applied</td>
+                    <td>{{emmData['Today_Leave']}}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Latemark Applied</td>
+                    <td>{{emmData['Today_Latemark']}}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Earlymark Applied</td>
+                    <td>{{emmData['Today_Earlymark']}}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Expenses Added</td>
+                    <td>{{emmData['Today_Expenses']}}</td>
+                </tr>
+
+                <tr>
+                    <td>Total App Installed</td>
+                    <td>{{emmData['App_Installed']}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close()" class="ant-btn"
+            style="margin-right: 8px;"><span>Cancel</span></button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="sendBtnStatus" nz-dropdown
+            (click)="send()"><span>Send</span></button>
+    </div>
+</div>

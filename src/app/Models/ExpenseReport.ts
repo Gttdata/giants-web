@@ -1,0 +1,23 @@
+export class ExpenseReport {
+    VOUCHER_NO
+    DATE
+    CLAIM_DATE
+    HEAD_ID
+    HEAD_NAME
+    CUSTOMER_ID
+    CUSTOMER_NAME
+    PARTY
+    AMOUNT
+    DESCRIPTION
+    PEOPLE_WITH
+    TODAYS_TOTAL
+    VIEW_BILL
+    HEAD_STATUS
+    HEAD_TIME
+    HEAD_REMARK
+    AC_STATUS
+    AC_REMARK
+    AC_TIME
+    MAIN_STATUS
+    CLIENT_ID
+}

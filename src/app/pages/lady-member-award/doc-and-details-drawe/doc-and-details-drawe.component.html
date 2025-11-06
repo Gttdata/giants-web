@@ -1,0 +1,65 @@
+<div>
+    <form nz-form>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Details</nz-form-label>
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Enter Document Details" name="GWF"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="500" [(ngModel)]="data.DETAILS"
+                            ></textarea>
+                        
+                    </nz-form-control>
+                    <span *ngIf="data.DETAILS" style="font-size: 10px; color: red;">
+                        {{data.DETAILS.length}}/ 500
+                    </span>
+                    <span *ngIf="validation==false && (data.DETAILS=='' || data.DETAILS==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Document</nz-form-label>
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>
+                            &nbsp;
+                            <span *ngIf="data.DOCUMENTS && data.DOCUMENTS!='' ">
+                                <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                                    [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                                    nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear1()"
+                                    nzPopconfirmPlacement="top">
+                                </i>
+                            </span>
+                        </nz-form-label>
+                        <nz-form-control>
+                            <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                (click)="fileInput.click()">Choose File
+
+                                <input #fileInput type="file" accept="image/pdf" (change)="onFileSelected1($event)"
+                                    (click)="fileInput.value = null" style="display: none;" />
+                            </button>
+                            <br>
+                            <span *ngIf="data.DOCUMENTS !=undefined && data.DOCUMENTS !=null">
+                                <a href="{{DocumentUrl}}{{data.DOCUMENTS}}" target="_blank">
+                                    {{ data.DOCUMENTS.name || data.DOCUMENTS}} </a>
+                            </span>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" style="margin-right: 8px" nz-button
+        (click)="save(false)">
+        <span>Save & close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" nz-button *ngIf="data.ID"
+        (click)="save(false)">
+        <span>Update & close</span>
+    </button>
+</div>

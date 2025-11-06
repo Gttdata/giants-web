@@ -1,0 +1,941 @@
+<div>
+    <div nz-row style="margin: 11px;left: 825px;position: absolute;top: 0px;"> <nz-select placeholder="Select"
+            name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+            (ngModelChange)="selectChangeYear($event)" style="width: 150px">
+            <nz-option *ngFor="let abc of range" [nzValue]="abc" [nzLabel]="abc">
+            </nz-option>
+        </nz-select>
+    </div>
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row>
+                <div nz-col nzSpan="24">
+                    <div class="grouping">
+                        <div nz-row>
+                            <div nz-col nzSpan="12">
+                                <nz-form-label style="font-weight: bold;" nzNoColon>Date & Schedule of Giants Week
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-input-group>
+                                        <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        </nz-form-control>
+                                    </nz-input-group>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="12" style="text-align: right;">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                            class="ant-btn ant-btn-primary" nz-button (click)="DateAndScheduleDrawer()">
+                                            <span>Add New</span>
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <nz-table #drawerDateAndScheduledata nzBordered [nzData]="ArrayDateAndScheduleSaveInTable"
+                                [nzFrontPagination]="false" [nzShowPagination]="false">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight: bold;">Action</th>
+                                        <th style="font-weight: bold;width: 200px; "> Date </th>
+                                        <th style="font-weight: bold;">Schedule</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerDateAndScheduledata.data;let i = index">
+                                        <td class="datecenter">
+                                            <a (click)="editdata1(tab,i)">Edit </a>
+                                        </td>
+                                        <td class="datecenter">{{ tab.DATE }}</td>
+                                        <td>{{ tab.SCHEDULE }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                    <div class="grouping">
+                        <div nz-row>
+                            <div nz-col nzSpan="12">
+                                <nz-form-label nzNoColon style="font-weight: bold;">Names of Projects during the Giants
+                                    Service Week
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-input-group>
+                                        <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        </nz-form-control>
+                                    </nz-input-group>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="12" style="text-align: right;">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                            class="ant-btn ant-btn-primary" nz-button
+                                            (click)="ProjectDuringServiceDrawer()">
+                                            <span>Add New</span>
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <nz-table #drawerProjectDuringServicedata nzBordered
+                                [nzData]="ArrayProjectDuringServiceDrawerDataSaveInTable" [nzFrontPagination]="false"
+                                [nzShowPagination]="false">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight: bold;">Action</th>
+                                        <th style="font-weight: bold;">Project Title</th>
+                                        <th style="font-weight: bold;">Photo 1</th>
+                                        <th style="font-weight: bold;">Photo 2</th>
+                                        <th style="font-weight: bold;">Photo 3</th>
+                                    </tr>
+                                </thead>
+                                <!-- *ngIf="ArrayProjectDuringServiceDrawerDataSaveInTable.length >= 0" -->
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerProjectDuringServicedata.data;let i = index">
+                                        <td class="datecenter"><a (click)="editdata2(tab,i)">Edit </a></td>
+                                        <td>{{ tab.PROJECT_TITLE }}</td>
+                                        <td class="td-center">
+                                            <span
+                                                *ngIf="tab.PHOTO_URL_1 != undefined &&  tab.PHOTO_URL_1 != null &&  tab.PHOTO_URL_1 != ' ' &&  tab.PHOTO_URL_1 != '' ">
+                                                <a href="{{api.retriveimgUrl}}projectDuringServiceWeekPhotos/{{ tab.PHOTO_URL_1 }}"
+                                                    target="_blank">Photo1</a>
+                                            </span>
+                                            <span
+                                                *ngIf="tab.PHOTO_URL_1 == undefined ||  tab.PHOTO_URL_1 == null ||  tab.PHOTO_URL_1 == ' ' ||  tab.PHOTO_URL_1 == '' ">
+                                                No Photo
+                                            </span>
+                                        </td>
+                                        <td class="td-center">
+                                            <span
+                                                *ngIf="tab.PHOTO_URL_2 != undefined &&  tab.PHOTO_URL_2 != null &&  tab.PHOTO_URL_2 != ' ' &&  tab.PHOTO_URL_2 != '' ">
+                                                <a href="{{api.retriveimgUrl}}projectDuringServiceWeekPhotos/{{ tab.PHOTO_URL_2 }}"
+                                                    target="_blank">Photo2</a>
+                                            </span>
+                                            <span
+                                                *ngIf="tab.PHOTO_URL_2 == undefined ||  tab.PHOTO_URL_2 == null ||  tab.PHOTO_URL_2 == ' ' ||  tab.PHOTO_URL_2 == '' ">
+                                                No Photo
+                                            </span>
+                                        </td>
+                                        <td class="td-center">
+                                            <span
+                                                *ngIf="tab.PHOTO_URL_3 != undefined &&  tab.PHOTO_URL_3 != null &&  tab.PHOTO_URL_3 != ' ' &&  tab.PHOTO_URL_3 != '' ">
+                                                <a href="{{api.retriveimgUrl}}projectDuringServiceWeekPhotos/{{ tab.PHOTO_URL_3 }}"
+                                                    target="_blank">Photo3</a>
+                                            </span>
+                                            <span
+                                                *ngIf="tab.PHOTO_URL_3 == undefined ||  tab.PHOTO_URL_3 == null ||  tab.PHOTO_URL_3 == ' ' ||  tab.PHOTO_URL_3 == '' ">
+                                                No Photo
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+
+                    <div nz-row class="grouping">
+                        <div nz-col nzSpan="24">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzNoColon>How much impact it created among the Public
+                                </nz-form-label>
+                                <nz-input-group>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        <textarea nz-input placeholder="Enter Impact Of Public"
+                                            [(ngModel)]="data.PUBLIC_IMPACT" name="impact" maxlength="2000"
+                                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" required></textarea>
+                                    </nz-form-control>
+                                    <span *ngIf="data.PUBLIC_IMPACT" style="font-size: 10px; color: red;">
+                                        {{data.PUBLIC_IMPACT.length}}/ 2000
+                                    </span>
+                                </nz-input-group>
+                            </nz-form-item>
+                        </div>
+                    </div>
+
+                    <div nz-row class="grouping">
+                        <div nz-col nzSpan="24">
+                            <nz-form-item>
+                                <nz-form-label nzRequired nzNoColon>How Members were Motivated ?
+                                </nz-form-label>
+                                <nz-input-group>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        <textarea nz-input placeholder="Enter How Members Motivated"
+                                            [(ngModel)]="data.MOTIVATED_MEMBERS" name="motivated" maxlength="2000"
+                                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" required></textarea>
+                                    </nz-form-control>
+                                    <span *ngIf="data.MOTIVATED_MEMBERS" style="font-size: 10px; color: red;">
+                                        {{data.MOTIVATED_MEMBERS.length}}/ 2000
+                                    </span>
+                                </nz-input-group>
+                            </nz-form-item>
+                        </div>
+                    </div>
+
+                    <div class="grouping">
+                        <div nz-row>
+                            <div nz-col nzSpan="12">
+                                <nz-form-label nzNoColon style="font-weight: bold;">Project Expenses with details of
+                                    Sponsorship, if any
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-input-group>
+                                        <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        </nz-form-control>
+                                    </nz-input-group>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="12" style="text-align: right;">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                            class="ant-btn ant-btn-primary" nz-button (click)="ProjectExpensesDrawer()">
+                                            <span>Add New</span>
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <nz-table #drawerProjectExpensesdata nzBordered
+                                [nzData]="ArrayProjectExpensesDrawerDataSaveInTable" [nzFrontPagination]="false"
+                                [nzShowPagination]="false">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight: bold;">Action</th>
+                                        <th style="font-weight: bold;">Project</th>
+                                        <th style="font-weight: bold; width: 200px;">Sponsorship Date</th>
+                                        <th style="font-weight: bold;width: 110px;">Amount (Rs.)</th>
+                                        <th style="font-weight: bold;">Details Expenses</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerProjectExpensesdata.data;let i = index">
+                                        <td class="datecenter">
+                                            <a (click)="editdata3(tab,i)">Edit </a>
+                                        </td>
+                                        <td>{{ tab.PROJECT }}</td>
+                                        <td class="datecenter">{{ tab.SPONSORSHIP_DATE }}</td>
+                                        <td class="Amountcenter">{{ tab.AMOUNT }}</td>
+                                        <td>{{ tab.EXPENSES_DETAILS }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+
+                    <div nz-row class="grouping">
+                        <div nz-col nzSpan="24">
+                            <nz-form-item>
+                                <span style="color: red;" *ngIf="data.SWITCH_WEEKCELE==true">*</span>
+                                <label nzRequired nzNoColon> Whether it improved Giants
+                                    image in the City </label>
+                                <nz-switch [(ngModel)]="data.SWITCH_WEEKCELE" nzCheckedChildren="YES"
+                                    nzUnCheckedChildren="NO" name="data.SWITCH_WEEKCELE"></nz-switch>
+                                <nz-form-control nzHasFeedback nzErrorTip="Please fill the field"
+                                    *ngIf="data.SWITCH_WEEKCELE==true">
+                                    <textarea nz-input placeholder="Enter Improved Giants Image in City"
+                                        [(ngModel)]="data.IMAGE_IN_PUBLIC" name="activity_president"
+                                        [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000" required></textarea>
+                                    <span *ngIf="data.IMAGE_IN_PUBLIC" style="font-size: 10px; color: red;">
+                                        {{data.IMAGE_IN_PUBLIC.length}}/ 2000
+                                    </span>
+                                    <span
+                                        *ngIf="data.SWITCH_WEEKCELE==true && (data.IMAGE_IN_PUBLIC=='' || data.IMAGE_IN_PUBLIC==undefined)"
+                                        style="color:red">Please fill the field
+                                    </span>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+
+                    <div class="grouping">
+                        <div nz-row>
+                            <div nz-col nzSpan="12">
+                                <nz-form-label nzNoColon style="font-weight: bold;">Brief Description of the week
+                                </nz-form-label>
+
+                                <nz-form-item>
+                                    <nz-input-group>
+                                        <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        </nz-form-control>
+                                    </nz-input-group>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="12" style="text-align: right;">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                            class="ant-btn ant-btn-primary" nz-button
+                                            (click)="DescriptionOfWeekDrawer()">
+                                            <span>Add New</span>
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <nz-table #drawerDiscriptiondata nzBordered [nzData]="ArrayDescriptionOfWeekSaveInTable"
+                                [nzFrontPagination]="false" [nzShowPagination]="false">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight: bold;">Action</th>
+                                        <th style="font-weight: bold; width: 200px;">Date</th>
+                                        <th style="font-weight: bold;">Description</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerDiscriptiondata.data;let i = index">
+                                        <td class="datecenter">
+                                            <a (click)="editdata4(tab,i)">Edit </a>
+                                        </td>
+                                        <td class="datecenter">{{ tab.DATE }}</td>
+                                        <td>{{ tab.DESCRIPTION }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+
+                    <div class="grouping">
+                        <div nz-row>
+                            <div nz-col nzSpan="12">
+                                <nz-form-label nzNoColon style="font-weight: bold;">Publicity with press clippings &
+                                    photographs with
+                                    banner
+                                </nz-form-label>
+                                <nz-form-item>
+                                    <nz-input-group>
+                                        <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                        </nz-form-control>
+                                    </nz-input-group>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzSpan="12" style="text-align: right;">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                            class="ant-btn ant-btn-primary" nz-button
+                                            (click)="PublicityWithPressDrawer()">
+                                            <span>Add New</span>
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row>
+                            <nz-table #drawerPublicitydata nzBordered [nzData]="ArrayPublicitySaveInTable"
+                                [nzFrontPagination]="false" [nzShowPagination]="false">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight: bold;">Action</th>
+                                        <th style="font-weight: bold;">Title</th>
+                                        <th style="font-weight: bold;">Newspaper Name</th>
+                                        <th style="font-weight: bold;">Photo</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let tab of drawerPublicitydata.data;let i = index">
+                                        <td class="datecenter">
+                                            <a (click)="editdata5(tab,i)">Edit </a>
+                                        </td>
+                                        <td>{{ tab.TITLE }}</td>
+                                        <td>{{ tab.NEWS_PAPER_NAME }}</td>
+                                        <td class="td-center">
+                                            <span
+                                                *ngIf="tab.PHOTO_URL != undefined &&  tab.PHOTO_URL != null &&  tab.PHOTO_URL != ' ' &&  tab.PHOTO_URL != '' ">
+                                                <a href="{{api.retriveimgUrl}}publicityPressImages/{{ tab.PHOTO_URL}}"
+                                                    target="_blank">Photo1</a>
+                                            </span>
+                                            <span
+                                                *ngIf="tab.PHOTO_URL == undefined ||  tab.PHOTO_URL == null ||  tab.PHOTO_URL == ' ' ||  tab.PHOTO_URL == '' ">
+                                                No Photo
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+
+    <span *ngIf="CurrentYear == SelectedYear">
+        <span *ngIf="data.IS_SUBMITED != 'S'">
+            <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" style="margin-right: 8px" nz-button
+                (click)="save(myForm)">
+                <span>Save As Draft & close</span>
+            </button>
+
+            <button type="button" *ngIf="data.ID" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+                [nzLoading]="isSpinning" (click)="save(myForm)">
+                <span>Save As Draft & close</span>
+            </button>
+
+            <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px" nz-button
+                (click)="ApplyForAward(myForm)">
+                <span>Apply For Award & close</span>
+            </button>
+        </span>
+    </span>
+
+    <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary"
+        style="margin-left: 8px"><span>Preview</span>
+    </button>
+</div>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="DateAndScheduleDrawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeDateAndScheduleDrawer()" (nzKeyboard)="true">
+
+    <app-date-and-schedule-drawer [isRemarkVisible]="isRemarkDateAndScheduleDrawerVisible"
+        [closeDateAndSchedule]="getcloseDateAndSchedule"
+        [DateAndScheduleSaveInTable]="closeCallbackcloseDateAndSchedule" [drawerVisible]="DateAndScheduleDrawerVisible"
+        [data]="DateAndScheduleDrawerData" [ArrayDateAndScheduleSaveInTable]="DateAndScheduleDrawerDataArray">
+    </app-date-and-schedule-drawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="ProjectDuringServiceDrawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeProjectDuringServiceDrawer()" (nzKeyboard)="true">
+
+    <app-project-during-service-drawer [isRemarkVisible]="isRemarkProjectDuringServiceDrawerVisible"
+        [ProjectDuringServiceDrawerDataSaveInTable]="closeCallbackcloseProjectDuringService"
+        [closeProjectDuring]="CloseCallProjectDuring" [drawerVisible]="ProjectDuringServiceDrawerVisible"
+        [data]="ProjectDuringServiceDrawerData" (fUrl1)="BannerSentUrl1($event)" (fUrl2)="BannerSentUrl2($event)"
+        (fUrl3)="BannerSentUrl3($event)"
+        [ArrayProjectDuringServiceDrawerDataSaveInTable]="ProjectDuringServiceDrawerDataArray">
+    </app-project-during-service-drawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="ProjectExpensesDrawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeProjectExpensesDrawer()" (nzKeyboard)="true">
+
+    <app-project-expenses-drawer [isRemarkVisible]="isRemarkProjectExpensesDrawerVisible"
+        [closeProjectExpen]="closeCallProjectExpens" [ProjectExpensesSaveInTable]="closeCallbackcloseProjectExpenses"
+        [drawerVisible]="ProjectExpensesDrawerVisible" [data]="ProjectExpensesDrawerData"
+        [ArrayProjectExpensesDrawerDataSaveInTable]="ProjectExpensesDrawerDataArray">
+    </app-project-expenses-drawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="DescriptionOfWeekDrawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closeDescriptionOfWeekDrawer()" (nzKeyboard)="true">
+
+    <app-description-of-week-drawer [isRemarkVisible]="isRemarkDescriptionOfWeekDrawerVisible"
+        [DescriptionWeekSaveInTable]="closeCallbackcloseDescriptionOfWeek"
+        [closeDescription]="CloseCallcloseDescription" [drawerVisible]="DescriptionOfWeekDrawerVisible"
+        [data]="DescriptionOfWeekDrawerData" [ArrayDescriptionOfWeekSaveInTable]="DescriptionOfWeekDrawerDataArray">
+    </app-description-of-week-drawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}" [nzClosable]="true"
+    [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()" [nzVisible]="PublicityWithPressDrawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="closePublicityWithPressDrawer()" (nzKeyboard)="true">
+
+    <app-publicity-with-press-drawer [isRemarkVisible]="isRemarkPublicityWithPressDrawerVisible"
+        [closePublicity]="closeCallPublicity" [PublicitySaveInTable]="closeCallbackclosePublicityWithPress"
+        [drawerVisible]="PublicityWithPressDrawerVisible" [data]="PublicityWithPressDrawerData"
+        [ArrayPublicitySaveInTable]="DescriptionOfWeekDrawerDataArray" (Furlpb)="BannerSentUrlPressPublicity($event)">
+    </app-publicity-with-press-drawer>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle>Print Document</ng-template>
+    <ng-template #modalContent>
+        <div id="print">
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;padding-bottom: 5px;">
+                GIANTS WELFARE FOUNDATION<br></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 5px;">
+                AWARD BIDDING FORM NO. 13 </div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 5px;">
+                NAME OF THE AWARD : OUTSTANDING GIANTS WEEK CELEBRATIONS
+            </div>
+            <br>
+            <div style="color:#0b1113;font-weight: bolder; margin-bottom: 1px;font-size: 20px;">
+                Details:</div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;">
+                                NAME OF THE GROUP :<b>{{data.GROUP_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row *ngIf="ArrayDateAndScheduleSaveInTable.length > 0">
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                1) Date & Schedule of Giants Week : Annexure 'A' &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="8">
+                        <div nz-col nzSpan="24">
+                            <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid black ;">Date</th>
+                                        <th style="border: 1px solid black ;">Schedule</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tab of ArrayDateAndScheduleSaveInTable;">
+                                        <td style="border: 1px solid black ;">{{ tab.DATE }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.SCHEDULE }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row *ngIf="ArrayProjectDuringServiceDrawerDataSaveInTable.length > 0">
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                margin-left: 10px;">
+                                2) Names of Projects during the Giants Service Week : Annexure 'B'
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="8">
+                        <div nz-col nzSpan="24">
+                            <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid black ;">Project Title</th>
+                                        <th style="border: 1px solid black ;">Photo 1</th>
+                                        <th style="border: 1px solid black ;">Photo 2</th>
+                                        <th style="border: 1px solid black ;">Photo 3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tab of ArrayProjectDuringServiceDrawerDataSaveInTable;">
+                                        <td style="border: 1px solid black ;">{{ tab.PROJECT_TITLE }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.PHOTO_URL_1 }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.PHOTO_URL_2 }}</td>
+                                        <td style="border: 1px solid black ;">{{ tab.PHOTO_URL_3 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                                margin-left: 10px;">
+                                3) How much impact it created among the Public<b>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{{data.PUBLIC_IMPACT}}&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                                margin-left: 10px;">
+                                4) How Members were Motivated ?
+                                <b>&nbsp;&nbsp;&nbsp;&nbsp;{{data.MOTIVATED_MEMBERS}}&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%" *ngIf="ArrayProjectExpensesDrawerDataSaveInTable.length > 0">
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                        margin-left: 10px;">
+                                    5) Project Expenses with details of Sponsorship, if any : Annexure 'C'
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                        <div nz-row [nzGutter]="8">
+                            <div nz-col nzSpan="24">
+                                <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                    <thead>
+                                        <tr>
+                                            <th style="border: 1px solid black ;">Project</th>
+                                            <th style="border: 1px solid black ;">Sponsorship Date</th>
+                                            <th style="border: 1px solid black ;">Amount(Rs.)</th>
+                                            <th style="border: 1px solid black ;">Expenses Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tab of ArrayProjectExpensesDrawerDataSaveInTable;">
+                                            <td style="border: 1px solid black ;">{{ tab.PROJECT }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.SPONSORSHIP_DATE }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.AMOUNT }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.EXPENSES_DETAILS }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div nz-row *ngIf="data.SWITCH_WEEKCELE==true">
+                        <div style="width:100%">
+                            <div style="display: flex;">
+                                <div style="width:100%">
+                                    <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                                        margin-left: 10px;">
+                                        6) Whether it improved Giants image in the City
+                                        <b>&nbsp;&nbsp;&nbsp;&nbsp;{{data.IMAGE_IN_PUBLIC}}&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                        <p
+                                            style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-row *ngIf="ArrayDescriptionOfWeekSaveInTable.length > 0">
+                        <div style="width:100%">
+                            <div style="display: flex;">
+                                <div style="width:100%">
+                                    <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                        margin-left: 10px;">
+                                        7) Brief Description of the week : Annexure 'D' &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <div nz-row [nzGutter]="8">
+                                <div nz-col nzSpan="24">
+                                    <table
+                                        style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border: 1px solid black ;">Date</th>
+                                                <th style="border: 1px solid black ;">Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tab of ArrayDescriptionOfWeekSaveInTable;">
+                                                <td style="border: 1px solid black ;">{{ tab.DATE }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.DESCRIPTION }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div nz-row *ngIf="ArrayPublicitySaveInTable.length > 0">
+                        <div style="width:100%">
+                            <div style="display: flex;">
+                                <div style="width:100%">
+                                    <div style="color:#0b1113; margin-bottom: 1px;font-size: 13px;
+                                            margin-left: 10px;">
+                                        8) Publicity with press clippings & photographs with
+                                        banner : Annexure 'E'
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <div nz-row [nzGutter]="8">
+                                <div nz-col nzSpan="24">
+                                    <table
+                                        style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border: 1px solid black ;">Title</th>
+                                                <th style="border: 1px solid black ;">Newspaper Name</th>
+                                                <th style="border: 1px solid black ;">Photo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tab of ArrayPublicitySaveInTable;">
+                                                <td style="border: 1px solid black ;">{{ tab.TITLE }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.NEWS_PAPER_NAME }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.PHOTO_URL }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div
+                        style="color:rgb(32, 32, 32);font-weight: bolder;font-size: 14px;padding-bottom: 5px;margin-left: 15px;">
+                        I, undersigned, being President/Director of Administration of the Giants Group
+                        of ………………..hereby, certify that the information contained is true to the best of my
+                        knowledge and belief.
+                    </div>
+                    <div style="display:inline-flex;width: 100%;margin-top: 10px;">
+                        <div style="width: 30%;padding-top: 30px;text-align: center;">
+                            <b>Date:</b>
+                            {{data.CREATED_DATE}}
+                        </div>
+                        <div style="width: 30%;">
+                            <div
+                                style="width:80px; height:80px;border-radius:50%;border:1px solid grey;margin:0px auto; ">
+                            </div>
+                        </div>
+                        <div style="width: 30%;text-align: center;padding-top: 30px;">
+                            <b>President / Director of Adm.</b>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+                <div *ngIf="ArrayDateAndScheduleSaveInTable.length > 0">
+                    <div style="page-break-after: always;"></div>
+                    <div
+                        style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                        Annexure A</div>
+                    <div nz-row>
+                        <div style="width:100%">
+                            <div nz-row [nzGutter]="8">
+                                <div nz-col nzSpan="24">
+                                    <table
+                                        style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border: 1px solid black ;">Date</th>
+                                                <th style="border: 1px solid black ;">Schedule</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tab of ArrayDateAndScheduleSaveInTable;">
+                                                <td style="border: 1px solid black ;">{{ tab.DATE }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.SCHEDULE }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="ArrayProjectDuringServiceDrawerDataSaveInTable.length > 0">
+                    <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+                    <div style="page-break-after: always;"></div>
+                    <div
+                        style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                        Annexure B</div>
+                    <div nz-row>
+                        <div style="width:100%">
+                            <div nz-row [nzGutter]="8">
+                                <div nz-col nzSpan="24">
+                                    <table
+                                        style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border: 1px solid black ;">Project Title</th>
+                                                <th style="border: 1px solid black ;">Photo 1</th>
+                                                <th style="border: 1px solid black ;">Photo 2</th>
+                                                <th style="border: 1px solid black ;">Photo 3</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tab of ArrayProjectDuringServiceDrawerDataSaveInTable;">
+                                                <td style="border: 1px solid black ;">{{ tab.PROJECT_TITLE }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.PHOTO_URL_1 }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.PHOTO_URL_2 }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.PHOTO_URL_3 }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div nz-row [nzGutter]="8" *ngIf="ArrayProjectDuringServiceDrawerDataSaveInTable.length > 0">
+                    <div style="width:100%">
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                            margin-left: 10px;">
+                                    Uploaded Project During Services Images :
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-row *ngFor="let data of ArrayProjectDuringServiceDrawerDataSaveInTable">
+                        <div nz-col [nzSpan]="24" style="font-weight: bold; margin-top: 40px;margin-bottom: -20;"
+                            *ngIf="data.PHOTO_URL_1!=' ' && data.PHOTO_URL_1!=null">
+                            &nbsp;&nbsp;&nbsp;Photo 1 <br>
+                            &nbsp;&nbsp;&nbsp; <a href="{{PhotoUrl}}/{{data.PHOTO_URL_1}}" target="_blank">
+                                <img src="{{PhotoUrl}}/{{data.PHOTO_URL_1}}" target="_blank"
+                                    style=" width:100%; height:400px"><br>
+                            </a>
+                        </div><br>
+                        <div nz-col [nzSpan]="24" style="font-weight: bold;margin-top: 40px;margin-bottom: -20;"
+                            *ngIf="data.PHOTO_URL_2!=' ' && data.PHOTO_URL_2!=null">
+                            &nbsp;&nbsp;&nbsp; Photo 2 <br>
+                            &nbsp;&nbsp;&nbsp; <a href="{{PhotoUrl}}/{{data.PHOTO_URL_2}}" target="_blank">
+                                <img src="{{PhotoUrl}}/{{data.PHOTO_URL_2}}" target="_blank"
+                                    style=" width:100%; height:400px"><br>
+                            </a>
+                        </div><br>
+                        <div nz-col [nzSpan]="24" style="font-weight: bold;margin-top: 40px;margin-bottom: -20;"
+                            *ngIf="data.PHOTO_URL_3!=' '&& data.PHOTO_URL_3!=null">
+                            &nbsp;&nbsp;&nbsp; Photo 3<br>
+                            &nbsp;&nbsp;&nbsp; <a href="{{PhotoUrl}}/{{data.PHOTO_URL_3}}" target="_blank">
+                                <img src="{{PhotoUrl}}/{{data.PHOTO_URL_3}}" target="_blank"
+                                    style=" width:100%; height:400px"><br>
+                            </a>
+                        </div><br>
+                    </div>
+                </div>
+                <div *ngIf="ArrayProjectExpensesDrawerDataSaveInTable.length > 0">
+                    <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+                    <div style="page-break-after: always;"></div>
+                    <div
+                        style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                        Annexure C</div>
+                    <div style="width:100%">
+                        <div nz-row [nzGutter]="8">
+                            <div nz-col nzSpan="24">
+                                <table style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                    <thead>
+                                        <tr>
+                                            <th style="border: 1px solid black ;">Project</th>
+                                            <th style="border: 1px solid black ;">Sponsorship Date</th>
+                                            <th style="border: 1px solid black ; width: 110px;">Amount (Rs.)</th>
+                                            <th style="border: 1px solid black ;">Expenses Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tab of ArrayProjectExpensesDrawerDataSaveInTable;">
+                                            <td style="border: 1px solid black ;">{{ tab.PROJECT }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.SPONSORSHIP_DATE }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.AMOUNT }}</td>
+                                            <td style="border: 1px solid black ;">{{ tab.EXPENSES_DETAILS }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="ArrayDescriptionOfWeekSaveInTable.length > 0">
+                    <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+                    <div style="page-break-after: always;"></div>
+                    <div
+                        style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                        Annexure D</div>
+                    <div nz-row>
+                        <div style="width:100%">
+                            <div nz-row [nzGutter]="8">
+                                <div nz-col nzSpan="24">
+                                    <table
+                                        style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border: 1px solid black ;">Date</th>
+                                                <th style="border: 1px solid black ;">Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tab of ArrayDescriptionOfWeekSaveInTable;">
+                                                <td style="border: 1px solid black ;">{{ tab.DATE }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.DESCRIPTION }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="ArrayPublicitySaveInTable.length > 0">
+                    <p style="display: flex;border-bottom: 1px solid rgb(39, 38, 38) ;padding-bottom: 5px;"> </p>
+                    <div style="page-break-after: always;"></div>
+                    <div
+                        style="color:black;text-align: center;font-weight: bolder;font-size: 20px;padding-bottom: 5px;">
+                        Annexure E</div>
+                    <div nz-row>
+                        <div style="width:100%">
+                            <div nz-row [nzGutter]="8">
+                                <div nz-col nzSpan="24">
+                                    <table
+                                        style="overflow:none;width: 100%;text-align: center;border: 2px solid black ;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border: 1px solid black ;">Title</th>
+                                                <th style="border: 1px solid black ;">Newspaper Name</th>
+                                                <th style="border: 1px solid black ;">Photo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tab of ArrayPublicitySaveInTable;">
+                                                <td style="border: 1px solid black ;">{{ tab.TITLE }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.NEWS_PAPER_NAME }}</td>
+                                                <td style="border: 1px solid black ;">{{ tab.PHOTO_URL }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div nz-row *ngFor="let data of ArrayPublicitySaveInTable">
+                    <div nz-col style="font-weight: bold;margin-top: 40px;margin-bottom: -20;" [nzSpan]="24"
+                        *ngIf="data.PHOTO_URL!=' ' && data.PHOTO_URL!=null">
+                        &nbsp;&nbsp;&nbsp;Photo<br>
+                        &nbsp;&nbsp;&nbsp; <a href="{{PhotoUrl2}}/{{data.PHOTO_URL}}" target="_blank">
+                            <img src="{{PhotoUrl2}}/{{data.PHOTO_URL}}" target="_blank"
+                                style=" width:100%; height:400px"><br>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint
+            (click)="handleCancel()">Print</button>
+    </ng-template>
+</nz-modal>

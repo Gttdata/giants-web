@@ -1,0 +1,70 @@
+<div class="header">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+</div>
+
+<form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-table class="my-scroll no-wrap1" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+                    [nzFrontPagination]="false" [nzData]="feeDetails" [nzLoading]="loadingRecords"
+                    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+                    <thead>
+                        <tr>
+                            <th nzLeft="0px" nzWidth="280px"><b>Fee Type</b></th>
+                            <th nzLeft="280px"><b>Joining Quarter</b></th>
+                            <th nzWidth="130px"><b>International Saheli's Fee</b></th>
+                            <th nzWidth="130px"><b>Group Saheli's Fee</b><br></th>
+                            <th nzWidth="130px"><b>International Main's Fee</b></th>
+                            <th nzWidth="130px"><b>Group Main's Fee</b><br> </th>
+                            <th nzWidth="130px"><b>International Young's Fee</b></th>
+                            <th nzWidth="130px"><b>Group Young's Fee</b><br></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let data of table.data; let i = index;">
+                            <td nzLeft="0px" nzWidth="280px" align="left">{{data.FEE_TYPE}}</td>
+                            <td nzLeft="280px" align="center">{{data.QUARTER}}</td>
+
+                            <td align="right">
+                                <span style="color: blue; font-weight: bold;"
+                                    *ngIf="internationalFeeStructure.length > 0">
+                                    {{internationalFeeStructure[i]["SAHELI"]}}
+                                </span>
+                            </td>
+
+                            <td nzWidth="130px" align="right">{{data.SAHELI}}</td>
+
+                            <td align="right">
+                                <span style="color: blue; font-weight: bold;"
+                                    *ngIf="internationalFeeStructure.length > 0">
+                                    {{internationalFeeStructure[i]["NORMAL"]}}
+                                </span>
+                            </td>
+
+                            <td nzWidth="130px" align="right">{{data.NORMAL}}</td>
+
+                            <td align="right">
+                                <span style="color: blue; font-weight: bold;"
+                                    *ngIf="internationalFeeStructure.length > 0">
+                                    {{internationalFeeStructure[i]["YOUNG"]}}
+                                </span>
+                            </td>
+
+                            <td nzWidth="130px" align="right">{{data.YOUNG}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </nz-spin>
+</form>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+        <span>Cancel</span>
+    </button>
+</div>

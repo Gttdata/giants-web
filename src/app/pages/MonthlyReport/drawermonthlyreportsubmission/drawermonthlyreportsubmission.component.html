@@ -1,0 +1,3181 @@
+<div class="header1">
+  <button nz-button type="button" class="ant-btn" (click)="FetchOldData()" [nzLoading]="isEvenSpining"
+    style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;">
+    Fetch Data
+  </button>
+</div>
+
+<form nz-form #myForm="ngForm">
+  <div nz-row nzGutter="10">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Membership</nz-form-label>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>At Close of Last Month</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No. of Member Close of Last Month">
+                <nz-input-group style="width: 100%;" nzAddOnAfter="No's">
+                  <span class="td-left">
+                    <input nz-input placeholder="Member Count" name="noofmember1" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.MEMBERSHIP_CLOSED_LAST_MONTH" (ngModelChange)="SumofMembers()" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1">
+            <div style="text-align: center;">
+              <nz-form-item>
+                <nz-form-label nzNoColon></nz-form-label>
+
+                <nz-form-control>
+                  <b>+</b>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Added During the Month</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No. of Member Added During the Month">
+                <nz-input-group style="width: 100%;" nzAddOnAfter="No's">
+                  <span class="td-left">
+                    <input nz-input placeholder="Member Count" name="noofmember2"
+                      [(ngModel)]="data.MEMBERSHIP_ADDED_DURING_MONTH" (ngModelChange)="SumofMembers()"
+                      (keypress)="numberOnly($event)" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1">
+            <div style="text-align: center;">
+              <nz-form-item>
+                <nz-form-label nzNoColon></nz-form-label>
+
+                <nz-form-control>
+                  <b>-</b>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Dropped During the Month</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No. of Member Dropped During the Month">
+                <nz-input-group style="width: 100%;" nzAddOnAfter="No's">
+                  <span class="td-left">
+                    <input nz-input placeholder="Member Count" name="noofmember3"
+                      [(ngModel)]="data.MEMBERSHIP_DROPED_DURING_MONTH" (ngModelChange)="SumofMembers()"
+                      (keypress)="numberOnly($event)" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1">
+            <div style="text-align: center;">
+              <nz-form-item>
+                <nz-form-label nzNoColon></nz-form-label>
+
+                <nz-form-control>
+                  <b>=</b>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>At Close of This Month</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No. of Member Close of This Month">
+                <nz-input-group style="width: 100%;" nzAddOnAfter="No's">
+                  <span class="td-left">
+                    <input nz-input placeholder="0" name="noofmember4" [(ngModel)]="data.MEMBERSHIP_CLOSED_THIS_MONTH"
+                      (keypress)="numberOnly($event)" required disabled />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 30px;">
+          <div style="font-weight: bold;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Member Added</nz-form-label>
+            </nz-form-item>
+          </div>
+
+          <div style="font-weight: bold;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Member Dropped</nz-form-label>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div style="padding-right: 10px;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-table nzBordered #addedMemberTable [nzHideOnSinglePage]="true" [nzData]="addedMemberArray"
+              [nzLoading]="isMemberLoading">
+              <thead>
+                <tr>
+                  <th><b>Sr. No.</b></th>
+                  <th><b>Member Name</b></th>
+                  <th><b>Address</b></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let memberData of addedMemberTable.data; let i = index;">
+                  <td class="td-center">
+                    {{i+1}}
+                  </td>
+
+                  <td>
+                    {{memberData.NAME}}
+                  </td>
+
+                  <td>
+                    {{memberData.ADDRESS1}}
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-table nzBordered #droppedMemberTable [nzHideOnSinglePage]="true" [nzData]="droppedMemberArray"
+              [nzLoading]="isDroppedMemberLoading">
+              <thead>
+                <tr>
+                  <th><b>Sr. No.</b></th>
+                  <th><b>Member Name</b></th>
+                  <th><b>Address</b></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let memberData of droppedMemberTable.data; let i = index;">
+                  <td class="td-center">
+                    {{i+1}}
+                  </td>
+
+                  <td>
+                    {{memberData.NAME}}
+                  </td>
+
+                  <td>
+                    {{memberData.ADDRESS1}}
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Member Subscription</nz-form-label>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>January-June</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No.of Members Between January-June">
+                <nz-input-group nzAddOnAfter="No's" style="width: 70%;">
+                  <span class="td-left">
+                    <input nz-input placeholder="Member Count" name="jantojun" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.MEMSUB_JANTOJUNE" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>July-December</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No.of Members Between July-December">
+                <nz-input-group nzAddOnAfter="No's" style="width: 70%;">
+                  <span class="td-left">
+                    <input nz-input placeholder="Member Count" name="julytodec" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.MEMSUB_JULYTODEC" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Subscription Fee</nz-form-label>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>No. of Members</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No.of Members">
+                <nz-input-group style="width: 70%;" nzAddOnAfter="No's">
+                  <span class="td-left">
+                    <input nz-input placeholder="Enter No." name="noofmem1" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.NO_OF_SUB_MEMBER" (ngModelChange)="TotalSubscriptionAmount()" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Rs./ Member</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Rs/Member">
+                <nz-input-group style="width: 70%;" nzAddOnBefore="Rs.">
+                  <span class="td-right">
+                    <input nz-input placeholder="Enter Rs." name="rspermember" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.PER_MEMBER_SUB_FEES" (ngModelChange)="TotalSubscriptionAmount()" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Total Rs.</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Total Rupees">
+                <nz-input-group style="width: 70%;" nzAddOnBefore="Rs.">
+                  <span class="td-right">
+                    <input nz-input placeholder="0" name="totalrs" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.TOTAL_SUB_FEES" required disabled />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Entrance Fee</nz-form-label>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>No. of Members</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter No.of Members">
+                <nz-input-group style="width: 70%;" nzAddOnAfter="No's">
+                  <span class="td-left">
+                    <input nz-input placeholder="Enter No." name="noofenterncemembers" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.NO_OF_ENTERENCE_MEMBER" (ngModelChange)="TotalEnterenceAmount()" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Rs./ Member</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Rs/Member">
+                <nz-input-group style="width: 70%;" nzAddOnBefore="Rs.">
+                  <span class="td-right">
+                    <input nz-input placeholder="Enter Rs." name="noofenterencers" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.PER_MEMBER_ENTERENCE_FEES" (ngModelChange)="TotalEnterenceAmount()" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Total Rs.</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Total Rupees">
+                <nz-input-group style="width: 70%;" nzAddOnBefore="Rs.">
+                  <span class="td-right">
+                    <input nz-input placeholder="0" name="totalenterencers" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.TOTAL_ENTERENCE_FEES" required disabled />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <!-- <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Amount Paid</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Paid Amount">
+                <nz-input-group style="width: 70%;" nzAddOnBefore="Rs.">
+                  <span class="td-right">
+                    <input nz-input placeholder="Enter Amount" name="paidamount" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.PAID_AMOUNT" required />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div> -->
+
+          <!-- <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>DD/ Cheque No.</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter DD/ Cheque No.">
+                <span class="td-right">
+                  <input style="width: 70%;" nz-input placeholder="DD/ Cheque No." name="ddorchequeno"
+                    [(ngModel)]="data.CHEQUE_DD_NO" required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div> -->
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Total Rs.</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Total Rupees">
+                <nz-input-group style="width: 70%;" nzAddOnBefore="Rs.">
+                  <span class="td-right">
+                    <input nz-input placeholder="0" name="totalrs1" (keypress)="numberOnly($event)"
+                      [(ngModel)]="data.TOTAL_AMOUNT" required disabled />
+                  </span>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Drawn On</nz-form-label>
+
+              <nz-form-control>
+                <nz-date-picker name="drawnOnDate" nzFormat="dd/MM/yyyy" [(ngModel)]="DRAWN_ON_DATE">
+                </nz-date-picker>
+
+                &nbsp;
+
+                <button nz-button style="color: #47a7ff; border: solid 1px #47a7ff;" nzType="default" nzShape="circle"
+                  (click)="addDrawnOnDates()">
+                  <span nz-icon nzType="plus"></span>
+                </button>
+              </nz-form-control>
+
+              <nz-form-control nzErrorTip="Select the Date">
+                <nz-select name="drawnOnDates" nzShowSearch nzMode="tags" [nzMaxTagCount]="5" style="width: 100%"
+                  nzPlaceHolder="Drawn On Date(s)" (ngModelChange)="removeFromDates($event)" [(ngModel)]="data.DRAWN_ON"
+                  required>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Remitted On</nz-form-label>
+
+              <nz-form-control nzErrorTip="Select the Date">
+                <span class="td-left">
+                  <nz-date-picker name="memberpresentyear" nzPlaceHolder="Select Date" style="width: 70%;"
+                    [(ngModel)]="data.REMITTED_ON" nzFormat="dd/MM/yyyy" required>
+                  </nz-date-picker>
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold; padding-top: 10px;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Payment Details</nz-form-label>
+            </nz-form-item>
+          </div>
+
+          <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button type="button" class="ant-btn" nzTooltipTitle="Show Payment" nzTooltipPlacement="top"
+                  (click)="showPayment()"
+                  style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;">
+                  <span>Payment History</span>
+                </button>
+
+                <button nz-button type="button" class="ant-btn" nzTooltipTitle="Add Payment" nzTooltipPlacement="top"
+                  (click)="addpayment()"
+                  style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;">
+                  <span>+Add Payment</span>
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-table #paymentTable nzBordered [nzHideOnSinglePage]="true" [nzData]="groupPaymentData"
+                [nzLoading]="loadingPaymentRecords">
+                <thead>
+                  <tr>
+                    <th><b>Transaction Date</b></th>
+                    <th><b>Mode</b></th>
+                    <th><b>Ref. No./ DD/ Cheque No.</b></th>
+                    <th style="width: 250px;"><b>Narration</b></th>
+                    <th><b>Paid Amount (Rs.)</b></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of paymentTable.data; let i = index;">
+                    <td class="td-center">
+                      {{data['DATE'] | date:'dd MMM yy'}}
+                    </td>
+
+                    <td class="td-center">
+                      <span>{{getPaymentMode(data.PAYMENT_TRANSACTION_MODE)}}</span>
+                    </td>
+
+                    <td class="td-left">
+                      <div>
+                        {{data['PAYMENT_REFERENCE_NO']}}
+                      </div>
+                    </td>
+
+                    <td class="td-left">
+                      <div style="width: 250px; text-align: justify; word-break: break-all;">
+                        {{data['NARRATION']}}
+                      </div>
+                    </td>
+
+                    <td class="td-right">
+                      <div>
+                        {{data['AMOUNT']}}/-
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Group Bank a/c Information</nz-form-label>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Administrative a/c No.</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Administrative a/c No.">
+                <span class="td-left">
+                  <input nz-input placeholder="Administrative a/c No." [(ngModel)]="data.ADMIN_ACCOUNT_NO"
+                    (keypress)="numberOnly($event)" name="adminaccountno" required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Administrative Bank Name</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Administrative Bank Name">
+                <span class="td-left">
+                  <input nz-input placeholder="Bank Name" name="adminbankname" [(ngModel)]="data.ADMIN_BANK_NAME"
+                    required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Administrative Branch Name</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Administrative Branch Name">
+                <span class="td-left">
+                  <input nz-input placeholder="Branch Name" name="branchname" [(ngModel)]="data.ADMIN_BRANCH_NAME"
+                    required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Project a/c No.</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Project a/c No.">
+                <span class="td-left">
+                  <input nz-input placeholder="Project a/c No." name="projectaccountno"
+                    [(ngModel)]="data.PROJECT_ACCOUNT_NO" (keypress)="numberOnly($event)" required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Project Bank Name</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Project Bank Name">
+                <span class="td-left">
+                  <input nz-input placeholder="Bank Name" name="projectbankname" [(ngModel)]="data.PROJECT_BANK_NAME"
+                    required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Project Branch Name</nz-form-label>
+
+              <nz-form-control nzErrorTip="Enter Project Branch Name">
+                <span class="td-left">
+                  <input nz-input placeholder="Branch Name" name="projectbranchname"
+                    [(ngModel)]="data.PROJECT_BRANCH_NAME" required />
+                </span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold; padding-top: 10px;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Meeting of Board Members</nz-form-label>
+            </nz-form-item>
+          </div>
+
+          <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top" class="ant-btn"
+                  (click)="addNewMeeting('B')"
+                  style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;">
+                  <span>+Add New</span>
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-table #boardMeetingTable nzBordered [nzHideOnSinglePage]="true" [nzData]="boardMeetingArray"
+                [nzLoading]="isBoardMeetingSpining">
+                <thead>
+                  <tr>
+                    <th style="width: 150px;"><b>Action</b></th>
+                    <th style="width: 120px;"><b>Meeting <br> Date</b></th>
+                    <th style="width: 750px;"><b>Meeting Subject</b></th>
+                    <th style="width: 100px;"><b>Present Members</b></th>
+                    <th style="width: 100px;"><b>Out of Members</b></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of boardMeetingTable.data; let i = index;">
+                    <td style="width: 150px;" class="td-center">
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="meetingPreviewModalOpen(data)">
+                        <i nz-icon nzType="eye" nzTheme="outline"></i>
+                        Preview
+                      </div>
+
+                      <div *ngIf="data.STATUS == 'D'" style="font-size: 12px; cursor: pointer; color: blue;"
+                        nz-popconfirm nzPopconfirmTitle="Are you sure publish this meeting?"
+                        (nzOnConfirm)="publishBoardMeeting(data)" (nzOnCancel)="cancel()"
+                        nzPopconfirmPlacement="topLeft">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Publish
+                      </div>
+
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="meetingEditInPartially(data,'B')">
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        Edit
+                      </div>
+
+                      <div nz-popconfirm nzPopconfirmTitle="Are you sure delete this meeting?"
+                        (nzOnConfirm)="deleteMeeting(data,'B')" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft"
+                        style="font-size: 12px; cursor: pointer; color: red;">
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        Delete
+                      </div>
+
+                      <div *ngIf="!data.IS_INVITION_SEND" style="font-size: 12px; cursor: pointer; color: blue;"
+                        (click)="mapInvitees(data,'B')">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Map Invitees
+                      </div>
+
+                      <div *ngIf="(data.IS_INVITION_SEND) && (!data.IS_ATTENDANCE_MARKED)"
+                        style="font-size: 12px; cursor: pointer; color: blue;" (click)="markAttendies(data,'B')">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Mark Attendance
+                      </div>
+
+                      <div *ngIf="(data.IS_INVITION_SEND) && (data.IS_ATTENDANCE_MARKED)"
+                        style="font-size: 12px; cursor: pointer; color: blue;" (click)="viewAttendancies(data)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        View Attendance
+                      </div>
+
+                      <div
+                        *ngIf="(data.IS_INVITION_SEND) && (data.IS_ATTENDANCE_MARKED) && ((data.MINUTES.trim() == '') || (data.PHOTO1.trim() == ''))"
+                        style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="uploadMeetingMinutes(data,'B')">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Update Minutes
+                      </div>
+                    </td>
+
+                    <td style="width: 120px;" class="td-center">
+                      {{data['DATE'] | date: 'dd MMM yy'}}
+                    </td>
+
+                    <td class="td-left">
+                      <div>
+                        <nz-tag [nzColor]="'green'" style="font-size: 10px;">
+                          {{getStatus(data['STATUS'])}}
+                        </nz-tag>
+                      </div>
+
+                      <div style="width: 750px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        {{data['MEETING_SUB']}}
+                      </div>
+                    </td>
+
+                    <td class="td-center" style="width: 100px;">
+                      {{data.MEETING_ATTENDANCE ? data.MEETING_ATTENDANCE : '-'}}
+                    </td>
+
+                    <td class="td-center" style="width: 100px;">
+                      {{data.INVITEES ? data.INVITEES : '-'}}
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold; padding-top: 10px;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Meeting of Group Members</nz-form-label>
+            </nz-form-item>
+          </div>
+
+          <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top" class="ant-btn "
+                  (click)="addNewMeeting('G')"
+                  style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;">
+                  <span>+Add New</span>
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-table #MeetingTable nzBordered [nzHideOnSinglePage]="true" [nzData]="meetingArray"
+                [nzLoading]="isMeetingSpining">
+                <thead>
+                  <tr>
+                    <th style="width: 150px;"><b>Action</b></th>
+                    <th style="width: 120px;"><b>Meeting <br> Date</b></th>
+                    <th style="width: 750px;"><b>Meeting Subject</b></th>
+                    <th style="width: 100px;"><b>Present Members</b></th>
+                    <th style="width: 100px;"><b>Out of Members</b></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of MeetingTable.data; let i = index">
+                    <td style="width: 150px;" class="td-center">
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="meetingPreviewModalOpen(data)">
+                        <i nz-icon nzType="eye" nzTheme="outline"></i>
+                        Preview
+                      </div>
+
+                      <div *ngIf="data.STATUS == 'D'" style="font-size: 12px; cursor: pointer; color: blue;"
+                        nz-popconfirm nzPopconfirmTitle="Are you sure publish this meeting?"
+                        (nzOnConfirm)="publishGroupMemberMeeting(data)" (nzOnCancel)="cancel()"
+                        nzPopconfirmPlacement="topLeft">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Publish
+                      </div>
+
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="meetingEditInPartially(data,'G')">
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        Edit
+                      </div>
+
+                      <div nz-popconfirm nzPopconfirmTitle="Are you sure delete this meeting?"
+                        (nzOnConfirm)="deleteMeeting(data,'G')" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft"
+                        style="font-size: 12px; cursor: pointer; color: red;">
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        Delete
+                      </div>
+
+                      <div *ngIf="!data.IS_INVITION_SEND" style="font-size: 12px; cursor: pointer; color: blue;"
+                        (click)="mapInvitees(data,'G')">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Map Invitees
+                      </div>
+
+                      <div *ngIf="(data.IS_INVITION_SEND) && (!data.IS_ATTENDANCE_MARKED)"
+                        style="font-size: 12px; cursor: pointer; color: blue;" (click)="markAttendies(data,'G')">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Mark Attendance
+                      </div>
+
+                      <div *ngIf="(data.IS_INVITION_SEND) && (data.IS_ATTENDANCE_MARKED)"
+                        style="font-size: 12px; cursor: pointer; color: blue;" (click)="viewAttendancies(data)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        View Attendance
+                      </div>
+
+                      <div
+                        *ngIf="(data.IS_INVITION_SEND) && (data.IS_ATTENDANCE_MARKED) && ((data.MINUTES.trim() == '') || (data.PHOTO1.trim() == ''))"
+                        style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="uploadMeetingMinutes(data,'G')">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Update Minutes
+                      </div>
+                    </td>
+
+                    <td style="width: 120px;" class="td-center">
+                      {{data['DATE'] | date: 'dd MMM yy'}}
+                    </td>
+
+                    <td class="td-left">
+                      <div>
+                        <nz-tag [nzColor]="'green'" style="font-size: 10px;">
+                          {{getStatus(data['STATUS'])}}
+                        </nz-tag>
+                      </div>
+
+                      <div style="width: 750px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        {{data['MEETING_SUB']}}
+                      </div>
+                    </td>
+
+                    <td class="td-center" style="width: 100px;">
+                      {{data.MEETING_ATTENDANCE ? data.MEETING_ATTENDANCE : '-'}}
+                    </td>
+
+                    <td class="td-center" style="width: 100px;">
+                      {{data.INVITEES ? data.INVITEES : '-'}}
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold; padding-top: 10px;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Monumental Projects of The Month</nz-form-label>
+            </nz-form-item>
+          </div>
+
+          <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top" class="ant-btn"
+                  (click)="addNewProject()"
+                  style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;">
+                  <span>+Add New</span>
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-table #ProjectTable nzBordered [nzHideOnSinglePage]="true" [nzData]="projectArray"
+                [nzLoading]="isProjectSpining">
+                <thead>
+                  <tr>
+                    <th style="width: 80px;"><b>Action</b></th>
+                    <th><b>Implementation <br> Date</b></th>
+                    <th style="width: 750px;"><b>Project Name</b></th>
+                    <th><b>Project cost (Rs.)</b></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of ProjectTable.data; let i = index">
+                    <td style="width: 80px;" class="td-center">
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="projectPreviewModalOpen(data)">
+                        <i nz-icon nzType="eye" nzTheme="outline"></i>
+                        Preview
+                      </div>
+
+                      <div *ngIf="data.STATUS == 'D'" style="font-size: 12px; cursor: pointer; color: blue;"
+                        nz-popconfirm nzPopconfirmTitle="Are you sure publish this project?"
+                        (nzOnConfirm)="publishProject(data)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Publish
+                      </div>
+
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="projectEditInPartially(data)">
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        Edit
+                      </div>
+
+                      <div nz-popconfirm nzPopconfirmTitle="Are you sure delete this project?"
+                        (nzOnConfirm)="deleteProject(data)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft"
+                        style="font-size: 12px; cursor: pointer; color: red;">
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        Delete
+                      </div>
+                    </td>
+
+                    <td class="td-center">
+                      {{data['DATE_OF_PROJECT'] | date: 'dd MMM yy'}}
+                    </td>
+
+                    <td class="td-left">
+                      <div>
+                        <nz-tag [nzColor]="'green'" style="font-size: 10px;">
+                          {{getStatus(data['STATUS'])}}
+                        </nz-tag>
+                      </div>
+
+                      <div style="width: 750px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        {{data.PROJECT_NAME}}
+                      </div>
+                    </td>
+
+                    <td class="td-right">
+                      {{data.TOTAL_EXPENSES}}/-
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-box">
+        <div nz-row>
+          <div style="font-weight: bold; padding-top: 10px;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-label nzNoColon>Events of The Month</nz-form-label>
+            </nz-form-item>
+          </div>
+
+          <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top" class="ant-btn "
+                  (click)="addNewEvent()"
+                  style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;">
+                  <span>+Add New</span>
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-form-item>
+              <nz-table #eventTable nzBordered [nzHideOnSinglePage]="true" [nzData]="eventArray"
+                [nzLoading]="isEvenSpining">
+                <thead>
+                  <tr>
+                    <th><b>Action</b></th>
+                    <th><b>Event Date</b></th>
+                    <th style="width: 750px;"><b>Event Name</b></th>
+                    <th style="width: 100px;"><b>Present Members</b></th>
+                    <th style="width: 100px;"><b>Out of Members</b></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of eventTable.data; let i = index;">
+                    <td class="td-center">
+                      <div style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="eventPreviewModalOpen(data)">
+                        <i nz-icon nzType="eye" nzTheme="outline"></i>
+                        Preview
+                      </div>
+
+                      <div *ngIf="data.STATUS == 'D'" style="font-size: 12px; cursor: pointer; color: blue;"
+                        nz-popconfirm nzPopconfirmTitle="Are you sure publish this event?"
+                        (nzOnConfirm)="publishEvent(data)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Publish
+                      </div>
+
+                      <div style="font-size: 12px; cursor: pointer; color: green;" (click)="eventEditInPartially(data)">
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        Edit
+                      </div>
+
+                      <div nz-popconfirm nzPopconfirmTitle="Are you sure delete this event?"
+                        (nzOnConfirm)="deleteEvent(data)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft"
+                        style="font-size: 12px; cursor: pointer; color: red;">
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        Delete
+                      </div>
+
+                      <div *ngIf="!data.IS_INVITION_SEND" style="font-size: 12px; cursor: pointer; color: blue;"
+                        (click)="mapEventInvities(data)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Map Invitees
+                      </div>
+
+                      <div *ngIf="(data.IS_INVITION_SEND) && (!data.IS_ATTENDANCE_MARKED)"
+                        style="font-size: 12px; cursor: pointer; color: blue;" (click)="markEventAttendance(data)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Mark Attendance
+                      </div>
+
+                      <div *ngIf="(data.IS_INVITION_SEND) && (data.IS_ATTENDANCE_MARKED)"
+                        style="font-size: 12px; cursor: pointer; color: blue;" (click)="viewEventAttendance(data)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        View Attendance
+                      </div>
+
+                      <div
+                        *ngIf="(data.IS_INVITION_SEND) && (data.IS_ATTENDANCE_MARKED) && (((data.BENIFICIERY_DETAILS) && (data.BENIFICIERY_DETAILS.trim() == '')) || (data.PHOTO1.trim() == ''))"
+                        style="font-size: 12px; cursor: pointer; color: green;"
+                        (click)="eventEditInPartially(data,true)">
+                        <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                        Update Beneficiary Details
+                      </div>
+                    </td>
+
+                    <td class="td-center">
+                      {{data['DATE'] | date: 'dd MMM yy'}}
+                    </td>
+
+                    <td class="td-left">
+                      <div>
+                        <nz-tag [nzColor]="'green'" style="font-size: 10px;">
+                          {{getStatus(data['STATUS'])}}
+                        </nz-tag>
+                      </div>
+
+                      <div style="width: 750px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        {{data.EVENT_NAME}}
+                      </div>
+                    </td>
+
+                    <td class="td-center" style="width: 100px;">
+                      {{data.EVENT_ATTENDANCE ? data.EVENT_ATTENDANCE : '-'}}
+                    </td>
+
+                    <td class="td-center" style="width: 100px;">
+                      {{data.INVITEES ? data.INVITEES : '-'}}
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="footer">
+  <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+    <span>Cancel</span>
+  </button>
+
+  <button type="button" nz-button class="ant-btn ant-btn-primary" style="margin-right: 8px;" [nzLoading]="isSpinning"
+    *ngIf="data.IS_SUBMITED != 'S'" (click)="save(false,myForm)">
+    <span>Save As Draft & Close</span>
+  </button>
+
+  <button type="button" nz-button class="ant-btn ant-btn-primary" style="margin-right: 8px;" [nzLoading]="isSpinning"
+    *ngIf="data.IS_SUBMITED != 'S'" (click)="ApplySubmit(myForm)">
+    <span>Submit & Close</span>
+  </button>
+
+  <button type="button" nz-button class="ant-btn ant-btn-primary" [nzLoading]="isSpinning" (click)="ViewReport()">
+    <span>Preview</span>
+  </button>
+</div>
+
+<!-- Monthly reporting preview -->
+<nz-modal nzWidth="1000px" [nzStyle]="{ top: '20px' }" [(nzVisible)]="isVisible" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+  <ng-template #modalTitle>
+    {{modalHeader}}
+  </ng-template>
+
+  <ng-template #modalContent>
+    <div id="print" style="height: 470px; overflow: auto; page-break-after: always; padding: 5px;">
+      <div style="border: 1px solid black; padding-left: 20px; padding-right: 20px;">
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <div style="text-align: center;">
+              <img src="assets/logo1.png" height="60px" width="60px">
+            </div>
+          </div>
+
+          <div nz-col nzSpan="24">
+            <div style="text-align: center; color: red; font-size: 25px;">
+              <b>{{monthlyReportingTitle}}</b>
+            </div>
+          </div>
+
+          <div nz-col nzSpan="24">
+            <div style="text-align: center;">
+              <b style="color: blue; font-size: 20px;">Group Monthly Reporting</b><br>
+              <b style="color: gray; font-size: 16px;">{{reportHeader}}</b>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid black; margin: 5px;"></div>
+
+        <div nz-row>
+          <div nz-col nzSpan="12" style="padding: 3px 0px 3px 0px;">
+            <span style="font-weight: bold;">Group Name : </span>
+
+            <span style="color: red; padding-right: 10px;">
+              {{data['GROUP_NAME']}}
+            </span>
+          </div>
+
+          <div nz-col nzSpan="6" style="padding: 3px 0px 3px 0px;">
+            <span style="font-weight: bold;">Br. No. : </span>
+
+            <span style="color: red; padding-right: 10px;"></span>
+          </div>
+
+          <div nz-col nzSpan="6" style="padding: 3px 0px 3px 0px;">
+            <span style="font-weight: bold;">Unit No. : </span>
+
+            <span style="color: red; padding-right: 10px;">
+              {{data['UNIT_NAME']}}
+            </span>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzSpan="24" style="padding: 3px 0px 3px 0px;">
+            <span style="font-weight: bold;">Name of Administration : </span>
+
+            <span style="color: red; padding-right: 10px;">
+              {{data['SECRETORY_NAME']}}
+            </span>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzSpan="24" style="padding: 3px 0px 3px 0px;">
+            <span style="font-weight: bold;">Address : </span>
+
+            <span style="color: red; padding-right: 10px;"></span>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+              <tbody>
+                <tr>
+                  <td rowspan="2"
+                    style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                    <span style="color: red; font-weight: bolder; padding-right: 10px;">1.</span>Membership
+                  </td>
+
+                  <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                    At close of last Month
+                  </td>
+
+                  <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                    Added During the Month
+                  </td>
+
+                  <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                    Dropped During the Month
+                  </td>
+
+                  <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                    At close of This Month
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                    {{data['MEMBERSHIP_CLOSED_LAST_MONTH']}}
+                  </td>
+
+                  <td
+                    style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                    {{data['MEMBERSHIP_ADDED_DURING_MONTH']}}
+                  </td>
+
+                  <td
+                    style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                    {{data['MEMBERSHIP_DROPED_DURING_MONTH']}}
+                  </td>
+
+                  <td
+                    style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                    {{data['MEMBERSHIP_CLOSED_THIS_MONTH']}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzSpan="24" style="padding-top: 10px; padding-right: 2px;"
+            *ngIf="addedMemberArray && (addedMemberArray.length > 0)">
+
+            <div style="text-align: center; font-weight: bold;">
+              Annexure-A Members Added
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+              <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+                <thead style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                  <tr>
+                    <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                      Sr. No.
+                    </th>
+
+                    <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                      <b>Name</b>
+                    </th>
+
+                    <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                      <b>Address</b>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let memberData of addedMemberArray; let i = index;">
+                    <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td align="left"
+                      style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                      {{memberData.NAME}}
+                    </td>
+
+                    <td align="left" style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                      {{memberData.ADDRESS1 ? (memberData.ADDRESS1 + ',') : ''}}
+                      {{memberData.ADDRESS2 ? (memberData.ADDRESS2 + ',') : ''}}
+                      {{memberData.CITY ? (memberData.CITY + ',') : ''}}
+                      {{memberData.PINCODE}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div nz-col nzSpan="24" style="padding-top: 10px;"
+            *ngIf="droppedMemberArray && (droppedMemberArray.length > 0)">
+
+            <div style="text-align: center; font-weight: bold;">
+              Annexure-B Members Dropped
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+              <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+                <thead style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                  <tr>
+                    <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                      Sr. No.
+                    </th>
+
+                    <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                      <b>Name</b>
+                    </th>
+
+                    <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                      <b>Address</b>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let memberData of droppedMemberArray; let i = index;">
+                    <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td align="left"
+                      style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                      {{memberData.NAME}}
+                    </td>
+
+                    <td align="left" style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                      {{memberData.ADDRESS1 ? (memberData.ADDRESS1 + ',') : ''}}
+                      {{memberData.ADDRESS2 ? (memberData.ADDRESS2 + ',') : ''}}
+                      {{memberData.CITY ? (memberData.CITY + ',') : ''}}
+                      {{memberData.PINCODE}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding-top: 10px;">
+          <span style="color: red; font-weight: bold; padding-right: 10px;">2.</span>
+          <span>
+            Membership Subscription : Payable Annually/ Semi Annual(for new Members payable Quarterly
+            Basis)
+          </span>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <span style="color: red; padding-right: 10px; padding-left: 20px;">2.1</span>
+            <span>Membership Subscription :</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span style="padding-left: 50px; padding-right: 10px;">Jan-Jun :</span>
+            <span style="color: red;">{{data['MEMSUB_JANTOJUNE']}}</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Jul-Dec :</span>
+            <span style="color: red; padding-left: 10px;">{{data['MEMSUB_JULYTODEC']}}</span>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span style="padding-right: 10px; padding-left: 50px;">For :</span>
+            <span style="color: red;padding-right: 10px;">{{data['NO_OF_SUB_MEMBER']}}</span>
+            <span>Members</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Rs./ Member :</span>
+
+            <span style="color: red; padding-left: 10px;">{{data['PER_MEMBER_SUB_FEES']}}</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Total Rs. :</span>
+            <span style="color: red; padding-left: 10px;">{{data['TOTAL_SUB_FEES']}}</span>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 20px;">
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span style="color: red; padding-right: 10px; padding-left: 20px;">2.2</span>
+            <span style="padding-right: 10px;">Entrance Fee For New Members</span>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span style="padding-right: 10px; padding-left: 50px;">For :</span>
+            <span style="color: red; padding-right: 10px;">{{data['NO_OF_ENTERENCE_MEMBER']}}</span>
+            <span>Members</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Rs./ Member :</span>
+            <span style="color: red; padding-left: 10px;">{{data['PER_MEMBER_ENTERENCE_FEES']}}</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Total Rs. :</span>
+            <span style="color: red; padding-left: 10px;">{{data['TOTAL_ENTERENCE_FEES']}}</span>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <!-- <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span style="padding-right: 10px; padding-left: 50px;">Paid Amount Rs. :</span>
+            <span style="color: red; padding-right: 10px;">{{data['PAID_AMOUNT']}}</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Paid By DD/ Cheque No. :</span>
+            <span style="color: red; padding-left: 10px;">{{data['CHEQUE_DD_NO']}}</span>
+          </div> -->
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span style="padding-right: 10px; padding-left: 50px;">Total Rs. :</span>
+            <span style="color: red; padding-left: 10px;">{{data['TOTAL_AMOUNT']}}</span>
+          </div>
+        </div>
+
+        <!-- <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span style="padding-right: 10px; padding-left: 50px;">Drawn On :</span>
+            <span style="color: red;">{{data['DRAWN_ON']}}</span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+            <span>Remitted On :</span>
+            <span style="color: red; padding-left: 10px;">{{data['REMITTED_ON'] | date:'dd/MM/yyyy'}}</span>
+          </div>
+        </div> -->
+
+        <div *ngIf="groupPaymentData && (groupPaymentData.length > 0)" style="padding-top: 10px;">
+          <span>Payment Details</span>
+        </div>
+
+        <div *ngIf="groupPaymentData && (groupPaymentData.length > 0)">
+          <table>
+            <tr>
+              <th class="preview-th" style="width: 80px;">Sr. No.</th>
+              <th class="preview-th">Transaction Date</th>
+              <th class="preview-th">Mode</th>
+              <th class="preview-th">Ref. No./ DD /Cheque No.</th>
+              <th class="preview-th" style="width: 250px;">Narration</th>
+              <th class="preview-th">Paid Amount</th>
+            </tr>
+
+            <tr *ngFor="let paymentdata of groupPaymentData; let i = index;">
+              <td class="preview-td" align="center" style="width: 80px;">
+                {{i+1}}
+              </td>
+
+              <td class="preview-td" align="center">
+                {{paymentdata["DATE"] | date: 'dd-MMM-yy'}}
+              </td>
+
+              <td class="preview-td" align="center">
+                <span>{{getPaymentMode(paymentdata.PAYMENT_TRANSACTION_MODE)}}</span>
+              </td>
+
+              <td class="preview-td">
+                {{paymentdata["PAYMENT_REFERENCE_NO"]}}
+              </td>
+
+              <td style="width: 250px;" class="preview-td">
+                {{paymentdata["NARRATION"]}}
+              </td>
+
+              <td class="preview-td" align="right">
+                {{paymentdata["AMOUNT"]}}/-
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="padding-top: 20px;">
+          <span style="color: red; padding-right: 10px; padding-left: 20px;">2.3</span>
+          <span style="padding-right: 10px;">
+            Group's Bank Account Information
+          </span>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span style="padding-right: 10px; padding-left: 50px;">Administrative a/c No. :</span>
+            <span style="color: red;">{{data['ADMIN_ACCOUNT_NO']}}</span>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span>Project a/c No. :</span>
+            <span style="color: red; padding-left: 10px;">{{data['PROJECT_ACCOUNT_NO']}}</span>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span style="padding-right: 10px; padding-left: 50px;">Administrative Bank Name :</span>
+            <span style="color: red;">{{data['ADMIN_BANK_NAME']}}</span>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span>Administrative Branch Name :</span>
+            <span style="color: red; padding-left: 10px;">{{data['ADMIN_BRANCH_NAME']}}</span>
+          </div>
+        </div>
+
+        <div nz-row style="padding-top: 10px;">
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span style="padding-right: 10px; padding-left: 50px;">Project Bank Name :</span>
+            <span style="color: red;">{{data['PROJECT_BANK_NAME']}}</span>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <span>Project Branch Name :</span>
+            <span style="color: red; padding-left: 10px;">{{data['PROJECT_BRANCH_NAME']}}</span>
+          </div>
+        </div>
+
+        <div style="padding-top: 10px;">
+          <span style="color: red; font-weight: bold; padding-right: 10px;">3.</span>
+          <span>Board Member Meeting</span>
+        </div>
+
+        <div *ngIf="boardMeetingArray && (boardMeetingArray.length > 0)">
+          <table>
+            <tr>
+              <th class="preview-th" style="width: 80px;">Sr. No.</th>
+              <th class="preview-th" style="width: 200px;">Date-Time</th>
+              <th class="preview-th">Subject</th>
+            </tr>
+
+            <tr *ngFor="let meetingData of boardMeetingArray; let i = index;">
+              <td class="preview-td" align="center" style="width: 80px;">
+                {{i+1}}
+              </td>
+
+              <td class="preview-td" align="center" style="width: 200px;">
+                {{meetingData["DATE"] | date: 'dd-MMM-yy'}}, <br>
+                {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mma'}}-
+                {{getTimeInAM_PM(meetingData['TO_TIME']) | date: 'hh:mm a'}}
+              </td>
+
+              <td class="preview-td">
+                {{meetingData["MEETING_SUB"]}}
+              </td>
+            </tr>
+          </table>
+
+          <div *ngFor="let meetingData of boardMeetingArray; let i = index;">
+            <div nz-row>
+              <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                {{i+1}}. {{meetingData["MEETING_SUB"]}}
+              </div>
+
+              <div nz-col nzSpan="8" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Date-Time</u> : {{meetingData["DATE"] | date: 'dd-MMM-yy'}},
+                {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm a'}}-{{getTimeInAM_PM(meetingData['TO_TIME'])
+                | date: 'hh:mm a'}}
+              </div>
+
+              <div nz-col nzSpan="4" style="padding: 5px; text-align: center; font-size: 11px;">
+                <u>Attendance</u> : {{meetingData["MEETING_ATTENDANCE"]}}/ {{meetingData["INVITEES"]}}
+              </div>
+
+              <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Venue</u> : {{meetingData["VENUE"]}}
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                <u>Agenda</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['AGENDA']">
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                <div *ngIf="meetingData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO1}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION1']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION1']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO2}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION2']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION2']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO3}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION3']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION3']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO4'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO4}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION4']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION4']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO5'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO5}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION5']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION5']}}
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;"
+                *ngIf="meetingData['MINUTES'].trim() != ''">
+                <u>MOM (Minutes of Meeting)</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['MINUTES']">
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid black;"></div>
+            <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == boardMeetingArray.length-1"></div>
+          </div>
+        </div>
+
+        <div style="padding-top: 10px;">
+          <span style="color: red; font-weight: bold; padding-right: 10px;">4.</span>
+          <span>Group Member Meeting</span>
+        </div>
+
+        <div *ngIf="meetingArray && (meetingArray.length > 0)">
+          <table>
+            <tr>
+              <th class="preview-th" style="width: 80px;">Sr. No.</th>
+              <th class="preview-th" style="width: 200px;">Date-Time</th>
+              <th class="preview-th">Subject</th>
+            </tr>
+
+            <tr *ngFor="let meetingData of meetingArray; let i = index;">
+              <td class="preview-td" align="center" style="width: 80px;">
+                {{i+1}}
+              </td>
+
+              <td class="preview-td" align="center" style="width: 200px;">
+                {{meetingData["DATE"] | date: 'dd-MMM-yy'}}, <br>
+                {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm a'}}-
+                {{getTimeInAM_PM(meetingData['TO_TIME']) | date: 'hh:mm a'}}
+              </td>
+
+              <td class="preview-td">
+                {{meetingData["MEETING_SUB"]}}
+              </td>
+            </tr>
+          </table>
+
+          <div *ngFor="let meetingData of meetingArray; let i = index;">
+            <div nz-row>
+              <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                {{i+1}}. {{meetingData["MEETING_SUB"]}}
+              </div>
+
+              <div nz-col nzSpan="8" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Date-Time</u> : {{meetingData["DATE"] | date: 'dd-MMM-yy'}},
+                {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm a'}}-{{getTimeInAM_PM(meetingData['TO_TIME'])
+                | date: 'hh:mm a'}}
+              </div>
+
+              <div nz-col nzSpan="4" style="padding: 5px; text-align: center; font-size: 11px;">
+                <u>Attendance</u> : {{meetingData["MEETING_ATTENDANCE"]}}/ {{meetingData["INVITEES"]}}
+              </div>
+
+              <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Venue</u> : {{meetingData["VENUE"]}}
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                <u>Agenda</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['AGENDA']">
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                <div *ngIf="meetingData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO1}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION1']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION1']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO2}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION2']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION2']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO3}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION3']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION3']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO4'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO4}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION4']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION4']}}
+                </div>
+
+                <div *ngIf="meetingData['PHOTO5'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupMeeting/{{meetingData.PHOTO5}}" />
+                </div>
+
+                <div *ngIf="meetingData['DESCRIPTION5']" style="padding: 5px;">
+                  {{meetingData['DESCRIPTION5']}}
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;"
+                *ngIf="meetingData['MINUTES'].trim() != ''">
+                <u>MOM (Minutes of Meeting)</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['MINUTES']">
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid black;"></div>
+            <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == meetingArray.length-1"></div>
+          </div>
+        </div>
+
+        <div style="padding-top: 10px;">
+          <span style="color: red; font-weight: bold; padding-right: 10px;">5.</span>
+          <span>Monumental Projects of The Month</span>
+        </div>
+
+        <div *ngIf="projectArray && (projectArray.length > 0)">
+          <table>
+            <tr>
+              <th class="preview-th" style="width: 80px;">Sr. No.</th>
+              <th class="preview-th" style="width: 150px;">Date</th>
+              <th class="preview-th">Project Type</th>
+              <th class="preview-th" style="width: 150px;">Expenses</th>
+            </tr>
+
+            <tr *ngFor="let projectData of projectArray; let i = index;">
+              <td class="preview-td" align="center" style="width: 80px;">
+                {{i+1}}
+              </td>
+
+              <td class="preview-td" align="center" style="width: 150px;">
+                {{projectData["DATE_OF_PROJECT"] | date: 'dd-MMM-yy'}}
+              </td>
+
+              <td class="preview-td">
+                {{projectData["PROJECT_TYPE_NAME"]}}
+              </td>
+
+              <td class="preview-td" align="right" style="width: 150px;">
+                {{projectData["TOTAL_EXPENSES"]}}/-
+              </td>
+            </tr>
+          </table>
+
+          <div *ngFor="let projectData of projectArray; let i = index;">
+            <div nz-row>
+              <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                {{i+1}}. {{projectData["PROJECT_TYPE_NAME"]}}
+              </div>
+
+              <div nz-col nzSpan="24">
+                <div style="padding: 5px; font-size: 14px; text-align: justify;">
+                  {{projectData["PROJECT_NAME"]}}
+                </div>
+              </div>
+
+              <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Date</u> : {{projectData["DATE_OF_PROJECT"] | date: 'dd-MMM-yy'}}
+              </div>
+
+              <div nz-col nzSpan="12" style="padding: 5px; text-align: right; font-size: 11px;">
+                <u>Expenses</u> : {{projectData["TOTAL_EXPENSES"]}}/-
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                <u>Project Description</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="projectData['DESCRIPTION']">
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                <div *ngIf="projectData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupProjectPhotos/{{projectData.PHOTO1}}" />
+                </div>
+
+                <div *ngIf="projectData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupProjectPhotos/{{projectData.PHOTO2}}" />
+                </div>
+
+                <div *ngIf="projectData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupProjectPhotos/{{projectData.PHOTO3}}" />
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                <u>Beneficiary Details</u> :
+                <div style="text-align: justify; word-break: break-all;"
+                  [innerHTML]="projectData['BENIFICIERY_DETAILS']">
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid black;"></div>
+            <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == projectArray.length-1"></div>
+          </div>
+        </div>
+
+        <div style="padding-top: 10px;">
+          <span style="color: red; font-weight: bold; padding-right: 10px;">6.</span>
+          <span>Events of The Month</span>
+        </div>
+
+        <div *ngIf="eventArray && (eventArray.length > 0)">
+          <table>
+            <tr>
+              <th class="preview-th" style="width: 80px;">Sr. No.</th>
+              <th class="preview-th" style="width: 200px;">Date-Time</th>
+              <th class="preview-th">Event Type</th>
+            </tr>
+
+            <tr *ngFor="let eventData of eventArray; let i = index;">
+              <td class="preview-td" align="center" style="width: 80px;">
+                {{i+1}}
+              </td>
+
+              <td class="preview-td" align="center" style="width: 200px;">
+                {{eventData["DATE"] | date: 'dd-MMM-yy'}}, <br>
+                {{getTimeInAM_PM(eventData['FROM_TIME']) | date: 'hh:mm a'}}-
+                {{getTimeInAM_PM(eventData['TO_TIME']) | date: 'hh:mm a'}}
+              </td>
+
+              <td class="preview-td">
+                {{eventData["PROJECT_NAME"]}}
+              </td>
+            </tr>
+          </table>
+
+          <div *ngFor="let eventData of eventArray; let i = index;">
+            <div nz-row>
+              <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                {{i+1}}. {{eventData["PROJECT_NAME"]}}
+              </div>
+
+              <div nz-col nzSpan="24">
+                <div style="padding: 5px; font-size: 14px; text-align: justify;">
+                  {{eventData["EVENT_NAME"]}}
+                </div>
+              </div>
+
+              <div nz-col nzSpan="8" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Date-Time</u> : {{eventData["DATE"] | date: 'dd-MMM-yy'}},
+                {{getTimeInAM_PM(eventData['FROM_TIME']) | date: 'hh:mm a'}}-{{getTimeInAM_PM(eventData['TO_TIME']) |
+                date: 'hh:mm a'}}
+              </div>
+
+              <div nz-col nzSpan="4" style="padding: 5px; text-align: center; font-size: 11px;">
+                <u>Attendance</u> : {{eventData["EVENT_ATTENDANCE"]}}/ {{eventData["INVITEES"]}}
+              </div>
+
+              <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                <u>Venue</u> : {{eventData["VENUE"]}}
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                <u>Event Details</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="eventData['DETAILS']">
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                <div *ngIf="eventData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupActivity/{{eventData.PHOTO1}}" />
+                </div>
+
+                <div *ngIf="eventData['DESCRIPTION1']" style="padding: 5px;">
+                  {{eventData['DESCRIPTION1']}}
+                </div>
+
+                <div *ngIf="eventData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupActivity/{{eventData.PHOTO2}}" />
+                </div>
+
+                <div *ngIf="eventData['DESCRIPTION2']" style="padding: 5px;">
+                  {{eventData['DESCRIPTION2']}}
+                </div>
+
+                <div *ngIf="eventData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupActivity/{{eventData.PHOTO3}}" />
+                </div>
+
+                <div *ngIf="eventData['DESCRIPTION3']" style="padding: 5px;">
+                  {{eventData['DESCRIPTION3']}}
+                </div>
+
+                <div *ngIf="eventData['PHOTO4'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupActivity/{{eventData.PHOTO4}}" />
+                </div>
+
+                <div *ngIf="eventData['DESCRIPTION4']" style="padding: 5px;">
+                  {{eventData['DESCRIPTION4']}}
+                </div>
+
+                <div *ngIf="eventData['PHOTO5'].trim() != ''" style="padding: 5px;">
+                  <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                    src="{{api.retriveimgUrl}}groupActivity/{{eventData.PHOTO5}}" />
+                </div>
+
+                <div *ngIf="eventData['DESCRIPTION5']" style="padding: 5px;">
+                  {{eventData['DESCRIPTION5']}}
+                </div>
+              </div>
+
+              <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                <u>Beneficiary Details</u> :
+                <div style="text-align: justify; word-break: break-all;" [innerHTML]="eventData['BENIFICIERY_DETAILS']">
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid black;"></div>
+            <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == eventArray.length-1"></div>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzSpan="12" style="height: 120px;">
+            <div style="text-align: left; padding: 5px;">
+              <span>Date :</span>&nbsp;
+              <span style="color: red;">{{currentDate | date: 'dd-MMM-yy'}}</span>
+            </div>
+          </div>
+
+          <div nz-col nzSpan="12" style="height: 120px;">
+            <div style="text-align: center; padding: 5px;">
+              <div style="height: 50px;"
+                *ngIf="(data.SECRETORY_SIGNATURE == null) || (data.SECRETORY_SIGNATURE.trim() == '')">
+              </div>
+
+              <div *ngIf="(data.SECRETORY_SIGNATURE) && (data.SECRETORY_SIGNATURE.trim() != '')">
+                <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{data.SECRETORY_SIGNATURE}}" alt="img"
+                  style="width: 100px; height: 50px;">
+              </div>
+
+              <div style="font-size: 11px;">({{data['SECRETORY_NAME']}})</div>
+              <div style="font-size: 11px;">Group Secretary</div>
+              <div style="font-size: 13px;">Signature</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">
+      Cancel
+    </button>
+
+    <!-- <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint>
+      Print/ Save as pdf
+    </button> -->
+  </ng-template>
+</nz-modal>
+
+<!-- Add event drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="eventDrawerVisible"
+  [nzTitle]="eventDrawerTitle" (nzOnClose)="eventDrawerClose()" (nzKeyboard)="true">
+
+  <app-group-project-activity-drawer [drawerClose]="eventDrawerCloseCallback" [drawerVisible]="eventDrawerVisible"
+    [data]="eventDrawerData">
+  </app-group-project-activity-drawer>
+</nz-drawer>
+
+<!-- Add project drawer -->
+<nz-drawer [nzBodyStyle]="{height: 'calc(100% - 120px)', overflow: 'auto', 'padding-bottom': '53px'}"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="projectDrawerVisible"
+  [nzTitle]="projectDrawerTitle" (nzOnClose)="projectDrawerClose()" (nzKeyboard)="true">
+
+  <app-add-project-details-drawer [drawerClose]="projectDrawerCloseCallback" [drawerVisible]="projectDrawerVisible"
+    [data]="projectDrawerData">
+  </app-add-project-details-drawer>
+</nz-drawer>
+
+<!-- Add meeting drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="meetingDrawerVisible"
+  [nzTitle]="meetingDrawerTitle" (nzOnClose)="meetingDrawerClose()" (nzKeyboard)="true">
+
+  <app-addgroupmeetingsattendance [drawerClose]="meetingDrawerCloseCallback" [drawerVisible]="meetingDrawerVisible"
+    [data]="meetingDrawerData">
+  </app-addgroupmeetingsattendance>
+</nz-drawer>
+
+<!-- Map meeting invitees -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1200" [nzVisible]="drawerVisibleInvities"
+  [nzTitle]="drawerTitleInvities" (nzOnClose)="drawerCloseInvities()" (nzKeyboard)="true">
+
+  <app-drawermapinvities [drawerClose]="closeCallbackInvities" [MEETING_ID]="MEETING_ID">
+  </app-drawermapinvities>
+</nz-drawer>
+
+<!-- Mark meeting attendance -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="markAttendiesDrawerVisible"
+  [nzTitle]="markAttendiesDrawerTitle" (nzOnClose)="markAttendiesDrawerClose()" (nzKeyboard)="true">
+
+  <app-groupmeetsattendiesmap [drawerClose]="markAttendiesDrawerCloseCallback" [data]="markAttendiesDrawerData1"
+    [trainattendiesData]="markAttendiesDrawerData" [totalRecords]="markAttendiesDrawerTotalRecords"
+    [MEETING_ID]="MEETING_ID" [groupDetails]="groupDetails">
+  </app-groupmeetsattendiesmap>
+</nz-drawer>
+
+<!-- Send monthly reporting -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="emailDrawerVisible"
+  [nzTitle]="emailcircularDrawerTitle" (nzOnClose)="emailDrawerClose()" (nzKeyboard)="true">
+
+  <app-send-monthly-report [drawerClose]="emailDrawerCloseCallback"
+    [monthlyReportDataIDForSendDrawer]="monthlyReportDataIDForSendDrawer">
+  </app-send-monthly-report>
+</nz-drawer>
+
+<!-- Add payment -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800" [nzVisible]="drawerPaymentVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerPaymentClose()" (nzKeyboard)="true">
+
+  <app-addpayment [sum]="0" [groupIDForPayment]="groupIDForSearching" [drawerClose]="closeCallback"
+    [drawerVisible]="drawerPaymentVisible" [data]="drawerData">
+  </app-addpayment>
+</nz-drawer>
+
+<!-- View meeting attendance -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 60px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getwidth()"
+  [nzVisible]="drawerAttendanciesVisible" [nzTitle]="drawerAttendanciesTitle" (nzOnClose)="drawerAttendanciesClose()"
+  (nzKeyboard)="true">
+
+  <nz-table class="my-scroll no-wrap1" nzBordered #dataTableMeetingAttendance nzShowSizeChanger
+    [nzFrontPagination]="false" [nzFrontPagination]="false" [nzData]="attendanceData"
+    [nzLoading]="isViewAttendanceSpinning">
+    <thead>
+      <tr>
+        <th style="width: 80px;"><b>Sr. No.</b></th>
+        <th><b>Member Name</b></th>
+        <th style="width: 100px;"><b>Attendance</b></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let data1 of dataTableMeetingAttendance.data; let i = index;">
+        <td style="width: 80px;" align="center">
+          {{[i+1]}}
+        </td>
+
+        <td>
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <span style="color: black; font-weight: bold;">
+                {{data1.NAME}}
+              </span>&nbsp;
+
+              <span style="font-size: 10px; color: #ff8d73; font-weight: bold;">
+                ({{data1.MEMBER_ROLE}})
+              </span>
+            </div>
+
+            <div nz-col nzSpan="24">
+              <span style="font-size: 10px;">
+                {{data1.FEDERATION_NAME}},
+                {{data1.UNIT_NAME}},
+                {{data1.GROUP_NAME}}
+              </span>
+            </div>
+          </div>
+        </td>
+
+        <td style="width: 100px;" align="center">
+          <span style="color: green; font-size: 18px;" *ngIf="data1.P_A == 1">
+            <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+          </span>
+
+          <span style="color:red; font-size: 18px;" *ngIf="data1.P_A == 0">
+            <i nz-icon nzType="close-circle" nzTheme="outline"></i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <div class="footer">
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <div style="padding: 5px; text-align: left;">
+          <nz-tag [nzColor]="'blue'">
+            <span style="font-size: 12px;">
+              Total : {{meetingTotalCount}}
+            </span>
+          </nz-tag>
+
+          <nz-tag [nzColor]="'green'">
+            <span style="font-size: 12px;">
+              Present : {{meetingPresentCount}}
+            </span>
+          </nz-tag>
+
+          <nz-tag [nzColor]="'red'">
+            <span style="font-size: 12px;">
+              Absent : {{meetingAbsentCount}}
+            </span>
+          </nz-tag>
+        </div>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <div style="text-align: right;">
+          <button type="button" nz-button (click)="drawerAttendanciesClose()" class="ant-btn">
+            <span>Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-drawer>
+
+<!-- Event map invitees -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1200"
+  [nzVisible]="drawerVisibleEventInvities" [nzTitle]="drawerTitleEventInvities" (nzOnClose)="drawerCloseEventInvities()"
+  (nzKeyboard)="true">
+
+  <app-group-project-activity-map-invitees-drawer [drawerClose]="closeCallbackEventInvities" [EVENT_ID]="EVENT_ID">
+  </app-group-project-activity-map-invitees-drawer>
+</nz-drawer>
+
+<!-- General, BOD meeting preview -->
+<nz-modal nzWidth="1000px" [nzStyle]="{ top: '20px' }" [nzBodyStyle]="{height : '460px'}"
+  [(nzVisible)]="meetingPreviewModalVisible" [nzTitle]="'Meeting Preview'" [nzContent]="meetingPreviewModalContent"
+  [nzFooter]="meetingPreviewModalFooter" (nzOnCancel)="meetingPreviewModalCancel()" nzClosable="false">
+
+  <ng-template #meetingPreviewModalContent>
+    <div style="overflow: auto; height: 430px; padding: 5px;">
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div style="font-size: 14px; color:black; font-weight: bold; text-align: justify; padding-bottom: 3px;">
+            {{meetingPreviewModalData.MEETING_SUB}}
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6" style="font-size: 10px;">
+              <i nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{meetingPreviewModalData.DATE | date: 'dd MMM yyyy'}}
+              </span>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6" style="font-size: 10px;">
+              <i nz-icon nzType="clock-circle" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{getTime(meetingPreviewModalData.FROM_TIME) | date: 'hh:mm a' }} To
+                {{getTime(meetingPreviewModalData.TO_TIME) | date: 'hh:mm a' }}
+              </span>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="font-size: 10px;">
+              <i nz-icon nzType="environment" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{meetingPreviewModalData.VENUE}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; text-align: left; color: gray;">
+            Organized By : {{meetingPreviewModalData.GROUP_NAME}}
+          </div>
+        </div>
+
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; color:#FF7A7A; text-align: right;">
+            {{meetingPreviewModalData.MEETING_NUMBER}}
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify; margin-top: 10px;">
+          <div [innerHTML]="meetingPreviewModalData.AGENDA"></div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 5">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 45vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 45vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 4">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 60vh; padding: 1px;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 3">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 60vh; padding: 1px;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 2">
+            <div nz-row>
+
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 5">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 4">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 25vh; padding: 1px;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 3">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 25vh; padding: 1px;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 2">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="meetingPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getMeetingImageCount(meetingPreviewModalData.PHOTO1,meetingPreviewModalData.PHOTO2,meetingPreviewModalData.PHOTO3,meetingPreviewModalData.PHOTO4,meetingPreviewModalData.PHOTO5) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="meetingPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify;margin-top: 10px;">
+          <div [innerHTML]="meetingPreviewModalData.MINUTES"></div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #meetingPreviewModalFooter>
+    <button nz-button nzType="default" (click)="meetingPreviewModalCancel()">
+      Close
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- Project preview -->
+<nz-modal nzWidth="1000px" [nzStyle]="{ top: '20px' }" [nzBodyStyle]="{height : '460px'}"
+  [(nzVisible)]="projectPreviewModalVisible" [nzTitle]="'Project Preview'" [nzContent]="projectPreviewModalContent"
+  [nzFooter]="projectPreviewModalFooter" (nzOnCancel)="projectPreviewModalCancel()" nzClosable="false">
+
+  <ng-template #projectPreviewModalContent>
+    <div style="overflow: auto; height: 430px; padding: 5px;">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div style="font-size: 14px; color:black; font-weight: bold; text-align: justify;">
+          {{projectPreviewModalData.PROJECT_NAME}}
+        </div>
+      </div>
+
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div style="font-size: 10px; text-align: left;">
+          Project Type : {{projectPreviewModalData.PROJECT_TYPE_NAME}}
+        </div>
+      </div>
+
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div nz-row>
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="font-size: 10px; text-align: left;">
+            <i nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+            <span style="color: gray;">
+              {{projectPreviewModalData.DATE_OF_PROJECT | date: 'dd MMM yyyy'}}
+            </span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="font-size: 10px; text-align: center;">
+            <span style="color: #FF7A7A;">₹</span>&nbsp;
+
+            <span style="color: gray;">
+              {{projectPreviewModalData.TOTAL_EXPENSES}}/-
+            </span>
+          </div>
+
+          <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="font-size: 10px; text-align: right;">
+            <span style="color: #FF7A7A;">Status :</span>&nbsp;
+
+            <span style="color: gray;">
+              {{getProjectCompleteStatus(projectPreviewModalData.CURRENT_STATUS)}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify; margin-top: 10px;">
+          <div [innerHTML]="projectPreviewModalData.DESCRIPTION"></div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+          <div style="padding: 3px;"
+            *ngIf="getProjectImageCount(projectPreviewModalData.PHOTO1,projectPreviewModalData.PHOTO2,projectPreviewModalData.PHOTO3) == 3">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="projectPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 25vh; padding: 1px;">
+                      <img [src]="projectPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 25vh; padding: 1px;">
+                      <img [src]="projectPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getProjectImageCount(projectPreviewModalData.PHOTO1,projectPreviewModalData.PHOTO2,projectPreviewModalData.PHOTO3) == 2">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="projectPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="projectPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getProjectImageCount(projectPreviewModalData.PHOTO1,projectPreviewModalData.PHOTO2,projectPreviewModalData.PHOTO3) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="projectPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+          <div style="padding: 3px;"
+            *ngIf="getProjectImageCount(projectPreviewModalData.PHOTO1,projectPreviewModalData.PHOTO2,projectPreviewModalData.PHOTO3) == 3">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 25vh; padding: 1px;">
+                  <img [src]="projectPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 15vh; padding: 1px;">
+                      <img [src]="projectPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 15vh; padding: 1px;">
+                      <img [src]="projectPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getProjectImageCount(projectPreviewModalData.PHOTO1,projectPreviewModalData.PHOTO2,projectPreviewModalData.PHOTO3) == 2">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 20vh; padding: 1px;">
+                  <img [src]="projectPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 20vh; padding: 1px;">
+                  <img [src]="projectPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getProjectImageCount(projectPreviewModalData.PHOTO1,projectPreviewModalData.PHOTO2,projectPreviewModalData.PHOTO3) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="projectPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify; margin-top: 10px;">
+          <div [innerHTML]="projectPreviewModalData.BENIFICIERY_DETAILS"></div>
+        </div>
+      </div>
+
+      <div nz-row
+        *ngIf="(projectPreviewModalData.AWARDS_RECEIVED != null) && (projectPreviewModalData.AWARDS_RECEIVED != '')">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div style=" padding: 3px; text-align: justify;">
+            <span *ngFor="let tag of projectPreviewModalData.AWARDS_RECEIVED.split(',');">
+              <span style="color: #1890ff; font-size: 10px;">
+                #{{tag}}
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #projectPreviewModalFooter>
+    <button nz-button nzType="default" (click)="projectPreviewModalCancel()">
+      Close
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- Event preview -->
+<nz-modal nzWidth="1000px" [nzStyle]="{ top: '20px' }" [nzBodyStyle]="{height : '460px'}"
+  [(nzVisible)]="eventPreviewModalVisible" [nzTitle]="'Event Preview'" [nzContent]="eventPreviewModalContent"
+  [nzFooter]="eventPreviewModalFooter" (nzOnCancel)="eventPreviewModalCancel()" nzClosable="false">
+
+  <ng-template #eventPreviewModalContent>
+    <div style="overflow: auto; height: 430px; padding: 5px;">
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div style="font-size: 14px; color: black; font-weight: bold; text-align: justify;">
+            {{eventPreviewModalData.EVENT_NAME}}
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div style="font-size: 10px; color: gray;">
+            Event Type : {{eventPreviewModalData.PROJECT_NAME}}
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6" style="font-size: 10px;">
+              <i nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{eventPreviewModalData.DATE | date: 'dd MMM yyyy'}}
+              </span>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6" style="font-size: 10px;">
+              <i nz-icon nzType="clock-circle" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{getTime(eventPreviewModalData.FROM_TIME) | date: 'hh:mm a' }} To
+                {{getTime(eventPreviewModalData.TO_TIME) | date: 'hh:mm a' }}
+              </span>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="12" nzLg="12" nzXl="12" style="font-size: 10px;">
+              <i nz-icon nzType="environment" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{eventPreviewModalData.VENUE}}
+              </span>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0" style="font-size: 10px; text-align: left;">
+              <i nz-icon nzType="environment" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+
+              <span style="color: gray;">
+                {{eventPreviewModalData.VENUE}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; text-align: left;">
+            Organized By : {{eventPreviewModalData.GROUP_NAME}}
+          </div>
+        </div>
+
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; color: #FF7A7A; text-align: right;">
+            {{eventPreviewModalData.EVENT_NO}}
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify; margin-top: 10px;">
+          <div [innerHTML]="eventPreviewModalData.DETAILS"></div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 5">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 45vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 45vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 4">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 60vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 3">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 25vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 25vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 2">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 40vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 40vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 5">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 4">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 20vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 3">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 20vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 15vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 15vh; padding: 1px;">
+                      <img [src]="eventPreviewModalData.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 2">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 15vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 15vh; padding: 1px;">
+                  <img [src]="eventPreviewModalData.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getEventImageCount(eventPreviewModalData.PHOTO1,eventPreviewModalData.PHOTO2,eventPreviewModalData.PHOTO3,eventPreviewModalData.PHOTO4,eventPreviewModalData.PHOTO5) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 30vh;">
+                  <img [src]="eventPreviewModalData.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="font-size: 12px; text-align: justify;">
+          <div [innerHTML]="eventPreviewModalData.BENIFICIERY_DETAILS"></div>
+        </div>
+      </div>
+
+      <div nz-row *ngIf="(eventPreviewModalData.HASHTAGS) && (eventPreviewModalData.HASHTAGS != '')">
+        <div style="margin-top: 10px" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <span *ngFor="let tag of eventPreviewModalData.HASHTAGS.split(',');">
+            <span style="color: #1890ff; font-size: 10px;">
+              #{{tag}}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #eventPreviewModalFooter>
+    <button nz-button nzType="default" (click)="eventPreviewModalCancel()">
+      Close
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- Mark event attendance -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800"
+  [nzVisible]="eventAttendanceDrawerVisible" [nzTitle]="eventAttendanceDrawerTitle"
+  (nzOnClose)="eventAttendanceDrawerClose()" (nzKeyboard)="true">
+
+  <app-group-project-activity-attendance-drawer [drawerClose]="eventAttendanceCloseCallback"
+    [data]="eventAttendanceDrawerData1" [trainattendiesData]="eventAttendanceDrawerData"
+    [totalRecords]="eventAttendanceDrawerDataTotalRecords" [EVENT_ID]="EVENT_ID" [groupDetails]="eventDetails">
+  </app-group-project-activity-attendance-drawer>
+</nz-drawer>
+
+<!-- View event attendance -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 60px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="800"
+  [nzVisible]="drawerEventAttendanciesVisible" [nzTitle]="drawerEventAttendanciesTitle"
+  (nzOnClose)="drawerEventAttendanciesClose()" (nzKeyboard)="true">
+
+  <nz-table class="my-scroll no-wrap1" nzBordered #dataTableEventAttendance nzShowSizeChanger
+    [nzFrontPagination]="false" [nzFrontPagination]="false" [nzData]="eventAttendanceData"
+    [nzLoading]="isEventViewAttendanceSpinning" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+
+    <thead>
+      <tr>
+        <th style="width: 80px;"><b>Sr. No.</b></th>
+        <th><b>Member Name</b></th>
+        <th style="width: 100px;"><b>Attendance</b></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let data1 of dataTableEventAttendance.data; let i = index;">
+        <td style="width: 80px;" align="center">
+          {{[i+1]}}
+        </td>
+
+        <td>
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <span style="color: black; font-weight: bold;">
+                {{data1.NAME}}
+              </span>&nbsp;
+
+              <span style="font-size: 10px; color: #ff8d73; font-weight: bold;">
+                ({{data1.MEMBER_ROLE}})
+              </span>
+            </div>
+
+            <div nz-col nzSpan="24">
+              <span style="font-size: 10px;">
+                {{data1.FEDERATION_NAME}},
+                {{data1.UNIT_NAME}},
+                {{data1.GROUP_NAME}}
+              </span>
+            </div>
+          </div>
+        </td>
+
+        <td style="width: 100px;" align="center">
+          <span style="color: green; font-size: 18px;" *ngIf="data1.P_A == 1">
+            <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+          </span>
+
+          <span style="color:red; font-size: 18px;" *ngIf="data1.P_A == 0">
+            <i nz-icon nzType="close-circle" nzTheme="outline"></i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <div class="footer">
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <div style="padding: 5px; text-align: left;">
+          <nz-tag [nzColor]="'blue'">
+            <span style="font-size: 12px;">
+              Total : {{meetingTotalCount}}
+            </span>
+          </nz-tag>
+
+          <nz-tag [nzColor]="'green'">
+            <span style="font-size: 12px;">
+              Present : {{meetingPresentCount}}
+            </span>
+          </nz-tag>
+
+          <nz-tag [nzColor]="'red'">
+            <span style="font-size: 12px;">
+              Absent : {{meetingAbsentCount}}
+            </span>
+          </nz-tag>
+        </div>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <div style="text-align: right;">
+          <button type="button" nz-button (click)="drawerEventAttendanciesClose()" class="ant-btn">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-drawer>

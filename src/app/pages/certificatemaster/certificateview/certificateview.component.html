@@ -1,0 +1,89 @@
+<div nz-row nzType="flex"
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+    <div class="formname" style="padding: 5px;">
+      {{formTitle}}
+    </div>
+  </div>
+
+  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="text-align: center;">
+    <button nz-button nzType="default" style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+      (click)="add()" nzJustify="end">
+      <i nz-icon nzType="plus"></i>
+      Create
+    </button>
+  </div>
+
+  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="display: flex; justify-content: flex-end">
+    <form nz-form [nzLayout]="'inline'">
+      <nz-input-group [nzPrefix]="prefixIcon">
+        <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+          (keydown.enter)="search(true)" [(ngModel)]="searchText" />
+      </nz-input-group>
+
+      <ng-template #prefixIcon>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+    </form>
+  </div>
+</div>
+
+<div nz-row
+  style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+  <div nz-col nzSpan="24">
+    <nz-table class="my-scroll no-wrap1" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+      [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+          <th><b>Action</b></th>
+          <th nzShowSort nzSortKey="LEVEL"><b>Certificate Level</b></th>
+
+          <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;" *ngFor="let column of columns;"
+            nzShowSort nzSortKey={{column[0]}}>
+            <b>{{column[1]}}</b>
+          </th>
+
+          <th nzShowSort nzSortKey="STATUS"><b>Status</b></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of table.data;">
+          <td class="td-center">
+            <a (click)="edit(data)">
+              <i nz-icon nzType="edit" nzTheme="twotone"></i>
+            </a>
+          </td>
+
+          <td class="td-center">
+            <span *ngIf="data['LEVEL'] == 'I'">International</span>
+            <span *ngIf="data['LEVEL'] == 'U'">Unit</span>
+          </td>
+
+          <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;" *ngFor="let column of columns;">
+            {{data[column[0]]}}
+          </td>
+
+          <td class="td-center">
+            <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'">
+            </i>
+
+            <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'">
+            </i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="400" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+  <app-drawercertificate [drawerClose]="closeCallback" [data]="drawerData"></app-drawercertificate>
+</nz-drawer>

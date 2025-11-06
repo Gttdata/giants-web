@@ -1,0 +1,32 @@
+.header {
+    position: absolute;
+    top: 0px;
+    border-top: 1px solid rgb(232, 232, 232);
+    padding: 10px 0px;
+}
+
+nz-form-item {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: -webkit-fill-available;
+    padding: 0px 10px;
+}
+
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.container {
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}

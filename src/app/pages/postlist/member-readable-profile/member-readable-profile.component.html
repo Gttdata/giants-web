@@ -1,0 +1,670 @@
+<div class="header">
+    <button type="button" nz-button (click)="close()" class="ant-btn">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+</div>
+
+<div>
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div id="memberPost" #memberPost style="padding: 10px; height: 80vh; overflow-y: auto;"
+                (scroll)="onScroll($event)">
+                <div class="card">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="5" nzLg="5" nzXl="5">
+                            <div style="text-align: center;" *ngIf="data.PROFILE_IMAGE">
+                                <img style="height: 110px; width: 110px; border-radius: 50%"
+                                    [src]="getProfilePhoto(data.PROFILE_IMAGE)" alt="user">
+                            </div>
+
+                            <div style="text-align: center;" *ngIf="!data.PROFILE_IMAGE">
+                                <img src="assets/anony.png"
+                                    style="border-radius: 50%; height: 110px; width: 110px;border: 2px solid gray; cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="19" nzLg="19" nzXl="19">
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                    style="text-align: center;">
+                                    <span style="font-size: 16px; color: black; font-weight: bold;">
+                                        {{data.NAME}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <span nz-icon nzType="mail" nzTheme="twotone" style="font-size: 10px;"></span>
+
+                                    <span *ngIf="(data.EMAIL_ID) && (data.EMAIL_ID.trim() != '')"
+                                        style="font-size: 10px;">
+                                        <span *ngFor="let email of data.EMAIL_ID.split(',');">
+                                            {{email.trim()}}&nbsp;
+                                        </span>
+                                    </span>
+
+                                    <span *ngIf="(data.BUSSINESS_EMAIL) && (data.BUSSINESS_EMAIL.trim() != '')"
+                                        style="font-size: 10px;">
+                                        <span *ngFor="let email of data.BUSSINESS_EMAIL.split(',');">
+                                            {{email.trim()}}&nbsp;
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <span nz-icon style="font-size: 10px;" nzType="mobile" nzTheme="twotone"></span>
+
+                                    <span style="font-size: 10px;">
+                                        {{data.MOBILE_NUMBER}}&nbsp;
+                                    </span>
+
+                                    <span
+                                        *ngIf="(data.COMMUNICATION_MOBILE_NUMBER) && (data.COMMUNICATION_MOBILE_NUMBER.trim() != '')"
+                                        style="font-size: 10px;">
+                                        <span *ngFor="let mobileNumber of data.COMMUNICATION_MOBILE_NUMBER.split(',');">
+                                            {{mobileNumber.trim()}}&nbsp;
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col [nzSpan]="24" style="text-align: center;">
+                                    <span style="font-size: 13px; color: #ff7a7a">
+                                        <i nz-icon nzType="global" nzTheme="outline"></i>
+                                        {{data.FEDERATION_NAME}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col [nzSpan]="24" style="text-align: center;">
+                                    <span style="font-size: 13px; color: #ff7a7a">
+                                        <i nz-icon nzType="deployment-unit" nzTheme="outline"></i>
+                                        {{data.UNIT_NAME}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col [nzSpan]="24" style="text-align: center;">
+                                    <span style="font-size: 13px; color: #ff7a7a">
+                                        <i nz-icon nzType="team" nzTheme="outline"></i>
+                                        {{data.GROUP_NAME}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nz-divider></nz-divider>
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4">Gender</div>
+                        <div nz-col nzSpan="20">:
+                            <span *ngIf="data.GENDER == 'M'">Male</span>
+                            <span *ngIf="data.GENDER == 'F'">Female</span>
+                        </div>
+                    </div>
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4">Date of Birth</div>
+                        <div nz-col nzSpan="20">: {{getDOB(data.DOB, data.IS_SHOW_YEAR)}}</div>
+                    </div>
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4">Marital Status</div>
+                        <div nz-col nzSpan="20">:
+                            <span *ngIf="data.MARITAL_STATUS == 'M'">Married</span>
+                            <span *ngIf="data.MARITAL_STATUS == 'W'">Widowed</span>
+                            <span *ngIf="data.MARITAL_STATUS == 'D'">Divorced</span>
+                            <span *ngIf="data.MARITAL_STATUS == 'E'">Separated</span>
+                            <span *ngIf="data.MARITAL_STATUS == 'S'">Single</span>
+                        </div>
+                    </div>
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4">Address</div>
+                        <div nz-col nzSpan="20">: {{data.ADDRESS1}} {{data.ADDRESS2}}</div>
+                    </div>
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4">City</div>
+                        <div nz-col nzSpan="20">: {{data.CITY}}</div>
+                    </div>
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4">Pincode</div>
+                        <div nz-col nzSpan="20">: {{data['PINCODE']}}</div>
+                    </div>
+                </div>
+
+                <div *ngIf="postData.length > 0">
+                    <div *ngFor="let activity of postData; let i = index;">
+                        <div class="card">
+                            <div nz-row>
+                                <div nz-col nzXs="5" nzSm="5" nzMd="2" nzLg="2" nzXl="2">
+                                    <img style="width: 50px; height: 50px; border-radius: 50%"
+                                        [src]="getProfilePhoto(activity.CREATER_MEMBER_PROFILE)" alt="user">
+                                </div>
+
+                                <div nz-col nzXs="19" nzSm="19" nzMd="22" nzLg="22" nzXl="22">
+                                    <div nz-row>
+                                        <div nz-col nzXs="24" nzSm="24" nzMd="16" nzLg="16" nzXl="16">
+                                            <b>{{activity['CREATER_MEMBER_NAME']}}</b>
+                                        </div>
+
+                                        <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8"
+                                            style="font-size: 10px; color:rgb(42, 42, 42); text-align: right;">
+                                            <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;">
+                                            </span>
+
+                                            {{activity['POST_CREATED_DATETIME'] | date: 'dd MMM yyyy, hh:mm
+                                            a'}}
+                                        </div>
+
+                                        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                                            style="font-size: 10px; color:rgb(42, 42, 42);">
+                                            <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;">
+                                            </span>
+
+                                            {{activity['POST_CREATED_DATETIME'] | date: 'dd MMM yyyy, hh:mm
+                                            a'}}
+                                        </div>
+
+                                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                            style="font-size: 10px; font-weight: bold; color: #ff7a7a">
+                                            <span>{{activity['ROLE_NAME']}}</span>
+                                        </div>
+
+                                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                            *ngIf="activity['GROUP_ID'] != 0"
+                                            style="font-size: 10px; color:rgb(42, 42, 42);">
+                                            Home Group : {{activity['HOME_GROUP_NAME']}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span
+                                *ngIf="(activity['POST_CREATED_MEMBER_ID'] != null) && (activity['POST_CREATED_MEMBER_ID'] != 0)">
+                                <div nz-row style="padding: 5px;">
+                                    <div nz-col nzXs="5" nzSm="5" nzMd="2" nzLg="2" nzXl="2">
+                                        <img style="width: 40px; height: 40px; border-radius: 30%"
+                                            [src]="getProfilePhoto(activity.POST_CREATED_PROFILE_IMAGE)" alt="user">
+                                    </div>
+
+                                    <div nz-col nzXs="19" nzSm="19" nzMd="22" nzLg="22" nzXl="22">
+                                        <div nz-row>
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="16" nzLg="16" nzXl="16">
+                                                <span style="font-size: 12px;">
+                                                    <b>{{activity['POST_CREATED_MEMBER_NAME']}}</b>
+                                                </span>
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                                style="font-size: 8px; font-weight: bold; color: #ff7a7a">
+                                                <span>{{activity['POST_CREATED_MEMBER_ROLE']}}</span>
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                                *ngIf="activity['POST_CREATED_GROUP_ID'] != 0"
+                                                style="font-size: 8px; color:rgb(42, 42, 42);">
+                                                Home Group : {{activity['POST_CREATED_HOME_GROUP']}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+
+                            <nz-divider></nz-divider>
+
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                    [ngStyle]="{'max-height': expandDescription[i] ? 'fit-content' : '76px'}"
+                                    style="overflow: hidden; word-break: break-all; font-size: 12px; text-align: justify;">
+                                    <div [innerHTML]="activity.DESCRIPTION"></div>
+                                </div>
+
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: right"
+                                    *ngIf="(activity.DESCRIPTION != undefined) && (activity.DESCRIPTION.length > 399) && (!expandDescription[i])">
+                                    <a (click)="getHeightOfDescription(i)">
+                                        <span style="font-size: 10px;">
+                                            Read More
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24"
+                                    *ngIf="(activity.IMAGE_URL1 != ' ')">
+                                    <div style="padding: 5px;"
+                                        *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 2">
+                                        <div nz-row>
+                                            <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                                                <div style="text-align: center; height: 50vh; padding: 1px; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                            </div>
+
+                                            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                                                <div nz-row>
+                                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                                        <div style="text-align: center; height: 25vh; padding: 1px; cursor: pointer;"
+                                                            (click)="identifyClickOrDoubleClick(activity,i)">
+                                                            <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                                        </div>
+                                                    </div>
+
+                                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                                        <div style="text-align: center; height: 25vh; padding: 1px; cursor: pointer;"
+                                                            (click)="identifyClickOrDoubleClick(activity,i)">
+                                                            <img [src]="getPhotoURL(activity.IMAGE_URL3,activity.IS_EVENT_POST)"
+                                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="padding: 5px;"
+                                        *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 1">
+                                        <div nz-row>
+                                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                                <div style="text-align: center; height: 50vh; padding: 1px; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                            </div>
+
+                                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                                <div style="text-align: center; height: 50vh; padding: 1px; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="padding: 5px;"
+                                        *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 0">
+                                        <div nz-row>
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                                <div style="text-align: center; height: 50vh; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: contain;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                                    *ngIf="(activity.IMAGE_URL1 != ' ')">
+                                    <div style="padding: 5px;"
+                                        *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 2">
+                                        <div nz-row>
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                                <div style="text-align: center; height: 25vh; padding: 1px; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                            </div>
+
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                                <div nz-row>
+                                                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                                        <div style="text-align: center; height: 15vh; padding: 1px; cursor: pointer;"
+                                                            (click)="identifyClickOrDoubleClick(activity,i)">
+                                                            <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                                        </div>
+                                                    </div>
+
+                                                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                                        <div style="text-align: center; height: 15vh; padding: 1px; cursor: pointer;"
+                                                            (click)="identifyClickOrDoubleClick(activity,i)">
+                                                            <img [src]="getPhotoURL(activity.IMAGE_URL3,activity.IS_EVENT_POST)"
+                                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="padding: 5px;"
+                                        *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 1">
+                                        <div nz-row>
+                                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                                <div style="text-align: center; height: 20vh; padding: 1px; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                            </div>
+
+                                            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                                                <div style="text-align: center; height: 20vh; padding: 1px; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL2,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="padding: 5px;"
+                                        *ngIf="getImageCount(activity.IMAGE_URL2,activity.IMAGE_URL3) == 0">
+                                        <div nz-row>
+                                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                                <div style="text-align: center; height: 50vh; cursor: pointer;"
+                                                    (click)="identifyClickOrDoubleClick(activity,i)">
+                                                    <img [src]="getPhotoURL(activity.IMAGE_URL1,activity.IS_EVENT_POST)"
+                                                        style="width: 100%; height: 100%; object-fit: contain;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div nz-row *ngIf="(activity.HASHTAGS != null) && (activity.HASHTAGS != '')">
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <div style="margin-top: 10px; text-align: justify;">
+                                        <span *ngFor="let tag of activity.HASHTAGS.split(',')">
+                                            <span style="cursor: pointer; color: #1890ff; font-size: 10px;">
+                                                #{{tag}}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <nz-divider></nz-divider>
+
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                    <span style="padding: 3px;">
+                                        <svg style="cursor: pointer;" *ngIf="activity.LIKE_STATUS != 1"
+                                            nzTooltipTitle="Like" nzTooltipPlacement="top" nz-tooltip
+                                            (click)="likeTheButton(activity.ID,i)" xmlns="http://www.w3.org/2000/svg"
+                                            width="16" height="16" viewBox="0 0 21 16">
+                                            <path id="Icon_feather-heart" data-name="Icon feather-heart"
+                                                d="M20.781,6.089a5.148,5.148,0,0,0-7.444,0L12.323,7.135,11.309,6.089a5.149,5.149,0,0,0-7.444,0,5.555,5.555,0,0,0,0,7.681l1.014,1.047L12.323,22.5l7.444-7.681,1.014-1.047a5.553,5.553,0,0,0,0-7.681Z"
+                                                transform="translate(-1.823 -3.997)" fill="#fff" stroke="#707070"
+                                                stroke-width="1" />
+                                        </svg>
+
+                                        <svg style="cursor: pointer;" *ngIf="activity.LIKE_STATUS == 1"
+                                            nzTooltipTitle="Unlike" nzTooltipPlacement="top" nz-tooltip
+                                            (click)="likeTheButton(activity.ID,i)" xmlns="http://www.w3.org/2000/svg"
+                                            width="16" height="16" viewBox="0 0 21 16">
+                                            <path id="Icon_feather-heart" data-name="Icon feather-heart"
+                                                d="M20.781,6.089a5.148,5.148,0,0,0-7.444,0L12.323,7.135,11.309,6.089a5.149,5.149,0,0,0-7.444,0,5.555,5.555,0,0,0,0,7.681l1.014,1.047L12.323,22.5l7.444-7.681,1.014-1.047a5.553,5.553,0,0,0,0-7.681Z"
+                                                transform="translate(-1.823 -3.997)" fill="#f0304e" stroke="#f0304e"
+                                                stroke-width="1" />
+                                        </svg>
+
+                                        <span style="font-size: 20px; margin-left: 5px; cursor: pointer;"
+                                            (click)="like(activity.ID)" nzTooltipTitle="View Likes"
+                                            nzTooltipPlacement="top" nz-tooltip>
+                                            {{activity.LIKE_COUNT}}
+                                        </span>
+                                    </span>
+
+                                    <span style="cursor: pointer; padding: 3px;" nzTooltipTitle="Comments"
+                                        nzTooltipPlacement="top" nz-tooltip (click)="addComment(activity.ID,i)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 35 25">
+                                            <path id="Icon_awesome-comment-alt" data-name="Icon awesome-comment-alt"
+                                                d="M26.25,0H3.75A3.753,3.753,0,0,0,0,3.75V20.625a3.753,3.753,0,0,0,3.75,3.75H9.375V29.3a.7.7,0,0,0,1.119.568l7.318-5.49H26.25A3.753,3.753,0,0,0,30,20.625V3.75A3.753,3.753,0,0,0,26.25,0Z"
+                                                transform="translate(0.5 0.5)" fill="#fff" stroke="#707070"
+                                                stroke-width="1" />
+                                        </svg>
+
+                                        <span style="font-size: 20px; margin-left: 5px;">
+                                            {{activity.COMMENT_COUNT}}
+                                        </span>
+                                    </span>
+
+                                    <span style="cursor: pointer; padding: 3px;" nzTooltipTitle="Share"
+                                        nzTooltipPlacement="top" nz-tooltip (click)="showMsg(activity)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 31.223 26.455">
+                                            <path id="Icon_ionic-md-share-alt" data-name="Icon ionic-md-share-alt"
+                                                d="M33.75,17.5,21.25,5.625v6.667c-11.667,1.667-15.833,10-17.5,18.333,4.167-5.833,9.167-8.5,17.5-8.5v6.834Z"
+                                                transform="translate(-3.26 -4.46)" fill="#fff" stroke="#707070"
+                                                stroke-width="1" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="postData.length == 0" style="margin-top: 20px">
+                    <nz-empty
+                        [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'"
+                        [nzNotFoundContent]="contentTpl">
+                    </nz-empty>
+
+                    <ng-template #contentTpl>
+                        <span>No data available.</span>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-spin>
+
+        <div class="footer">
+            <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+                <span>Close</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="DispAllImages"
+    [nzTitle]="drawerTitledata" (nzOnClose)="AllPostDrawerClose()" (nzKeyboard)="true">
+
+    <div *ngIf="(postData.length > 0) && (selectedIndex > -1)">
+        <div nz-row>
+            <div nz-col nzXs="5" nzSm="5" nzMd="2" nzLg="2" nzXl="2">
+                <img style="width: 50px; height: 50px; border-radius: 50%"
+                    [src]="getProfilePhoto(postData[selectedIndex].CREATER_MEMBER_PROFILE)" alt="user">
+            </div>
+
+            <div nz-col nzXs="19" nzSm="19" nzMd="22" nzLg="22" nzXl="22">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <b>{{postData[selectedIndex]['CREATER_MEMBER_NAME']}}</b>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                        style="font-size: 10px; font-weight: bold; color: #ff7a7a">
+                        <b>{{postData[selectedIndex]['ROLE_NAME']}}</b>
+                    </div>
+
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                        style="font-size: 10px; color:rgb(42, 42, 42);">
+                        <span nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></span>
+                        {{postData[selectedIndex]['POST_CREATED_DATETIME'] | date:'dd MMM yyyy, hh:mm a'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                style="font-size: 12px; margin-top: 10px; text-align: justify;">
+                <div [innerHTML]="postData[selectedIndex].DESCRIPTION"></div>
+            </div>
+        </div>
+
+        <div nz-row style="text-align: center;">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                *ngIf="(postData[selectedIndex].IMAGE_URL1 != ' ')">
+                <div style="max-height: 60vh; overflow: auto;">
+                    <img [src]="getPhotoURL(postData[selectedIndex].IMAGE_URL1,postData[selectedIndex].IS_EVENT_POST)"
+                        style="width: 100%; object-fit: contain;" mouseWheel [style.max-width.vh]="imgWidth1"
+                        [style.max-height.vh]="imgWidth1" (mouseWheelUp)="mouseWheelUpFunc1()"
+                        (mouseWheelDown)="mouseWheelDownFunc1()">
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="padding: 5px;"
+                *ngIf="(postData[selectedIndex].IMAGE_URL2 != ' ')">
+                <div style="max-height: 60vh; overflow: auto;">
+                    <img [src]="getPhotoURL(postData[selectedIndex].IMAGE_URL2,postData[selectedIndex].IS_EVENT_POST)"
+                        style="width: 100%; object-fit: contain;" mouseWheel [style.max-width.vh]="imgWidth2"
+                        [style.max-height.vh]="imgWidth2" (mouseWheelUp)="mouseWheelUpFunc2()"
+                        (mouseWheelDown)="mouseWheelDownFunc2()">
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="padding: 5px;"
+                *ngIf="(postData[selectedIndex].IMAGE_URL3 != ' ')">
+                <div style="max-height: 60vh; overflow: auto;">
+                    <img [src]="getPhotoURL(postData[selectedIndex].IMAGE_URL3,postData[selectedIndex].IS_EVENT_POST)"
+                        style="width: 100%; object-fit: contain;" mouseWheel [style.max-width.vh]="imgWidth3"
+                        [style.max-height.vh]="imgWidth3" (mouseWheelUp)="mouseWheelUpFunc3()"
+                        (mouseWheelDown)="mouseWheelDownFunc3()">
+                </div>
+            </div>
+        </div>
+
+        <div nz-row *ngIf="(postData[selectedIndex].HASHTAGS != null) && (postData[selectedIndex].HASHTAGS != '')">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="margin-top: 10px; text-align: justify;">
+                    <span *ngFor="let tag of postData[selectedIndex].HASHTAGS.split(',')">
+                        <span style="color: #1890ff; font-size: 10px;">
+                            #{{tag}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="AllPostDrawerClose()" class="ant-btn">
+            <span>Close</span>
+        </button>
+    </div>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible4"
+    [nzTitle]="likeDrawerTitle" (nzOnClose)="drawerClose4()" (nzKeyboard)="true">
+
+    <app-post-like-drawer [drawerClose]="postLikeCloseCallback" [dataList]="dataList2">
+    </app-post-like-drawer>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible3"
+    [nzTitle]="drawerTitle3" (nzOnClose)="drawerClose3()" (nzKeyboard)="true">
+
+    <app-addcommentdrawer [drawerClose2]="closeCallback3" [dataa]="drawerData3" [dataList1]="dataList1">
+    </app-addcommentdrawer>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="visible" [nzTitle]="'Share'" [nzContent]="sharePostContent" [nzFooter]="sharePostFooter"
+    (nzOnCancel)="CloseShare()">
+    <ng-template #sharePostContent>
+        <div style="text-align: center;">
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('facebook')">
+                    <span>
+                        <img src="assets/Facebook-Icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Facebook
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('twitter')">
+                    <span>
+                        <img src="assets/Twitter-Icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Twitter
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('Linkdin')">
+                    <span>
+                        <img src="assets/LinkedIn_Icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        LinkedIn
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="social('Whatsapp')">
+                    <span>
+                        <img src="assets/WhatsApp_icon.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        WhatsApp
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;">
+                <span style="cursor: pointer;" (click)="copyPostLink()">
+                    <span>
+                        <img src="assets/copyLinkWithBG.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Copy Link
+                    </span>
+                </span>
+            </div>
+
+            <div style="display: inline-block; padding: 5px;" *ngIf="resharePostMemberID != userID">
+                <span style="cursor: pointer;" (click)="showPostDetails(resharePostData)">
+                    <span>
+                        <img src="assets/reshare.png" style="width: 40px; margin: 10px;">
+                    </span><br>
+
+                    <span style="font-size: 10px; font-weight: bold;">
+                        Repost
+                    </span>
+                </span>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #sharePostFooter>
+        <button nz-button style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;" nzType="default"
+            (click)="CloseShare()">
+            Cancel
+        </button>
+    </ng-template>
+</nz-modal>

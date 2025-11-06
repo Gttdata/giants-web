@@ -1,0 +1,1039 @@
+<div>
+  <div class="header">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+      <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+  </div>
+
+  <form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row nzGutter="10">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>
+                    Host &nbsp;
+
+                    <nz-switch name="isHosted" nzCheckedChildren="Y" nzUnCheckedChildren="N"
+                      [(ngModel)]="data.IS_HOSTED" (ngModelChange)="onHostSwitchChange($event)">
+                    </nz-switch>
+                  </nz-form-label>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" *ngIf="data.IS_HOSTED">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Hosting Level</nz-form-label>
+
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Level">
+                    <nz-select name="hostingLevel" nzAllowClear nzPlaceHolder="Hosting Level"
+                      [(ngModel)]="data.HOSTING_LEVEL" required>
+                      <nz-option nzValue="U" nzLabel="Unit Level"></nz-option>
+                      <nz-option nzValue="F" nzLabel="Federation Level"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" *ngIf="data.IS_HOSTED">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>
+                    Hosted By&nbsp;<span style="color: blue; font-size: 10px;">(Type Here to Search Group(s))</span>
+                  </nz-form-label>
+
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Select Hosted Group(s)">
+                    <nz-select name="hostedGroupID" nzShowSearch nzAllowClear nzServerSearch
+                      (nzOnSearch)="getGroups($event)" [nzLoading]="isGroupLoading" nzMode="multiple"
+                      [nzMaxTagCount]="3" style="width: 100%" nzPlaceHolder="Type Here to Search Group(s)"
+                      [(ngModel)]="data.HOSTED_BY_GROUP_IDS" required>
+
+                      <nz-option *ngFor="let group of groups;" [nzValue]="group.ID" [nzLabel]="group.NAME">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" *ngIf="data.IS_HOSTED">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Programme Type &nbsp;
+                    <span nz-icon nzType="plus-circle" nzTheme="twotone" style="font-size: 20px; cursor: pointer;"
+                      (click)="addProgrammeType()">
+                    </span>
+                  </nz-form-label>
+
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Select Programme Type">
+                    <nz-select name="programmeType" nzShowSearch nzAllowClear style="width: 100%"
+                      nzPlaceHolder="Select Programme Type" [(ngModel)]="data.HOSTED_PROGRAMME_ID" required>
+
+                      <nz-option *ngFor="let programmeType of programmeTypes;" [nzValue]="programmeType.ID"
+                        [nzLabel]="programmeType.NAME">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Date</nz-form-label>
+
+                  <nz-form-control>
+                    <nz-date-picker name="date" nzFormat="dd/MM/yyyy" [(ngModel)]="data.DATE">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>From Time</nz-form-label>
+
+                  <nz-form-control>
+                    <nz-time-picker name="stime" [(ngModel)]="data.FROM_TIME" nzFormat="hh:mm a" style="width: 100%;">
+                    </nz-time-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>To Time</nz-form-label>
+
+                  <nz-form-control>
+                    <nz-time-picker name="etime" [(ngModel)]="data.TO_TIME" nzFormat="hh:mm a" style="width: 100%;">
+                    </nz-time-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Meeting Type</nz-form-label>
+
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Meeting Type">
+                    <nz-select name="meetingType" nzAllowClear nzPlaceHolder="Meeting Type"
+                      [(ngModel)]="data.TYPE_OF_MEET" required>
+                      <nz-option nzValue="B" nzLabel="BOD"></nz-option>
+                      <nz-option nzValue="G" nzLabel="General"></nz-option>
+                      <nz-option nzValue="O" nzLabel="Other"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Venue</nz-form-label>
+
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Venue">
+                    <input nz-input name="name" autocomplete="off" placeholder="Enter Venue" maxlength="200"
+                      [(ngModel)]="data.VENUE" required />
+                  </nz-form-control>
+
+                  <span *ngIf="data.VENUE" style="font-size: 10px; color: red;">
+                    {{data.VENUE.length}}/ 200
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Meeting Subject</nz-form-label>
+
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid Meeting Subject">
+                    <textarea rows="1" nz-input name="meetsub" placeholder="Enter Meeting Subject" maxlength="1000"
+                      [(ngModel)]="data.MEETING_SUB" required>
+                    </textarea>
+                  </nz-form-control>
+
+                  <span *ngIf="data.MEETING_SUB" style="font-size: 10px; color: red;">
+                    {{data.MEETING_SUB.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Meeting Agenda</nz-form-label>
+
+                  <nz-form-control nzErrorTip="Please Enter Valid Meeting Agenda">
+                    <angular-editor name="description" [placeholder]="'Enter Meeting Agenda'" [config]="editorConfig"
+                      [(ngModel)]="data.AGENDA" required>
+                    </angular-editor>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="24" *ngIf="addDrawer">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>MOM (Minutes of Meeting)</nz-form-label>
+
+                  <nz-form-control nzErrorTip="Please Enter Valid MOM (Minutes of Meeting)">
+                    <angular-editor name="minutes" [placeholder]="'Enter MOM (Minutes of Meeting)'"
+                      [config]="editorConfig" [(ngModel)]="data.MINUTES" required>
+                    </angular-editor>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div nz-col class="my-box" nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <nz-form-item>
+            <nz-form-label nzNoColon nzRequired>Meeting Type</nz-form-label>
+
+            <nz-form-control>
+              <nz-radio-group name="meetingType" (ngModelChange)="onSharingTypeChange($event)"
+                [(ngModel)]="data.MEETING_TYPE">
+                <label nz-radio nzValue="P" *ngIf="federationID > 0">
+                  Public
+                </label>
+
+                <label nz-radio nzValue="F" *ngIf="federationID > 0">
+                  Federation
+                </label>
+
+                <label nz-radio nzValue="U" *ngIf="(federationID > 0) || (unitID > 0)">
+                  Unit
+                </label>
+
+                <label nz-radio nzValue="G" *ngIf="(federationID > 0) || (unitID > 0) || (groupID > 0)">
+                  Group
+                </label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" *ngIf="data.MEETING_TYPE != 'P'">
+            <nz-form-item>
+              <nz-form-label nzNoColon nzRequired>
+                {{shareWithinTitle}} &nbsp;
+                <nz-switch name="selectAll" nzCheckedChildren="All" (ngModelChange)="onSelectAllChange($event)"
+                  [(ngModel)]="SELECT_ALL">
+                </nz-switch>
+              </nz-form-label>
+
+              <nz-form-control>
+                <nz-select name="typeID" [nzMaxTagCount]="3" nzShowSearch nzMode="multiple" nzAllowClear
+                  style="width: 100%" [nzPlaceHolder]="shareWithinPlaceHolder" [nzLoading]="shareWithinLoading"
+                  [(ngModel)]="data.TYPE_ID">
+
+                  <nz-option nzCustomContent *ngFor="let typeID of typeIDs;" [nzValue]="typeID.ID"
+                    [nzLabel]="typeID.NAME">
+
+                    <div nz-row *ngIf="data.MEETING_TYPE == 'F'">
+                      <div nz-col nzSpan="24">
+                        <b>{{typeID.NAME}}</b>
+                      </div>
+                    </div>
+
+                    <div nz-row *ngIf="data.MEETING_TYPE == 'U'">
+                      <div nz-col nzSpan="24">
+                        <b>{{typeID.NAME}}</b>
+                      </div>
+
+                      <div nz-col nzSpan="24" style="font-size: 11px;">
+                        <i nz-icon nzType="global" nzTheme="outline" style="color: #ff8d73;">
+                        </i>
+
+                        {{typeID.FEDERATION_NAME}}
+                      </div>
+                    </div>
+
+                    <div nz-row *ngIf="data.MEETING_TYPE == 'G'">
+                      <div nz-col nzSpan="24">
+                        <b>{{typeID.NAME}}</b>
+                      </div>
+
+                      <div nz-col nzSpan="24" style="font-size: 11px;">
+                        <i nz-icon nzType="global" nzTheme="outline" style="color: #ff8d73;">
+                        </i>
+
+                        {{typeID.FEDERATION_NAME}}
+                      </div>
+
+                      <div nz-col nzSpan="24" style="font-size: 11px;">
+                        <i nz-icon nzType="deployment-unit" nzTheme="outline" style="color: #ff8d73;">
+                        </i>
+
+                        {{typeID.UNIT_NAME}}
+                      </div>
+                    </div>
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div> -->
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" *ngIf="addDrawer">
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>PDF 1</nz-form-label>
+
+                  <nz-form-control>
+                    <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                      (click)="pdfFileInput1.click()">Choose File
+
+                      <input #pdfFileInput1 type="file" accept="application/pdf" (change)="onPdfFileSelected1($event)"
+                        (click)="pdfFileInput1.value = null" style="display: none;" />
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="23" *ngIf="pdfFileURL1 != null" style="overflow: hidden; font-size: 13px;">
+                {{pdfFileURL1.name}}
+              </div>
+
+              <div nz-col nzSpan="1" *ngIf="pdfFileURL1 != null">
+                <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'">
+                </i>
+              </div>
+
+              <div nz-col nzSpan="23" *ngIf="data.PDF1 != null" style="overflow: hidden; font-size: 13px;">
+                <a (click)="viewPDF(data.PDF1)">{{data.PDF1}}</a>
+              </div>
+
+              <div nz-col nzSpan="1" *ngIf="data.PDF1 != null">
+                <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                  nzPopconfirmTitle="Are you sure delete this PDF?" (nzOnConfirm)="pdfClear1()" (nzOnCancel)="cancel()"
+                  nzPopconfirmPlacement="top">
+                </i>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>PDF 2</nz-form-label>
+
+                  <nz-form-control>
+                    <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                      (click)="pdfFileInput2.click()">Choose File
+
+                      <input #pdfFileInput2 type="file" accept="application/pdf" (change)="onPdfFileSelected2($event)"
+                        (click)="pdfFileInput2.value = null" style="display: none;" />
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="23" *ngIf="pdfFileURL2 != null" style="overflow: hidden; font-size: 13px;">
+                {{pdfFileURL2.name}}
+              </div>
+
+              <div nz-col nzSpan="1" *ngIf="pdfFileURL2 != null">
+                <i nz-icon nzType="delete" (click)="pdfClear2()" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'">
+                </i>
+              </div>
+
+              <div nz-col nzSpan="23" *ngIf="data.PDF2 != null" style="overflow: hidden; font-size: 13px;">
+                <a (click)="viewPDF(data.PDF2)">{{data.PDF2}}</a>
+              </div>
+
+              <div nz-col nzSpan="1" *ngIf="data.PDF2 != null">
+                <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                  nzPopconfirmTitle="Are you sure delete this PDF?" (nzOnConfirm)="pdfClear2()" (nzOnCancel)="cancel()"
+                  nzPopconfirmPlacement="top">
+                </i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" *ngIf="addDrawer">
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <div nz-row>
+                  <div nz-col nzSpan="24" style="text-align: center;">
+                    <nz-form-item>
+                      <nz-form-label nzNoColon>
+                        Photo 1 &nbsp;
+                        <span *ngIf="data.PHOTO1">
+                          <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                            [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear1()"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                          </i>
+                        </span>
+                      </nz-form-label>
+
+                      <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                          (click)="fileInput1.click()">Choose File
+
+                          <input #fileInput1 type="file" accept="image/*" (change)="onFileSelected1($event)"
+                            (click)="fileInput1.value = null" style="display: none;" />
+                        </button>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <span *ngIf="data.PHOTO1">
+                    <div nz-col nzSpan="24" style="text-align: center;">
+                      <nz-form-item>
+                        <div>
+                          <img [src]="data.PHOTO1" (click)="viewImage(data.PHOTO1)"
+                            style="height: 120px; width: 160px;border: 2px solid gray; border-radius: 5px; cursor: pointer;">
+                        </div>
+                      </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <textarea rows="2" nz-input name="decription1" placeholder="Enter Description 1"
+                            [(ngModel)]="data.DESCRIPTION1" maxlength="2000">
+                          </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.DESCRIPTION1" style="font-size: 10px; color: red;">
+                          {{data.DESCRIPTION1.length}}/ 2000
+                        </span>
+                      </nz-form-item>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <div nz-row>
+                  <div nz-col nzSpan="24" style="text-align: center;">
+                    <nz-form-item>
+                      <nz-form-label nzNoColon>
+                        Photo 2 &nbsp;
+                        <span *ngIf="data.PHOTO2">
+                          <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                            [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear2()"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                          </i>
+                        </span>
+                      </nz-form-label>
+
+                      <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                          (click)="fileInput2.click()">Choose File
+
+                          <input #fileInput2 type="file" accept="image/*" (change)="onFileSelected2($event)"
+                            (click)="fileInput2.value = null" style="display: none;" />
+                        </button>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <span *ngIf="data.PHOTO2">
+                    <div nz-col nzSpan="24" style="text-align: center;">
+                      <nz-form-item>
+                        <div>
+                          <img [src]="data.PHOTO2" (click)="viewImage(data.PHOTO2)"
+                            style="height: 120px; width: 160px; border: 2px solid gray; border-radius: 5px; cursor: pointer;">
+                        </div>
+                      </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <textarea rows="2" nz-input name="decription2" placeholder="Enter Description 2"
+                            [(ngModel)]="data.DESCRIPTION2" maxlength="2000">
+                          </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.DESCRIPTION2" style="font-size: 10px; color: red;">
+                          {{data.DESCRIPTION2.length}}/ 2000
+                        </span>
+                      </nz-form-item>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <div nz-row>
+                  <div nz-col nzSpan="24" style="text-align: center;">
+                    <nz-form-item>
+                      <nz-form-label nzNoColon>
+                        Photo 3 &nbsp;
+                        <span *ngIf="data.PHOTO3">
+                          <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                            [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear3()"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                          </i>
+                        </span>
+                      </nz-form-label>
+
+                      <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                          (click)="fileInput3.click()">Choose File
+
+                          <input #fileInput3 type="file" accept="image/*" (change)="onFileSelected3($event)"
+                            (click)="fileInput3.value = null" style="display: none;" />
+                        </button>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <span *ngIf="data.PHOTO3">
+                    <div nz-col nzSpan="24" style="text-align: center;">
+                      <nz-form-item>
+                        <div>
+                          <img [src]="data.PHOTO3" (click)="viewImage(data.PHOTO3)"
+                            style="height: 120px; width: 160px; border: 2px solid gray; border-radius: 5px; cursor: pointer;">
+                        </div>
+                      </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <textarea rows="2" nz-input name="decription3" placeholder="Enter Description 3"
+                            [(ngModel)]="data.DESCRIPTION3" maxlength="2000">
+                          </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.DESCRIPTION3" style="font-size: 10px; color: red;">
+                          {{data.DESCRIPTION3.length}}/ 2000
+                        </span>
+                      </nz-form-item>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <div nz-row>
+                  <div nz-col nzSpan="24" style="text-align: center;">
+                    <nz-form-item>
+                      <nz-form-label nzNoColon>
+                        Photo 4 &nbsp;
+                        <span *ngIf="data.PHOTO4">
+                          <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                            [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear4()"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                          </i>
+                        </span>
+                      </nz-form-label>
+
+                      <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                          (click)="fileInput4.click()">Choose File
+
+                          <input #fileInput4 type="file" accept="image/*" (change)="onFileSelected4($event)"
+                            (click)="fileInput4.value = null" style="display: none;" />
+                        </button>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <span *ngIf="data.PHOTO4">
+                    <div nz-col nzSpan="24" style="text-align: center;">
+                      <nz-form-item>
+                        <div>
+                          <img [src]="data.PHOTO4" (click)="viewImage(data.PHOTO4)"
+                            style="height: 120px; width: 160px; border: 2px solid gray; border-radius: 5px; cursor: pointer;">
+                        </div>
+                      </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <textarea rows="2" nz-input name="decription4" placeholder="Enter Description 4"
+                            [(ngModel)]="data.DESCRIPTION4" maxlength="2000">
+                          </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.DESCRIPTION4" style="font-size: 10px; color: red;">
+                          {{data.DESCRIPTION4.length}}/ 2000
+                        </span>
+                      </nz-form-item>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzSpan="24">
+                <div nz-row>
+                  <div nz-col nzSpan="24" style="text-align: center;">
+                    <nz-form-item>
+                      <nz-form-label nzNoColon>
+                        Photo 5 &nbsp;
+                        <span *ngIf="data.PHOTO5">
+                          <i nz-icon style="margin-top: 3px;" nzType="delete" nzTheme="twotone"
+                            [nzTwotoneColor]="'#ff0000'" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure delete this Image?" (nzOnConfirm)="clear5()"
+                            (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+                          </i>
+                        </span>
+                      </nz-form-label>
+
+                      <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                          (click)="fileInput5.click()">Choose File
+
+                          <input #fileInput5 type="file" accept="image/*" (change)="onFileSelected5($event)"
+                            (click)="fileInput5.value = null" style="display: none;" />
+                        </button>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <span *ngIf="data.PHOTO5">
+                    <div nz-col nzSpan="24" style="text-align: center;">
+                      <nz-form-item>
+                        <div>
+                          <img [src]="data.PHOTO5" (click)="viewImage(data.PHOTO5)"
+                            style="height: 120px; width: 160px; border: 2px solid gray; border-radius: 5px; cursor: pointer;">
+                        </div>
+                      </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <nz-form-item>
+                        <nz-form-control>
+                          <textarea rows="2" nz-input name="decription5" placeholder="Enter Description 5"
+                            [(ngModel)]="data.DESCRIPTION5" maxlength="2000">
+                          </textarea>
+                        </nz-form-control>
+
+                        <span *ngIf="data.DESCRIPTION5" style="font-size: 10px; color: red;">
+                          {{data.DESCRIPTION5.length}}/ 2000
+                        </span>
+                      </nz-form-item>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+      <span>Cancel</span>
+    </button>
+
+    <button type="button" nz-button *ngIf="(data.MEETING_SUB) && (data.AGENDA)" [nzLoading]="isSpinning"
+      (click)="previewModalOpen()" class="ant-btn" style="margin-right: 8px;">
+      <span>Preview</span>
+    </button>
+
+    <button type="button" *ngIf="data.STATUS == 'D'" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+      (click)="save(false,myForm,'D')" style="margin-right: 8px;">
+      <span>Save as Draft</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+      (click)="save(false,myForm,'P')">
+      <span>Publish</span>
+    </button>
+  </div>
+</div>
+
+<!-- Google calender modal -->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Google Calender" [nzContent]="modalContent1" [nzFooter]="modalFooter1"
+  (nzOnCancel)="handleCancel()">
+  <ng-template #modalContent1>
+    <p>Do You Want to Add Meeting in Your Google Calender ?</p>
+  </ng-template>
+
+  <ng-template #modalFooter1>
+    <button nz-button nzType="default" (click)="handleCancel()">
+      Cancel
+    </button>
+
+    <a [href]="GoogleCalender" mat-menu-item target="_blank" nz-button nzType="default" (click)="handleOk()"
+      style="margin-left: 10px;">
+      Add
+    </a>
+  </ng-template>
+</nz-modal>
+
+<nz-modal nzWidth="1000px" [nzBodyStyle]="{height : '460px'}" [(nzVisible)]="previewModalVisible" [nzTitle]="'Preview'"
+  [nzContent]="previewModalContent" [nzFooter]="previewModalFooter" (nzOnCancel)="previewModalCancel()"
+  nzClosable="false">
+
+  <ng-template #previewModalContent>
+    <div style="overflow: auto; height: 430px; padding: 5px;">
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div style="font-size: 14px; color:black; font-weight: bold; text-align: justify; padding-bottom: 3px;">
+            {{data.MEETING_SUB}}
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="5" nzLg="5" nzXl="5" style="font-size: 10px;">
+              <i nz-icon nzType="calendar" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+              <span style="color: black;">{{data.DATE | date:'dd MMM yyyy'}}</span>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="7" nzLg="7" nzXl="7" style="font-size: 10px;">
+              <i nz-icon nzType="clock-circle" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+              <span style="color: black;">
+                {{(data.FROM_TIME) | date:'hh:mm a' }} To
+                {{(data.TO_TIME) | date:'hh:mm a' }}
+              </span>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="font-size: 10px;">
+              <i nz-icon nzType="environment" nzTheme="outline" style="color: #FF7A7A;"></i>&nbsp;
+              <span style="color: black;">{{data.VENUE}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; text-align: left; color: black;">
+            {{data.GROUP_NAME}}
+          </div>
+        </div>
+
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="font-size: 10px; color:#FF7A7A; text-align: right;">
+            {{data.MEETING_NUMBER}}
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify; margin-top: 10px;">
+          <div [innerHTML]="data.AGENDA"></div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 5">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 45vh; padding: 1px;">
+                      <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 45vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="data.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="data.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="data.PHOTO5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 4">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 60vh; padding: 1px;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="data.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="data.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 3">
+            <div nz-row>
+              <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16">
+                <div style="text-align: center; height: 60vh; padding: 1px;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <div nz-row>
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div style="text-align: center; height: 30vh; padding: 1px;">
+                      <img [src]="data.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 2">
+            <div nz-row>
+
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: center; height: 50vh; padding: 1px;">
+                  <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 5">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 20vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 4">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 25vh; padding: 1px;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 3">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 25vh; padding: 1px;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 2">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div nz-row>
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <div style="text-align: center; height: 10vh; padding: 1px;">
+                      <img [src]="data.PHOTO2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 3px;"
+            *ngIf="getImageCount(data.PHOTO1,data.PHOTO2,data.PHOTO3,data.PHOTO4,data.PHOTO5) == 1">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; height: 50vh;">
+                  <img [src]="data.PHOTO1" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+          style="font-size: 12px; text-align: justify;margin-top: 10px;">
+          <div [innerHTML]="data.MINUTES"></div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #previewModalFooter>
+    <button nz-button nzType="default" (click)="previewModalCancel()">
+      Cancel
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="450" [nzVisible]="programmeTypeDrawerVisible"
+  [nzTitle]="programmeTypeDrawerTitle" (nzOnClose)="programmeTypeDrawerClose()" (nzKeyboard)="true">
+
+  <app-programme-type-drawer [drawerClose]="programmeTypeDrawerCloseCallback" [drawerVisible]="drawerVisible"
+    [data]="programmeTypeDrawerData">
+  </app-programme-type-drawer>
+</nz-drawer>

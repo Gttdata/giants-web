@@ -1,0 +1,856 @@
+<div>
+  <div class="header">
+    <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch nzAllowClear
+      style="width: 150px; margin-left: 10px;" (ngModelChange)="selectChangeYear()">
+      <nz-option *ngFor="let fillYears of range;" [nzValue]="fillYears" [nzLabel]="fillYears">
+      </nz-option>
+    </nz-select>
+  </div>
+  <form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row nzGutter="10">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <!-- <div nz-row>
+                    <div nz-col nzSpan="24" style="text-align: right;">
+                      <nz-form-item>
+                        <nz-form-control nzHasFeedback nzErrorTip="Enter Name of the Service Project">
+                          <button type="button" nz-button class="ant-btn ant-btn-primary" (click)="FetchOldData()">Fetch Old Data</button>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    
+                  </div> -->
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Name Of the Service Project</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter Name of the Service Project">
+                    <input nz-input placeholder="Name of the Service Projact" name="noofserviceproject"
+                      [(ngModel)]="data.MONUMENT_PROJECT_NAME" required />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Date of Launching</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Select the Date of Launching">
+                    <nz-date-picker name="dateoflanch" nzPlaceHolder="Select Date" style="width: 150px;"
+                      [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy" [(ngModel)]="data.DATE_OF_LAUNCHING"
+                      required>
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Date of Completion</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Select the Date of Completion">
+                    <nz-date-picker name="dateofcompletion" nzPlaceHolder="Select Date" style="width: 150px;"
+                      [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy" [(ngModel)]="data.DATE_OF_COMPLETION"
+                      required>
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Project Expenses & Sponsorship
+                  </nz-form-label>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Expenses
+                  </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter the total Expenses involved in Project">
+                    <nz-input-group style="width: 170px;" nzAddOnBefore="Rs.">
+                      <span class="td-right">
+                        <input nz-input placeholder="Enter Amount" name="totalexpenses"
+                          [(ngModel)]="data.TOTAL_EXPENCES_IN_PROJECT" (keypress)="numberOnly($event)" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Budget
+                  </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter the Project Budget">
+                    <nz-input-group style="width: 170px;" nzAddOnBefore="Rs.">
+                      <span class="td-right">
+                        <input nz-input placeholder="Enter Amount" name="totalbuget"
+                          [(ngModel)]="data.TOTAL_BUDGET_IN_PROJECT" (keypress)="numberOnly($event)" required />
+                      </span>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>Any Sponsorship
+                  </nz-form-label>
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Project Sponsered" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addMonumentalSpons()">
+                      <span>Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #monumentalSponsTable nzBordered [nzHideOnSinglePage]="true"
+                    [nzData]="MonumentalSponsArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Sponsored Name</b></th>
+                        <th><b>Date of Inauguration</b></th>
+                        <th><b>Description</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of monumentalSponsTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editMonumentalSpons(data,i)">Edit </a>
+                        </td>
+                        <td class="td-center">{{ data.SPONSERED_NAME}}</td>
+                        <td class="td-center">{{data['DATE_OF_INAGUARATION'] | date:'dd MMM yyyy'}}</td>
+                        <td class="td-center">{{ data.DESCRIPTION }}</td>
+
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>What are the benefits of Project</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter the Benefit of Project">
+                    <textarea rows="2" nz-input placeholder="Enter the Benefit of Project" name="benefits"
+                      [(ngModel)]="data.BENEFITS_OF_PROJECT" maxlength="1000" required></textarea>
+                  </nz-form-control>
+                  <span *ngIf="data.BENEFITS_OF_PROJECT" style="font-size: 10px; color: red;">
+                    {{data.BENEFITS_OF_PROJECT.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Whether the Benefit is to public at large or
+                    to one class of People</nz-form-label>
+                  <nz-form-control nzHasFeedback
+                    nzErrorTip="Enter the Benefit is to public at large or to one class of People">
+                    <textarea rows="2" nz-input
+                      placeholder="Enter the Benefit is to public at large or to one class of People"
+                      name="benefittopublic" [(ngModel)]="data.BENEFITS_TO_PUBLIC" maxlength="1000" required></textarea>
+                  </nz-form-control>
+                  <span *ngIf="data.BENEFITS_TO_PUBLIC" style="font-size: 10px; color: red;">
+                    {{data.BENEFITS_TO_PUBLIC.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon> Whether it is according to the Aims &
+                    Objects of the Organization </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter the Aims & Objects of the Organization">
+                    <textarea rows="2" nz-input placeholder="Enter the Aims & Objects of the Organization"
+                      name="aimsobjects" [(ngModel)]="data.AIMS_AND_OBJECTS" maxlength="1000" required></textarea>
+                  </nz-form-control>
+                  <span *ngIf="data.AIMS_AND_OBJECTS" style="font-size: 10px; color: red;">
+                    {{data.AIMS_AND_OBJECTS.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <label><span style="color: red;" *ngIf="Swicthing==true">*</span>Is it a National
+                    Programme ?
+                  </label>
+                  <!-- <span *ngIf="data.NATIONAL_PROGRAMME!=''">
+
+                                    </span> -->
+                  <nz-switch [(ngModel)]="Swicthing" nzCheckedChildren="YES" nzUnCheckedChildren="NO"
+                    name="swicthing"></nz-switch>
+
+
+                  <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+                  <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+                  <textarea nz-input placeholder="Name of National Programme" [(ngModel)]="data.NATIONAL_PROGRAMME"
+                    name="nameofprogram" [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000"
+                    *ngIf="Swicthing==true"></textarea>
+                  <span *ngIf="Swicthing==true && validation==false && data.NATIONAL_PROGRAMME==''"
+                    style="color:red">Please fill the
+                    field</span>
+                  <span *ngIf="data.NATIONAL_PROGRAMME && Swicthing==true" style="font-size: 10px; color: red;">
+                    {{data.NATIONAL_PROGRAMME.length}}/ 1000
+                  </span>
+
+
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon> Whether Local Bodies have Approved: Annexure 'B' </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter the Description of Local Bodies have Approved">
+                    <textarea rows="2" nz-input placeholder="Enter the Description of Local Bodies have Approved"
+                      name="localbodiesapproved" [(ngModel)]="data.LOCAL_BODIES_APPROVED" maxlength="1000"
+                      required></textarea>
+                  </nz-form-control>
+                  <span *ngIf="data.LOCAL_BODIES_APPROVED" style="font-size: 10px; color: red;">
+                    {{data.LOCAL_BODIES_APPROVED.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+
+            <div nz-row>
+              <div style="font-weight: bold;" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzNoColon> Any other Information Annexure 'C' </nz-form-label>
+                </nz-form-item>
+              </div>
+
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon required>Photographs with Giants Banner
+                  </nz-form-label>
+
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Media Cover" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addGaintsBanner()">
+                      <span>Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #gaintsBannerTable nzBordered [nzHideOnSinglePage]="true" [nzData]="gaintsBannerArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Details</b></th>
+                        <th><b>Photo 1</b></th>
+                        <th><b>Photo 2</b></th>
+                        <th><b>Photo 3</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of gaintsBannerTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editGaintsBanner(data,i)">Edit </a>
+                        </td>
+                        <td>{{ data.DETAILS }}</td>
+                        <!-- <td class="td-center">
+                                      <a href="{{data.PHOTO_URL1}}" target="_blank">Photo1</a>
+                                    </td> -->
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL1 != undefined &&  data.PHOTO_URL1 != null &&  data.PHOTO_URL1 != ' ' &&  data.PHOTO_URL1 != '' ">
+                            <a href="{{api.retriveimgUrl}}monumentalBannerPhotos/{{ data.PHOTO_URL1 }}"
+                              target="_blank">Photo1</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL1 == undefined ||  data.PHOTO_URL1 == null ||  data.PHOTO_URL1 == ' ' ||  data.PHOTO_URL1 == '' ">
+                            No Photo
+                          </span>
+                          <!-- <span *ngIf="BannerURL == undefined ||  BannerURL == null ||  BannerURL == ' ' ||  BannerURL == '' ">
+                                        BannerURL
+                                      </span> -->
+                        </td>
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL2 != undefined &&  data.PHOTO_URL2 != null &&  data.PHOTO_URL2 != ' ' &&  data.PHOTO_URL2 != '' ">
+                            <a href="{{api.retriveimgUrl}}monumentalBannerPhotos/{{ data.PHOTO_URL2 }}"
+                              target="_blank">Photo2</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL2 == undefined ||  data.PHOTO_URL2 == null ||  data.PHOTO_URL2 == ' ' ||  data.PHOTO_URL2 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL3 != undefined &&  data.PHOTO_URL3 != null &&  data.PHOTO_URL3 != ' ' &&  data.PHOTO_URL3 != '' ">
+                            <a href="{{api.retriveimgUrl}}monumentalBannerPhotos/{{ data.PHOTO_URL3 }}"
+                              target="_blank">Photo3</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL3 == undefined ||  data.PHOTO_URL3 == null ||  data.PHOTO_URL3 == ' ' ||  data.PHOTO_URL3 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-label nzNoColon required>Press Clipping
+                  </nz-form-label>
+
+                </nz-form-item>
+              </div>
+              <div style="text-align: right;" nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <nz-form-item>
+                  <nz-form-control>
+                    <button type="button" nzTooltipTitle="Add Media Cover" nzTooltipPlacement="top"
+                      class="ant-btn ant-btn-primary" nz-button (click)="addPressClipping()">
+                      <span>Add New</span>
+                    </button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-table #pressClippingTable nzBordered [nzHideOnSinglePage]="true" [nzData]="pressClippingArray">
+                    <thead>
+                      <tr>
+                        <th><b>Action</b></th>
+                        <th><b>Details</b></th>
+                        <th><b>Photo 1</b></th>
+                        <th><b>Photo 2</b></th>
+                        <th><b>Photo 3</b></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of pressClippingTable.data;let i = index">
+                        <!-- <tr> -->
+                        <td class="td-center">
+                          <a (click)="editPressClipping(data,i)">Edit </a>
+                        </td>
+                        <td>{{ data.DETAILS }}</td>
+                        <!-- <td class="td-center">
+                                        <a href="{{data.PHOTO_URL1}}" target="_blank">Photo1</a>
+                                      </td> -->
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL1 != undefined &&  data.PHOTO_URL1 != null &&  data.PHOTO_URL1 != ' ' &&  data.PHOTO_URL1 != '' ">
+                            <a href="{{api.retriveimgUrl}}monumentalPressClipping/{{ data.PHOTO_URL1 }}"
+                              target="_blank">Photo1</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL1 == undefined ||  data.PHOTO_URL1 == null ||  data.PHOTO_URL1 == ' ' ||  data.PHOTO_URL1 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL2 != undefined &&  data.PHOTO_URL2 != null &&  data.PHOTO_URL2 != ' ' &&  data.PHOTO_URL2 != '' ">
+                            <a href="{{api.retriveimgUrl}}monumentalPressClipping/{{ data.PHOTO_URL2 }}"
+                              target="_blank">Photo2</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL2 == undefined ||  data.PHOTO_URL2 == null ||  data.PHOTO_URL2 == ' ' ||  data.PHOTO_URL2 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                        <td class="td-center">
+                          <span
+                            *ngIf="data.PHOTO_URL3 != undefined &&  data.PHOTO_URL3 != null &&  data.PHOTO_URL3 != ' ' &&  data.PHOTO_URL3 != '' ">
+                            <a href="{{api.retriveimgUrl}}monumentalPressClipping/{{ data.PHOTO_URL3 }}"
+                              target="_blank">Photo3</a>
+                          </span>
+                          <span
+                            *ngIf="data.PHOTO_URL3 == undefined ||  data.PHOTO_URL3 == null ||  data.PHOTO_URL3 == ' ' ||  data.PHOTO_URL3 == '' ">
+                            No Photo
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon> Details </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Enter the Other Details">
+                    <textarea rows="2" nz-input placeholder="Enter the Other Details" name="otherdetails"
+                      [(ngModel)]="data.OTHER_DETAILS" maxlength="1000" required></textarea>
+                  </nz-form-control>
+                  <span *ngIf="data.OTHER_DETAILS" style="font-size: 10px; color: red;">
+                    {{data.OTHER_DETAILS.length}}/ 1000
+                  </span>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+</div>
+<!-- <div class="footer">
+  <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+    style="margin-right: 8px;"><span>Cancel</span></button>
+  <span *ngIf="currentYear == SelectedYear">
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;"
+      *ngIf="!data.ID && data.IS_SUBMITED != 'S'" nz-button (click)="save(false,myForm)">
+      <span>Save As Draft & Close</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button [nzLoading]="isSpinning"
+      *ngIf="data.ID && data.IS_SUBMITED != 'S'" (click)="save(false,myForm)">
+      <span>Save As Draft & Close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button [nzLoading]="isSpinning"
+      *ngIf="data.IS_SUBMITED != 'S'" (click)="ApplySubmit(myForm)">
+      <span>Apply For Award & Close</span>
+    </button>
+  </span>
+
+  <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary">
+    <span>Preview</span>
+  </button>
+</div> -->
+
+<div class="footer">
+  <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+    style="margin-right: 8px;"><span>Cancel</span></button>
+    <span *ngIf="currentYear == SelectedYear">      
+      <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" *ngIf="!data.ID && data.IS_SUBMITED != 'S'" nz-button
+      (click)="save(false,myForm)">
+      <span>Save As Draft & Close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button [nzLoading]="isSpinning"
+      *ngIf="data.ID && data.IS_SUBMITED != 'S'" (click)="save(false,myForm)">
+      <span>Save As Draft & Close</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button [nzLoading]="isSpinning"
+      *ngIf="data.IS_SUBMITED != 'S'" (click)="ApplySubmit(myForm)" >
+      <span>Apply For Award & Close</span>
+    </button>
+    </span>
+  
+  <button type="button" nz-button (click)="showModal()" class="ant-btn ant-btn-primary">
+    <span>Preview</span>
+  </button>
+</div>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="drawerMonumentalSponsVisible" [nzTitle]="drawerMonumentalSponsTitle"
+  (nzOnClose)="drawerMonumentalSponsClose()" (nzKeyboard)="true">
+
+  <app-addmonumentalaward-sponsor [drawerMonumentalSponsClose]="closeMonumentalSponsCallback"
+    (fUrl1)="SponsSentUrl1($event)" [drawermonumentalSponsVisible]="drawerMonumentalSponsVisible"
+    [MonumentalSponsData]="drawerMonumentalSponsData" [monumentalSponsTable]="monumentalSponsTableCallback">
+  </app-addmonumentalaward-sponsor>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="drawerGaintsBannerVisible" [nzTitle]="drawerGaintsBannerTitle" (nzOnClose)="drawerGaintsBannerClose()"
+  (nzKeyboard)="true">
+
+  <app-addgaintsbannerphotos [drawerGaintsBannerClose]="closeGaintsBannerCallback"
+    [drawerGaintsBannerVisible]="drawerGaintsBannerVisible" (fUrl1)="BannerSentUrl1($event)"
+    (fUrl2)="BannerSentUrl2($event)" (fUrl3)="BannerSentUrl3($event)" [gaintsBannerData]="drawerGaintsBannerData"
+    [GaintsBannerTable]="GaintsBannerTableCallback">
+  </app-addgaintsbannerphotos>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()"
+  [nzVisible]="drawerPressClippingVisible" [nzTitle]="drawerPressClippingTitle" (nzOnClose)="drawerPressClippingClose()"
+  (nzKeyboard)="true">
+
+  <app-addpressclipping [drawerPressClippingClose]="closePressClippingCallback"
+    [drawerPressClippingVisible]="drawerPressClippingVisible" (fUrl1)="PressClipSentUrl1($event)"
+    (fUrl2)="PressClipSentUrl2($event)" (fUrl3)="PressClipSentUrl3($event)"
+    [pressClippingData]="drawerPressClippingData" [PressClippingTable]="PressClippingTableCallback">
+  </app-addpressclipping>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()" [nzWidth]="900">
+  <ng-template #modalTitle>Print Document</ng-template>
+  <ng-template #modalContent>
+    <div nz-row id="print">
+      <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;padding-bottom: 10px;">
+        GIANTS WELFARE FOUNDATION<br>
+      </div>
+
+      <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 10px;">
+        AWARD BIDDING FORM NO. 1
+      </div>
+
+      <div style="color:black;text-align: center;font-weight: bolder;font-size: 18px;padding-bottom: 20px;">
+        NAME OF THE AWARD : OUTSTANDING MONUMENTAL
+      </div>
+      <div style="display:inline-flex;width: 100%;">
+        <div style="width: 22%;">
+          <p>NAME OF THE GROUP </p>
+        </div>
+        <div style="width:86%;">
+          <p style="border-bottom: 1px solid grey;min-height:20px;"> :<b> {{data.GROUP_NAME}}</b>
+          </p>
+        </div>
+      </div>
+      <b style="font-weight: bold; padding-left: 20px;">Details</b>
+      <table style="margin-left: 30px;">
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;1) NAME OF THE MONUMENT
+            PROJECT : <b>{{data.MONUMENT_PROJECT_NAME}} </b>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp;Date Of Launching : <b>{{data['DATE_OF_LAUNCHING'] | date:'dd
+              MMM yyyy'}}</b>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp;Date of Completion : <b>{{data['DATE_OF_COMPLETION'] |
+              date:'dd MMM yyyy'}}</b>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;2) Project Expenses &
+            Sponsorship, if any, with Budget
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp;Project Expenses : <b>{{data.TOTAL_EXPENCES_IN_PROJECT}} Rs.
+            </b>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp;Project Budget : <b>{{data.TOTAL_BUDGET_IN_PROJECT}} Rs. </b>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp;Sponsorship Details : <b>Annexure 'A' </b>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;3) What are the
+            benefits :
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp;{{data.BENEFITS_OF_PROJECT}}
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;4) Whether the benefit
+            is to Public at large or to one class of people:
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp; {{data.BENEFITS_TO_PUBLIC}}
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;5) Whether it is
+            according to the aims & objects of the organization :
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp; {{data.AIMS_AND_OBJECTS}}
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;6) Is it a National
+            Programme (If 'yes' name it):
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 30px">&nbsp;&nbsp;&nbsp; {{data.NATIONAL_PROGRAMME}}
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;7) Whether Local Bodies
+            have approved : Annexure 'B'
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; padding-left: 20px;padding-top: 10px;">&nbsp;&nbsp;&nbsp;8) Any other
+            Information : Annexure 'C'
+          </td>
+        </tr>
+
+      </table>
+      <div style="text-align: justify;font-size: 15px;margin-top: 40px;padding-left: 30px;">
+
+
+
+        I, undersigned, PRESIDENT/Director of Administration of the Giants Group of
+        ……………………… do hereby certify that the information contained is true and correct to the best of our knowledge.
+
+      </div>
+
+
+
+      <div style="display:inline-flex;width: 100%;margin-top: 10px;">
+
+        <div style="width: 30%;padding-top: 70px;text-align: center;">
+
+          Date : <b> {{data['CREATED_MODIFIED_DATE'] | date:'dd MMM yyyy'}}</b>
+
+
+
+        </div>
+
+        <div style="width: 30%;">
+
+          <div style="width:80px; height:80px;border-radius:50%;border:1px solid grey;margin:0px auto; ">
+
+          </div>
+
+        </div>
+
+        <div style="width: 30%;text-align: center;padding-top: 70px;">
+
+          President / Director of Adm.
+
+        </div>
+
+      </div>
+      <div style="page-break-after: always;">
+      </div>
+
+
+
+      <div>
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Annexure 'A'<br>
+        </div>
+        <div style="text-align: left; margin-top: 10px; padding-left: 30px;">
+          Sponsorship
+        </div>
+        <div>
+          <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+            SPONSEROSHIP CERTIFICATE<br>
+          </div>
+          <tr *ngFor="let sponsordata of MonumentalSponsArray;">
+
+
+            <div style="text-align: left;margin-top: 10px; padding-left: 30px; width: 100%;">
+              a) Sponsered Project Name : <b> {{ sponsordata.SPONSERED_NAME }} </b>
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: 100%;">
+              b) Date : <b> {{sponsordata['DATE_OF_INAGUARATION'] | date:'dd MMM yyyy'}} </b>
+
+            </div>
+            <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: 100%;">
+              c) Description : <b> {{ sponsordata.DESCRIPTION }} </b>
+            </div>
+            <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+              <span
+                *ngIf="sponsordata.SPONSERED_CERTIFICATE != undefined &&  sponsordata.SPONSERED_CERTIFICATE != null &&  sponsordata.SPONSERED_CERTIFICATE != '' &&  sponsordata.SPONSERED_CERTIFICATE != ' ' ">
+                <b> Photo 1 </b>
+              </span>
+            </div>
+            <div style="text-align: center; margin-top: 10px; ">
+              <img
+                *ngIf="sponsordata.SPONSERED_CERTIFICATE != undefined &&  sponsordata.SPONSERED_CERTIFICATE != null &&  sponsordata.SPONSERED_CERTIFICATE != '' &&  sponsordata.SPONSERED_CERTIFICATE != ' ' "
+                style="width: 600px; height: 400px; margin-left: 15px;"
+                src="{{api.retriveimgUrl}}monumentalProjectSponsorship/{{ sponsordata.SPONSERED_CERTIFICATE }}" />
+
+            </div>
+
+
+
+
+          </tr>
+        </div>
+
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Annexure 'B'<br>
+        </div>
+        <div style="text-align: left; margin-top: 10px; padding-left: 30px;">
+          {{ data.LOCAL_BODIES_APPROVED }}
+        </div>
+        <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Annexure 'C'<br>
+        </div>
+        <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+          Photographs with Giants Banner
+        </div>
+        <tr *ngFor="let bannerData of gaintsBannerArray;">
+
+
+          <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: 100%;">
+            {{ bannerData.DETAILS }}
+          </div>
+
+
+          <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+            <span
+              *ngIf="bannerData.PHOTO_URL1 != undefined &&  bannerData.PHOTO_URL1 != null &&  bannerData.PHOTO_URL1 != '' &&  bannerData.PHOTO_URL1 != ' ' ">
+              <b> Photo 1 </b>
+            </span>
+          </div>
+          <div style="text-align: center; margin-top: 10px; ">
+            <img
+              *ngIf="bannerData.PHOTO_URL1 != undefined &&  bannerData.PHOTO_URL1 != null &&  bannerData.PHOTO_URL1 != '' &&  bannerData.PHOTO_URL1 != ' ' "
+              style="width: 600px; height: 400px; margin-left: 15px;"
+              src="{{api.retriveimgUrl}}monumentalBannerPhotos/{{ bannerData.PHOTO_URL1 }}" />
+          </div>
+          <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+            <span
+              *ngIf="bannerData.PHOTO_URL2 != undefined &&  bannerData.PHOTO_URL2 != null &&  bannerData.PHOTO_URL2 != '' &&  bannerData.PHOTO_URL2 != ' ' ">
+              <b> Photo 2 </b>
+            </span>
+          </div>
+          <div style="text-align: center; margin-top: 10px; ">
+            <img
+              *ngIf="bannerData.PHOTO_URL2 != undefined &&  bannerData.PHOTO_URL2 != null &&  bannerData.PHOTO_URL2 != '' &&  bannerData.PHOTO_URL2 != ' ' "
+              style="width: 600px; height: 400px; margin-left: 15px;"
+              src="{{api.retriveimgUrl}}monumentalBannerPhotos/{{ bannerData.PHOTO_URL2 }}" />
+          </div>
+          <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+            <span
+              *ngIf="bannerData.PHOTO_URL3 != undefined &&  bannerData.PHOTO_URL3 != null &&  bannerData.PHOTO_URL3 != '' &&  bannerData.PHOTO_URL3 != ' ' ">
+              <b> Photo 3 </b>
+            </span>
+          </div>
+          <div style="text-align: center; margin-top: 10px; ">
+            <img
+              *ngIf="bannerData.PHOTO_URL3 != undefined &&  bannerData.PHOTO_URL3 != null &&  bannerData.PHOTO_URL3 != '' &&  bannerData.PHOTO_URL3 != ' ' "
+              style="width: 600px; height: 400px; margin-left: 15px;"
+              src="{{api.retriveimgUrl}}monumentalBannerPhotos/{{ bannerData.PHOTO_URL3 }}" />
+          </div>
+
+
+
+        </tr>
+        <div style="text-align: center;color:black; margin-top: 20px; padding-left: 30px; padding-top: 30px;">
+          Press Clipping
+        </div>
+        <tr *ngFor="let clipData of pressClippingArray;">;
+
+
+          <div style="text-align: left; margin-top: 10px; padding-left: 30px; width: 100%;">
+            {{ clipData.DETAILS }}
+          </div>
+          <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+            <span
+              gIf="clipData.PHOTO_URL1 != undefined &&  clipData.PHOTO_URL1 != null &&  clipData.PHOTO_URL1 != '' &&  clipData.PHOTO_URL1 != ' ' ">
+              <b> Photo 1 </b>
+            </span>
+          </div>
+          <div style="text-align: center; margin-top: 10px; ">
+            <img
+              *ngIf="clipData.PHOTO_URL1 != undefined &&  clipData.PHOTO_URL1 != null &&  clipData.PHOTO_URL1 != '' &&  clipData.PHOTO_URL1 != ' ' "
+              style="width: 600px; height: 400px; margin-left: 15px;"
+              src="{{api.retriveimgUrl}}monumentalPressClipping/{{ clipData.PHOTO_URL1 }}" />
+          </div>
+          <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+            <span
+              gIf="clipData.PHOTO_URL2 != undefined &&  clipData.PHOTO_URL2 != null &&  clipData.PHOTO_URL2 != '' &&  clipData.PHOTO_URL2 != ' ' ">
+              <b> Photo 2 </b>
+            </span>
+          </div>
+          <div style="text-align: center; margin-top: 10px; ">
+            <img
+              *ngIf="clipData.PHOTO_URL2 != undefined &&  clipData.PHOTO_URL2 != null &&  clipData.PHOTO_URL2 != '' &&  clipData.PHOTO_URL2 != ' ' "
+              style="width: 600px; height: 400px; margin-left: 15px;"
+              src="{{api.retriveimgUrl}}monumentalPressClipping/{{ clipData.PHOTO_URL2 }}" />
+          </div>
+          <div style="text-align: center; margin-top: 10px; padding-left: 30px;">
+            <span
+              gIf="clipData.PHOTO_URL3 != undefined &&  clipData.PHOTO_URL3 != null &&  clipData.PHOTO_URL3 != '' &&  clipData.PHOTO_URL3 != ' ' ">
+              <b> Photo 3 </b>
+            </span>
+          </div>
+          <div style="text-align: center; margin-top: 10px; ">
+            <img
+              *ngIf="clipData.PHOTO_URL3 != undefined &&  clipData.PHOTO_URL3 != null &&  clipData.PHOTO_URL3 != '' &&  clipData.PHOTO_URL3 != ' ' "
+              style="width: 600px; height: 400px; margin-left: 15px;"
+              src="{{api.retriveimgUrl}}monumentalPressClipping/{{ clipData.PHOTO_URL3 }}" />
+          </div>
+
+
+        </tr>
+      </div>
+      <div>
+        <div style="text-align: center;font-weight: bolder;font-size: 15px;padding-top: 30px;">
+          Details<br>
+        </div>
+        <div style="text-align: left; margin-top: 10px; padding-left: 30px;">
+          {{ data.OTHER_DETAILS }}
+        </div>
+
+      </div>
+
+
+    </div>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint
+      (click)="handleCancel()">Print</button>
+  </ng-template>
+</nz-modal>

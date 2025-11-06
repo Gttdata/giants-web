@@ -1,0 +1,239 @@
+<nz-spin [nzSpinning]='loadingRecords'>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24" style="text-align: right;">
+                                    <div>
+                                        <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                            Chairperson
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="padding: 3px;">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="6" style="text-align: center;">
+                                                <img [src]="chairPersonPhoto"
+                                                    style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                            </div>
+
+                                            <div nz-col nzSpan="18">
+                                                <div style="font-size: 10px;">
+                                                    <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                    {{chairPersonMobileNo}}
+                                                </div>
+
+                                                <div style="font-size: 13px; height: 40px;">
+                                                    {{chairPersonName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px; text-align: center;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="showModal(1)">
+                                            <i nz-icon nzType="plus"></i>
+                                            Assign
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24" style="text-align: right;">
+                                    <div>
+                                        <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                            Deputy World Chairperson
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="padding: 3px;">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="6" style="text-align: center;">
+                                                <img [src]="deputyPersonPhoto"
+                                                    style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                            </div>
+
+                                            <div nz-col nzSpan="18">
+                                                <div style="font-size: 10px;">
+                                                    <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                    {{deputyPersonMobileNo}}
+                                                </div>
+
+                                                <div style="font-size: 13px; height: 40px;">
+                                                    {{deputyPersonName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px; text-align: center;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="showModal(2)">
+                                            <i nz-icon nzType="plus"></i>
+                                            Assign
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <div style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px;">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <div style="padding: 5px;">
+                            <div nz-row>
+                                <div nz-col nzSpan="24" style="text-align: right;">
+                                    <div>
+                                        <span style="background-color: rgb(197, 195, 195); padding: 3px;">
+                                            Administration
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="padding: 3px;">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="6" style="text-align: center;">
+                                                <img [src]="adminPersonPhoto"
+                                                    style="height: 60px; width: 60px; border: 2px solid gray; border-radius: 50%; cursor: pointer;">
+                                            </div>
+
+                                            <div nz-col nzSpan="18">
+                                                <div style="font-size: 10px;">
+                                                    <span nz-icon nzType="mobile" nzTheme="outline"></span>
+                                                    {{adminPersonMobileNo}}
+                                                </div>
+
+                                                <div style="font-size: 13px; height: 40px;">
+                                                    {{adminPersonName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="24">
+                                    <div style="margin-top: 5px; text-align: center;">
+                                        <button nz-button nzType="default"
+                                            style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                                            (click)="showModal(3)">
+                                            <i nz-icon nzType="plus"></i>
+                                            Assign
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-spin>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()">
+    <ng-template #modalTitle>Select Member</ng-template>
+
+    <ng-template #modalContent>
+        <form nz-form #myForm="ngForm">
+            <nz-spin [nzSpinning]="isConfirmLoading">
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Member</nz-form-label>
+
+                            <nz-form-control>
+                                <nz-select name="newEmpID" nzShowSearch nzAllowClear [nzLoading]="memberLoading"
+                                    style="width: 100%" nzPlaceHolder="Select Member" [(ngModel)]="NEW_MEMBER_ID">
+
+                                    <nz-option nzCustomContent *ngFor="let member of members;" [nzValue]="member.ID"
+                                        [nzLabel]="member.NAME">
+                                        <div nz-row>
+                                            <div nz-col nzSpan="3" style="padding: 3px;">
+                                                <nz-avatar nzText="{{getInitial(member.NAME) | uppercase }}"
+                                                    nzSize="large" style="color:red; background-color:#fde3cf;">
+                                                </nz-avatar>
+                                            </div>
+
+                                            <div nz-col nzSpan="21">
+                                                <div nz-row>
+                                                    <div nz-col nzSpan="24" style="color: black; font-size: 14px;">
+                                                        <b>{{member.NAME}}</b>
+                                                    </div>
+
+                                                    <div nz-col nzSpan="10" style="font-size: 11px;">
+                                                        <i nz-icon nzType="mobile" nzTheme="outline"></i>&nbsp;
+                                                        {{member.MOBILE_NUMBER}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="14" style="font-size: 11px;">
+                                                        <i nz-icon nzType="mail" nzTheme="outline"></i>&nbsp;
+                                                        {{member.EMAIL_ID.split(",")[0]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-spin>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">
+            Submit
+        </button>
+    </ng-template>
+</nz-modal>

@@ -1,0 +1,126 @@
+<div>
+  <div class="header">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+      <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+  </div>
+
+  <form nz-form #myForm="ngForm">
+    <div nz-row class="my-box" style="top: -15px;">
+      <div nz-col nzSpan="22">
+        <nz-form-item>
+          <nz-form-label nzNoColon>Name</nz-form-label>
+
+          <nz-form-control>
+            <input nz-input name="searchName" autocomplete="off" placeHolder="Type here to search" type="text"
+              oninput="this.value = this.value.toLowerCase()" [(ngModel)]="SEARCH_NAME" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="2">
+        <nz-form-item>
+          <nz-form-label nzNoColon></nz-form-label>
+
+          <nz-form-control>
+            <button nz-button nzType="default" (click)="resetSearchBox()"
+              style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;">
+              Reset
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row style="top: -15px;">
+      <div nz-col nzSpan="24">
+        <nz-table class="my-scroll no-wrap1" nzBordered #leaveTable nzShowSizeChanger [nzFrontPagination]="false"
+          [nzData]="dataListForAmount" [nzLoading]="loadingRecords" [nzShowPagination]="false"
+          [nzScroll]="{y: '420px'}">
+
+          <thead>
+            <tr>
+              <th style="width: 60px;"><b>Sr. <br> No.</b></th>
+              <th><b>Member Name</b></th>
+              <th style="width: 110px;"><b>Total <br> Fee</b></th>
+              <th style="width: 110px;"><b>Paid <br> Amount</b></th>
+              <th style="width: 110px;"><b>Due <br> Amount</b></th>
+
+              <th style="width: 110px;">
+                <b>Current Pay</b><br>
+
+                <div style="margin-bottom: 10px;">
+                  <input nz-input name="amountForAll" autoComplete="off" style="text-align: right;"
+                    placeHolder="Enter Amt" (keypress)="numberOnly($event)" [(ngModel)]="AMOUNT_FOR_ALL"
+                    (ngModelChange)="setAmount($event)" />
+                </div>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let data of leaveTable.data | searchPipe: SEARCH_NAME; let i = index;">
+              <td style="width: 60px;" align="center">
+                {{i+1}}
+              </td>
+
+              <td align="left">
+                {{data.NAME}}
+              </td>
+
+              <td style="width: 110px;" align="right">
+                {{data.FEE}}
+              </td>
+
+              <td style="width: 110px;" align="right">
+                {{data.PAID}}
+              </td>
+
+              <td style="width: 110px;" align="right">
+                {{data.DUE_AMOUNT}}&nbsp;
+
+                <button nz-button name="copyBtn{{data.ID}}" nzTooltipTitle="Copy Dues" nzTooltipPlacement="top"
+                  nz-tooltip nzType="default" nzShape="circle" (click)="copyDueAmt(data.DUE_AMOUNT,data.ID)"
+                  style="color: #47a7ff; border: solid 1px #47a7ff;">
+                  <i nz-icon nzType="copy" nzTheme="outline"></i>
+                </button>
+              </td>
+
+              <td style="width: 110px;">
+                <input nz-input name="amountfsdf{{data.ID}}" style="text-align: right;" placeHolder="Enter Amount"
+                  (keypress)="numberOnly($event)" (ngModelChange)="currentPayAmtChange($event,data)"
+                  [(ngModel)]="data.AMOUNT" />
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </form>
+
+  <div class="footer">
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <div style="text-align: left; padding: 5px;">
+          <nz-tag [nzColor]="'green'" style="font-size: 15px; padding: 3px;">
+            Total Current Pay : <b>{{sum}} /-</b>
+          </nz-tag>
+        </div>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <div style="text-align: right; padding: 3px; display: inline;">
+          <button nz-button (click)="close(myForm)" nzType="default">
+            Cancel
+          </button>
+        </div>
+
+        <div style="text-align: right; padding: 3px; display: inline;">
+          <button nz-button (click)="sentAmount(true,myForm)" nzType="primary">
+            Save & Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

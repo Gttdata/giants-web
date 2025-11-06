@@ -1,0 +1,43 @@
+table {
+    font-family: arial, sans-serif;
+    width: 100%;
+}
+
+td {
+    font-family: arial, sans-serif;
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    font-family: arial, sans-serif;
+    background-color: white;
+    top: 0;
+    position: sticky;
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    height: auto;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgb(208, 237, 150);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: yellowgreen;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7bac10;
+}

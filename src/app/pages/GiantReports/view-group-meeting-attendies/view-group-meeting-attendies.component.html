@@ -1,0 +1,37 @@
+<div nz-row>
+    <div nz-row style="width: 100%;">
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #table [nzData]="trainattendiesData" nzShowSizeChanger
+                [nzBordered]="true" [nzFrontPagination]="false" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" [nzShowPagination]="false">
+
+                <thead>
+                    <tr>
+                        <th><b>Present/ Absent</b></th>
+                        <th><b>Member Name</b></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of table.data; let i=index;">
+                        <td style="width:10%;" align="center">
+                            <i nz-icon *ngIf="trainattendiesData[i]['P_A']" [nzType]="'check-circle'"
+                                [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i>
+
+                            <i nz-icon *ngIf="!trainattendiesData[i]['P_A']" [nzType]="'close-circle'"
+                                [nzTheme]="'twotone'" [nzTwotoneColor]="'#f50'"></i>
+                        </td>
+
+                        <td style="white-space: pre-line;">{{data.MEMBER_NAME}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px;">
+        <span>Cancel</span>
+    </button>
+</div>

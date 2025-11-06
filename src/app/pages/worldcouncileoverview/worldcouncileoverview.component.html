@@ -1,0 +1,1047 @@
+<div>
+    <div
+        style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+        <div nz-row>
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                <div style="text-align: left; padding: 5px;">
+                    <span class="formname">
+                        {{formTitle}}
+                    </span>
+                </div>
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="text-align: right;">
+                <nz-select placeholder="Select" name="hashTag" [(ngModel)]="SelectedYear" nzShowSearch
+                    style="width: 150px; margin-left: 10px;" (ngModelChange)="selectChangeYear($event)">
+
+                    <nz-option *ngFor="let abc of range;" [nzValue]="abc" [nzLabel]="abc">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </div>
+
+    <div nz-row style="height: 80vh; overflow-y: scroll; padding: 10px;">
+        <div nz-row [nzGutter]="10">
+            <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                *ngIf="(federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)"
+                style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': 'pointer' }" (click)="goToFederationReport()">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="global" nzTheme="outline"
+                                    style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_FEDERATION ? TOTAL_FEDERATION : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Federation(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                *ngIf="(federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)"
+                style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="global" nzTheme="outline"
+                                    style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_FEDERATION ? TOTAL_FEDERATION : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Federation(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                *ngIf="((federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)) || (federationID > 0)"
+                style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToUnitReport()">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="deployment-unit" nzTheme="outline"
+                                    style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_UNITS ? TOTAL_UNITS : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Unit(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                *ngIf="((federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)) || (federationID > 0)"
+                style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="deployment-unit" nzTheme="outline"
+                                    style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_UNITS ? TOTAL_UNITS : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Unit(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                *ngIf="((federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)) || (federationID > 0) || (unitID > 0)"
+                style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToGroupReport()">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="team" nzTheme="outline" style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_GROUPS ? TOTAL_GROUPS : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Group(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0"
+                *ngIf="((federationID == 0) && (unitID == 0) && (groupID == 0) && (roleID != 37)) || (federationID > 0) || (unitID > 0)"
+                style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="team" nzTheme="outline" style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_GROUPS ? TOTAL_GROUPS : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Group(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6" style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToMemberReport()">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="user" nzTheme="outline" style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_MEMBERS ? TOTAL_MEMBERS : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Member(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0" style="margin-bottom: 10px;">
+                <div style="border-radius: 8px; background-color: white; padding: 10px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                    <div nz-row>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="8" nzLg="8" nzXl="8">
+                            <div style="text-align: right; margin-right: 5px; padding: 5px;">
+                                <span nz-icon nzType="user" nzTheme="outline" style="font-size: 40px; color: #ff8d73;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="12" nzSm="12" nzMd="16" nzLg="16" nzXl="16">
+                            <div style="text-align: left; padding: 5px;">
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                                        style="font-size: 16px;">
+                                        <b>{{TOTAL_MEMBERS ? TOTAL_MEMBERS : 0}}</b>
+                                    </div>
+
+                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                        Member(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                    style="padding: 3px; background-color: #fbfbfb; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); border-radius: 8px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToPostReport()">
+                    <div nz-row>
+                        <div class="container">
+                            <div class="vertical-center">
+                                <div nz-col nzSpan="8">
+                                    <div style="text-align: center;">
+                                        <span nz-icon style="font-size: 40px; color: #ff8d73;" nzType="qrcode"
+                                            nzTheme="outline">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="16">
+                                    <div style="font-size: 16px;">
+                                        <b>
+                                            {{postDataList.TOTAL_POST ? postDataList.TOTAL_POST : 0}}
+                                        </b>
+                                    </div>
+
+                                    <div nz-col nzSpan="24" style="font-weight: bold; font-size: 14px;">
+                                        Posts
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <span>
+                        <div style="font-size: 16px; text-align: center;">
+                            <b>
+                                {{postDataList.TOTAL_POST ? postDataList.TOTAL_POST : 0}}
+                            </b>
+                        </div>
+
+                        <div nz-col nzSpan="24" style="text-align: center; font-weight: bold; font-size: 14px;">
+                            Posts
+                        </div>
+                    </span>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div style="text-align: center;">
+                                <b>
+                                    {{postDataList.TOTAL_LIKE_TILL_DATE ? postDataList.TOTAL_LIKE_TILL_DATE : 0}}
+                                </b>
+                            </div>
+
+                            <div style="text-align: center; font-size: 12px;">
+                                Total likes
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{postDataList.AVG_POST_PER_MEMBER ? (postDataList.AVG_POST_PER_MEMBER |
+                                    number:'1.0-2') : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Post/ Member
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{postDataList.AVG_COMMENT_PER_MEMBER ? (postDataList.AVG_COMMENT_PER_MEMBER |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Comments/ Member
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{postDataList.TOTAL_COMMENT_TILL_DATE ? postDataList.TOTAL_COMMENT_TILL_DATE :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Comments
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{postDataList.AVG_LIKE_PER_MEMBER ? (postDataList.AVG_LIKE_PER_MEMBER |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Like/ Member
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{postDataList.NO_OF_SHARES ? postDataList.NO_OF_SHARES : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                No. of Repost
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                    style="padding: 3px; background-color: #fbfbfb; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); border-radius: 8px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToMeetingReport()">
+                    <div nz-row>
+                        <div class="container">
+                            <div class="vertical-center">
+                                <div nz-col nzSpan="8">
+                                    <div style="text-align: center;">
+                                        <span nz-icon style="font-size: 40px; color: #ff8d73;" nzType="calendar"
+                                            nzTheme="outline">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="16">
+                                    <div style="font-size: 16px;">
+                                        <b>
+                                            {{meetingDataList.TOTAL_MEETING ? meetingDataList.TOTAL_MEETING : 0}}
+                                        </b>
+                                    </div>
+
+                                    <div nz-col nzSpan="24" style="font-weight: bold; font-size: 14px;">
+                                        Meetings
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <span [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                        <div style="font-size: 16px; text-align: center;">
+                            <b>
+                                {{meetingDataList.TOTAL_MEETING ? meetingDataList.TOTAL_MEETING : 0}}
+                            </b>
+                        </div>
+
+                        <div nz-col nzSpan="24" style="text-align: center; font-weight: bold; font-size: 14px;">
+                            Meetings
+                        </div>
+                    </span>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div style="text-align: center;">
+                                <b>
+                                    {{meetingDataList.MEETING_PLANNED ? meetingDataList.MEETING_PLANNED : 0}}
+                                </b>
+                            </div>
+
+                            <div style="text-align: center; font-size: 12px;">
+                                Meeting Planned
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{meetingDataList.AVG_ATTENDENCE ? (meetingDataList.AVG_ATTENDENCE | number:'1.0-2')
+                                    : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Attendance
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{meetingDataList.AVG_MEETING_PER_DAY ? meetingDataList.AVG_MEETING_PER_DAY :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Meetings/ day
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{meetingDataList.MEETING_CONDUCTED ? meetingDataList.MEETING_CONDUCTED : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Meeting Conducted
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{meetingDataList.MEETING_TIME ? meetingDataList.MEETING_TIME : 0}}
+                                </b> hrs
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Meeting Time
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{meetingDataList.AVG_MEETING_PER_GROUP ? (meetingDataList.AVG_MEETING_PER_GROUP |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Meetings/ Group
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                    style="padding: 3px; background-color: #fbfbfb; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); border-radius: 8px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToEventsReport()">
+                    <div nz-row>
+                        <div class="container1">
+                            <div class="vertical-center1">
+                                <div nz-col nzSpan="8">
+                                    <div style="text-align: center;">
+                                        <span nz-icon style="font-size: 40px; color: #ff8d73;" nzType="carry-out"
+                                            nzTheme="outline">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="16">
+                                    <div style="font-size: 16px;">
+                                        <b>
+                                            {{eventsDataList.TOTAL_EVENT ? eventsDataList.TOTAL_EVENT : 0}}
+                                        </b>
+                                    </div>
+
+                                    <div nz-col nzSpan="24" style="font-weight: bold; font-size: 14px;">
+                                        Events
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <span [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                        <div style="font-size: 16px; text-align: center;">
+                            <b>
+                                {{eventsDataList.TOTAL_EVENT ? eventsDataList.TOTAL_EVENT : 0}}
+                            </b>
+                        </div>
+
+                        <div nz-col nzSpan="24" style="text-align: center; font-weight: bold; font-size: 14px;">
+                            Events
+                        </div>
+                    </span>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="6" nzLg="6" nzXl="6" style="padding: 5px;">
+                            <div style="text-align: center;">
+                                <b>
+                                    {{eventsDataList.EVENT_PLANNED ? eventsDataList.EVENT_PLANNED : 0}}
+                                </b>
+                            </div>
+
+                            <div style="text-align: center; font-size: 12px;">
+                                Total Events Planned
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="6" nzLg="6" nzXl="6" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{eventsDataList.EVENT_CONDUCTED ? eventsDataList.EVENT_CONDUCTED : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Event Conducted
+                            </div>
+                        </div>
+
+                        <!-- <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{eventsDataList.TOTAL_BENEFICIARIES ? eventsDataList.TOTAL_BENEFICIARIES :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Beneficiaries
+                            </div>
+                        </div> -->
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="6" nzLg="6" nzXl="6" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{eventsDataList.EVENT_LIKE_COUNT? eventsDataList.EVENT_LIKE_COUNT :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Likes
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="6" nzLg="6" nzXl="6" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{eventsDataList.EVENT_COMMENT_COUNT? eventsDataList.EVENT_COMMENT_COUNT :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Comments
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24" style="padding: 5px;">
+                            <div nz-col nzSpan="24"
+                                style="text-align: center; font-size: 14px; background-color: #f0f2f5; border-radius: 5px;">
+                                <b>Top Events</b>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8"
+                                style="text-align: center; padding-top: 10px;" *ngFor="let data of topEventsDataList;">
+                                <div
+                                    style="text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px;">
+                                    {{data.PROJECT_NAME}}
+                                </div>
+
+                                <div style="text-align: center;">
+                                    <b>{{data.EVENT_COUNT}}</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0" style="padding: 5px;">
+                            <div nz-col nzSpan="24"
+                                style="text-align: center; font-size: 14px; background-color: #f0f2f5; border-radius: 5px; padding: 3px;">
+                                <b>Top Events</b>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8"
+                                style="text-align: center; padding-top: 10px;" *ngFor="let data of topEventsDataList;">
+                                <div
+                                    style="text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px;">
+                                    {{data.PROJECT_NAME}}
+                                </div>
+
+                                <div style="text-align: center;">
+                                    <b>{{data.EVENT_COUNT}}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                    style="padding: 3px; background-color: #fbfbfb; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); border-radius: 8px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToCircularReport()">
+                    <div nz-row>
+                        <div class="container">
+                            <div class="vertical-center">
+                                <div nz-col nzSpan="8">
+                                    <div style="text-align: center;">
+                                        <span nz-icon style="font-size: 40px; color: #ff8d73;" nzType="audit"
+                                            nzTheme="outline">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="16">
+                                    <div style="font-size: 16px;">
+                                        <b>
+                                            {{circularDataList.TOTAL_CIRCULAR_CREATED ?
+                                            circularDataList.TOTAL_CIRCULAR_CREATED : 0}}
+                                        </b>
+                                    </div>
+
+                                    <div nz-col nzSpan="24" style="font-weight: bold; font-size: 14px;">
+                                        Circulars
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <span [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                        <div style="font-size: 16px; text-align: center;">
+                            <b>
+                                {{circularDataList.TOTAL_CIRCULAR_CREATED ? circularDataList.TOTAL_CIRCULAR_CREATED :
+                                0}}
+                            </b>
+                        </div>
+
+                        <div nz-col nzSpan="24" style="text-align: center; font-weight: bold; font-size: 14px;">
+                            Circulars
+                        </div>
+                    </span>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div style="text-align: center;">
+                                <b>
+                                    {{circularDataList.TOTAL_CIRCULAR_CREATED ?
+                                    circularDataList.TOTAL_CIRCULAR_CREATED : 0}}
+                                </b>
+                            </div>
+
+                            <div style="text-align: center; font-size: 12px;">
+                                Total Circular Created
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{circularDataList.TOTAL_VIEW ? circularDataList.TOTAL_VIEW : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Views
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{circularDataList.PUBLISHED_CIRCULAR ? circularDataList.PUBLISHED_CIRCULAR :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Published/ Signed
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{circularDataList.AVG_VIEW_PER_CIRCULAR ? (circularDataList.AVG_VIEW_PER_CIRCULAR |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. views/ Circular
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                    style="padding: 3px; background-color: #fbfbfb; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); border-radius: 8px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToProjectReport()">
+                    <div nz-row>
+                        <div class="container">
+                            <div class="vertical-center">
+                                <div nz-col nzSpan="8">
+                                    <div style="text-align: center;">
+                                        <span nz-icon style="font-size: 40px; color: #ff8d73;" nzType="apartment"
+                                            nzTheme="outline">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="16">
+                                    <div style="font-size: 16px;">
+                                        <b>
+                                            {{projectsDataList.TOTAL_PROJECTS ? projectsDataList.TOTAL_PROJECTS : 0}}
+                                        </b>
+                                    </div>
+
+                                    <div nz-col nzSpan="24" style="font-weight: bold; font-size: 14px;">
+                                        Projects
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <span [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                        <div style="font-size: 16px; text-align: center;">
+                            <b>{{projectsDataList.TOTAL_PROJECTS ? projectsDataList.TOTAL_PROJECTS : 0}}</b>
+                        </div>
+
+                        <div nz-col nzSpan="24" style="text-align: center; font-weight: bold; font-size: 14px;">
+                            Projects
+                        </div>
+                    </span>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div style="text-align: center;">
+                                <b>
+                                    {{projectsDataList.COMPLETED_PROJECTS ? projectsDataList.COMPLETED_PROJECTS :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div style="text-align: center; font-size: 12px;">
+                                Completed Projects
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    ₹ {{projectsDataList.FUND_UTILISED ? (projectsDataList.FUND_UTILISED |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Fund Utilization
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{projectsDataList.AVG_PROJECT_PER_GROUP ? (projectsDataList.AVG_PROJECT_PER_GROUP |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Projects/ Group
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{projectsDataList.ONGOING_PROJECTS ? projectsDataList.ONGOING_PROJECTS : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Ongoing Projects
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    ₹ {{projectsDataList.AVG_FUND_PER_PROJECT ? (projectsDataList.AVG_FUND_PER_PROJECT |
+                                    number:'1.0-2') : 0 }}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Avg. Fund/ Project
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{projectsDataList.TOTAL_BENEFICIARIES ? projectsDataList.TOTAL_BENEFICIARIES :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Total Beneficiaries
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-radius: 8px; background-color: white; padding: 10px; margin-bottom: 10px;">
+            <div nz-row>
+                <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"
+                    style="padding: 3px; background-color: #fbfbfb; box-shadow: 2px 2px 2px 2px rgb(240, 238, 238); border-radius: 8px; border-bottom: #ff8d73 solid 3px;"
+                    [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }" (click)="goToPaymentReport()">
+                    <div nz-row>
+                        <div class="container">
+                            <div class="vertical-center">
+                                <div nz-col nzSpan="8">
+                                    <div style="text-align: center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                            viewBox="0 0 30.271 28.276">
+                                            <g id="Collected_Fee" data-name="Collected Fee"
+                                                transform="translate(-11721.681 -14304.316)">
+                                                <g id="_1915272532000" transform="translate(11722.669 14305.327)">
+                                                    <path id="Path_43" data-name="Path 43" fill="none"
+                                                        d="M11930.859,14845.344c.2,1.272-.054,1.738-.895,2.256a5.942,5.942,0,0,1-2.4.73,26.665,26.665,0,0,1-4.644.128c-.714-.017-1.213.172-1.225-.517.518-.283,2.749-.04,3.526-.047,1.152-.01,5.739-.155,5.067-2.21-.447-1.366-3.889-.105-6.559-.852-3.2-.894-5.209-1.763-9.265-.521,0,.328-.132,6.1.145,6.381.518.382,8.985,1.8,10.248,1.883,1.747.107,3.107-1.214,4.124-1.96,3.083-2.266,6.348-4.977,9.4-7.191,1.193-.867,0-2.271-1.846-1.607C11934.2,14842.664,11931.922,14844.788,11930.859,14845.344Z"
+                                                        transform="translate(-11910.577 -14826.315)" stroke="#ff8d73"
+                                                        stroke-miterlimit="22.926" stroke-width="2"
+                                                        fill-rule="evenodd" />
+                                                    <path id="Path_44" data-name="Path 44" fill="none"
+                                                        d="M12214.675,14309.724a7.57,7.57,0,1,0,8.8,6.207A7.543,7.543,0,0,0,12214.675,14309.724Z"
+                                                        transform="translate(-12200.01 -14309.593)" stroke="#ff8d73"
+                                                        stroke-miterlimit="22.926" stroke-width="2"
+                                                        fill-rule="evenodd" />
+                                                    <path id="Path_45" data-name="Path 45" fill="none"
+                                                        d="M11723.009,14903.683c.643.281,2.438.271,2.864-.241a80.283,80.283,0,0,0,.039-8.395,3.889,3.889,0,0,0-2.687-.269c-.767.205-.517,1.307-.517,2.689l.008,5.669C11722.79,14903.653,11722.76,14903.479,11723.009,14903.683Z"
+                                                        transform="translate(-11722.669 -14878.264)" stroke="#ff8d73"
+                                                        stroke-miterlimit="22.926" stroke-width="2"
+                                                        fill-rule="evenodd" />
+                                                    <text id="_" data-name="₹" transform="translate(13.365 10.323)"
+                                                        stroke="#ff8d73" stroke-width="0.5" font-size="9"
+                                                        font-family="ArialMT, Arial">
+                                                        <tspan x="0" y="0">₹</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div nz-col nzSpan="16">
+                                    <div style="font-size: 16px;">
+                                        <b>
+                                            {{paymentData.TOTAL_FEES_COLLECTION ? (paymentData.TOTAL_FEES_COLLECTION |
+                                            number:'1.0-2') : 0}}
+                                        </b>
+                                    </div>
+
+                                    <div nz-col nzSpan="24" style="font-weight: bold; font-size: 14px;">
+                                        Collected Fee
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+                    <span [ngStyle]="{ 'cursor': ((roleID != 37) ? 'pointer' : '') }">
+                        <div style="font-size: 16px; text-align: center;">
+                            <b>
+                                {{paymentData.TOTAL_FEES_COLLECTION ? (paymentData.TOTAL_FEES_COLLECTION |
+                                number:'1.0-2') : 0}}
+                            </b>
+                        </div>
+
+                        <div nz-col nzSpan="24" style="text-align: center; font-weight: bold; font-size: 14px;">
+                            Collected Fee
+                        </div>
+                    </span>
+                </div>
+
+                <div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div style="text-align: center;">
+                                <b>
+                                    {{paymentData.EXPECTED_TOTAL_FEES ? (paymentData.EXPECTED_TOTAL_FEES |
+                                    number:'1.0-2') : 0}}
+                                </b>
+                            </div>
+
+                            <div style="text-align: center; font-size: 12px;">
+                                Expected Fee
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{paymentData.TOTAL_PENDING_FEES ? (paymentData.TOTAL_PENDING_FEES | number:'1.0-2')
+                                    : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Pending Fee
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{paymentData.NO_DUE_MEMBERS ? paymentData.NO_DUE_MEMBERS :
+                                    0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Paid Fee Member(s) Count
+                            </div>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" style="padding: 5px;">
+                            <div nz-col nzSpan="24" style="text-align: center;">
+                                <b>
+                                    {{paymentData.DUE_MEMBERS ? paymentData.DUE_MEMBERS : 0}}
+                                </b>
+                            </div>
+
+                            <div nz-col nzSpan="24" style="text-align: center; font-size: 12px;">
+                                Due Fee Member(s) Count
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

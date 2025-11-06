@@ -1,0 +1,228 @@
+<div>
+    <form nz-form #myForm="ngForm">
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Report Name</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="report" nzDisabled nzShowSearch nzAllowClear style="width: 100%"
+                            nzPlaceHolder="Select report" [(ngModel)]="data.REPORT_ID">
+
+                            <nz-option *ngFor="let project of dataReport;" [nzValue]="project.ID"
+                                [nzLabel]="project.REPORT_NAME">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Email</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="hashTag" nzShowSearch nzAllowClear nzServerSearch
+                            (nzOnSearch)="getEmails($event)" nzMode="tags" style="width: 100%"
+                            nzPlaceHolder="Select Email(s)" [(ngModel)]="data.EMAIL">
+
+                            <nz-option *ngFor="let e of Emails;" [nzValue]="e.EMAIL_ID" [nzLabel]="e.EMAIL_ID">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Time</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-time-picker name="DDTIME" [(ngModel)]="data.DDTIME" nzFormat="hh:mm a" style="width: 100%;">
+                        </nz-time-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon></nz-form-label>
+
+                    <nz-form-control>
+                        <button type="button" nz-button (click)="timearray(data.DDTIME)" class="ant-btn"
+                            style="margin-right: 8px; height: 30px;">
+                            +
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select name="time" nzShowSearch nzAllowClear nzMode="tags"
+                            style="width: 100%; margin-top: 10px;" nzPlaceHolder="Select Time"
+                            [(ngModel)]="data.TIMEING">
+
+                            <nz-option *ngFor="let t of TIMEING;" [nzValue]="t" [nzLabel]="t">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-radio-group [(ngModel)]="data.SCHEDULE" name="data.SCHEDULE">
+                            <label nz-radio nzValue="D">Daily</label>
+                            <label nz-radio nzValue="E">Every Week</label>
+                            <label nz-radio nzValue="M">Monthly</label>
+                            <label nz-radio nzValue="Y">Yearly</label>
+                            <label nz-radio nzValue="C">Custom</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24" *ngIf="data.SCHEDULE == 'C'">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Date</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-date-picker [(ngModel)]="data.CUSTOM_DATE" name='custom' [nzDisabledDate]="disabledDate"
+                            (ngModelChange)="onChange($event)" nzFormat="dd-MM-yyyy">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8" *ngIf="data.SCHEDULE == 'Y'">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>YEAR</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="month" nzShowSearch nzAllowClear style="width: 100%"
+                            nzPlaceHolder="Select Month" [(ngModel)]="data.MONTH" style="height: 30px;"
+                            (ngModelChange)="dates(data.MONTH)">
+
+                            <nz-option *ngFor="let t of MONTH;" nzValue="{{t[0]}}" nzLabel="{{t[1]}}">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8" *ngIf="data.SCHEDULE == 'Y'">
+                <nz-form-item>
+                    <nz-form-label nzNoColon></nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="date" nzShowSearch nzAllowClear style="width: 100%" nzPlaceHolder="Select Date"
+                            [(ngModel)]="data['Date']" style="height: 30px;">
+
+                            <nz-option *ngFor="let t of DATES;" [nzValue]="t" [nzLabel]="t">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8" *ngIf="data.SCHEDULE == 'Y'">
+                <nz-form-item>
+                    <nz-form-label nzNoColon></nz-form-label>
+
+                    <nz-form-control>
+                        <button type="button" nz-button (click)="yeararray(data.MONTH,data['Date'])" class="ant-btn"
+                            style="margin-right: 8px; height: 30px;">
+                            +
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24" *ngIf="data.SCHEDULE == 'Y'">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select name="year" nzShowSearch nzAllowClear nzMode="tags"
+                            style="width: 100%; margin-top: 10px;" nzPlaceHolder="Select Year" [(ngModel)]="data.YEAR">
+
+                            <nz-option *ngFor="let t of YEAR;" [nzValue]="t" [nzLabel]="t">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12" *ngIf="data.SCHEDULE == 'E'">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Every Week</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="week" nzShowSearch nzAllowClear nzMode="tags" style="width: 100%"
+                            nzPlaceHolder="Select Day" [(ngModel)]="data.EVERY_WEEK">
+
+                            <nz-option *ngFor="let t of WEEKS;" nzValue="{{t[0]}}" nzLabel="{{t[1]}}">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8" *ngIf="data.SCHEDULE=='M'">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Month</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="montly" nzShowSearch nzAllowClear nzMode="tags" style="width: 100%"
+                            nzPlaceHolder="Select Day" [(ngModel)]="data.MONTH">
+
+                            <nz-option *ngFor="let t of MONTLYS;" [nzValue]="t" [nzLabel]="t">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="8" class="grouping">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Type of Attachment</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-select name="attachemnt" nzShowSearch nzAllowClear style="width: 100%"
+                            nzPlaceHolder="Select Type of Attachment" [(ngModel)]="data.TYPE_OF_ATTACHEMENT">
+
+                            <nz-option *ngFor="let project of dataTypeAttachement;" [nzValue]="project"
+                                [nzLabel]="project">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button (click)="submit(false,myForm)"
+            [nzLoading]="isSpinning">
+            <span>Save & Close</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button *ngIf="data.ID" (click)="submit(false,myForm)"
+            style="margin-right: 8px;" [nzLoading]="isSpinning">
+            <span>Update & close</span>
+        </button>
+    </div>
+</div>

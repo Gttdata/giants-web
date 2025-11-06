@@ -1,0 +1,1676 @@
+<div class="header">
+    <nz-select placeholder="Select" name="hashTag" [(ngModel)]="YEAR" nzShowSearch nzAllowClear
+        style="width: 150px; margin-left: 815px;" (ngModelChange)="SelectYear($event)">
+
+        <nz-option *ngFor="let abc of yearrange" [nzValue]="abc" [nzLabel]="abc">
+        </nz-option>
+    </nz-select>
+</div>
+
+
+<form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+        <div nz-row nzGutter="10">
+            <!-- <button nzType="primary" nz-button (click)="fetchData()" class="ant-btn"
+            style="margin-left:871px;"><span>Fetch Old Data</span>
+            </button> -->
+            <div class="my-box">
+                <div nz-row class="name1" nzGutter="12">
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Name Of The Person</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Valid  Name">
+                                <input nz-input name="NAME" placeHolder="Enter  Name" maxlength="250" type="text"
+                                    [(ngModel)]="data.MEMBER_NAME" required />
+                            </nz-form-control>
+                            <span *ngIf="data.MEMBER_NAME"
+                                style="font-size: 10px; color: red;">{{data.MEMBER_NAME.length}}/250</span>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon> Name Of The Group</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Select Valid Group">
+                                <nz-select name="group" nzShowSearch nzAllowClear style="width: 100%"
+                                    nzPlaceHolder="Select Group" [(ngModel)]="data.GROUP_ID" required>
+                                    <nz-option *ngFor="let group of groups;" [nzValue]="group.ID"
+                                        [nzLabel]="group.NAME">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24"
+                    style="align-items: center;margin-top: 12px;">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Details</nz-form-label>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="align-items: center;">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon>1]Welfare Foundation Dues</nz-form-label>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Date On Which Paid</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field" style="margin-top: -3px;">
+                                <nz-date-picker name="DUES_PAID_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.DUES_PAID_DATE" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="margin-left: 93px; ">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>For The Period Of January-June</nz-form-label>
+                            <!-- <nz-form-control nzHasFeedback nzErrorTip="Please fill the field "> -->
+                            <nz-input-group nzCompact>
+                                <nz-date-picker name="DUES_PAID_JAN_JUNE_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.DUES_PAID_JAN_JUNE_DATE" required>
+                                </nz-date-picker>
+                                <input nz-input name="DUES_PAID_JAN_JUNE_AMOUNT" placeHolder="Amount" maxlength="256"
+                                    type="text" autocomplete="off" (keypress)="omit($event)"
+                                    [(ngModel)]="data.DUES_PAID_JAN_JUNE_AMOUNT"
+                                    style="margin-left: 194px; margin-top: -32px; width: 82px;" required />
+                            </nz-input-group>
+                            <!-- </nz-form-control> -->
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" style="margin-left: 46px; ">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>For The Period Of July-December</nz-form-label>
+                            <!-- <nz-form-control nzHasFeedback nzErrorTip="Please fill the field "> -->
+                            <nz-input-group nzCompact>
+                                <nz-date-picker name="DUES_PAID_JUL_DEC_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.DUES_PAID_JUL_DEC_DATE" required>
+                                </nz-date-picker>
+                                <input nz-input name="DUES_PAID_JUL_DEC_AMOUNT" placeHolder="Amount" maxlength="256"
+                                    type="text" autocomplete="off" pattern="[1-8][0-9]" (keypress)="omit($event)"
+                                    [(ngModel)]="data.DUES_PAID_JUL_DEC_AMOUNT"
+                                    style="margin-left: 194px; margin-top: -32px;width: 82px;" required />
+                            </nz-input-group>
+                            <!-- </nz-form-control> -->
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                        <nz-form-label nzNoColon>2]Accounts
+                        </nz-form-label>
+                        <nz-form-item>
+                            <nz-input-group>
+                                <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                </nz-form-control>
+                            </nz-input-group>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12" style="text-align: right;">
+                        <nz-form-item>
+                            <nz-form-control>
+                                <button type="button" nzTooltipTitle="Add Member" nzTooltipPlacement="top"
+                                    class="ant-btn ant-btn-primary" nz-button (click)="add()">
+                                    <span>Add New</span>
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row style=" height: 150px;overflow-y: scroll;">
+                    <nz-table #financeData nzBordered [nzData]="data2" [nzShowPagination]="false"
+                        style="width:100%;overflow: auto;height: 150px;">
+                        <thead>
+                            <tr>
+                                <th><b>Action</b></th>
+                                <th><b>Sponsorship Details</b></th>
+                                <th><b>Date</b></th>
+                                <th><b>Certificate</b></th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="data2.length >= 0">
+                            <tr *ngFor="let list of financeData.data; let i=index">
+                                <td align="center">
+                                    <a (click)="edit(list,i)">Edit </a>
+                                </td>
+                                <td align="center">{{list.SPONSERSHIP_DETAILS}}</td>
+                                <td align="center">{{list.SPONSER_DATE|date:"dd/MMM/yyyy"}}</td>
+                                <td align="center">{{list.CERTIFICATE_URL}}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="margin-bottom:2px;">
+                        <nz-form-label nzNoColon nzRequired style="margin-top: 11px;">Did You Work With Budget?
+                        </nz-form-label>
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-control>
+                                <nz-switch [(ngModel)]="data.IS_WORK_ON_BUDGET" name="IS_WORK_ON_BUDGET"
+                                    (ngModelChange)="budgetAll($event)" nzCheckedChildren="Yes" nzUnCheckedChildren="No"
+                                    style="margin-left: -277px;  margin-top: 2px;"></nz-switch>
+
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <!-- <div nz-row>
+                    <div nz-col [nzSpan]="14">
+                        <nz-form-item *ngIf="data.IS_WORK_ON_BUDGET==true">
+
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Choose file">
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput1.click()">Choose File
+
+                                    <input #pdfFileInput1 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected1($event)" (click)="pdfFileInput1.value = null"
+                                        style="display:none" required />
+                                </button><br>
+                                <span
+                                    *ngIf="data.BUDGET_URL && data.BUDGET_URL!='' && (fileURL1==undefined || fileURL1==null)">
+                                    <a  target="_blank" (click)="viewImage(data.BUDGET_URL)">
+                                        {{data.BUDGET_URL}}
+                                    </a>
+                                </span>
+                                <span
+                                    *ngIf="data.BUDGET_URL && data.BUDGET_URL!='' && fileURL1!=undefined && fileURL1!=null">
+
+                                    <a href="{{data.BUDGET_URL}}" target="_blank">
+                                        {{fileURL1.name}} </a>
+                                </span>
+                          </nz-form-control>
+                            <span
+                            *ngIf="validation==false && (data.BUDGET_URL=='' || data.BUDGET_URL==undefined)"
+                            style="color:red">Please Choose File</span>
+                        </nz-form-item>
+                    </div>
+                </div> -->
+
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item *ngIf="data.IS_WORK_ON_BUDGET==true">
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput1.click()" accept="image/*"
+                                    (change)="onPdfFileSelected1($event)">Choose File
+
+                                    <input #pdfFileInput1 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected1($event)" (click)="pdfFileInput1.value = null"
+                                        style="display: none;" />
+                                </button><br>
+                                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" *ngIf="fileURL1 != null"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    {{fileURL1.name}}
+                                </div>
+
+                                <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" *ngIf="fileURL1 != null">
+                                    <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                                    *ngIf="(data.BUDGET_URL != '') && (fileURL1 == null)"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    <a (click)="viewImage(data.BUDGET_URL)">{{data.BUDGET_URL}}</a>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <!-- <div nz-row nzGutter="10"> -->
+            <!-- <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"> -->
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Quarter1 Details </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="INCOME_EXP_ACC_QTR1" placeholder="Type here..."
+                                    [(ngModel)]="data.INCOME_EXP_ACC_QTR1" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2024" required></textarea>
+                            </nz-form-control>
+
+                            <span *ngIf="data.INCOME_EXP_ACC_QTR1" style="font-size: 10px; color: red;">
+                                {{data.INCOME_EXP_ACC_QTR1.length}}/ 2024
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Submission Date
+                            </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <nz-date-picker name="INCOME_EXP_ACC_QTR1_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.INCOME_EXP_ACC_QTR1_DATE" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+
+                        </nz-form-item>
+                    </div>
+                </div>
+
+
+                <!-- <div nz-row>
+                    <div nz-col [nzSpan]="14">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>
+                                Copy &nbsp;
+                            </nz-form-label>
+
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput2.click()" accept="image/*"
+                                    (change)="onPdfFileSelected2($event)">Choose File
+
+                                    <input #pdfFileInput2 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected2($event)" (click)="pdfFileInput2.value = null"
+                                        style="display:none" />
+                                </button><br>
+                                <span
+                                    *ngIf="data.INCOME_EXP_ACC_QTR1_URL && data.INCOME_EXP_ACC_QTR1_URL!='' && (fileURL2==undefined || fileURL2==null)">
+
+                                    <a  target="_blank"(click)="viewImage1(data.INCOME_EXP_ACC_QTR2_URL)">
+                                        {{data.INCOME_EXP_ACC_QTR1_URL}}
+                                    </a>
+                                </span>
+                                <span
+                                    *ngIf="data.INCOME_EXP_ACC_QTR1_URL && data.INCOME_EXP_ACC_QTR1_URL!='' && fileURL2!=undefined && fileURL2!=null">
+
+                                    <a href="{{data.INCOME_EXP_ACC_QTR1_URL}}" target="_blank">
+                                        {{fileURL2.name}} </a>
+                                </span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div> -->
+
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>
+                                Copy &nbsp;
+                            </nz-form-label>
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput2.click()" accept="image/*"
+                                    (change)="onPdfFileSelected2($event)">Choose File
+
+                                    <input #pdfFileInput2 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected2($event)" (click)="pdfFileInput2.value = null"
+                                        style="display:none" />
+                                </button><br>
+                                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" *ngIf="fileURL2 != null"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    {{fileURL2.name}}
+                                </div>
+
+                                <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" *ngIf="fileURL2 != null">
+                                    <i nz-icon nzType="delete" (click)="pdfClear2()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                                    *ngIf="(data.INCOME_EXP_ACC_QTR1_URL != '') && (fileURL2 == null)"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    <a
+                                        (click)="viewImage1(data.INCOME_EXP_ACC_QTR1_URL)">{{data.INCOME_EXP_ACC_QTR1_URL}}</a>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Quarter2 Details </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="INCOME_EXP_ACC_QTR2" placeholder="Type here..."
+                                    [(ngModel)]="data.INCOME_EXP_ACC_QTR2" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2024" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.INCOME_EXP_ACC_QTR2" style="font-size: 10px; color: red;">
+                                {{data.INCOME_EXP_ACC_QTR2.length}}/ 2024
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Submission Date
+                            </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <nz-date-picker name="INCOME_EXP_ACC_QTR2_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.INCOME_EXP_ACC_QTR2_DATE" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <!-- <div nz-row>
+                    <div nz-col [nzSpan]="14">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>
+                                Copy &nbsp;
+
+                            </nz-form-label>
+
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput3.click()" accept="image/*"
+                                    (change)="onPdfFileSelected3($event)">Choose File
+
+                                    <input #pdfFileInput3 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected3($event)" (click)="pdfFileInput3.value = null"
+                                        style="display: none;" />
+                                </button><br>
+                                <span
+                                    *ngIf="data.INCOME_EXP_ACC_QTR2_URL && data.INCOME_EXP_ACC_QTR2_URL!='' && (fileURL3==undefined || fileURL3==null)">
+
+                                    <a  target="_blank"(click)="viewImage2(data.INCOME_EXP_ACC_QTR2_URL)">
+                                        {{data.INCOME_EXP_ACC_QTR2_URL}}
+                                    </a>
+                                </span>
+                                <span
+                                    *ngIf="data.INCOME_EXP_ACC_QTR2_URL && data.INCOME_EXP_ACC_QTR2_URL!='' && fileURL3!=undefined && fileURL3!=null">
+
+                                    <a href="{{data.INCOME_EXP_ACC_QTR2_URL}}" target="_blank">
+                                        {{fileURL3.name}} </a>
+                                </span>
+                            </nz-form-control>
+                           <span *ngIf="validtion == false && (data.INCOME_EXP_ACC_QTR2_URL == '' || data.INCOME_EXP_ACC_QTR2_URL == undefined)"
+                            style="color:red">Please Choose File</span>
+                        </nz-form-item>
+                    </div>
+                </div> -->
+
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>
+                                Copy &nbsp;
+                            </nz-form-label>
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput3.click()" accept="image/*"
+                                    (change)="onPdfFileSelected3($event)">Choose File
+
+                                    <input #pdfFileInput3 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected3($event)" (click)="pdfFileInput3.value = null"
+                                        style="display: none;" />
+                                </button><br>
+                                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" *ngIf="fileURL3 != null"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    {{fileURL3.name}}
+                                </div>
+
+                                <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" *ngIf="fileURL3 != null">
+                                    <i nz-icon nzType="delete" (click)="pdfClear3()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                                    *ngIf="(data.INCOME_EXP_ACC_QTR2_URL != '') && (fileURL3 == null)"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    <a
+                                        (click)="viewImage2(data.INCOME_EXP_ACC_QTR2_URL)">{{data.INCOME_EXP_ACC_QTR2_URL}}</a>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Quarter3 Details </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="INCOME_EXP_ACC_QTR3" placeholder="Type here..."
+                                    [(ngModel)]="data.INCOME_EXP_ACC_QTR3" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2024" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.INCOME_EXP_ACC_QTR3" style="font-size: 10px; color: red;">
+                                {{data.INCOME_EXP_ACC_QTR3.length}}/ 2024
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Submission Date
+                            </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <nz-date-picker name="INCOME_EXP_ACC_QTR3_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.INCOME_EXP_ACC_QTR3_DATE" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <!-- <div nz-row>
+                    <div nz-col [nzSpan]="14">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>
+                                Copy &nbsp;
+
+                            </nz-form-label>
+
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput4.click()" accept="image/*"
+                                    (change)="onPdfFileSelected4($event)">Choose File
+
+                                    <input #pdfFileInput4 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected4($event)" (click)="pdfFileInput4.value = null"
+                                        style="display: none;" />
+                                </button><br>
+                                <span
+                                    *ngIf="data.INCOME_EXP_ACC_QTR3_URL && data.INCOME_EXP_ACC_QTR3_URL!='' && (fileURL4==undefined || fileURL4==null)">
+
+                                    <a  target="_blank"(click)="viewImage3(data.INCOME_EXP_ACC_QTR3_URL)">
+                                        {{data.INCOME_EXP_ACC_QTR3_URL}}
+                                    </a>
+                                </span>
+                                <span
+                                    *ngIf="data.INCOME_EXP_ACC_QTR3_URL && data.INCOME_EXP_ACC_QTR3_URL!='' && fileURL4!=undefined && fileURL4!=null">
+
+                                    <a href="{{data.INCOME_EXP_ACC_QTR3_URL}}" target="_blank">
+                                        {{fileURL4.name}} </a>
+                                </span>
+                            </nz-form-control>
+                          <span *ngIf="validation == false && (data.INCOME_EXP_ACC_QTR3_URL== ''|| data.INCOME_EXP_ACC_QTR3_URL == undefined)"
+                            style="color:red;">Please fill the field</span>
+                        </nz-form-item>
+                    </div>
+                </div> -->
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>
+                                Copy &nbsp;
+                            </nz-form-label>
+                            <nz-form-control>
+                                <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                                    (click)="pdfFileInput4.click()" accept="image/*"
+                                    (change)="onPdfFileSelected4($event)">Choose File
+
+                                    <input #pdfFileInput4 type="file" accept="image/*"
+                                        (change)="onPdfFileSelected4($event)" (click)="pdfFileInput4.value = null"
+                                        style="display: none;" />
+                                </button><br>
+                                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" *ngIf="fileURL4 != null"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    {{fileURL4.name}}
+                                </div>
+
+                                <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" *ngIf="fileURL4 != null">
+                                    <i nz-icon nzType="delete" (click)="pdfClear4()" [nzTheme]="'twotone'"
+                                        [nzTwotoneColor]="'#ff0000'">
+                                    </i>
+                                </div>
+
+                                <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                                    *ngIf="(data.INCOME_EXP_ACC_QTR3_URL != '') && (fileURL4 == null)"
+                                    style="overflow: hidden; font-size: 13px;">
+                                    <a
+                                        (click)="viewImage3(data.INCOME_EXP_ACC_QTR3_URL)">{{data.INCOME_EXP_ACC_QTR3_URL}}</a>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!-- </div>
+ </div> -->
+
+
+
+
+            <div class="my-box">
+                <div nz-row nzGutter="12">
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="margin-bottom:2px;">
+                        <nz-form-label nzNoColon style="margin-top:11px;">Whether Audited Accounts Of Past Year Are
+                            Submitted In General Body Meeting</nz-form-label>
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+
+
+                        <nz-form-item>
+                            <nz-form-control>
+                                <nz-switch [ngModel]="data.IS_SUBMIT_PAST_YEAR_ACC_IN_MEETING" name="auditone"
+                                    nzCheckedChildren="Yes" nzUnCheckedChildren="No"
+                                    (ngModelChange)="setUnitsAll($event)"
+                                    style="margin-left: 76px;  margin-top: 2px;"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+                </div>
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+
+                        <nz-form-item *ngIf="data.IS_SUBMIT_PAST_YEAR_ACC_IN_MEETING==true">
+                            <nz-form-label nzNoColon nzRequired>Details</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="PAST_YEAR_ACC_SUBMIT_IN_MEETING_DETAILS"
+                                    placeholder="Type here..."
+                                    [(ngModel)]="data.PAST_YEAR_ACC_SUBMIT_IN_MEETING_DETAILS"
+                                    [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="1024" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.PAST_YEAR_ACC_SUBMIT_IN_MEETING_DETAILS"
+                                style="font-size: 10px; color: red;">
+                                {{data.PAST_YEAR_ACC_SUBMIT_IN_MEETING_DETAILS.length}}/ 1024
+                            </span>
+
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Date</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <nz-date-picker name="PAST_YEAR_ACC_SUBMIT_IN_MEETING_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.PAST_YEAR_ACC_SUBMIT_IN_MEETING_DATE" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row nzGutter="12">
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="margin-bottom:2px;">
+                        <nz-form-label nzNoColon style="margin-top:11px;">Whether Balance Sheet For Past Year Is
+                            Audited</nz-form-label>
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+
+
+                        <nz-form-item>
+                            <nz-form-control>
+                                <nz-switch [ngModel]="data.IS_AUDITED_PAST_YEAR_BALANCE_SHEET" name="audit"
+                                    nzCheckedChildren="Yes" nzUnCheckedChildren="No"
+                                    (ngModelChange)="SelectAsset($event)"
+                                    style="margin-left: -147px;  margin-top: 2px;"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+                </div>
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+
+                        <nz-form-item *ngIf="data.IS_AUDITED_PAST_YEAR_BALANCE_SHEET==true">
+                            <nz-form-label nzNoColon nzRequired>Details</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="AUDITED_PAST_YEAR_BALANCE_SHEET_DETAILS"
+                                    placeholder="Type here..."
+                                    [(ngModel)]="data.AUDITED_PAST_YEAR_BALANCE_SHEET_DETAILS"
+                                    [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="1024" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.AUDITED_PAST_YEAR_BALANCE_SHEET_DETAILS"
+                                style="font-size: 10px; color: red;">
+                                {{data.AUDITED_PAST_YEAR_BALANCE_SHEET_DETAILS.length}}/ 1024
+                            </span>
+
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>Date</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <nz-date-picker name="AUDITED_PAST_YEAR_BALANCE_SHEET_DATE" nzFormat="dd/MM/yyyy"
+                                    [(ngModel)]="data.AUDITED_PAST_YEAR_BALANCE_SHEET_DATE" required>
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>3]Liabilities</nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="LIABILITIES_DETAILS" placeholder="Type here..."
+                                    [(ngModel)]="data.LIABILITIES_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2048" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.LIABILITIES_DETAILS" style="font-size: 10px; color: red;">
+                                {{data.LIABILITIES_DETAILS.length}}/ 2048
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="margin-bottom:2px;">
+                        <nz-form-label nzNoColon style="margin-top:11px;"> Are Any Payments Outstanding</nz-form-label>
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-control>
+                                <nz-switch [ngModel]="data.IS_ANY_OUTSTANDING_PAYMENT" name="payments"
+                                    nzCheckedChildren="Yes" nzUnCheckedChildren="No" (ngModelChange)="setAll($event)"
+                                    style="margin-left:-255px;;  margin-top: 2px;"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+                </div>
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item *ngIf="data.IS_ANY_OUTSTANDING_PAYMENT==true">
+                            <nz-form-label nzNoColon nzRequired>Reason
+                            </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="OUTSTANDING_PAYMENT_REASON" placeholder="Type here..."
+                                    [(ngModel)]="data.OUTSTANDING_PAYMENT_REASON"
+                                    [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="1024" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.OUTSTANDING_PAYMENT_REASON" style="font-size: 10px; color: red;">
+                                {{data.OUTSTANDING_PAYMENT_REASON.length}}/ 1024
+                            </span>
+                        </nz-form-item>
+                    </div>
+
+                </div>
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item *ngIf="data.IS_ANY_OUTSTANDING_PAYMENT==true">
+                            <nz-form-label nzNoColon nzRequired>Details
+                            </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="OUTSTANDING_PAYMENT_DETAILS" placeholder="Type here..."
+                                    [(ngModel)]="data.OUTSTANDING_PAYMENT_DETAILS"
+                                    [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2048" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.OUTSTANDING_PAYMENT_DETAILS" style="font-size: 10px; color: red;">
+                                {{data.OUTSTANDING_PAYMENT_DETAILS.length}}/ 2048
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>4]Special Reason For Recommendation For Award,If Any
+                            </nz-form-label>
+
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="RECOMENDATION_REASON" placeholder="Type here..."
+                                    [(ngModel)]="data.RECOMENDATION_REASON" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2048" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.RECOMENDATION_REASON" style="font-size: 10px; color: red;">
+                                {{data.RECOMENDATION_REASON.length}}/ 2048
+                            </span>
+
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row nzGutter="12">
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="margin-bottom:2px;">
+                        <nz-form-label nzNoColon nzRequired style="margin-top:11px;">5]Whether Asset Register
+                            Maintained</nz-form-label>
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                        <nz-form-item>
+                            <nz-form-control>
+                                <nz-switch [ngModel]="data.IS_MAINTAINED_ASSET_REGISTER" name="asset"
+                                    nzCheckedChildren="Yes" nzUnCheckedChildren="No" (ngModelChange)="SelectAll($event)"
+                                    style="margin-left:-204px;  margin-top: 2px;"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                        <nz-form-item *ngIf="data.IS_MAINTAINED_ASSET_REGISTER==true">
+                            <nz-form-label nzNoColon nzRequired>Details
+                            </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="ASSET_REGISTER_DETAILS" placeholder="Type here..."
+                                    [(ngModel)]="data.ASSET_REGISTER_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2048" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.ASSET_REGISTER_DETAILS" style="font-size: 10px; color: red;">
+                                {{data.ASSET_REGISTER_DETAILS.length}}/2048
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-box">
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-item>
+                            <nz-form-label nzNoColon nzRequired>6]Any Other Information</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please fill the field">
+                                <textarea nz-input name="OTHER_INFORMATION" placeholder="Type here..."
+                                    [(ngModel)]="data.OTHER_INFORMATION" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                    maxlength="2048" required></textarea>
+                            </nz-form-control>
+                            <span *ngIf="data.OTHER_INFORMATION" style="font-size: 10px; color: red;">
+                                {{data.OTHER_INFORMATION.length}}/ 2048
+                            </span>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-spin>
+</form>
+
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="drawerVisible1"
+    [nzTitle]="drawerTitle1" (nzOnClose)="drawerClose1()" (nzKeyboard)="true">
+
+    <app-sponsorship [drawerClose1]="closeCallback1" [drawerVisible2]="drawerVisible1" [data1]="drawerData1"
+        (updateDataEvent)="updateData($event)">
+    </app-sponsorship>
+</nz-drawer>
+
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+
+    <span *ngIf="currentyear==YEAR">
+        <span *ngIf="data.IS_SUBMITED !='S'">
+            <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button
+                (click)="save(false,myForm)">
+                <span>Save As Draft & clos </span>
+            </button>&nbsp;
+
+            <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+            <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+                <a style="color: white" (click)="save(true,myForm)">Save As Draft</a>
+            </li>
+        </ul>
+</nz-dropdown-menu> -->
+
+            <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+                (click)="save(false,myForm)">
+                <span>Save As Draft & clos</span>
+            </button>&nbsp;
+
+
+            <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="ApplyForAward(myForm)"
+                class="ant-btn">
+                <span>Apply For Award & Close</span>
+            </button>&nbsp;
+        </span>
+    </span>
+
+
+
+
+
+    <button type="button" nz-button (click)="modalDisplay()" class="ant-btn"><span>Preview</span>
+    </button>&nbsp;
+
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle1" [nzContent]="modalContent1" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" [nzWidth]="900">
+    <ng-template #modalTitle1>Print Document</ng-template>
+    <ng-template #modalContent1>
+        <div id="print">
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 25px;padding-bottom: 5px;">
+                GIANTS WELFARE FOUNDATION<br></div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 15px;padding-bottom: 5px;">
+                AWARD BIDDING FORM NO. 07
+            </div>
+            <div style="color:black;text-align: center;font-weight: bolder;font-size: 18px;padding-bottom: 5px;">
+                NAME OF THE AWARD :DIRECTOR OF FINANCE
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;text-transform:uppercase;margin-bottom: 1px;font-size: 16px;">
+                                Name Of The Person : <b>{{data.MEMBER_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;text-transform:uppercase; margin-bottom: 1px;font-size: 16px;">
+                                Name Of The Group : <b>{{data.GROUP_NAME}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div style="color:#0b1113;font-weight: bolder; margin-bottom: 1px;font-size: 16px;">
+                Details:</div>
+            <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                            margin-left: 10px;">
+                                1) Welfare Foundation Dues:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                        margin-left: 17px;">
+                                i)Date On Which Paid:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_DATE}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                ii)For The Period Of
+                                January-June:&nbsp;&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_JAN_JUNE_DATE}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="width:100%">
+
+        <div style="display: flex;">
+            <div style="width:100%">
+                <div style="color:#0b1113;margin-bottom: 1px;font-size: 15px;
+                    margin-left: 25px;">
+                    Date:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_JAN_JUNE_DATE}}</b>
+                </div>
+            </div>
+        </div>
+    </div> -->
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 15px;
+                    margin-left: 285px;">
+                                Rs:&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_JAN_JUNE_AMOUNT}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                ii)For The Period Of
+                                July-December:&nbsp;&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_JUL_DEC_DATE}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="width:100%">
+
+        <div style="display: flex;">
+            <div style="width:100%">
+                <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 25px;">
+                    Date:&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_JAN_JUNE_DATE}}</b>
+                </div>
+            </div>
+        </div>
+    </div> -->
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 297px;">
+                                Rs:&nbsp;&nbsp;&nbsp;<b>{{data.DUES_PAID_JUL_DEC_AMOUNT}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 10px;">
+                                2)Accounts:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row *ngIf="data2.length > 0">
+                <div nz-row [nzGutter]="8">
+                    <div nz-col nzSpan="24">
+                        <table
+                            style="overflow:none;width: 100%;text-align: center;border: 2px solid black ; overflow-x: scroll;">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid black ;">Sponsorship Details</th>
+                                    <th style="border: 1px solid black ;">Date</th>
+                                    <th style="border: 1px solid black ;">Certificate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tab of data2;">
+                                    <td style="border: 1px solid black ;">{{ tab.SPONSERSHIP_DETAILS }}</td>
+                                    <td style="border: 1px solid black ;">{{ tab.SPONSER_DATE|date:"dd/MMM/yyyy" }}</td>
+                                    <td style="border: 1px solid black ;">{{ tab.CERTIFICATE_URL }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                a)Sponsorship:&nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.SPONSERSHIP_DETAILS}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                (If Any Help Was Obtained Either In Cash Or Kind,<br>Please Attach Certificate From Such
+                                Sponsors):&nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.CERTIFICATE_URL}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                Date:&nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>{{data.SPONSER_DATE}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 15px;
+                        margin-left: 17px;">
+                                b)Did You Work with budget?:&nbsp;&nbsp;Yes(Attach budget copy)/No
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 30px;">
+                                Annexure "A"for details
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                c)Income And Expenditure Accounts For Each Quarter Were Presented To<br>
+                                Board:&nbsp;&nbsp;Qtr:1)First&nbsp;&nbsp;&nbsp;2)Second&nbsp;&nbsp;&nbsp;3)Third
+                                <!-- 1)<b>{{data.INCOME_EXP_ACC_QTR1}}</b>&nbsp;&nbsp;2)<b>{{data.INCOME_EXP_ACC_QTR2}}</b>&nbsp;&nbsp;3)<b>{{data.INCOME_EXP_ACC_QTR3}}</b> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                Annexure "B" Copies&nbsp;&nbsp;
+                                <!-- 1){{data.INCOME_EXP_ACC_QTR1_URL}}&nbsp;&nbsp;2){{data.INCOME_EXP_ACC_QTR2_URL}}&nbsp;&nbsp;3){{data.INCOME_EXP_ACC_QTR3_URL}} -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                And Submitted To Welfare Foundation?&nbsp;&nbsp;
+                                <!-- Date<b>1){{data.INCOME_EXP_ACC_QTR1_DATE}}</b>&nbsp;&nbsp;<b>2){{data.INCOME_EXP_ACC_QTR1_DATE}}</b>&nbsp;&nbsp;<b>3){{data.INCOME_EXP_ACC_QTR3_DATE}}</b> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                d)Whether Audited Accounts Of Past Year <br>
+                                Are Submitted In General Body
+                                Meeting:&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;<b>{{data.PAST_YEAR_ACC_SUBMIT_IN_MEETING_DATE}}</b>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                            margin-left: 15px;">
+
+                                Details:&nbsp;&nbsp;&nbsp; <div
+                                    [innerHTML]="data.PAST_YEAR_ACC_SUBMIT_IN_MEETING_DETAILS"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                e)Whether Balance Sheet For Past Year Is
+                                Audited:&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;<b>{{data.AUDITED_PAST_YEAR_BALANCE_SHEET_DATE}}</b>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113;margin-bottom: 1px;font-size: 15px;
+                    margin-left:15px;">
+                                Details:&nbsp;&nbsp;&nbsp;<div
+                                    [innerHTML]="data.AUDITED_PAST_YEAR_BALANCE_SHEET_DETAILS"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 10px;">
+                                3)Liabilities:&nbsp;&nbsp;<div [innerHTML]="data.LIABILITIES_DETAILS"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 17px;">
+                                a)Are Any Payments Outstanding <br>
+                                If So Give Reason & Details:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 15px;">
+                                Reason&nbsp;&nbsp;&nbsp;<div [innerHTML]="data.OUTSTANDING_PAYMENT_REASON"> </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 15px;">
+                                Details:&nbsp;&nbsp;&nbsp;<div [innerHTML]="data.OUTSTANDING_PAYMENT_DETAILS"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 10px;">
+                                4)Special Reason For Recommendation For Award,If
+                                Any:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 15px;">
+                                <div [innerHTML]="data.RECOMENDATION_REASON"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div nz-row>
+                <div style="width:100%">
+
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 10px;">
+                                5)Whether Asset Register Maintened:Annexure"c"&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div nz-row>
+                <div style="width:100%">
+                    <div style="display: flex;">
+                        <div style="width:100%">
+                            <div style="color:#0b1113; margin-bottom: 1px;font-size: 15px;
+                    margin-left: 10px;">
+                                6)Any Other Information: Annexure "D"&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div
+                style="color:rgb(32, 32, 32);font-weight: bolder;font-size: 15px;padding-bottom: 5px;margin-left: 10px;">
+                I, Undersigned Being President / Director Of Administration Of Giants Group Of
+                ___________ Hereby Certify That The Information Contained Herein Is True To The Best Of Knowledge And
+                Belief
+            </div>
+            <br>
+            <div nz-row style="width: 100%;">
+                <div nz-col nzSpan="8" style="padding: 70px;width: 40%;">
+                    <b>Date:</b>
+                    {{data.CREATED_DATE| date:'dd MMM yyyy'}}
+                </div>
+                <div nz-col nzSpan="8" class="dot">
+                    <!-- <p >(SEAL)</p> -->
+                </div>
+                <div nz-col nzSpan="8" style="float: right;padding-top: 70px;">
+                    <p>President / Director Of Adm.</p>
+                </div>
+            </div>
+            <div style="page-break-after: always;"></div>
+            <div id="annexurea">
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113;text-transform:uppercase; margin-bottom: 1px;font-size: 20px;
+                      text-align: center;">
+                                    <b>Annexure "A"</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div nz-row *ngFor="let data of data2">
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113;margin-bottom: 1px;font-size: 16px;
+                        margin-left: 17px;">
+                                    <b>Sponsorship Details:</b>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<br>{{data.SPONSERSHIP_DETAILS}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px;
+                        margin-left: 17px;">
+                                    Date:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{data.SPONSER_DATE}}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px;
+                        margin-left: 17px;">
+                                    Certificate
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-row>
+                        <span *ngIf="data.CERTIFICATE_URL!=''">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: center;">
+                                <nz-form-item>
+                                    <div>
+                                        <img style=" width:100%; height:500px"
+                                            src="{{api.retriveimgUrl}}financeCertificate/{{data.CERTIFICATE_URL }}" />
+                                        <!-- <img
+                        *ngIf="data.CERTIFICATE_URL != undefined &&  data.CERTIFICATE_URL != null &&  data.CERTIFICATE_URL != '' "
+                        style="width: 600px; height: 400px; margin-left: 15px;"
+                        src="{{api.retriveimgUrl}}financeCertificate/{{ data.CERTIFICATE_URL }}" /> -->
+                                    </div>
+                                </nz-form-item>
+                            </div>
+                        </span>
+                    </div><br>
+
+                </div> <br> <br>
+
+                <div style="break-after:page"></div>
+
+                <div nz-row>
+                    <span *ngIf="data.BUDGET_URL!=' '">
+
+                        <div style="width:100%">
+
+                            <div style="display: flex;">
+                                <div style="width:100%">
+                                    <div style="color:#0b1113; margin-bottom: 1px;font-size: 17px;
+                        margin-left: 17px;">
+                                        <b>Budget Copy</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </div> <br>
+
+                <div nz-row>
+                    <span *ngIf="data.BUDGET_URL!=' '">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: center;">
+                            <nz-form-item>
+                                <div>
+                                    <img style=" width:100%; height:500px"
+                                        src="{{api.retriveimgUrl}}BudgetURL/{{data.BUDGET_URL }}" />
+                                </div>
+                            </nz-form-item>
+                        </div>
+                    </span>
+                </div><br>
+
+
+
+            </div>
+            <div style="break-after:page"></div>
+            <div id="annexureb">
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113;text-transform:uppercase; margin-bottom: 1px;font-size: 20px;
+                      text-align: center;">
+                                    <b>Annexure "B"</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px;
+                        margin-left: 17px;">
+                                    Quarter 1 Details:<div [innerHTML]="data.INCOME_EXP_ACC_QTR1"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px;
+                    margin-left: 17px;">
+                                    Date:{{data.INCOME_EXP_ACC_QTR1_DATE}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+
+                <div nz-row>
+                    <span *ngIf="data.INCOME_EXP_ACC_QTR1_URL">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: center;">
+                            <nz-form-item>
+                                <div>
+                                    <img [src]="getPhotoURL1(data.INCOME_EXP_ACC_QTR1_URL)"
+                                        style=" width:100%; height:500px">
+                                </div>
+                            </nz-form-item>
+                        </div>
+                    </span>
+                </div><br>
+                <div style="break-after:page"></div>
+
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px; margin-left: 17px;">
+                                    Quarter 2 Details:<div [innerHTML]="data.INCOME_EXP_ACC_QTR2"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px;margin-left: 17px;">
+                                    Date:-{{data.INCOME_EXP_ACC_QTR2_DATE}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <span *ngIf="data.INCOME_EXP_ACC_QTR2_URL">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: center;">
+                            <nz-form-item>
+                                <div>
+                                    <!-- <img src="{{PhotoUrl2}}/{{data.INCOME_EXP_ACC_QTR2_URL}}" target="_blank"
+                                     style=" width:100%; height:500px"> -->
+                                    <img [src]="getPhotoURL1(data.INCOME_EXP_ACC_QTR2_URL)"
+                                        style=" width:100%; height:500px">
+                                </div>
+                            </nz-form-item>
+                        </div>
+                    </span>
+                </div><br>
+                <div style="break-after:page"></div>
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113;margin-bottom: 1px;font-size: 16px;margin-left: 17px;">
+                                    Quarter 3 Details: <div [innerHTML]="data.INCOME_EXP_ACC_QTR3"> </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 16px;margin-left: 17px;">
+                                    Date:{{data.INCOME_EXP_ACC_QTR3_DATE}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+
+                <div nz-row>
+                    <span *ngIf="data.INCOME_EXP_ACC_QTR3_URL">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="text-align: center;">
+                            <nz-form-item>
+                                <div>
+                                    <!-- <img src="{{PhotoUrl2}}/{{data.INCOME_EXP_ACC_QTR3_URL}}" target="_blank"
+
+                style=" width:100%; height:500px"> -->
+                                    <img [src]="getPhotoURL1(data.INCOME_EXP_ACC_QTR3_URL)"
+                                        style=" width:100%; height:500px">
+                                </div>
+                            </nz-form-item>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div style="break-after:page"></div>
+            <div id="annexurec">
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div
+                                    style="color:#0b1113;text-transform:uppercase; margin-bottom: 1px;font-size: 20px;text-align: center;">
+                                    <b>Annexure "C"</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113;margin-bottom: 1px;font-size: 16px;margin-left: 17px;">
+                                    <b>Asset Register Maintained Details</b> <br>
+
+                                    <div [innerHTML]="data.ASSET_REGISTER_DETAILS"> </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div style="break-after:page"></div>
+            <div id="annexured">
+                <div nz-row>
+                    <div style="width:100%">
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div
+                                    style="color:#0b1113;text-transform:uppercase;  margin-bottom: 1px;font-size: 20px;text-align: center;">
+                                    <b>Annexure "D"</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div nz-row>
+                    <div style="width:100%">
+
+                        <div style="display: flex;">
+                            <div style="width:100%">
+                                <div style="color:#0b1113; margin-bottom: 1px;font-size: 17px;margin-left: 17px;">
+                                    <b>Other Information</b> <br>
+                                    <div [innerHTML]="data.OTHER_INFORMATION"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint>Print</button>
+    </ng-template>
+</nz-modal>

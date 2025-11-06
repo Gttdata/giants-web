@@ -1,0 +1,112 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">
+                    {{formTitle}}
+                </span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8" style="text-align: center;">
+            <button nz-button nzType="default" style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                (click)="addNewFee()">
+                <i nz-icon nzType="plus"></i>
+                Manage
+            </button>
+        </div>
+
+        <div nz-col nzXs="0" nzSm="0" nzMd="8" nzLg="8" nzXl="8" style="text-align: right;">
+            <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
+                <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+                    (keydown.enter)="search()" [(ngModel)]="searchText" />
+            </nz-input-group>
+
+            <ng-template #prefixIcon>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+
+            <ng-template #suffixIcon>
+                <!-- <i nz-icon nzType="filter" nzTheme="outline" (click)="openAdvanceFilter()"
+                    nzTooltipTitle="Advance Filter" nzTooltipPlacement="top" nz-tooltip>
+                </i> -->
+            </ng-template>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+            <div style="text-align: center; padding: 5px;">
+                <span class="formname">
+                    {{formTitle}}
+                </span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="8" nzSm="8" nzMd="0" nzLg="0" nzXl="0" style="text-align: left;">
+            <button nz-button nzType="default" style="border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff;"
+                (click)="addNewFee()">
+                <i nz-icon nzType="plus"></i>
+                Manage
+            </button>
+        </div>
+
+        <div nz-col nzXs="16" nzSm="16" nzMd="0" nzLg="0" nzXl="0" style="text-align: right;">
+            <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
+                <input nz-input type="text" name="search" autocomplete="off" placeholder="Search Here..."
+                    (keydown.enter)="search()" [(ngModel)]="searchText" />
+            </nz-input-group>
+
+            <ng-template #prefixIcon>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+
+            <ng-template #suffixIcon>
+                <!-- <i nz-icon nzType="filter" nzTheme="outline" (click)="openAdvanceFilter()"
+                    nzTooltipTitle="Advance Filter" nzTooltipPlacement="top" nz-tooltip>
+                </i> -->
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #dataTable nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th *ngFor="let column of columns;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of dataTable.data;">
+                        <td align="center" *ngFor="let column of columns;">
+                            <span *ngIf="column[0] != 'EXPIRY_DATE'">
+                                {{data[column[0]]}}
+                            </span>
+
+                            <span *ngIf="column[0] == 'EXPIRY_DATE'">
+                                {{data[column[0]] ? (data[column[0]] | date:'dd MMM yyyy') : 'Lifetime'}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1200" [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+    <app-admin-fee-type-drawer [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [feeDetails]="feeDetails">
+    </app-admin-fee-type-drawer>
+</nz-drawer>

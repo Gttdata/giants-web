@@ -1,0 +1,65 @@
+<div>
+  <form nz-form #circulartypemaster="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Name</nz-form-label>
+
+            <nz-form-control nzErrorTip="Enter Valid Type">
+              <input nz-input type="Text" name="Name" placeHolder="Enter Circular Type" (keypress)="alphaOnly($event)"
+                [(ngModel)]="data.NAME" required />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Sequence number</nz-form-label>
+
+            <nz-form-control nzErrorTip="Enter Valid Sequence Number">
+              <input nz-input type="number" name="seq" placeHolder="Enter Sequence No." (keypress)="omit($event)"
+                [(ngModel)]="data.SEQ_NO" required />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label style="margin-right: 65px" nzNoColon>Status</nz-form-label>
+
+            <nz-form-control>
+              <nz-switch name="STATUS" [(ngModel)]="data.STATUS"></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button type="button" nz-button (click)="close(circulartypemaster)" class="ant-btn" style="margin-right: 8px">
+      <span>Cancel</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button nz-dropdown [nzDropdownMenu]="menu"
+      (click)="save(false,circulartypemaster)">
+      <span> Save & Close</span>
+    </button>
+
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+          <a style="color: white" (click)="save(true,circulartypemaster)">Save & New</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="data.ID" nz-button [nzLoading]="isSpinning"
+      (click)="save(false,circulartypemaster)">
+      <span> Update & Close</span>
+    </button>
+  </div>
+</div>

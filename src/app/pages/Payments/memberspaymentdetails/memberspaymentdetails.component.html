@@ -1,0 +1,48 @@
+<div>
+  <div class="header">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+      <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+  </div>
+
+  <form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row nzGutter="10">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <nz-table class="my-scroll no-wrap1" nzBordered #paymentTable nzShowSizeChanger [nzFrontPagination]="false"
+            [nzData]="paymentDataId" [nzShowPagination]="false">
+            <thead style="text-align: center;" nzSingleSort>
+              <tr>
+                <th style="width: 100px"><b>Sr. No.</b></th>
+                <th><b>Member Name</b></th>
+                <th style="width: 150px"><b>Paid Amount</b></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let data of paymentTable.data; let i = index;">
+                <td style="width: 100px" align="center">
+                  {{i+1}}
+                </td>
+
+                <td>
+                  {{data.MEMBER_NAME}}
+                </td>
+
+                <td style="width: 150px" align="right">
+                  {{data.AMOUNT}}/-
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="close(myForm)" class="ant-btn">
+      <span>Close</span>
+    </button>
+  </div>
+</div>

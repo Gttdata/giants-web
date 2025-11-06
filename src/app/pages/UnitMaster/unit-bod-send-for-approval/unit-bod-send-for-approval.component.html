@@ -1,0 +1,293 @@
+<div>
+    <div class="header">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+    </div>
+
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div>
+                <nz-table class="my-scroll no-wrap1" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+                    [nzFrontPagination]="false" [nzData]="NEW_UNIT_BOD" [nzLoading]="loadingRecords"
+                    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+                    <thead>
+                        <tr>
+                            <th><b>Sr. No.</b></th>
+                            <th><b>Member Name</b></th>
+                            <th><b>Mobile No.</b></th>
+                            <th><b>Position</b></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let data of table.data; let i = index;">
+                            <td align="center">{{i+1}}</td>
+                            <td align="left">{{data.NAME}}</td>
+                            <td align="center">{{data.MOBILE_NUMBER}}</td>
+                            <td align="center" *ngIf="i == 0">Director</td>
+                            <td align="center" *ngIf="i == 1">Officer 1</td>
+                            <td align="center" *ngIf="i == 2">Officer 2</td>
+                            <td align="center" *ngIf="i == 3">Vice President</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+
+            <div nz-row nzGutter="10">
+                <div nz-col nzSpan="14">
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Subject</nz-form-label>
+
+                                    <nz-form-control nzErrorTip="Enter Valid Subject">
+                                        <textarea rows="2" nz-input name="Name" placeholder="Enter Subject"
+                                            [(ngModel)]="SUBJECT" maxlength="500" required>
+                                        </textarea>
+                                    </nz-form-control>
+
+                                    <span *ngIf="SUBJECT" style="font-size: 10px; color: red;">
+                                        {{SUBJECT.length}}/ 500
+                                    </span>
+                                </nz-form-item>
+                            </div>
+
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Description</nz-form-label>
+
+                                    <nz-form-control nzErrorTip="Enter Valid Description">
+                                        <angular-editor [placeholder]="'Draft Mail here...'" [config]="editorConfig"
+                                            name="description" [(ngModel)]="DESCRIPTION">
+                                        </angular-editor>
+                                    </nz-form-control>
+
+                                    <span *ngIf="DESCRIPTION" style="font-size: 10px; color: red;">
+                                        {{DESCRIPTION.length}}/ 1000
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="10">
+                    <div>
+                        <div nz-row class="my-box">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <span>Attachments</span>
+
+                                <ul *ngIf="this.DOCUMENTS_LIST">
+                                    <li>
+                                        <a (click)="showBODList(this.DOCUMENTS_LIST[0]['BOD_LIST_URL'])">
+                                            New BOD List
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a (click)="showBODList(this.DOCUMENTS_LIST[0]['OLD_BOD_LIST_URL'])">
+                                            Old BOD List
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a (click)="showMailingList(this.DOCUMENTS_LIST[0]['MAILING_LIST_URL'])">
+                                            Mailing List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div nz-row class="my-box">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Federation's BOD Members
+                                        <nz-switch name="federationSelect"
+                                            (ngModelChange)="selectFederationsMember($event)"
+                                            [ngModel]="federationSelect" nzCheckedChildren="All"
+                                            nzUnCheckedChildren="None">
+                                        </nz-switch>
+                                    </nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="federation" nzShowSearch nzAllowClear nzMode="multiple"
+                                            nzMaxTagCount="5" style="width: 100%" [nzLoading]="federationMemberLoading"
+                                            nzPlaceHolder="Select Federation's BOD Members" [(ngModel)]="FEDERATION_ID">
+
+                                            <nz-option nzCustomContent *ngFor="let federation of memberList;"
+                                                [nzValue]="federation.ID" [nzLabel]="federation.NAME">
+                                                <div nz-row>
+                                                    <div nz-col nzSpan="24">
+                                                        {{federation.NAME}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="24">
+                                                        <div style="font-size: 10px; text-align: right; color: blue;">
+                                                            ~ {{federation.MEMBER_ROLE}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row class="my-box">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Unit's BOD Members
+                                        <nz-switch name="unitSelect" (ngModelChange)="selectUnitsMember($event)"
+                                            [ngModel]="unitSelect" nzCheckedChildren="All" nzUnCheckedChildren="None">
+                                        </nz-switch>
+                                    </nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="unit" nzShowSearch nzAllowClear nzMode="multiple"
+                                            nzMaxTagCount="5" style="width: 100%" [nzLoading]="unitMemberLoading"
+                                            nzPlaceHolder="Select Unit's BOD Members" [(ngModel)]="UNIT_ID">
+
+                                            <nz-option nzCustomContent *ngFor="let unit of unitBODMemberList;"
+                                                [nzValue]="unit.ID" [nzLabel]="unit.NAME">
+                                                <div nz-row>
+                                                    <div nz-col nzSpan="24">
+                                                        {{unit.NAME}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="24">
+                                                        <div style="font-size: 10px; text-align: right; color: blue;">
+                                                            ~ {{unit.MEMBER_ROLE}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row class="my-box">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Unit's New BOD Members
+                                        <nz-switch name="newGroupBODSelect"
+                                            (ngModelChange)="selectNewGroupsBODMember($event)"
+                                            [ngModel]="newGroupBODSelect" nzCheckedChildren="All"
+                                            nzUnCheckedChildren="None">
+                                        </nz-switch>
+                                    </nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="newGroupBOD" nzShowSearch nzAllowClear nzMode="multiple"
+                                            nzMaxTagCount="5" style="width: 100%" [nzLoading]="loadingRecords"
+                                            nzPlaceHolder="Select Unit's New BOD Members" [(ngModel)]="NEW_UNIT_BOD_ID">
+
+                                            <nz-option nzCustomContent
+                                                *ngFor="let group of NEW_UNIT_BOD; let i = index;" [nzValue]="group.ID"
+                                                [nzLabel]="group.NAME">
+                                                <div nz-row>
+                                                    <div nz-col nzSpan="24">
+                                                        {{group.NAME}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="24">
+                                                        <div style="font-size: 10px; text-align: right; color: blue;">
+                                                            ~ {{getNewBODRole(i)}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row class="my-box">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Central Committee, Special Committee Members
+                                        <nz-switch name="centralSpecialCommittee"
+                                            (ngModelChange)="selectFederationsCentralSpecialCommitteeMember($event)"
+                                            [ngModel]="centralSpecialCommittee" nzCheckedChildren="All"
+                                            nzUnCheckedChildren="None">
+                                        </nz-switch>
+                                    </nz-form-label>
+
+                                    <nz-form-control>
+                                        <nz-select name="federationCentralSpecialCommittee" nzShowSearch nzAllowClear
+                                            nzMode="multiple" nzMaxTagCount="6" style="width: 100%"
+                                            [nzLoading]="centralSpecialCommitteeMemberLoading"
+                                            nzPlaceHolder="Select Central Committee, Special Committee Members"
+                                            [(ngModel)]="FEDERATION_CENTRAL_SPECIAL_COMMITTEE">
+
+                                            <nz-option nzCustomContent
+                                                *ngFor="let member of centralSpecialCommitteeMemberList;"
+                                                [nzValue]="member.ID" [nzLabel]="member.NAME">
+                                                <div nz-row>
+                                                    <div nz-col nzSpan="24">
+                                                        {{member.NAME}}
+                                                    </div>
+
+                                                    <div nz-col nzSpan="24">
+                                                        <div style="font-size: 10px; text-align: right; color: blue;">
+                                                            ~ {{member.MEMBER_ROLE}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+
+                        <div nz-row class="my-box">
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                                <nz-form-item>
+                                    <nz-form-label nzNoColon>Remark</nz-form-label>
+
+                                    <nz-form-control>
+                                        <textarea rows="3" nz-input name="remark"
+                                            placeholder="Enter Approval/ Rejection Remark" [(ngModel)]="REMARK"
+                                            maxlength="500">
+                                        </textarea>
+                                    </nz-form-control>
+
+                                    <span *ngIf="REMARK" style="font-size: 10px; color: red;">
+                                        {{REMARK.length}}/ 500
+                                    </span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+            <span>Cancel</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" style="margin-right: 8px;" nz-button
+            [nzLoading]="isSpinning" nz-popconfirm nzPopconfirmTitle="Are you sure want to send approval Email?"
+            (nzOnConfirm)="onApproveBtnClick(myForm,'A')" (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+
+            <span>Approve</span>
+        </button>
+
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" nz-popconfirm
+            nzPopconfirmTitle="Are you sure want to send rejection Email ?"
+            (nzOnConfirm)="onRejectionBtnClick(myForm,'R')" (nzOnCancel)="cancel()" nzPopconfirmPlacement="top">
+
+            <span>Reject</span>
+        </button>
+    </div>
+</div>

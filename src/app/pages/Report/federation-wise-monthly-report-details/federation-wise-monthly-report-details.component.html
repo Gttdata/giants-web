@@ -1,0 +1,64 @@
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <div style="text-align: left; padding: 5px;">
+                <span class="formname">{{formTitle}}</span>
+            </div>
+        </div>
+
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+            <div style="text-align: right;">
+                <nz-select name="federationName" nzShowSearch [nzLoading]="isFederationLoading" style="width: 50%"
+                    nzPlaceHolder="Select federation" (ngModelChange)="onFederationChange($event)"
+                    [(ngModel)]="FEDERATION_NAME">
+
+                    <nz-option *ngFor="let federation of federations;" [nzValue]="federation.ID"
+                        [nzLabel]="federation.NAME">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table class="my-scroll no-wrap1" nzBordered #table1 nzShowSizeChanger [nzFrontPagination]="false"
+                [nzData]="dataList" [nzLoading]="loadingRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)">
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th><b>Sr. No.</b></th>
+
+                        <th *ngFor="let column of columns;" nzShowSort nzSortKey={{column[0]}}>
+                            <b>{{column[1]}}</b>
+                        </th>
+
+                        <th *ngFor="let monthColumn of monthColumns;">
+                            <b>{{monthColumn[1]}}</b>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of table1.data; let i = index;">
+                        <td align="center">
+                            {{((pageIndex - 1) * 10) + (i + 1)}}
+                        </td>
+
+                        <td align="left" *ngFor="let column of columns;">
+                            {{data[column[0]]}}
+                        </td>
+
+                        <td align="center" *ngFor="let monthColumn of monthColumns;">
+                            {{data[monthColumn[0]]}}/ {{data["TOTAL_GROUP_COUNT"]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

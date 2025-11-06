@@ -1,0 +1,16 @@
+export class AttendanceReport {
+    ID
+    EMPLOYEE_ID
+    DATE
+    IN_TIME
+    IN_LOCATION
+    OUT_TIME
+    OUT_LOCATION
+    IS_LATE_MARK
+    IS_HALF_DAY
+    CLIENT_ID
+    IN_DISTANCE
+    OUT_DISTANCE
+    WORKING_HOURS
+    STATUS
+}

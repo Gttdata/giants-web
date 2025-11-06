@@ -1,0 +1,132 @@
+<form nz-form #myForm1="ngForm">
+    
+        <div class="my-box">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                    <nz-form-label nzNoColon nzRequired>Sponsorship</nz-form-label>
+                      <nz-form-control >
+                        <textarea nz-input placeholder="Type here..." name="SPONSERSHIP_DETAILS"
+                                [(ngModel)]="data1.SPONSERSHIP_DETAILS" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                                maxlength="300"></textarea>
+                       </nz-form-control>
+                    <span *ngIf="validation==false && (data1.SPONSERSHIP_DETAILS=='' || data1.SPONSERSHIP_DETAILS==undefined)"
+                    style="color:red">Please fill the field</span>
+               
+                    <span *ngIf="data1.SPONSERSHIP_DETAILS"
+                        style="font-size: 10px; color: red;">{{data1.SPONSERSHIP_DETAILS.length}}/
+                        300</span>
+             </nz-form-item>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-box">
+        <div nz-row nzGutter="12">
+            <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                <nz-form-item>
+                    <nz-form-label nzNoColon nzRequired>Date</nz-form-label>
+                    <nz-form-control style="margin-top: -3px;">
+                        <nz-date-picker name="SPONSER_DATE" nzFormat="dd/MM/yyyy"
+                            [(ngModel)]="data1.SPONSER_DATE"  >
+                        </nz-date-picker>
+                    </nz-form-control>
+                    <span
+                        *ngIf="validation==false && (data1.SPONSER_DATE=='' || data1.SPONSER_DATE==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="my-box">
+        <div nz-row nzGutter="12">
+            <div nz-col nzXs="14" nzSm="14" nzMd="14" nzLg="14" nzXl="14">
+                <nz-form-item>
+                    <nz-form-label nzNoColon nzRequired>If any help was obtained either in cash or kind. <br>please attach certificate from such sponsor.
+                    </nz-form-label>
+                      <nz-form-control nzHasFeedback nzErrorTip="Please Choose file">
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                            (click)="pdfFileInput2.click()" accept="image/*"
+                        (change)="onPdfFileSelected2($event)" >Choose File
+                           <input #pdfFileInput2 type="file" accept="image/*"
+                                (change)="onPdfFileSelected2($event)" (click)="pdfFileInput2.value = null"
+                                style="display:none" />
+                        </button><br>
+                        <span
+                            *ngIf="data1.CERTIFICATE_URL && data1.CERTIFICATE_URL!='' && (fileURL2==undefined || fileURL2==null)">
+                             <a  target="_blank"(click)="viewImage2(data1.CERTIFICATE_URL)">
+                                {{data1.CERTIFICATE_URL}}
+                            </a>
+                        </span>
+                        <span
+                            *ngIf="data1.CERTIFICATE_URL && data1.CERTIFICATE_URL!='' && fileURL2!=undefined && fileURL2!=null">
+
+                            <a href="{{data1.CERTIFICATE_URL}}" target="_blank">
+                                {{fileURL2.name}} </a>
+                        </span>
+                    </nz-form-control>
+                    <span
+                    *ngIf="validation==false && (data1.CERTIFICATE_URL=='' || data1.CERTIFICATE_URL==undefined)"
+                    style="color:red">Please Choose File</span>
+                </nz-form-item>
+            </div>
+
+        </div>
+        
+    </div> -->
+
+    <div class="my-box">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <nz-form-item>
+                    <nz-form-label nzNoColon nzRequired>If any help was obtained either in cash or kind. <br>please attach certificate from such sponsor.
+
+                    </nz-form-label>
+
+                    <nz-form-control>
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"
+                            (click)="pdfFileInput1.click()">Choose File
+
+                            <input #pdfFileInput1 type="file" accept="image/*"
+                                (change)="onPdfFileSelected2($event)"
+                                (click)="pdfFileInput1.value = null" style="display: none;" />
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23" *ngIf="fileURL2 != null"
+                style="overflow: hidden; font-size: 13px;">
+                {{fileURL2.name}}
+            </div>
+
+            <div nz-col nzXs="1" nzSm="1" nzMd="1" nzLg="1" nzXl="1" *ngIf="fileURL2 != null">
+                <i nz-icon nzType="delete" (click)="pdfClear1()" [nzTheme]="'twotone'"
+                    [nzTwotoneColor]="'#ff0000'">
+                </i>
+            </div>
+
+            <div nz-col nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+                *ngIf="(data1.CERTIFICATE_URL != '') && (fileURL2 == null)"
+                style="overflow: hidden; font-size: 13px;">
+                <a (click)="viewImage2(data1.CERTIFICATE_URL)">{{data1.CERTIFICATE_URL}}</a>
+            </div>
+        </div>
+    </div>
+
+
+   
+</form>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+
+<button nzType="primary" class="ant-btn ant-btn-primary" *ngIf="!data1.ID" nz-button (click)="save(false)"
+        ><span>Save &close</span></button>
+
+<button nzType="primary" class="ant-btn ant-btn-primary" nz-button  *ngIf="data1.ID"
+     (click)="save(false)">
+        <span>Update & close</span>
+</button>
+</div>

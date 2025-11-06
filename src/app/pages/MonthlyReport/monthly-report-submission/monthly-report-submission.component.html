@@ -1,0 +1,1566 @@
+<div>
+  <nz-spin [nzSpinning]='isLoading'>
+    <div
+      style="border-radius: 8px; background-color: white; padding: 10px; margin: 10px; position: sticky; top: 0px; z-index: 10;">
+      <div nz-row>
+        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+          <div style="text-align: left; padding: 5px;">
+            <span class="formname">
+              {{formTitle}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 80vh; overflow-y: auto; padding: 10px;">
+      <div nz-row [nzGutter]="10">
+        <div nz-col *ngIf="janTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    January
+                  </span>
+
+                  <!-- <span *ngIf="janTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(janTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="janTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('January',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="janTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('January')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="janTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(1)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!janTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('January',false,1)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="febTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    February
+                  </span>
+
+                  <!-- <span *ngIf="febTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(febTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="febTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('February',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="febTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('February')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="febTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(2)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!febTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('February',false,2)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="marchTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    March
+                  </span>
+
+                  <!-- <span *ngIf="marchTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(marchTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="marchTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('March',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="marchTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('March')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="marchTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(3)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!marchTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('March',false,3)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="aprilTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    April
+                  </span>
+
+                  <!-- <span *ngIf="aprilTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(aprilTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="aprilTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('April',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="aprilTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('April')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="aprilTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(4)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!aprilTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('April',false,4)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="mayTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    May
+                  </span>
+
+                  <!-- <span *ngIf="mayTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(mayTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="mayTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('May',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="mayTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('May')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="mayTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(5)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!mayTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('May',false,5)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="juneTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    June
+                  </span>
+
+                  <!-- <span *ngIf="juneTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(juneTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="juneTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('June',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="juneTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('June')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="juneTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(6)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!juneTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('June',false,6)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="julTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    July
+                  </span>
+
+                  <!-- <span *ngIf="julTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(julTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="julTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('July',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="julTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('July')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="julTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(7)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!julTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('July',false,7)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="augTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    August
+                  </span>
+
+                  <!-- <span *ngIf="augTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(augTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="augTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('August',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="augTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('August')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="augTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(8)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!augTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('August',false,8)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="septTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    September
+                  </span>
+
+                  <!-- <span *ngIf="septTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(septTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="septTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('September',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="septTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('September')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="septTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(9)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!septTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('September',false,9)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="octTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    October
+                  </span>
+
+                  <!-- <span *ngIf="octTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(octTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="octTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('October',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="octTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('October')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="octTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(10)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!octTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('October',false,10)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="novTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    November
+                  </span>
+
+                  <!-- <span *ngIf="novTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(novTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="novTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('November',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="novTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('November')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="novTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(11)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!novTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('November',false,11)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col *ngIf="decTileStatus" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12"
+          style="margin-bottom: 10px;">
+          <div style="border-radius: 8px; background-color: white; padding: 10px;">
+            <div nz-row>
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <span class="formname">
+                    December
+                  </span>
+
+                  <!-- <span *ngIf="decTileViewPDF.trim() != ''"
+                    style="color: #1890ff; float: right; cursor: pointer; padding: 5px 0px 5px 0px; position: absolute; right: 0px; font-size: 10px;"
+                    (click)="viewPDF(decTileViewPDF)">
+                    View Attached PDF
+                  </span> -->
+                </div>
+              </div>
+
+              <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <div style="text-align: center; padding: 5px;">
+                  <button nz-button *ngIf="decTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="viewMonthlyReport('December',true)">
+                    View/ Download
+                  </button>
+
+                  <!-- <button nz-button *ngIf="decTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
+                    (nzOnConfirm)="deleteMonthlyReportingRecord('December')" (nzOnCancel)="cancel()"
+                    nzPopconfirmPlacement="top">
+                    Delete
+                  </button> -->
+
+                  <button nz-button *ngIf="decTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="sendMonthlyReportEmail(12)">
+                    Send Mail
+                  </button>
+
+                  <button nz-button *ngIf="!decTileViewBtnStatus" nzType="default"
+                    style="font-size: 11px; border-radius: 5px; color: #47a7ff; border: solid 1px #47a7ff; margin: 5px;"
+                    (click)="submitMonthlyReport('December',false,12)">
+                    Create
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-spin>
+</div>
+
+<!-- Add monthly report drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 110px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="getWidth()" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+
+  <app-drawermonthlyreportsubmission [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"
+    [projectArray]="ProjectsOfTheMonthData" [eventArray]="EventsOfTheMonthData" [meetingArray]="MeetingsOfTheMonthData"
+    [boardMeetingArray]="boardMeetingsOfTheMonthData" [groupPaymentData]="groupPaymentData"
+    [addedMemberArray]="AddedMembersMonthData" [droppedMemberArray]="droppedMembersMonthData"
+    [submissionMonth]="submissionMonth" [submissionYear]="submissionYear">
+  </app-drawermonthlyreportsubmission>
+</nz-drawer>
+
+<!-- Monthly report print modal -->
+<nz-modal nzWidth="1000px" [nzStyle]="{ top: '20px' }" [(nzVisible)]="isVisible" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+  <ng-template #modalTitle>
+    {{modalHeader}}
+  </ng-template>
+
+  <ng-template #modalContent>
+    <nz-spin [nzSpinning]="isReportLoading">
+      <div *ngIf="monthlyGroupData.length > 0" style="height: 470px; overflow: auto; page-break-inside: avoid;">
+        <div *ngFor="let data of monthlyGroupData;">
+          <div id="print" style="padding: 5px;">
+            <div style="border: 1px solid black; padding-left: 20px; padding-right: 20px;">
+              <div nz-row>
+                <div nz-col nzSpan="24">
+                  <div style="text-align: center;">
+                    <img src="assets/logo1.png" height="60px" width="60px">
+                  </div>
+                </div>
+
+                <div nz-col nzSpan="24">
+                  <div style="text-align: center; color: red; font-size: 25px;">
+                    <b>{{monthlyReportingTitle}}</b>
+                  </div>
+                </div>
+
+                <div nz-col nzSpan="24">
+                  <div style="text-align: center;">
+                    <b style="color: blue; font-size: 20px;">Group Monthly Reporting</b><br>
+                    <b style="color: gray; font-size: 16px;">{{reportHeader}}</b>
+                  </div>
+                </div>
+              </div>
+
+              <div style="border-top: 1px solid black; margin: 5px;"></div>
+
+              <div nz-row>
+                <div nz-col nzSpan="12" style="padding: 3px 0px 3px 0px;">
+                  <span style="font-weight: bold;">Group Name : </span>
+
+                  <span style="color: red; padding-right: 10px;">
+                    {{data['GROUP_NAME']}}
+                  </span>
+                </div>
+
+                <div nz-col nzSpan="6" style="padding: 3px 0px 3px 0px;">
+                  <span style="font-weight: bold;">Br. No. : </span>
+
+                  <span style="color: red; padding-right: 10px;"></span>
+                </div>
+
+                <div nz-col nzSpan="6" style="padding: 3px 0px 3px 0px;">
+                  <span style="font-weight: bold;">Unit No. : </span>
+
+                  <span style="color: red; padding-right: 10px;">
+                    {{data['UNIT_NAME']}}
+                  </span>
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzSpan="24" style="padding: 3px 0px 3px 0px;">
+                  <span style="font-weight: bold;">Name of Administration : </span>
+
+                  <span style="color: red; padding-right: 10px;">
+                    {{data['SECRETORY_NAME']}}
+                  </span>
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzSpan="24" style="padding: 3px 0px 3px 0px;">
+                  <span style="font-weight: bold;">Address : </span>
+
+                  <span style="color: red; padding-right: 10px;"></span>
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                  <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+                    <tbody>
+                      <tr>
+                        <td rowspan="2"
+                          style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                          <span style="color: red; font-weight: bold; padding-right: 10px;">1.</span>Membership
+                        </td>
+
+                        <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                          At close of last Month
+                        </td>
+
+                        <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                          Added During the Month
+                        </td>
+
+                        <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                          Dropped During the Month
+                        </td>
+
+                        <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px;">
+                          At close of This Month
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td
+                          style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                          {{data['MEMBERSHIP_CLOSED_LAST_MONTH']}}
+                        </td>
+
+                        <td
+                          style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                          {{data['MEMBERSHIP_ADDED_DURING_MONTH']}}
+                        </td>
+
+                        <td
+                          style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                          {{data['MEMBERSHIP_DROPED_DURING_MONTH']}}
+                        </td>
+
+                        <td
+                          style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100px; color: red;">
+                          {{data['MEMBERSHIP_CLOSED_THIS_MONTH']}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzSpan="24" style="padding-top: 10px; padding-right: 2px;"
+                  *ngIf="addedMemberArray && (addedMemberArray.length > 0)">
+
+                  <div style="text-align: center; font-weight: bold;">
+                    Annexure-A Members Added
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+                      <thead style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                        <tr>
+                          <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                            <b>Sr. No.</b>
+                          </th>
+
+                          <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                            <b>Name</b>
+                          </th>
+
+                          <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                            <b>Address</b>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let memberData of addedMemberArray; let i = index;">
+                          <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                            {{i+1}}
+                          </td>
+
+                          <td align="left"
+                            style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                            {{memberData.NAME}}
+                          </td>
+
+                          <td align="left" style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                            {{memberData.ADDRESS1 ? (memberData.ADDRESS1 + ',') : ''}}
+                            {{memberData.ADDRESS2 ? (memberData.ADDRESS2 + ',') : ''}}
+                            {{memberData.CITY ? (memberData.CITY + ',') : ''}}
+                            {{memberData.PINCODE}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div nz-col nzSpan="24" style="padding-top: 10px;"
+                  *ngIf="droppedMemberArray && (droppedMemberArray.length > 0)">
+
+                  <div style="text-align: center; font-weight: bold;">
+                    Annexure-B Members Dropped
+                  </div>
+
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <table style="width: 100%; text-align: center; border: 1px solid black; border-collapse: collapse;">
+                      <thead style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                        <tr>
+                          <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                            <b>Sr. No.</b>
+                          </th>
+
+                          <th style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                            <b>Name</b>
+                          </th>
+
+                          <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                            <b>Address</b>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let memberData of droppedMemberArray; let i = index;">
+                          <td style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 80px;">
+                            {{i+1}}
+                          </td>
+
+                          <td align="left"
+                            style="border: 1px solid black; border-collapse: collapse; padding: 5px; width: 250px;">
+                            {{memberData.NAME}}
+                          </td>
+
+                          <td align="left" style="border: 1px solid black; border-collapse: collapse; padding: 5px;">
+                            {{memberData.ADDRESS1 ? (memberData.ADDRESS1 + ',') : ''}}
+                            {{memberData.ADDRESS2 ? (memberData.ADDRESS2 + ',') : ''}}
+                            {{memberData.CITY ? (memberData.CITY + ',') : ''}}
+                            {{memberData.PINCODE}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div style="padding-top: 10px;">
+                <span style="color: red; font-weight: bold; padding-right: 10px;">2.</span>
+                <span> Membership Subscription : Payable Annually/ Semi Annual(for new Members payable Quarterly
+                  Basis)
+                </span>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                  <span style="color: red; padding-right: 10px; padding-left: 20px;">2.1</span>
+                  <span>Membership Subscription :</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span style="padding-left: 50px; padding-right: 10px;">Jan-Jun :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['MEMSUB_JANTOJUNE']}}</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Jul-Dec :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['MEMSUB_JULYTODEC']}}</span>
+                </div>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span style="padding-right: 10px; padding-left: 50px;">For :</span>
+                  <span style="color: red;padding-right: 10px;">{{data['NO_OF_SUB_MEMBER']}}</span>
+                  <span>Members</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Rs./ Member :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['PER_MEMBER_SUB_FEES']}}</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Total Rs. :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['TOTAL_SUB_FEES']}}</span>
+                </div>
+              </div>
+
+              <div nz-row style="padding-top: 20px;">
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span style="color: red; padding-right: 10px; padding-left: 20px;">2.2</span>
+                  <span style="padding-right: 10px;">Entrance Fee For New Members</span>
+                </div>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span style="padding-right: 10px; padding-left: 50px;">For :</span>
+                  <span style="color: red; padding-right: 10px;">{{data['NO_OF_ENTERENCE_MEMBER']}}</span>
+                  <span>Members</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Rs./ Member :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['PER_MEMBER_ENTERENCE_FEES']}}</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Total Rs. :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['TOTAL_ENTERENCE_FEES']}}</span>
+                </div>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <!-- <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span style="padding-right: 10px; padding-left: 50px;">Paid Amount Rs. :</span>
+                  <span style="color: red; padding-right: 10px;">{{data['PAID_AMOUNT']}}</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Paid By DD/ Cheque No. :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['CHEQUE_DD_NO']}}</span>
+                </div> -->
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span style="padding-right: 10px; padding-left: 50px;">Total Rs. :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['TOTAL_AMOUNT']}}</span>
+                </div>
+              </div>
+
+              <!-- <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span style="padding-right: 10px; padding-left: 50px;">Drawn On :</span>
+                  <span style="color: red;">{{data['DRAWN_ON']}}</span>
+                </div>
+
+                <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                  <span>Remitted On :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['REMITTED_ON'] | date:'dd/MM/yyyy'}}</span>
+                </div>
+              </div> -->
+
+              <div *ngIf="paymentData && (paymentData.length > 0)" style="padding-top: 10px;">
+                <span>Payment Details</span>
+              </div>
+
+              <div *ngIf="paymentData && (paymentData.length > 0)">
+                <table>
+                  <tr>
+                    <th class="preview-th" style="width: 80px;">Sr. No.</th>
+                    <th class="preview-th">Transaction Date</th>
+                    <th class="preview-th">Mode</th>
+                    <th class="preview-th">Ref. No./ DD/ Cheque No.</th>
+                    <th class="preview-th" style="width: 250px;">Narration</th>
+                    <th class="preview-th">Paid Amount</th>
+                  </tr>
+
+                  <tr *ngFor="let paymentdata of paymentData; let i = index;">
+                    <td class="preview-td" align="center" style="width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td class="preview-td" align="center">
+                      {{paymentdata["DATE"] | date: 'dd-MMM-yy'}}
+                    </td>
+
+                    <td class="preview-td" align="center">
+                      <span>{{getPaymentMode(paymentdata.PAYMENT_TRANSACTION_MODE)}}</span>
+                    </td>
+
+                    <td class="preview-td">
+                      {{paymentdata["PAYMENT_REFERENCE_NO"]}}
+                    </td>
+
+                    <td style="width: 250px;" class="preview-td">
+                      {{paymentdata["NARRATION"]}}
+                    </td>
+
+                    <td class="preview-td" align="right">
+                      {{paymentdata["AMOUNT"]}}/-
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <div style="padding-top: 20px;">
+                <span style="color: red; padding-right: 10px; padding-left: 20px;">2.3</span>
+                <span style="padding-right: 10px;">
+                  Group's Bank Account Information
+                </span>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span style="padding-right: 10px; padding-left: 50px;">Administrative a/c No. :</span>
+                  <span style="color: red;">{{data['ADMIN_ACCOUNT_NO']}}</span>
+                </div>
+
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span>Project a/c No. :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['PROJECT_ACCOUNT_NO']}}</span>
+                </div>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span style="padding-right: 10px; padding-left: 50px;">Administrative Bank Name :</span>
+                  <span style="color: red;">{{data['ADMIN_BANK_NAME']}}</span>
+                </div>
+
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span>Administrative Branch Name :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['ADMIN_BRANCH_NAME']}}</span>
+                </div>
+              </div>
+
+              <div nz-row style="padding-top: 10px;">
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span style="padding-right: 10px; padding-left: 50px;">Project Bank Name :</span>
+                  <span style="color: red;">{{data['PROJECT_BANK_NAME']}}</span>
+                </div>
+
+                <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                  <span>Project Branch Name :</span>
+                  <span style="color: red; padding-left: 10px;">{{data['PROJECT_BRANCH_NAME']}}</span>
+                </div>
+              </div>
+
+              <div style="padding-top: 10px;">
+                <span style="color: red; font-weight: bold;padding-right: 10px;">3.</span>
+                <span>Board Member Meeting</span>
+              </div>
+
+              <div *ngIf="boardMeetingArray && (boardMeetingArray.length > 0)">
+                <table>
+                  <tr>
+                    <th style="width: 80px;">Sr. No.</th>
+                    <th style="width: 200px;">Date-Time</th>
+                    <th>Subject</th>
+                  </tr>
+
+                  <tr *ngFor="let meetingData of boardMeetingArray; let i = index;">
+                    <td align="center" style="width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td align="center" style="width: 200px;">
+                      {{meetingData["DATE"] | date: 'dd-MMM-yy'}}, <br>
+                      {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm a'}}-
+                      {{getTimeInAM_PM(meetingData['TO_TIME']) | date: 'hh:mm a'}}
+                    </td>
+
+                    <td>
+                      {{meetingData["MEETING_SUB"]}}
+                    </td>
+                  </tr>
+                </table>
+
+                <div *ngFor="let meetingData of boardMeetingArray; let i = index;">
+                  <div nz-row>
+                    <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                      {{i+1}}. {{meetingData["MEETING_SUB"]}}
+                    </div>
+
+                    <div nz-col nzSpan="8" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Date-Time</u> : {{meetingData["DATE"] | date: 'dd-MMM-yy'}},
+                      {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm
+                      a'}}-{{getTimeInAM_PM(meetingData['TO_TIME']) | date: 'hh:mm a'}}
+                    </div>
+
+                    <div nz-col nzSpan="4" style="padding: 5px; text-align: center; font-size: 11px;">
+                      <u>Attendance</u> : {{meetingData["MEETING_ATTENDANCE"]}}/ {{meetingData["INVITEES"]}}
+                    </div>
+
+                    <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Venue</u> : {{meetingData["VENUE"]}}
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                      <u>Agenda</u> :
+                      <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['AGENDA']">
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                      <div *ngIf="meetingData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                        <!-- <img src="assets/Instagram-Icon.png" alt="" height="130px" width="100px"> -->
+
+                        <!-- <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          [src]="sanitizer.bypassSecurityTrustUrl(getMeetingImage(meetingData.PHOTO1))" /> -->
+
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO1}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION1']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION1']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO2}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION2']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION2']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO3}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION3']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION3']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO4'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO4}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION4']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION4']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO5'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO5}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION5']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION5']}}
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;"
+                      *ngIf="meetingData['MINUTES'].trim() != ''">
+                      <u>MOM (Minutes of Meeting)</u> :
+                      <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['MINUTES']">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="border-top: 1px solid black;"></div>
+                  <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == boardMeetingArray.length-1">
+                  </div>
+                </div>
+              </div>
+
+              <div style="padding-top: 10px;">
+                <span style="color: red; font-weight: bold; padding-right: 10px;">4.</span>
+                <span>Group Member Meeting</span>
+              </div>
+
+              <div *ngIf="meetingArray && (meetingArray.length > 0)">
+                <table>
+                  <tr>
+                    <th style="width: 80px;">Sr. No.</th>
+                    <th style="width: 200px;">Date-Time</th>
+                    <th>Subject</th>
+                  </tr>
+
+                  <tr *ngFor="let meetingData of meetingArray; let i = index;">
+                    <td align="center" style="width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td align="center" style="width: 200px;">
+                      {{meetingData["DATE"] | date: 'dd-MMM-yy'}}, <br>
+                      {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm a'}}-
+                      {{getTimeInAM_PM(meetingData['TO_TIME']) | date: 'hh:mm a'}}
+                    </td>
+
+                    <td>
+                      {{meetingData["MEETING_SUB"]}}
+                    </td>
+                  </tr>
+                </table>
+
+                <div *ngFor="let meetingData of meetingArray; let i = index;">
+                  <div nz-row>
+                    <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                      {{i+1}}. {{meetingData["MEETING_SUB"]}}
+                    </div>
+
+                    <div nz-col nzSpan="8" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Date-Time</u> : {{meetingData["DATE"] | date: 'dd-MMM-yy'}},
+                      {{getTimeInAM_PM(meetingData['FROM_TIME']) | date: 'hh:mm a'}}-
+                      {{getTimeInAM_PM(meetingData['TO_TIME']) | date: 'hh:mm a'}}
+                    </div>
+
+                    <div nz-col nzSpan="4" style="padding: 5px; text-align: center; font-size: 11px;">
+                      <u>Attendance</u> : {{meetingData["MEETING_ATTENDANCE"]}}/ {{meetingData["INVITEES"]}}
+                    </div>
+
+                    <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Venue</u> : {{meetingData["VENUE"]}}
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                      <u>Agenda</u> :
+                      <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['AGENDA']">
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                      <div *ngIf="meetingData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO1}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION1']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION1']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO2}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION2']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION2']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO3}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION3']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION3']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO4'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO4}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION4']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION4']}}
+                      </div>
+
+                      <div *ngIf="meetingData['PHOTO5'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupMeeting/{{meetingData.PHOTO5}}" />
+                      </div>
+
+                      <div *ngIf="meetingData['DESCRIPTION5']" style="padding: 5px;">
+                        {{meetingData['DESCRIPTION5']}}
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;"
+                      *ngIf="meetingData['MINUTES'].trim() != ''">
+                      <u>MOM (Minutes of Meeting)</u> :
+                      <div style="text-align: justify; word-break: break-all;" [innerHTML]="meetingData['MINUTES']">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="border-top: 1px solid black;"></div>
+                  <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == meetingArray.length-1"></div>
+                </div>
+              </div>
+
+              <div style="padding-top: 10px;">
+                <span style="color: red; font-weight: bold; padding-right: 10px;">5.</span>
+                <span>Monumental Projects of The Month</span>
+              </div>
+
+              <div *ngIf="projectArray && (projectArray.length > 0)">
+                <table>
+                  <tr>
+                    <th style="width: 80px;">Sr. No.</th>
+                    <th style="width: 150px;">Date</th>
+                    <th>Project Type</th>
+                    <th style="width: 150px;">Expenses</th>
+                  </tr>
+
+                  <tr *ngFor="let projectData of projectArray; let i = index;">
+                    <td align="center" style="width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td align="center" style="width: 150px;">
+                      {{projectData["DATE_OF_PROJECT"] | date: 'dd-MMM-yy'}}
+                    </td>
+
+                    <td>
+                      {{projectData["PROJECT_TYPE_NAME"]}}
+                    </td>
+
+                    <td align="right" style="width: 150px;">
+                      {{projectData["TOTAL_EXPENSES"]}}/-
+                    </td>
+                  </tr>
+                </table>
+
+                <div *ngFor="let projectData of projectArray; let i = index;">
+                  <div nz-row>
+                    <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                      {{i+1}}. {{projectData["PROJECT_TYPE_NAME"]}}
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <div style="padding: 5px; font-size: 14px; text-align: justify;">
+                        {{projectData["PROJECT_NAME"]}}
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Date</u> : {{projectData["DATE_OF_PROJECT"] | date: 'dd-MMM-yy'}}
+                    </div>
+
+                    <div nz-col nzSpan="12" style="padding: 5px; text-align: right; font-size: 11px;">
+                      <u>Expenses</u> : {{projectData["TOTAL_EXPENSES"]}}/-
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                      <u>Project Description</u> :
+                      <div style="text-align: justify; word-break: break-all;" [innerHTML]="projectData['DESCRIPTION']">
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                      <div *ngIf="projectData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupProjectPhotos/{{projectData.PHOTO1}}" />
+                      </div>
+
+                      <div *ngIf="projectData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupProjectPhotos/{{projectData.PHOTO2}}" />
+                      </div>
+
+                      <div *ngIf="projectData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupProjectPhotos/{{projectData.PHOTO3}}" />
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                      <u>Beneficiary Details</u> :
+                      <div style="text-align: justify; word-break: break-all;"
+                        [innerHTML]="projectData['BENIFICIERY_DETAILS']">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="border-top: 1px solid black;"></div>
+                  <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == projectArray.length-1"></div>
+                </div>
+              </div>
+
+              <div style="padding-top: 10px;">
+                <span style="color: red; font-weight: bold; padding-right: 10px;">6.</span>
+                <span>Events of The Month</span>
+              </div>
+
+              <div *ngIf="eventArray && (eventArray.length > 0)">
+                <table>
+                  <tr>
+                    <th style="width: 80px;">Sr. No.</th>
+                    <th style="width: 200px;">Date-Time</th>
+                    <th>Event Type</th>
+                  </tr>
+
+                  <tr *ngFor="let eventData of eventArray; let i = index;">
+                    <td align="center" style="width: 80px;">
+                      {{i+1}}
+                    </td>
+
+                    <td align="center" style="width: 200px;">
+                      {{eventData["DATE"] | date: 'dd-MMM-yy'}}, <br>
+                      {{getTimeInAM_PM(eventData['FROM_TIME']) | date: 'hh:mm a'}}-
+                      {{getTimeInAM_PM(eventData['TO_TIME']) | date: 'hh:mm a'}}
+                    </td>
+
+                    <td>
+                      {{eventData["PROJECT_NAME"]}}
+                    </td>
+                  </tr>
+                </table>
+
+                <div *ngFor="let eventData of eventArray; let i = index;">
+                  <div nz-row>
+                    <div nz-col nzSpan="24" style="padding: 5px; font-weight: bold;">
+                      {{i+1}}. {{eventData["PROJECT_NAME"]}}
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                      <div style="padding: 5px; font-size: 14px; text-align: justify;">
+                        {{eventData["EVENT_NAME"]}}
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="8" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Date-Time</u> : {{eventData["DATE"] | date: 'dd-MMM-yy'}},
+                      {{getTimeInAM_PM(eventData['FROM_TIME']) | date: 'hh:mm
+                      a'}}-{{getTimeInAM_PM(eventData['TO_TIME']) | date: 'hh:mm a'}}
+                    </div>
+
+                    <div nz-col nzSpan="4" style="padding: 5px; text-align: center; font-size: 11px;">
+                      <u>Attendance</u> : {{eventData["EVENT_ATTENDANCE"]}}/ {{eventData["INVITEES"]}}
+                    </div>
+
+                    <div nz-col nzSpan="12" style="padding: 5px; text-align: left; font-size: 11px;">
+                      <u>Venue</u> : {{eventData["VENUE"]}}
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                      <u>Event Details</u> :
+                      <div style="text-align: justify; word-break: break-all;" [innerHTML]="eventData['DETAILS']">
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="text-align: center; font-size: 11px;">
+                      <div *ngIf="eventData['PHOTO1'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupActivity/{{eventData.PHOTO1}}" />
+                      </div>
+
+                      <div *ngIf="eventData['DESCRIPTION1']" style="padding: 5px;">
+                        {{eventData['DESCRIPTION1']}}
+                      </div>
+
+                      <div *ngIf="eventData['PHOTO2'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupActivity/{{eventData.PHOTO2}}" />
+                      </div>
+
+                      <div *ngIf="eventData['DESCRIPTION2']" style="padding: 5px;">
+                        {{eventData['DESCRIPTION2']}}
+                      </div>
+
+                      <div *ngIf="eventData['PHOTO3'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupActivity/{{eventData.PHOTO3}}" />
+                      </div>
+
+                      <div *ngIf="eventData['DESCRIPTION3']" style="padding: 5px;">
+                        {{eventData['DESCRIPTION3']}}
+                      </div>
+
+                      <div *ngIf="eventData['PHOTO4'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupActivity/{{eventData.PHOTO4}}" />
+                      </div>
+
+                      <div *ngIf="eventData['DESCRIPTION4']" style="padding: 5px;">
+                        {{eventData['DESCRIPTION4']}}
+                      </div>
+
+                      <div *ngIf="eventData['PHOTO5'].trim() != ''" style="padding: 5px;">
+                        <img style="width: 80%; max-height: 250px; object-fit: contain;"
+                          src="{{imgurl}}groupActivity/{{eventData.PHOTO5}}" />
+                      </div>
+
+                      <div *ngIf="eventData['DESCRIPTION5']" style="padding: 5px;">
+                        {{eventData['DESCRIPTION5']}}
+                      </div>
+                    </div>
+
+                    <div nz-col nzSpan="24" style="padding: 5px; font-size: 11px;">
+                      <u>Beneficiary Details</u> :
+                      <div style="text-align: justify; word-break: break-all;"
+                        [innerHTML]="eventData['BENIFICIERY_DETAILS']">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="border-top: 1px solid black;"></div>
+                  <div style="border-top: 1px solid black; margin-top: 2px;" *ngIf="i == eventArray.length-1"></div>
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzSpan="12" style="height: 120px;">
+                  <div style="text-align: left; padding: 5px;">
+                    <span>Date :</span>&nbsp;
+                    <span style="color: red;">{{currentDate | date: 'dd-MMM-yy'}}</span>
+                  </div>
+                </div>
+
+                <div nz-col nzSpan="12" style="height: 120px;">
+                  <div style="text-align: center; padding: 5px;">
+                    <div style="height: 50px;"
+                      *ngIf="(data.SECRETORY_SIGNATURE == null) || (data.SECRETORY_SIGNATURE.trim() == '')">
+                    </div>
+
+                    <div *ngIf="(data.SECRETORY_SIGNATURE) && (data.SECRETORY_SIGNATURE.trim() != '')">
+                      <img src="{{RETRIVE_IMAGE_URL}}memberSignature/{{data.SECRETORY_SIGNATURE}}" alt="img"
+                        style="width: 100px; height: 50px;">
+                    </div>
+
+                    <div style="font-size: 11px;">({{data['SECRETORY_NAME']}})</div>
+                    <div style="font-size: 11px;">Group Secretary</div>
+                    <div style="font-size: 13px;">Signature</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-spin>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">
+      Cancel
+    </button>
+
+    <button nz-button nzType="default" [useExistingCss]="true" printSectionId="print" ngxPrint (click)="handleCancel()">
+      Print/ Download
+    </button>
+
+    <!-- <button nz-button nzType="default" (click)="generatePDF()">
+      Download
+    </button> -->
+
+    <!-- <button nz-button nzType="default" (click)="sendMonthlyReportEmail()">
+      Send Email
+    </button> -->
+  </ng-template>
+</nz-modal>
+
+<!-- Send email drawer -->
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="false" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="emailDrawerVisible"
+  [nzTitle]="emailcircularDrawerTitle" (nzOnClose)="emailDrawerClose()" (nzKeyboard)="true">
+
+  <app-send-monthly-report [drawerClose]="emailDrawerCloseCallback"
+    [monthlyReportDataIDForSendDrawer]="monthlyReportDataIDForSendDrawer">
+  </app-send-monthly-report>
+</nz-drawer>

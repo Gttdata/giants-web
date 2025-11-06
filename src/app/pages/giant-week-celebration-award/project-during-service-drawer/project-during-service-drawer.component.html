@@ -1,0 +1,140 @@
+<div>
+    <form nz-form #myForm="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div class="my-box">
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzNoColon>Project Title </nz-form-label>
+                                    <nz-form-control>
+                                        <input nz-input type="text" name="Project Title" placeholder="Enter Project Title"
+                                            [(ngModel)]="data.PROJECT_TITLE" />
+                                    </nz-form-control>
+                                    <span *ngIf="validation==false && (data.PROJECT_TITLE=='' || data.PROJECT_TITLE==undefined)"
+                                        style="color:red">Please fill the field</span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <div *ngIf="data.PHOTO_URL_1 == undefined || data.PHOTO_URL_1 == null || data.PHOTO_URL_1 == ''"
+                                            style="width:100%; height:120px;text-align:center;padding:10px;border: 1px dashed gray; "
+                                            (click)="fileInput1.click()">
+                                            <div style="font-size: 50px;
+                                                  font-weight: bold;
+                                                  margin-top: 20px;
+                                                  margin-bottom: -15px;"> +</div> Choose Image
+                                        </div>
+                                        <input #fileInput1 type="file" accept="image/*"
+                                            (change)="onFileSelected1($event)" (click)="fileInput1.value = null"
+                                            style="display: none;" />
+                                        <!-- <img *ngIf="data.PHOTO_URL_1 != undefined &&  data.PHOTO_URL_1 != null &&  data.PHOTO_URL_1 != '' "
+                                                  [src]="data.PHOTO_URL_1" (click)="fileInput1.click()"
+                                                  style="height: 120px; width:100%; cursor: pointer;"> -->
+
+                                        <span *ngIf="fileURL1 == undefined || fileURL1 == null || fileURL1 == '' ">
+                                            <img *ngIf="data.PHOTO_URL_1 != undefined &&  data.PHOTO_URL_1 != null &&  data.PHOTO_URL_1 != '' "
+                                                src="{{api.retriveimgUrl}}projectDuringServiceWeekPhotos/{{data.PHOTO_URL_1}}"
+                                                (click)="fileInput1.click()"
+                                                style="height: 120px; width:100%; cursor: pointer;">
+                                        </span>
+
+                                        <span *ngIf="fileURL1 != null">
+                                            <img [src]="data.PHOTO_URL_1" (click)="fileInput1.click()"
+                                                style="height: 120px; width:100%; cursor: pointer;">
+                                        </span>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <div *ngIf="data.PHOTO_URL_2 == undefined || data.PHOTO_URL_2 == null || data.PHOTO_URL_2 == ''"
+                                            style="width:100%; height:120px;text-align:center;padding:10px;border: 1px dashed gray; "
+                                            (click)="fileInput2.click()">
+                                            <div style="font-size: 50px;
+                                                  font-weight: bold;
+                                                  margin-top: 20px;
+                                                  margin-bottom: -15px;"> +</div> Choose Image
+                                        </div>
+                                        <input #fileInput2 type="file" accept="image/*"
+                                            (change)="onFileSelected2($event)" (click)="fileInput1.value = null"
+                                            style="display: none;" />
+                                        <!-- <img *ngIf="data.PHOTO_URL_2 != undefined &&  data.PHOTO_URL_2 != null &&  data.PHOTO_URL_2 != '' "
+                                                  [src]="data.PHOTO_URL_2" (click)="fileInput2.click()"
+                                                  style="height: 120px; width:100%; cursor: pointer;"> -->
+
+                                        <span *ngIf="fileURL2 == undefined || fileURL2 == null || fileURL2 == '' ">
+                                            <img *ngIf="data.PHOTO_URL_2 != undefined &&  data.PHOTO_URL_2 != null &&  data.PHOTO_URL_2 != '' "
+                                                src="{{api.retriveimgUrl}}projectDuringServiceWeekPhotos/{{data.PHOTO_URL_2}}"
+                                                (click)="fileInput1.click()"
+                                                style="height: 120px; width:100%; cursor: pointer;">
+                                        </span>
+
+                                        <span *ngIf="fileURL2 != null">
+                                            <img [src]="data.PHOTO_URL_2" (click)="fileInput2.click()"
+                                                style="height: 120px; width:100%; cursor: pointer;">
+                                        </span>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <div *ngIf="data.PHOTO_URL_3 == undefined || data.PHOTO_URL_3 == null || data.PHOTO_URL_3 == ''"
+                                            style="width:100%; height:120px;text-align:center;padding:10px;border: 1px dashed gray; "
+                                            (click)="fileInput3.click()">
+                                            <div style="font-size: 50px;
+                                                  font-weight: bold;
+                                                  margin-top: 20px;
+                                                  margin-bottom: -15px;"> +</div> Choose Image
+                                        </div>
+                                        <input #fileInput3 type="file" accept="image/*"
+                                            (change)="onFileSelected3($event)" (click)="fileInput1.value = null"
+                                            style="display: none;" />
+                                        <!-- <img *ngIf="data.PHOTO_URL_3 != undefined &&  data.PHOTO_URL_3 != null &&  data.PHOTO_URL_3 != '' "
+                                                  [src]="data.PHOTO_URL_3" (click)="fileInput3.click()"
+                                                  style="height: 120px; width:100%; cursor: pointer;"> -->
+
+                                        <span *ngIf="fileURL3 == undefined || fileURL3 == null || fileURL3 == '' ">
+                                            <img *ngIf="data.PHOTO_URL_3 != undefined &&  data.PHOTO_URL_3 != null &&  data.PHOTO_URL_3 != '' "
+                                                src="{{api.retriveimgUrl}}projectDuringServiceWeekPhotos/{{data.PHOTO_URL_3}}"
+                                                (click)="fileInput3.click()"
+                                                style="height: 120px; width:100%; cursor: pointer;">
+                                        </span>
+
+                                        <span *ngIf="fileURL3 != null">
+                                            <img [src]="data.PHOTO_URL_3" (click)="fileInput3.click()"
+                                                style="height: 120px; width:100%; cursor: pointer;">
+                                        </span>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+        </nz-spin>
+    </form>
+    <br />
+    <br />
+</div>
+<br />
+<br />
+<br />
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn"
+        style="margin-right: 8px;"><span>Cancel</span></button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="save(false,myForm)">
+        <span>Add & close</span>
+    </button>
+
+
+</div>

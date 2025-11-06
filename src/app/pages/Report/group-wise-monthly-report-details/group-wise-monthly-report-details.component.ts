@@ -1,0 +1,331 @@
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd';
+import { CookieService } from 'ngx-cookie-service';
+import { ApiService } from 'src/app/Service/api.service';
+import { ExportService } from 'src/app/Service/export.service';
+
+@Component({
+  selector: 'app-group-wise-monthly-report-details',
+  templateUrl: './group-wise-monthly-report-details.component.html',
+  styleUrls: ['./group-wise-monthly-report-details.component.css']
+})
+
+export class GroupWiseMonthlyReportDetailsComponent implements OnInit {
+  formTitle: string = "Group Wise Monthly Reporting Submission Dates";
+  dataList: any[] = [];
+  loadingRecords: boolean = false;
+  totalRecords: number = 1;
+  pageIndex: number = 1;
+  pageSize: number = 10;
+  sortValue: string = "asc";
+  sortKey: string = "GROUP_NAME";
+  searchText: string = "";
+  isFilterApplied: any = "default";
+  filterClass: string = 'filter-invisible';
+  columns: string[][] = [["GROUP_NAME", "Group Name"]];
+  monthColumns: any[] = [];
+  isGroupLoading: boolean = false;
+  isUnitLoading: boolean = false;
+
+  federationID: number = Number(sessionStorage.getItem("FEDERATION_ID"));
+  unitID: number = Number(sessionStorage.getItem("UNIT_ID"));
+  groupID: number = Number(sessionStorage.getItem("GROUP_ID"));
+
+  homeFederationID: number = Number(sessionStorage.getItem("HOME_FEDERATION_ID"));
+  homeUnitID: number = Number(sessionStorage.getItem("HOME_UNIT_ID"));
+  homeGroupID: number = Number(sessionStorage.getItem("HOME_GROUP_ID"));
+
+  constructor(private api: ApiService, private message: NzNotificationService, private datePipe: DatePipe, private _exportService: ExportService, private _cookie: CookieService) { }
+
+  ngOnInit() {
+    this.getIDs();
+    this.getFederations();
+    this.getMonthList();
+  }
+
+  getIDs(): void {
+    this.federationID = Number(sessionStorage.getItem("FEDERATION_ID"));
+    this.unitID = Number(sessionStorage.getItem("UNIT_ID"));
+    this.groupID = Number(sessionStorage.getItem("GROUP_ID"));
+
+    this.homeFederationID = Number(sessionStorage.getItem("HOME_FEDERATION_ID"));
+    this.homeUnitID = Number(sessionStorage.getItem("HOME_UNIT_ID"));
+    this.homeGroupID = Number(sessionStorage.getItem("HOME_GROUP_ID"));
+  }
+
+  search(reset: boolean = false): void {
+    if (reset) {
+      this.pageIndex = 1;
+    }
+
+    var sort: string;
+    try {
+      sort = this.sortValue.startsWith("a") ? "asc" : "desc";
+
+    } catch (error) {
+      sort = "";
+    }
+
+    var likeQuery = "";
+
+    if (this.searchText != "") {
+      likeQuery = " AND";
+
+      this.columns.forEach(column => {
+        likeQuery += " " + column[0] + " like '%" + this.searchText + "%' OR";
+      });
+
+      likeQuery = likeQuery.substring(0, likeQuery.length - 2);
+    }
+
+    // Unit filter
+    let unitFilter = "";
+
+    if (this.unitID > 0) {
+      unitFilter = " AND UNIT_ID=" + this.unitID;
+    }
+
+    let unitNameFilter = "";
+    let unitNameString = "";
+
+    if (this.UNIT_NAME.length > 0) {
+      for (let i = 0; i < this.UNIT_NAME.length; i++) {
+        unitNameString = unitNameString + "'" + this.UNIT_NAME[i] + "',";
+      }
+
+      unitNameString = unitNameString.substring(0, unitNameString.length - 1);
+      unitNameFilter = " AND UNIT_ID IN (" + unitNameString + ")";
+    }
+
+    // Group filter
+    let groupNameFilter = "";
+    let groupNameString = "";
+
+    if (this.GROUP_NAME.length > 0) {
+      for (let i = 0; i < this.GROUP_NAME.length; i++) {
+        groupNameString = groupNameString + "'" + this.GROUP_NAME[i] + "',";
+      }
+
+      groupNameString = groupNameString.substring(0, groupNameString.length - 1);
+      groupNameFilter = " AND GROUP_ID IN (" + groupNameString + ")";
+    }
+
+    // Federation fiter
+    let federationFilter = "";
+
+    if ((this.federationID == 0) && (this.unitID == 0) && (this.groupID == 0)) {
+      federationFilter = " AND FEDERATION_ID=" + this.FEDERATION_NAME;
+
+    } else {
+      federationFilter = " AND FEDERATION_ID=" + this.homeFederationID;
+    }
+
+    this.loadingRecords = true;
+
+    this.api.getGroupWiseMonthlyReportDetails(this.pageIndex, this.pageSize, this.sortKey, sort, likeQuery + unitFilter + unitNameFilter + groupNameFilter + federationFilter, new Date().getFullYear()).subscribe(data => {
+      if (data['code'] == 200) {
+        this.loadingRecords = false;
+        this.totalRecords = data['count'];
+        this.dataList = data['data'];
+      }
+
+    }, err => {
+      this.loadingRecords = false;
+
+      if (err['ok'] == false)
+        this.message.error("Server Not Found", "");
+    });
+  }
+
+  sort(sort: { key: string; value: string }): void {
+    this.sortKey = sort.key;
+    this.sortValue = sort.value;
+    this.search(true);
+  }
+
+  getMonthList(): void {
+    this.monthColumns = [];
+    let currentMonth = new Date().getMonth() + 1;
+    let currentYear = new Date().getFullYear();
+
+    for (let i = 4; i <= currentMonth; i++) {
+      if (i == 4) {
+        this.monthColumns.push(["APRIL", "April " + currentYear]);
+      }
+
+      if (i == 5) {
+        this.monthColumns.push(["MAY", "May " + currentYear]);
+      }
+
+      if (i == 6) {
+        this.monthColumns.push(["JUNE", "June " + currentYear]);
+      }
+
+      if (i == 7) {
+        this.monthColumns.push(["JULY", "July " + currentYear]);
+      }
+
+      if (i == 8) {
+        this.monthColumns.push(["AUGUST", "August " + currentYear]);
+      }
+
+      if (i == 9) {
+        this.monthColumns.push(["SEPTEMBER", "September " + currentYear]);
+      }
+
+      if (i == 10) {
+        this.monthColumns.push(["OCTOBER", "October " + currentYear]);
+      }
+
+      if (i == 11) {
+        this.monthColumns.push(["NOVEMBER", "November " + currentYear]);
+      }
+
+      if (i == 12) {
+        this.monthColumns.push(["DECEMBAR", "December " + currentYear]);
+      }
+
+      if (i == 1) {
+        this.monthColumns.push(["JANUARY", "January " + currentYear]);
+      }
+
+      if (i == 2) {
+        this.monthColumns.push(["FEBRUARY", "February " + currentYear]);
+      }
+
+      if (i == 3) {
+        this.monthColumns.push(["MARCH", "March " + currentYear]);
+      }
+    }
+  }
+
+  units: any[] = [];
+  UNIT_NAME: any[] = [];
+
+  getUnits(unitName: string): void {
+    if (unitName.length >= 3) {
+      // Federation filter
+      let federationFilter = "";
+
+      if (this.federationID > 0) {
+        federationFilter = " AND FEDERATION_ID=" + this.homeFederationID;
+      }
+
+      //  Unit filter
+      let unitFilter = "";
+
+      if (this.unitID > 0) {
+        unitFilter = " AND ID=" + this.unitID;
+      }
+
+      this.isUnitLoading = true;
+
+      this.api.getAllUnits(0, 0, "ID", "ASC", " AND STATUS=1 AND NAME LIKE '%" + unitName + "%'" + federationFilter + unitFilter).subscribe(data => {
+        if (data['code'] == 200) {
+          this.isUnitLoading = false;
+          this.units = data['data'];
+        }
+
+      }, err => {
+        this.isUnitLoading = false;
+
+        if (err['ok'] == false)
+          this.message.error("Server Not Found", "");
+      });
+    }
+  }
+
+  getUnitInfo(unitNames: any): void {
+    this.groups = [];
+    this.GROUP_NAME = [];
+    this.search(true);
+  }
+
+  groups: any[] = [];
+  GROUP_NAME: any[] = [];
+
+  getGroups(groupName: string): void {
+    if (groupName.length >= 3) {
+      // Federation filter
+      let federationFilter = "";
+
+      if (this.federationID > 0) {
+        federationFilter = " AND FEDERATION_ID=" + this.homeFederationID;
+      }
+
+      // Unit filter
+      let unitFilter = "";
+
+      if (this.unitID > 0) {
+        unitFilter = " AND UNIT_ID=" + this.unitID;
+      }
+
+      let unitNameFilter = "";
+      let unitNameString = "";
+
+      if (this.UNIT_NAME.length > 0) {
+        for (let i = 0; i < this.UNIT_NAME.length; i++) {
+          unitNameString = unitNameString + "'" + this.UNIT_NAME[i] + "',";
+        }
+
+        unitNameString = unitNameString.substring(0, unitNameString.length - 1);
+        unitNameFilter = " AND UNIT_ID IN (" + unitNameString + ")";
+      }
+
+      this.isGroupLoading = true;
+
+      this.api.getAllGroups(0, 0, "NAME", "ASC", " AND STATUS=1 AND NAME LIKE '%" + groupName + "%'" + federationFilter + unitFilter + unitNameFilter).subscribe(data => {
+        if (data['code'] == 200) {
+          this.isGroupLoading = false;
+          this.groups = data['data'];
+        }
+
+      }, err => {
+        this.isGroupLoading = false;
+
+        if (err['ok'] == false)
+          this.message.error("Server Not Found", "");
+      });
+    }
+  }
+
+  getGroupInfo(groupNames: any): void {
+    this.search(true);
+  }
+
+  federations: any[] = [];
+  FEDERATION_NAME: any;
+  isFederationLoading: boolean = false;
+
+  getFederations(): void {
+    // Fderation filter
+    let federationFilter = "";
+
+    if (this.federationID > 0) {
+      federationFilter = " AND ID=" + this.federationID;
+    }
+
+    this.isFederationLoading = true;
+
+    this.api.getAllFederations(0, 0, "ID", "ASC", " AND STATUS=1" + federationFilter).subscribe(data => {
+      if (data['code'] == 200) {
+        this.isFederationLoading = false;
+        this.federations = data['data'];
+        this.FEDERATION_NAME = data['data'][0].ID;
+        this.search(true);
+      }
+
+    }, err => {
+      this.isFederationLoading = false;
+
+      if (err['ok'] == false)
+        this.message.error("Server Not Found", "");
+    });
+  }
+
+  onFederationChange(federationID: number): void {
+    this.FEDERATION_NAME = federationID;
+    this.search(true);
+  }
+}

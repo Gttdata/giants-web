@@ -1,0 +1,84 @@
+<div>
+    <form nz-form>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="16">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Any Project Initiated </nz-form-label>
+                    <nz-form-control>
+                        <input nz-input type="text" name="Project Title" [(ngModel)]="data1.PROJECT_TITLE"
+                            placeholder="Enter Project Title"  />
+                    </nz-form-control>
+                    <span *ngIf="validation==false && (data1.PROJECT_TITLE=='' || data1.PROJECT_TITLE==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>When Implemented</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker name="implemented" [(ngModel)]="data1.IMPLEMENTATION_DATE"
+                            (ngModelChange)="onChange($event)" >
+                        </nz-date-picker>
+                    </nz-form-control>
+                    <span
+                        *ngIf="validation==false && (data1.IMPLEMENTATION_DATE=='' || data1.IMPLEMENTATION_DATE==undefined)"
+                        style="color:red">Please fill the field</span>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Result</nz-form-label>
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Enter Result" name="result" [(ngModel)]="data1.RESULT"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }" maxlength="2000"></textarea>
+                    </nz-form-control>
+                    <span *ngIf="validation==false && (data1.RESULT=='' || data1.RESULT==undefined)"
+                        style="color:red">Please fill the field</span>
+                    <span *ngIf="data1.RESULT" style="font-size: 10px; color: red;">
+                        {{data1.RESULT.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row class="grouping">
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Effect On Society</nz-form-label>
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Enter Effect On Society" name="society"
+                            [(ngModel)]="data1.EFFECT_ON_SOCIETY" [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                            maxlength="2000"></textarea>
+                    </nz-form-control>
+                    <span
+                        *ngIf="validation==false && (data1.EFFECT_ON_SOCIETY=='' || data1.EFFECT_ON_SOCIETY==undefined)"
+                        style="color:red">Please fill the field</span>
+                    <span *ngIf="data1.EFFECT_ON_SOCIETY" style="font-size: 10px; color: red;">
+                        {{data1.EFFECT_ON_SOCIETY.length}}/ 2000
+                    </span>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data1.ID" nz-button
+        (click)="save(false)">
+        <span>Add & close</span>
+    </button>
+    <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+            <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+                <a style="color: white" (click)="save(true,websitebannerPage)">Add & new</a>
+            </li>
+        </ul>
+    </nz-dropdown-menu> -->
+    <button type="button" class="ant-btn ant-btn-primary" nz-button *ngIf="data1.ID"
+        (click)="save(false)">
+        <span>Update & close</span>
+    </button>
+</div>

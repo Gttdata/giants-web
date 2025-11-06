@@ -1,0 +1,12 @@
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.leftAlign {
+    text-align: left !important;
+}
+
+.centerAlign {
+    text-align: center !important;
+}

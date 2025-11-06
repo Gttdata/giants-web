@@ -1,0 +1,96 @@
+<div class="header1">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+</div>
+
+<div class="header2">
+    <nz-select name="year" nzShowSearch nzAllowClear style="width: 200px;" nzPlaceHolder="Select Year"
+        (ngModelChange)="onYearChange($event)" [(ngModel)]="YEAR">
+        <nz-option *ngFor="let year of years;" [nzValue]="year.NAME" [nzLabel]="year.NAME">
+        </nz-option>
+    </nz-select>
+</div>
+
+<form nz-form #myForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-table class="my-scroll no-wrap1" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+                    [nzFrontPagination]="false" [nzData]="feeDetails" [(nzPageIndex)]="pageIndex"
+                    [(nzPageSize)]="pageSize">
+                    <thead>
+                        <tr>
+                            <th><b>Fee Type</b></th>
+                            <th><b>Joining<br>Quarter</b></th>
+                            <th nzWidth="150px"><b>Expiry<br>Date</b></th>
+
+                            <th nzWidth="130px"><b>Saheli's Fee</b><br>
+                                <input nz-input class="numField" autocomplete="off" name="saheliFeeAmt"
+                                    placeHolder="Saheli Fee" (keypress)="numberOnly($event)"
+                                    (ngModelChange)="onSaheliAmtChange($event)" [(ngModel)]="SAHELI" maxlength="10" />
+                            </th>
+
+                            <th nzWidth="130px"><b>Main's Fee</b><br>
+                                <input nz-input class="numField" autocomplete="off" name="normalFeeAmt"
+                                    placeHolder="Main Fee" (keypress)="numberOnly($event)"
+                                    (ngModelChange)="onNormalAmtChange($event)" [(ngModel)]="NORMAL" maxlength="10" />
+                            </th>
+
+                            <th nzWidth="130px"><b>Young's Fee</b><br>
+                                <input nz-input class="numField" autocomplete="off" name="youngFeeAmt"
+                                    placeHolder="Young Fee" (keypress)="numberOnly($event)"
+                                    (ngModelChange)="onYoungAmtChange($event)" [(ngModel)]="YOUNG" maxlength="10" />
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let data of table.data; let i = index;">
+                            <td align="center">{{data.FEE_TYPE}}</td>
+                            <td align="center">{{data.QUARTER}}</td>
+
+                            <td nzWidth="150px" align="center">
+                                <span *ngIf="i == 0">
+                                    Lifetime
+                                </span>
+
+                                <span *ngIf="i != 0">
+                                    <nz-date-picker style="width: 150px;" name="expiryDate" nzFormat="dd/MM/yyyy"
+                                        [(ngModel)]="data.EXPIRY_DATE">
+                                    </nz-date-picker>
+                                </span>
+                            </td>
+
+                            <td nzWidth="130px">
+                                <input nz-input class="numField" name="saheliFeeAmt{{i}}" placeHolder="Saheli Fee"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.SAHELI" />
+                            </td>
+
+                            <td nzWidth="130px">
+                                <input nz-input class="numField" name="normalFeeAmt{{i}}" placeHolder="Normal Fee"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.NORMAL" />
+                            </td>
+
+                            <td nzWidth="130px">
+                                <input nz-input class="numField" name="youngFeeAmt{{i}}" placeHolder="Young Fee"
+                                    (keypress)="numberOnly($event)" [(ngModel)]="data.YOUNG" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </nz-spin>
+</form>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close(myForm)" class="ant-btn" style="margin-right: 8px;">
+        <span>Cancel</span>
+    </button>
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+        (click)="save(false,myForm)">
+        <span>Submit</span>
+    </button>
+</div>
